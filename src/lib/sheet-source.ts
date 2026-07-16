@@ -85,12 +85,13 @@ export function rowsToProducts(rows: string[][]): Product[] {
     return i === -1 ? "" : (cols[i] ?? "").trim();
   };
 
-  return dataRows
+  const products = dataRows
     .map((cols, index) => {
       const name = getCell(cols, "nombre");
       const brand = getCell(cols, "marca");
       if (!name || !brand) return null;
 
+      const sku = getCell(cols, "sku");
       const colorway = getCell(cols, "colorway");
       const categoryRaw = getCell(cols, "categoria").toLowerCase();
       const category: ProductCategory = categoryRaw.includes("street")
@@ -103,7 +104,7 @@ export function rowsToProducts(rows: string[][]): Product[] {
       const slugBase = slugify(`${brand}-${name}-${colorway}`);
 
       const product: Product = {
-        id: String(index + 1),
+        id: sku || String(index + 1),
         slug: slugBase || `producto-${index + 1}`,
         name,
         brand,
@@ -124,6 +125,14 @@ export function rowsToProducts(rows: string[][]): Product[] {
       return product;
     })
     .filter((p): p is Product => p !== null);
+
+  // Evita choques de URL si dos filas generan el mismo slug.
+  const seen = new Map<string, number>();
+  return products.map((p) => {
+    const count = seen.get(p.slug) ?? 0;
+    seen.set(p.slug, count + 1);
+    return count === 0 ? p : { ...p, slug: `${p.slug}-${count + 1}` };
+  });
 }
 
 export async function fetchProductsFromSheet(url: string): Promise<Product[]> {

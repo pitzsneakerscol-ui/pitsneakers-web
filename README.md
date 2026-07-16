@@ -17,25 +17,27 @@ tocar código, editar archivos ni hacer commits.
    prefieres armarlo a mano, usa estas columnas en ese orden, en la primera fila:
 
    ```
-   Nombre | Marca | Colorway | Categoria | Subcategoria | Precio | Tallas | Condicion | Descripcion | Fotos | Destacado | Lanzamiento
+   NOMBRE | MARCA | SKU | CATEGORIA | PRECIO | TALLAS | CONDICION | DESCRIPCION | FOTOS | DESTACADO | LANZAMIENTO
    ```
 
 2. Agrega un producto por fila, debajo de los encabezados. Guía de cada columna:
 
    | Columna | Qué va ahí | Ejemplo |
    |---|---|---|
-   | Nombre | Nombre del modelo | `Air Max 97` |
-   | Marca | Marca | `Nike` |
-   | Colorway | Opcional | `Silver Bullet` |
-   | Categoria | `sneakers` o `streetwear` | `sneakers` |
-   | Subcategoria | Opcional | `Lifestyle` |
-   | Precio | Solo números | `690000` o `690.000` |
-   | Tallas | Separadas por coma | `8, 9, 9.5, 10` |
-   | Condicion | `nuevo` o `usado` | `nuevo` |
-   | Descripcion | Uno o dos renglones | `Cuero premium, nuevo en caja.` |
-   | Fotos | Links de las fotos, separados por coma. Sube las fotos a [postimages.org](https://postimages.org) (gratis, sin cuenta) y pega el link "directo" que te da. | `https://i.postimg.cc/abc123/1.jpg` |
-   | Destacado | `SI` para que aparezca en "Destacados" del Home, si no `NO` o vacío | `SI` |
-   | Lanzamiento | `SI` para que aparezca en "Lanzamientos", si no `NO` o vacío | `SI` |
+   | NOMBRE | Nombre del modelo | `Air Max 97` |
+   | MARCA | Marca | `Nike` |
+   | SKU | Tu código interno de referencia (el que ya usas para identificar cada par) | `NK-AM97-001` |
+   | CATEGORIA | `sneakers` o `streetwear` | `sneakers` |
+   | PRECIO | Solo números | `690000` o `690.000` |
+   | TALLAS | Separadas por coma | `8, 9, 9.5, 10` |
+   | CONDICION | `nuevo` o `usado` | `nuevo` |
+   | DESCRIPCION | Uno o dos renglones | `Cuero premium, nuevo en caja.` |
+   | FOTOS | Links de las fotos, separados por coma. Sube las fotos a [postimages.org](https://postimages.org) (gratis, sin cuenta) y pega el link "directo" que te da. | `https://i.postimg.cc/abc123/1.jpg` |
+   | DESTACADO | `SI` para que aparezca en "Destacados" del Home, si no `NO` o vacío | `SI` |
+   | LANZAMIENTO | `SI` para que aparezca en "Lanzamientos", si no `NO` o vacío | `SI` |
+
+   Opcionales, si algún día los quieres agregar (no rompen nada si no están):
+   `COLORWAY` (ej. `Silver Bullet`) y `SUBCATEGORIA` (ej. `Lifestyle`).
 
    - Para **quitar** un producto del catálogo, borra su fila (o córtala y pégala en otra hoja como archivo).
    - Los productos nuevos se agregan **al final** — mientras más abajo esté la fila, más reciente se muestra en la web.
