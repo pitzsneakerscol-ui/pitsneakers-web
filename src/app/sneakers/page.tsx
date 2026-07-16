@@ -17,7 +17,11 @@ export default async function SneakersPage({
   searchParams: Promise<CatalogSearchParams>;
 }) {
   const params = await searchParams;
-  const allSneakers = getProductsByCategory("sneakers");
+  const [allSneakers, brands, sizes] = await Promise.all([
+    getProductsByCategory("sneakers"),
+    getBrands("sneakers"),
+    getSizes("sneakers"),
+  ]);
   const products = applyCatalogFilters(allSneakers, params);
 
   return (
@@ -37,10 +41,7 @@ export default async function SneakersPage({
 
       <div className="mt-8">
         <Suspense>
-          <CatalogFilters
-            brands={getBrands("sneakers")}
-            sizes={getSizes("sneakers")}
-          />
+          <CatalogFilters brands={brands} sizes={sizes} />
         </Suspense>
       </div>
 

@@ -28,6 +28,7 @@ export default function ProductMedia({
   const src = product.images[index];
 
   if (src) {
+    const isExternal = /^https?:\/\//.test(src);
     return (
       <Image
         src={src}
@@ -35,6 +36,7 @@ export default function ProductMedia({
         fill
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
         priority={priority}
+        unoptimized={isExternal}
         className={`object-cover ${className}`}
       />
     );

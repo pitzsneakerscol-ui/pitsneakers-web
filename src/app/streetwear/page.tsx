@@ -17,7 +17,11 @@ export default async function StreetwearPage({
   searchParams: Promise<CatalogSearchParams>;
 }) {
   const params = await searchParams;
-  const allStreetwear = getProductsByCategory("streetwear");
+  const [allStreetwear, brands, sizes] = await Promise.all([
+    getProductsByCategory("streetwear"),
+    getBrands("streetwear"),
+    getSizes("streetwear"),
+  ]);
   const products = applyCatalogFilters(allStreetwear, params);
 
   return (
@@ -36,10 +40,7 @@ export default async function StreetwearPage({
 
       <div className="mt-8">
         <Suspense>
-          <CatalogFilters
-            brands={getBrands("streetwear")}
-            sizes={getSizes("streetwear")}
-          />
+          <CatalogFilters brands={brands} sizes={sizes} />
         </Suspense>
       </div>
 

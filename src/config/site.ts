@@ -9,6 +9,9 @@ export const siteConfig = {
   instagramHandle: "@pitsneakers",
   instagramUrl: "https://instagram.com/pitsneakers",
   city: "Bogotá, Colombia",
+  // Link CSV de un Google Sheet publicado con el inventario (ver README).
+  // Déjalo vacío ("") para seguir usando src/data/products.json.
+  productsSheetUrl: "",
   commission: {
     percent: 10,
     minimum: 50000,

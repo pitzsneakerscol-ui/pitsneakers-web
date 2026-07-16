@@ -10,8 +10,8 @@ import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
 import { getFeaturedProducts } from "@/lib/products";
 
-export default function Home() {
-  const featured = getFeaturedProducts(6);
+export default async function Home() {
+  const featured = await getFeaturedProducts(6);
 
   return (
     <>

@@ -15,7 +15,7 @@ export default async function LanzamientosPage({
   searchParams: Promise<{ categoria?: string }>;
 }) {
   const { categoria } = await searchParams;
-  const arrivals = getNewArrivals();
+  const arrivals = await getNewArrivals();
   const products =
     categoria === "sneakers" || categoria === "streetwear"
       ? arrivals.filter((p) => p.category === categoria)

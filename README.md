@@ -3,9 +3,57 @@
 Sitio tipo vitrina para Pitsneakers. No tiene carrito ni pagos: cada producto
 lleva a WhatsApp con un mensaje pre-armado. La venta se cierra siempre por chat.
 
-## Cómo agregar o editar productos
+## Cómo agregar o editar productos (stock)
 
-Todos los productos viven en un solo archivo:
+Hay dos formas de manejar el inventario. Recomendamos la primera — no requiere
+tocar código, editar archivos ni hacer commits.
+
+### Opción A — Google Sheets (recomendada)
+
+1. Crea un Google Sheet nuevo (sheets.new) e impórtale la plantilla incluida
+   en este proyecto — [`docs/plantilla-productos.csv`](docs/plantilla-productos.csv)
+   (Archivo → Importar → Subir → selecciona el archivo → "Reemplazar hoja
+   actual"). Trae los encabezados correctos y una fila de ejemplo. O, si
+   prefieres armarlo a mano, usa estas columnas en ese orden, en la primera fila:
+
+   ```
+   Nombre | Marca | Colorway | Categoria | Subcategoria | Precio | Tallas | Condicion | Descripcion | Fotos | Destacado | Lanzamiento
+   ```
+
+2. Agrega un producto por fila, debajo de los encabezados. Guía de cada columna:
+
+   | Columna | Qué va ahí | Ejemplo |
+   |---|---|---|
+   | Nombre | Nombre del modelo | `Air Max 97` |
+   | Marca | Marca | `Nike` |
+   | Colorway | Opcional | `Silver Bullet` |
+   | Categoria | `sneakers` o `streetwear` | `sneakers` |
+   | Subcategoria | Opcional | `Lifestyle` |
+   | Precio | Solo números | `690000` o `690.000` |
+   | Tallas | Separadas por coma | `8, 9, 9.5, 10` |
+   | Condicion | `nuevo` o `usado` | `nuevo` |
+   | Descripcion | Uno o dos renglones | `Cuero premium, nuevo en caja.` |
+   | Fotos | Links de las fotos, separados por coma. Sube las fotos a [postimages.org](https://postimages.org) (gratis, sin cuenta) y pega el link "directo" que te da. | `https://i.postimg.cc/abc123/1.jpg` |
+   | Destacado | `SI` para que aparezca en "Destacados" del Home, si no `NO` o vacío | `SI` |
+   | Lanzamiento | `SI` para que aparezca en "Lanzamientos", si no `NO` o vacío | `SI` |
+
+   - Para **quitar** un producto del catálogo, borra su fila (o córtala y pégala en otra hoja como archivo).
+   - Los productos nuevos se agregan **al final** — mientras más abajo esté la fila, más reciente se muestra en la web.
+
+3. En Google Sheets: **Archivo → Compartir → Publicar en la Web**. Elige la
+   hoja correcta y el formato **"Valores separados por comas (.csv)"**, dale
+   "Publicar" y copia el link que te da.
+4. Pega ese link en [`src/config/site.ts`](src/config/site.ts), en el campo
+   `productsSheetUrl`. Esto lo hago yo la primera vez — solo pásame el link.
+
+Después de esto, cualquier cambio que hagas en la hoja (agregar, editar, borrar
+filas) se refleja solo en la web en 1-2 minutos, sin que nadie tenga que tocar
+código ni hacer `git push`.
+
+### Opción B — editar el archivo JSON directamente
+
+Si prefieres no usar Sheets (o mientras configuras el link), el catálogo sigue
+funcionando con el archivo local:
 
 **[`src/data/products.json`](src/data/products.json)**
 
@@ -32,33 +80,39 @@ y cambia los valores. Ejemplo:
 }
 ```
 
-Campos importantes:
-
-- **`slug`**: va en la URL (`/producto/tu-slug`). Debe ser único, sin espacios ni tildes.
-- **`category`**: solo `"sneakers"` o `"streetwear"` — controla en qué página aparece.
-- **`condition`**: solo `"nuevo"` o `"usado"`.
-- **`sizes`**: lista de tallas disponibles, como texto (`"9"`, `"9.5"`, `"M"`, `"L"`).
-- **`featured`**: `true` para que aparezca en "Destacados" en el Home.
-- **`isNew`**: `true` para que aparezca en "Lanzamientos".
-- **`images`**: lista de rutas de fotos (ver siguiente sección). Si la dejas
-  vacía (`[]`), la web muestra un cuadro de marcador de posición en vez de foto —
-  así puedes cargar el producto antes de tener las fotos listas.
-
-Guarda el archivo y ya — no hay que tocar ningún otro código.
+**Nota:** este archivo solo se usa cuando `productsSheetUrl` está vacío en
+`src/config/site.ts`. Si ya conectaste el Sheet, editar este archivo no tiene
+efecto en la web publicada.
 
 ## Cómo subir fotos de producto
 
-1. Crea una carpeta dentro de `public/products/` con el nombre del producto,
-   por ejemplo `public/products/air-max-97-silver-bullet/`.
-2. Copia ahí las fotos (2 a 4 imágenes, formato `.jpg` o `.webp`, funciona
-   mejor si son cuadradas).
-3. En el producto dentro de `products.json`, referencia esas rutas en `images`:
-   ```json
-   "images": [
-     "/products/air-max-97-silver-bullet/1.jpg",
-     "/products/air-max-97-silver-bullet/2.jpg"
-   ]
-   ```
+- **Con Google Sheets**: sube la foto a [postimages.org](https://postimages.org)
+  (o cualquier servicio que te dé un link directo a la imagen) y pega ese link
+  en la columna "Fotos" de la fila del producto.
+- **Con el JSON local**:
+  1. Crea una carpeta dentro de `public/products/` con el nombre del producto,
+     por ejemplo `public/products/air-max-97-silver-bullet/`.
+  2. Copia ahí las fotos (2 a 4 imágenes, formato `.jpg` o `.webp`, funciona
+     mejor si son cuadradas).
+  3. En el producto dentro de `products.json`, referencia esas rutas en `images`:
+     ```json
+     "images": [
+       "/products/air-max-97-silver-bullet/1.jpg",
+       "/products/air-max-97-silver-bullet/2.jpg"
+     ]
+     ```
+
+En ambos casos, si dejas las fotos vacías la web muestra un cuadro de
+marcador de posición ("Foto próximamente") en vez de romperse.
+
+### Plantilla de foto recomendada
+
+Para que todas las fotos se vean parejas en el catálogo:
+
+- Formato cuadrado (1:1) — súbelas ya recortadas cuadradas si puedes.
+- Mismo fondo (blanco o gris claro) y misma luz para todas.
+- El producto centrado y ocupando la mayoría del cuadro.
+- 2 a 4 fotos por producto: de frente, de lado, suela/etiqueta, y detalle si aplica.
 
 ## Cómo agregar reseñas de clientes
 
@@ -103,11 +157,13 @@ Si prefieres, pásame la foto y yo hago el cambio directamente.
 Todo está centralizado en **[`src/config/site.ts`](src/config/site.ts)**:
 
 - `whatsappNumber`: tu número real en formato internacional, sin "+" ni espacios
-  (ej: `573001234567`). **Hoy tiene un número de ejemplo — cámbialo antes de publicar.**
+  (ej: `573001234567`).
 - `whatsappCommunityUrl`: el link de tu grupo/comunidad de WhatsApp.
 - `instagramHandle` / `instagramUrl`: tu usuario de Instagram.
 - `stats`: los números de la comunidad que se muestran en el Home y Footer.
 - `commission`: el porcentaje y mínimo de comisión, usado en la página de Verificación.
+- `productsSheetUrl`: el link CSV del Google Sheet de productos (ver sección
+  "Cómo agregar o editar productos"). Vacío = usa el archivo JSON local.
 
 ## Desarrollo local
 
@@ -127,8 +183,10 @@ El proyecto está listo para desplegar en [Vercel](https://vercel.com):
    de entorno ni configuración extra).
 3. Conecta tu dominio propio desde Vercel → Settings → Domains.
 
-Cada vez que edites `products.json` o subas fotos nuevas y hagas push a
-GitHub, Vercel vuelve a publicar el sitio automáticamente.
+Si usas el Google Sheet para el stock, los cambios ahí se ven solos en la web,
+sin pasos extra. Para cualquier otro cambio (textos, reseñas, número de
+WhatsApp, `products.json`), Vercel vuelve a publicar el sitio automáticamente
+cada vez que se hace push a GitHub.
 
 ## Estructura del sitio
 
