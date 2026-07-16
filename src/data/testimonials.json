@@ -1,0 +1,80 @@
+[
+  {
+    "id": "1",
+    "name": "Camilo R.",
+    "rating": 5,
+    "text": "Compré unos Jordan 1 Chicago y todo el proceso se sintió serio. Me mandaron fotos del par verificado antes de cerrar el negocio.",
+    "product": "Air Jordan 1 Retro High OG",
+    "date": "2026-06-02"
+  },
+  {
+    "id": "2",
+    "name": "Valentina G.",
+    "rating": 5,
+    "text": "Vendí mi par de Dunk sin salir de la casa. Me explicaron la comisión desde el inicio, sin sorpresas.",
+    "product": "Dunk Low Retro",
+    "date": "2026-05-18"
+  },
+  {
+    "id": "3",
+    "name": "Andrés M.",
+    "rating": 5,
+    "text": "Llevo comprando en la comunidad de Pitsneakers hace más de un año. La verificación me da tranquilidad, sobre todo en pares de reventa alta.",
+    "date": "2026-04-27"
+  },
+  {
+    "id": "4",
+    "name": "Laura P.",
+    "rating": 4,
+    "text": "Buena comunicación por WhatsApp y el par llegó tal cual las fotos. Un poco de espera en la verificación, pero valió la pena.",
+    "product": "Samba OG",
+    "date": "2026-03-15"
+  },
+  {
+    "id": "5",
+    "name": "Juan David S.",
+    "rating": 5,
+    "text": "Negocié la talla y el precio directo por WhatsApp sin complicaciones. El par llegó verificado y en las condiciones que me dijeron.",
+    "product": "Yeezy Boost 350 V2",
+    "date": "2026-06-20"
+  },
+  {
+    "id": "6",
+    "name": "Mariana T.",
+    "rating": 5,
+    "text": "Consigné una chaqueta que ya no usaba y en menos de una semana ya tenía comprador. Todo clarísimo con la comisión.",
+    "product": "Detroit Jacket",
+    "date": "2026-05-30"
+  },
+  {
+    "id": "7",
+    "name": "Esteban O.",
+    "rating": 4,
+    "text": "Primera vez comprando streetwear de reventa y no tuve miedo porque el equipo revisó la pieza antes de mandarla.",
+    "product": "8 Ball Hoodie",
+    "date": "2026-06-08"
+  },
+  {
+    "id": "8",
+    "name": "Daniela C.",
+    "rating": 5,
+    "text": "Ya voy en mi tercera compra con Pitsneakers. Siempre respondan rápido por WhatsApp y son claros con tallas disponibles.",
+    "date": "2026-06-25"
+  },
+  {
+    "id": "9",
+    "name": "Felipe A.",
+    "rating": 5,
+    "text": "Compré unos Air Force 1 para mi hijo y me tranquilizó saber que pasaron por verificación antes de despacharlos.",
+    "product": "Air Force 1 '07",
+    "date": "2026-04-10"
+  },
+  {
+    "id": "10",
+    "name": "Sara L.",
+    "rating": 5,
+    "text": "La comunidad de WhatsApp es enorme y aun así el trato se siente personal. Recomendada si estás buscando pares difíciles de conseguir.",
+    "product": "Alcatraz Cargo Pants",
+    "date": "2026-07-05"
+  }
+]
