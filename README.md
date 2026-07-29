@@ -109,12 +109,31 @@ marcador de posición ("Foto próximamente") en vez de romperse.
 
 ### Plantilla de foto recomendada
 
-Para que todas las fotos se vean parejas en el catálogo:
+Para que todas las fotos se vean parejas en el catálogo, necesitas dos cosas:
+tomarlas siempre igual, y recortarlas siempre al mismo tamaño.
 
-- Formato cuadrado (1:1) — súbelas ya recortadas cuadradas si puedes.
-- Mismo fondo (blanco o gris claro) y misma luz para todas.
-- El producto centrado y ocupando la mayoría del cuadro.
-- 2 a 4 fotos por producto: de frente, de lado, suela/etiqueta, y detalle si aplica.
+**1. Al tomar la foto**
+
+- Mismo fondo siempre (una pared blanca o gris clara, o una sábana/tela lisa).
+- Luz natural de ventana, sin flash — evita la luz amarilla de bombillo.
+- Misma distancia y ángulo cada vez, el producto centrado.
+- 2 a 4 fotos por producto: de frente, de lado, suela/etiqueta, y un detalle si aplica.
+
+**2. Al recortar — plantilla reutilizable en Canva (gratis)**
+
+1. Entra a [canva.com](https://canva.com) (funciona en el celular o el computador,
+   no necesitas pagar).
+2. Crea un diseño → "Tamaño personalizado" → pon **1000 x 1000 px** (cuadrado).
+   Guarda este diseño vacío como tu plantilla base.
+3. Cada vez que vayas a subir una foto: abre esa plantilla → "Subir" → sube la
+   foto → arrástrala hasta llenar el cuadro → recorta/ajusta hasta que el
+   producto quede centrado igual que las demás.
+4. Descarga como **JPG** (botón "Compartir" → "Descargar" → tipo de archivo JPG).
+5. Sube ese JPG a [postimages.org](https://postimages.org) (sección de arriba)
+   y pega el link en la columna "Fotos" del producto.
+
+Repitiendo siempre el mismo tamaño (1000x1000) y el mismo encuadre, todas las
+fotos del catálogo se van a ver parejas sin importar de qué celular salieron.
 
 ## Cómo agregar reseñas de clientes
 

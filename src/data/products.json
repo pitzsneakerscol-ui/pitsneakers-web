@@ -11,7 +11,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/vBxwFPbh/Diseno-sin-titulo-(10).png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:00:00.000Z"
