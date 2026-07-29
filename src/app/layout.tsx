@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TopTicker from "@/components/TopTicker";
+import FloatingSearchButton from "@/components/FloatingSearchButton";
 import { siteConfig } from "@/config/site";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FloatingSearchButton />
       </body>
     </html>
   );
