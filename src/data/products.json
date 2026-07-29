@@ -1,202 +1,2524 @@
 [
   {
-    "id": "1",
-    "slug": "nike-air-jordan-1-retro-high-og-chicago",
-    "name": "Air Jordan 1 Retro High OG",
+    "id": "SB-DUNK-01",
+    "slug": "nike-sb-dunk-low-rayssa-leal",
+    "name": "SB Dunk Low Rayssa Leal",
     "brand": "Nike",
-    "colorway": "Chicago",
     "category": "sneakers",
-    "subcategory": "Basketball",
-    "price": 1450000,
-    "sizes": ["8", "8.5", "9", "9.5", "10", "10.5"],
+    "price": 1100000,
+    "sizes": [
+      "10"
+    ],
     "condition": "nuevo",
-    "description": "El colorway más icónico del AJ1, en estado nuevo con caja original. Verificado y listo para consignación segura.",
+    "description": "Comisión incluida en el precio.",
     "images": [],
-    "featured": true,
-    "isNew": true,
-    "dateAdded": "2026-07-10"
-  },
-  {
-    "id": "2",
-    "slug": "nike-dunk-low-panda",
-    "name": "Dunk Low Retro",
-    "brand": "Nike",
-    "colorway": "Panda",
-    "category": "sneakers",
-    "subcategory": "Lifestyle",
-    "price": 620000,
-    "sizes": ["6", "7", "7.5", "8", "9", "10"],
-    "condition": "nuevo",
-    "description": "El clásico blanco y negro que nunca pasa de moda. Par nuevo, 100% original, con etiquetas.",
-    "images": [],
-    "featured": true,
-    "isNew": true,
-    "dateAdded": "2026-07-09"
-  },
-  {
-    "id": "3",
-    "slug": "adidas-samba-og-cloud-white",
-    "name": "Samba OG",
-    "brand": "Adidas",
-    "colorway": "Cloud White / Core Black",
-    "category": "sneakers",
-    "subcategory": "Lifestyle",
-    "price": 480000,
-    "sizes": ["6.5", "7", "8", "8.5", "9", "9.5", "10"],
-    "condition": "nuevo",
-    "description": "El favorito del streetwear europeo. Cuero premium y suela de goma clásica. Nuevo en caja.",
-    "images": [],
-    "featured": true,
+    "featured": false,
     "isNew": false,
-    "dateAdded": "2026-06-28"
+    "dateAdded": "1970-01-01T00:00:00.000Z"
   },
   {
-    "id": "4",
-    "slug": "yeezy-boost-350-v2-zebra",
-    "name": "Yeezy Boost 350 V2",
-    "brand": "Adidas",
-    "colorway": "Zebra",
+    "id": "AJ4-01",
+    "slug": "jordan-jordan-4-brick-after-brick",
+    "name": "Jordan 4 Brick After Brick",
+    "brand": "Jordan",
     "category": "sneakers",
-    "subcategory": "Lifestyle",
-    "price": 980000,
-    "sizes": ["8", "9", "9.5", "10", "11"],
+    "price": 1519000,
+    "sizes": [
+      "11",
+      "9",
+      "9.5",
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:01:00.000Z"
+  },
+  {
+    "id": "AJ4-02",
+    "slug": "jordan-jordan-4-sb-navy",
+    "name": "Jordan 4 SB Navy",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "9"
+    ],
     "condition": "usado",
-    "description": "Uso ligero, suela Boost intacta sin desgaste visible. Incluye caja. Autenticado por nuestro equipo.",
+    "description": "Usado con caja. Comisión incluida en el precio.",
     "images": [],
     "featured": false,
     "isNew": false,
-    "dateAdded": "2026-06-20"
+    "dateAdded": "1970-01-01T00:02:00.000Z"
   },
   {
-    "id": "5",
-    "slug": "new-balance-550-white-green",
-    "name": "New Balance 550",
-    "brand": "New Balance",
-    "colorway": "White / Green",
+    "id": "AJ4-03",
+    "slug": "jordan-jordan-4-military-blue",
+    "name": "Jordan 4 Military Blue",
+    "brand": "Jordan",
     "category": "sneakers",
-    "subcategory": "Lifestyle",
-    "price": 520000,
-    "sizes": ["7", "7.5", "8", "9", "10", "10.5"],
-    "condition": "nuevo",
-    "description": "Silueta retro-basketball que dominó el 2024. Cuero premium, nuevo con caja.",
+    "price": 900000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
     "images": [],
     "featured": false,
-    "isNew": true,
-    "dateAdded": "2026-07-11"
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:03:00.000Z"
   },
   {
-    "id": "6",
-    "slug": "nike-air-force-1-07-white",
-    "name": "Air Force 1 '07",
+    "id": "AM1-01",
+    "slug": "nike-air-max-1-patta-hyper-crimson",
+    "name": "Air Max 1 Patta Hyper Crimson",
     "brand": "Nike",
-    "colorway": "Triple White",
     "category": "sneakers",
-    "subcategory": "Lifestyle",
-    "price": 420000,
-    "sizes": ["6", "7", "8", "8.5", "9", "10", "11"],
+    "price": 900000,
+    "sizes": [
+      "9"
+    ],
     "condition": "nuevo",
-    "description": "El básico que todo closet necesita. Par nuevo, sellado, disponible en múltiples tallas.",
+    "description": "Comisión incluida en el precio.",
     "images": [],
     "featured": false,
     "isNew": false,
-    "dateAdded": "2026-06-15"
+    "dateAdded": "1970-01-01T00:04:00.000Z"
   },
   {
-    "id": "7",
-    "slug": "asics-gel-1130-cream",
-    "name": "Gel-1130",
+    "id": "AMIRI-01",
+    "slug": "amiri-skel-top-low-camo-black",
+    "name": "Skel Top Low Camo Black",
+    "brand": "Amiri",
+    "category": "sneakers",
+    "price": 2250000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Talla 10 US / 43. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:05:00.000Z"
+  },
+  {
+    "id": "AM-01",
+    "slug": "nike-air-max-1000-black",
+    "name": "Air Max 1000 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1120000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:06:00.000Z"
+  },
+  {
+    "id": "TMB-01",
+    "slug": "timberland-premium-supreme-black",
+    "name": "Premium Supreme Black",
+    "brand": "Timberland",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:07:00.000Z"
+  },
+  {
+    "id": "AJ4-04",
+    "slug": "jordan-jumpman-jack-green-v",
+    "name": "Jumpman Jack Green V",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:08:00.000Z"
+  },
+  {
+    "id": "AJ4-05",
+    "slug": "jordan-jordan-4-la-lakers",
+    "name": "Jordan 4 LA Lakers",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:09:00.000Z"
+  },
+  {
+    "id": "AJ5-01",
+    "slug": "jordan-jordan-5-wolf-grey",
+    "name": "Jordan 5 Wolf Grey",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "10",
+      "9.5",
+      "9",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:10:00.000Z"
+  },
+  {
+    "id": "ADI-SL72-01",
+    "slug": "adidas-x-bad-bunny-sl72-brown",
+    "name": "SL72 Brown",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:11:00.000Z"
+  },
+  {
+    "id": "AJ1-01",
+    "slug": "jordan-jordan-1-bred",
+    "name": "Jordan 1 Bred",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1570000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:12:00.000Z"
+  },
+  {
+    "id": "AJ4-06",
+    "slug": "jordan-jordan-4-sb-navy-2",
+    "name": "Jordan 4 SB Navy",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1260000,
+    "sizes": [
+      "8",
+      "9",
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:13:00.000Z"
+  },
+  {
+    "id": "ADI-BB-01",
+    "slug": "adidas-x-bad-bunny-paso-fino",
+    "name": "Paso Fino",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:14:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-02",
+    "slug": "nike-sb-dunk-futura",
+    "name": "SB Dunk Futura",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1040000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:15:00.000Z"
+  },
+  {
+    "id": "ADI-BB-02",
+    "slug": "adidas-x-bad-bunny-jellyfish-triple-black",
+    "name": "Jellyfish Triple Black",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 2200000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:16:00.000Z"
+  },
+  {
+    "id": "KOBE-01",
+    "slug": "nike-kobe-all-star",
+    "name": "Kobe All Star",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 840000,
+    "sizes": [
+      "7",
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:17:00.000Z"
+  },
+  {
+    "id": "AJ3-01",
+    "slug": "jordan-jordan-3-solefly",
+    "name": "Jordan 3 SoleFly",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1380000,
+    "sizes": [
+      "10.5",
+      "8.5",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:18:00.000Z"
+  },
+  {
+    "id": "AJ4-07",
+    "slug": "jordan-jordan-4-rare-air",
+    "name": "Jordan 4 Rare Air",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "9.5",
+      "8.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:19:00.000Z"
+  },
+  {
+    "id": "AJ2-01",
+    "slug": "jordan-jordan-2-balvin",
+    "name": "Jordan 2 Balvin",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:20:00.000Z"
+  },
+  {
+    "id": "ADI-BB-03",
+    "slug": "adidas-x-bad-bunny-bad-bunny-1-0-resilience",
+    "name": "Bad Bunny 1.0 Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 620000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:21:00.000Z"
+  },
+  {
+    "id": "NB-01",
+    "slug": "new-balance-x-joe-freshgoods-x-jfg-1980",
+    "name": "x JFG 1980",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 920000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:22:00.000Z"
+  },
+  {
+    "id": "NB-02",
+    "slug": "new-balance-x-joe-freshgoods-jfg-993",
+    "name": "JFG 993",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:23:00.000Z"
+  },
+  {
+    "id": "NB-03",
+    "slug": "new-balance-530-x-bembury",
+    "name": "530 x Bembury",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 780000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:24:00.000Z"
+  },
+  {
+    "id": "ASICS-01",
+    "slug": "asics-gel-goblin-x-marvel",
+    "name": "Gel Goblin x Marvel",
     "brand": "Asics",
-    "colorway": "Cream / Grey",
     "category": "sneakers",
-    "subcategory": "Running",
-    "price": 460000,
-    "sizes": ["7", "8", "8.5", "9", "9.5"],
+    "price": 1170000,
+    "sizes": [
+      "9"
+    ],
     "condition": "nuevo",
-    "description": "Estética Y2K running que se tomó el streetwear. Nuevo en caja, verificado.",
+    "description": "Nuevo con caja, sin el cómic incluido. Comisión incluida en el precio.",
     "images": [],
     "featured": false,
-    "isNew": true,
-    "dateAdded": "2026-07-12"
-  },
-  {
-    "id": "8",
-    "slug": "stussy-8-ball-hoodie-black",
-    "name": "8 Ball Hoodie",
-    "brand": "Stüssy",
-    "category": "streetwear",
-    "subcategory": "Hoodies",
-    "price": 380000,
-    "sizes": ["S", "M", "L", "XL"],
-    "condition": "nuevo",
-    "description": "Hoodie clásico con el print 8-ball bordado. Algodón grueso, corte oversized. Nuevo con etiquetas.",
-    "images": [],
-    "featured": true,
     "isNew": false,
-    "dateAdded": "2026-06-25"
+    "dateAdded": "1970-01-01T00:25:00.000Z"
   },
   {
-    "id": "9",
-    "slug": "supreme-box-logo-tee-black",
-    "name": "Box Logo Tee",
+    "id": "ASICS-02",
+    "slug": "asics-gel-nyc",
+    "name": "Gel NYC",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:26:00.000Z"
+  },
+  {
+    "id": "ASICS-03",
+    "slug": "asics-kayano-20-x-bodega",
+    "name": "Kayano 20 x Bodega",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:27:00.000Z"
+  },
+  {
+    "id": "ASICS-04",
+    "slug": "asics-x-hidden-ny-gel-venture-shield-x-hidden",
+    "name": "Gel Venture Shield x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:28:00.000Z"
+  },
+  {
+    "id": "ASICS-05",
+    "slug": "asics-x-hidden-ny-x-hidden",
+    "name": "x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:29:00.000Z"
+  },
+  {
+    "id": "ASICS-06",
+    "slug": "asics-x-hidden-ny-gel-ds-trainer-14-x-hidden",
+    "name": "Gel-DS Trainer 14 x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:30:00.000Z"
+  },
+  {
+    "id": "NB-04",
+    "slug": "new-balance-x-kith-x-ronnie-fieg",
+    "name": "x Ronnie Fieg",
+    "brand": "New Balance x Kith",
+    "category": "sneakers",
+    "price": 1650000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:31:00.000Z"
+  },
+  {
+    "id": "AJ1-02",
+    "slug": "jordan-jordan-1-travis-scott-tropical-pink",
+    "name": "Jordan 1 Travis Scott Tropical Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1800000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:32:00.000Z"
+  },
+  {
+    "id": "ADI-BB-04",
+    "slug": "adidas-x-bad-bunny-bad-bunny-1-0-rise",
+    "name": "Bad Bunny 1.0 Rise",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:33:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-01",
+    "slug": "adidas-yeezy-foam-runner-stone-sage",
+    "name": "Yeezy Foam Runner Stone Sage",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:34:00.000Z"
+  },
+  {
+    "id": "DUNK-01",
+    "slug": "nike-dunk-hyper-cobalt",
+    "name": "Dunk Hyper Cobalt",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:35:00.000Z"
+  },
+  {
+    "id": "ADI-BB-05",
+    "slug": "adidas-x-bad-bunny-forum-buckle-low-blue-tint",
+    "name": "Forum Buckle Low Blue Tint",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1800000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:36:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-03",
+    "slug": "nike-sb-dunk-low-supreme-rammellzee-black",
+    "name": "SB Dunk Low Supreme Rammellzee Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1500000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:37:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-01",
+    "slug": "adidas-yeezy-slide-azure",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:38:00.000Z"
+  },
+  {
+    "id": "CROCS-01",
+    "slug": "crocs-clog-grateful-dead",
+    "name": "Clog Grateful Dead",
+    "brand": "Crocs",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:39:00.000Z"
+  },
+  {
+    "id": "41",
+    "slug": "palace-mcdonald-s-x-palace-camiseta",
+    "name": "McDonald's x Palace Camiseta",
+    "brand": "Palace",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:40:00.000Z"
+  },
+  {
+    "id": "42",
+    "slug": "gallery-dept-gallery-dept-camiseta",
+    "name": "Gallery Dept Camiseta",
+    "brand": "Gallery Dept",
+    "category": "streetwear",
+    "price": 800000,
+    "sizes": [
+      "XL"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:41:00.000Z"
+  },
+  {
+    "id": "43",
+    "slug": "gallery-dept-gallery-dept-skull-tee",
+    "name": "Gallery Dept Skull Tee",
+    "brand": "Gallery Dept",
+    "category": "streetwear",
+    "price": 700000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:42:00.000Z"
+  },
+  {
+    "id": "44",
+    "slug": "jordan-canguro-jordan-gris",
+    "name": "Canguro Jordan Gris",
+    "brand": "Jordan",
+    "category": "streetwear",
+    "price": 220000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa. Rareza alta (🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:43:00.000Z"
+  },
+  {
+    "id": "45",
+    "slug": "essentials-essentials-light-tusca",
+    "name": "Essentials Light Tusca",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 810000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:44:00.000Z"
+  },
+  {
+    "id": "46",
+    "slug": "essentials-essentials-jet-black-s23",
+    "name": "Essentials Jet Black S23",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 614000,
+    "sizes": [
+      "S"
+    ],
+    "condition": "nuevo",
+    "description": "Talla S, calza como M. Nuevo con bolsa. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:45:00.000Z"
+  },
+  {
+    "id": "47",
+    "slug": "essentials-essentials-jet-black-s23-2",
+    "name": "Essentials Jet Black S23",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 614000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Talla M, calza como L. Nuevo con bolsa. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:46:00.000Z"
+  },
+  {
+    "id": "48",
+    "slug": "denim-tears-denim-tears-zip-up-hoodie-2024-ss",
+    "name": "Denim Tears Zip Up Hoodie 2024 SS",
+    "brand": "Denim Tears",
+    "category": "streetwear",
+    "price": 1100000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:47:00.000Z"
+  },
+  {
+    "id": "49",
+    "slug": "gallery-dept-gallery-dept-student",
+    "name": "Gallery Dept Student",
+    "brand": "Gallery Dept",
+    "category": "streetwear",
+    "price": 550000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Talla M oversize. Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:48:00.000Z"
+  },
+  {
+    "id": "50",
+    "slug": "supreme-cap-special-edition",
+    "name": "Cap Special Edition",
     "brand": "Supreme",
     "category": "streetwear",
-    "subcategory": "Camisetas",
-    "price": 350000,
-    "sizes": ["M", "L", "XL"],
-    "condition": "usado",
-    "description": "Pieza de colección en buen estado, sin manchas ni huecos. Autenticidad verificada por nuestro equipo.",
+    "price": 420000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
     "images": [],
     "featured": false,
     "isNew": false,
-    "dateAdded": "2026-06-05"
+    "dateAdded": "1970-01-01T00:49:00.000Z"
   },
   {
-    "id": "10",
-    "slug": "carhartt-wip-detroit-jacket",
-    "name": "Detroit Jacket",
-    "brand": "Carhartt WIP",
+    "id": "51",
+    "slug": "supreme-always-prevail-camo-green",
+    "name": "Always Prevail Camo Green",
+    "brand": "Supreme",
     "category": "streetwear",
-    "subcategory": "Chaquetas",
-    "price": 590000,
-    "sizes": ["S", "M", "L"],
+    "price": 430000,
+    "sizes": [
+      "M"
+    ],
     "condition": "nuevo",
-    "description": "Chaqueta de mezclilla forrada en borrego, ideal para friajes bogotanos. Nueva con etiquetas.",
+    "description": "Comisión incluida en el precio.",
     "images": [],
     "featured": false,
-    "isNew": true,
-    "dateAdded": "2026-07-08"
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:50:00.000Z"
   },
   {
-    "id": "11",
-    "slug": "corteiz-alcatraz-cargo-pants",
-    "name": "Alcatraz Cargo Pants",
+    "id": "AM-02",
+    "slug": "nike-air-max-geode-teal",
+    "name": "Air Max Geode Teal",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:51:00.000Z"
+  },
+  {
+    "id": "SLMN-01",
+    "slug": "salomon-x-ferxxocalipsis",
+    "name": "x Ferxxocalipsis",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1150000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:52:00.000Z"
+  },
+  {
+    "id": "AM95-01",
+    "slug": "nike-air-max-95-sb-flor-cactus",
+    "name": "Air Max 95 SB Flor Cactus",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 980000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:53:00.000Z"
+  },
+  {
+    "id": "55",
+    "slug": "nike-camiseta-brasil-2004",
+    "name": "Camiseta Brasil 2004",
+    "brand": "Nike",
+    "category": "streetwear",
+    "price": 950000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Camiseta Ronaldinho. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:54:00.000Z"
+  },
+  {
+    "id": "56",
+    "slug": "anti-social-social-club-the-170-tee",
+    "name": "The 170 Tee",
+    "brand": "Anti Social Social Club",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:55:00.000Z"
+  },
+  {
+    "id": "57",
+    "slug": "supreme-pack-medias",
+    "name": "Pack Medias",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:56:00.000Z"
+  },
+  {
+    "id": "58",
+    "slug": "adidas-x-bape-x-bape-milo-tee",
+    "name": "x Bape Milo Tee",
+    "brand": "Adidas x Bape",
+    "category": "streetwear",
+    "price": 390000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:57:00.000Z"
+  },
+  {
+    "id": "59",
+    "slug": "essentials-fog-sand-hoodie",
+    "name": "Fog Sand Hoodie",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 550000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:58:00.000Z"
+  },
+  {
+    "id": "60",
+    "slug": "essentials-fog-tuscan-hoodie",
+    "name": "Fog Tuscan Hoodie",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 550000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T00:59:00.000Z"
+  },
+  {
+    "id": "AJ1-05",
+    "slug": "jordan-travis-scott-shy-pink",
+    "name": "Travis Scott Shy Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1800000,
+    "sizes": [
+      "8",
+      "7.5",
+      "8.5",
+      "9",
+      "9.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:00:00.000Z"
+  },
+  {
+    "id": "62",
+    "slug": "supreme-socks-black",
+    "name": "Socks Black",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 240000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo sellado. Rareza alta (🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:01:00.000Z"
+  },
+  {
+    "id": "63",
+    "slug": "supreme-socks-white",
+    "name": "Socks White",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 240000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo sellado. Rareza alta (🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:02:00.000Z"
+  },
+  {
+    "id": "AJ3-02",
+    "slug": "jordan-jordan-3-rio",
+    "name": "Jordan 3 Rio",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1900000,
+    "sizes": [
+      "9",
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:03:00.000Z"
+  },
+  {
+    "id": "AJ4-08",
+    "slug": "jordan-jordan-4-sb-navy-3",
+    "name": "Jordan 4 SB Navy",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1400000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:04:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-04",
+    "slug": "nike-sb-dunk-albino-and-preto",
+    "name": "SB Dunk Albino and Preto",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1500000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:05:00.000Z"
+  },
+  {
+    "id": "67",
+    "slug": "supreme-towels-pack-3",
+    "name": "Towels Pack 3",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 220000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:06:00.000Z"
+  },
+  {
+    "id": "SLMN-02",
+    "slug": "salomon-x-kith",
+    "name": "x Kith",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1300000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:07:00.000Z"
+  },
+  {
+    "id": "AF1-01",
+    "slug": "nike-air-force-1-a-ma-maniere",
+    "name": "Air Force 1 A Ma Maniere",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 980000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:08:00.000Z"
+  },
+  {
+    "id": "70",
+    "slug": "essentials-crewneck-salmon",
+    "name": "Crewneck Salmon",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "XS",
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:09:00.000Z"
+  },
+  {
+    "id": "71",
+    "slug": "essentials-crewneck-olive-green",
+    "name": "Crewneck Olive Green",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:10:00.000Z"
+  },
+  {
+    "id": "72",
+    "slug": "supreme-double-s-5-panel",
+    "name": "Double S 5 Panel",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 320000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:11:00.000Z"
+  },
+  {
+    "id": "73",
+    "slug": "supreme-eyelets-mesh-back-5-panel",
+    "name": "Eyelets Mesh Back 5 Panel",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 320000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:12:00.000Z"
+  },
+  {
+    "id": "74",
+    "slug": "supreme-handstyle-cap",
+    "name": "Handstyle Cap",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 320000,
+    "sizes": [
+      "7 1/2"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:13:00.000Z"
+  },
+  {
+    "id": "75",
+    "slug": "hidden-ny-x-ferxxo-sunburst-logo",
+    "name": "x Ferxxo Sunburst Logo",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 320000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:14:00.000Z"
+  },
+  {
+    "id": "76",
+    "slug": "nike-nocta-x-nike-cap",
+    "name": "Nocta x Nike Cap",
+    "brand": "Nike",
+    "category": "streetwear",
+    "price": 270000,
+    "sizes": [
+      "SM-MD"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:15:00.000Z"
+  },
+  {
+    "id": "77",
+    "slug": "supreme-ducati-6-panel",
+    "name": "Ducati 6 Panel",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 350000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:16:00.000Z"
+  },
+  {
+    "id": "78",
+    "slug": "essentials-plum-hoodie",
+    "name": "Plum Hoodie",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 450000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:17:00.000Z"
+  },
+  {
+    "id": "79",
+    "slug": "supreme-fat-tip-puffer",
+    "name": "Fat Tip Puffer",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 2150000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:18:00.000Z"
+  },
+  {
+    "id": "80",
+    "slug": "supreme-faux-croc-blazer",
+    "name": "Faux Croc Blazer",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 2100000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:19:00.000Z"
+  },
+  {
+    "id": "81",
+    "slug": "supreme-small-box-face-mask-2021",
+    "name": "Small Box Face Mask 2021",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 700000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:20:00.000Z"
+  },
+  {
+    "id": "82",
+    "slug": "essentials-coral-sweatpants",
+    "name": "Coral Sweatpants",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 400000,
+    "sizes": [
+      "S"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:21:00.000Z"
+  },
+  {
+    "id": "83",
+    "slug": "essentials-wood-sweatpants",
+    "name": "Wood Sweatpants",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 400000,
+    "sizes": [
+      "S"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:22:00.000Z"
+  },
+  {
+    "id": "84",
+    "slug": "supreme-fat-fit-pant",
+    "name": "Fat Fit Pant",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 800000,
+    "sizes": [
+      "32"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:23:00.000Z"
+  },
+  {
+    "id": "85",
+    "slug": "hidden-ny-ny-flag-t-shirt",
+    "name": "NY Flag T-Shirt",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:24:00.000Z"
+  },
+  {
+    "id": "86",
+    "slug": "hidden-ny-ny-souvenir-t-shirt",
+    "name": "NY Souvenir T-Shirt",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "L"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:25:00.000Z"
+  },
+  {
+    "id": "87",
+    "slug": "hidden-ny-ny-souvenir-t-shirt-black",
+    "name": "NY Souvenir T-Shirt Black",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:26:00.000Z"
+  },
+  {
+    "id": "88",
+    "slug": "hidden-ny-ny-souvenir-t-shirt-white",
+    "name": "NY Souvenir T-Shirt White",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:27:00.000Z"
+  },
+  {
+    "id": "89",
+    "slug": "hidden-ny-ferxxo-tee",
+    "name": "Ferxxo Tee",
+    "brand": "Hidden.NY",
+    "category": "streetwear",
+    "price": 320000,
+    "sizes": [
+      "XXL"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:28:00.000Z"
+  },
+  {
+    "id": "90",
+    "slug": "anti-social-social-club-stay-awake-t-shirt",
+    "name": "Stay Awake T-Shirt",
+    "brand": "Anti Social Social Club",
+    "category": "streetwear",
+    "price": 300000,
+    "sizes": [
+      "XL"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:29:00.000Z"
+  },
+  {
+    "id": "91",
+    "slug": "supreme-fat-fit-pant-2",
+    "name": "Fat Fit Pant",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 800000,
+    "sizes": [
+      "32"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:30:00.000Z"
+  },
+  {
+    "id": "92",
+    "slug": "essentials-t-shirt-mint",
+    "name": "T-Shirt Mint",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 300000,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:31:00.000Z"
+  },
+  {
+    "id": "93",
+    "slug": "essentials-crewneck-canary-yellow",
+    "name": "Crewneck Canary Yellow",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "XS",
+      "S",
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Tallaje de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:32:00.000Z"
+  },
+  {
+    "id": "94",
+    "slug": "supreme-washed-chino-cap",
+    "name": "Washed Chino Cap",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:33:00.000Z"
+  },
+  {
+    "id": "95",
+    "slug": "supreme-washed-chino-cap-2",
+    "name": "Washed Chino Cap",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 370000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:34:00.000Z"
+  },
+  {
+    "id": "96",
+    "slug": "essentials-zip-canary-yellow-jacket",
+    "name": "Zip Canary Yellow Jacket",
+    "brand": "Essentials",
+    "category": "streetwear",
+    "price": 300000,
+    "sizes": [
+      "XL"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:35:00.000Z"
+  },
+  {
+    "id": "97",
+    "slug": "corteiz-brasil-t-shirt",
+    "name": "Brasil T-Shirt",
     "brand": "Corteiz",
     "category": "streetwear",
-    "subcategory": "Pantalones",
-    "price": 420000,
-    "sizes": ["S", "M", "L", "XL"],
+    "price": 350000,
+    "sizes": [
+      "L"
+    ],
     "condition": "nuevo",
-    "description": "Cargo pants técnico con el logo Alcatraz. Pieza difícil de conseguir en Colombia, verificada al 100%.",
-    "images": [],
-    "featured": true,
-    "isNew": true,
-    "dateAdded": "2026-07-13"
-  },
-  {
-    "id": "12",
-    "slug": "nike-tech-fleece-set-grey",
-    "name": "Tech Fleece Set",
-    "brand": "Nike",
-    "colorway": "Heather Grey",
-    "category": "streetwear",
-    "subcategory": "Conjuntos",
-    "price": 460000,
-    "sizes": ["S", "M", "L", "XL"],
-    "condition": "nuevo",
-    "description": "Conjunto hoodie + jogger en Tech Fleece. Comodidad premium, nuevo con etiquetas.",
+    "description": "Comisión incluida en el precio.",
     "images": [],
     "featured": false,
     "isNew": false,
-    "dateAdded": "2026-06-18"
+    "dateAdded": "1970-01-01T01:36:00.000Z"
+  },
+  {
+    "id": "98",
+    "slug": "supreme-it-s-too-cassette",
+    "name": "It's Too Cassette",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 600000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo sellado. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:37:00.000Z"
+  },
+  {
+    "id": "99",
+    "slug": "supreme-beanie-oval-patch",
+    "name": "Beanie Oval Patch",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 300000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:38:00.000Z"
+  },
+  {
+    "id": "100",
+    "slug": "supreme-beanie-sticky-note",
+    "name": "Beanie Sticky Note",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 300000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:39:00.000Z"
+  },
+  {
+    "id": "101",
+    "slug": "new-era-9forty-oakland-athletics",
+    "name": "9FORTY Oakland Athletics",
+    "brand": "New Era",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:40:00.000Z"
+  },
+  {
+    "id": "102",
+    "slug": "new-era-9forty-san-diego",
+    "name": "9FORTY San Diego",
+    "brand": "New Era",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:41:00.000Z"
+  },
+  {
+    "id": "103",
+    "slug": "new-era-9forty-san-francisco-giants",
+    "name": "9FORTY San Francisco Giants",
+    "brand": "New Era",
+    "category": "streetwear",
+    "price": 250000,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:42:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-05",
+    "slug": "nike-sb-dunk-born-x-raised",
+    "name": "SB Dunk Born x Raised",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2600000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:43:00.000Z"
+  },
+  {
+    "id": "105",
+    "slug": "labubu-big-into-energy",
+    "name": "Big Into Energy",
+    "brand": "Labubu",
+    "category": "streetwear",
+    "price": 130000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo sellado. Rareza alta (🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:44:00.000Z"
+  },
+  {
+    "id": "106",
+    "slug": "supreme-duffle-bag",
+    "name": "Duffle Bag",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 620000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:45:00.000Z"
+  },
+  {
+    "id": "107",
+    "slug": "supreme-shoulder-bag",
+    "name": "Shoulder Bag",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 550000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con bolsa. Rareza alta (🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:46:00.000Z"
+  },
+  {
+    "id": "108",
+    "slug": "supreme-backpack",
+    "name": "Backpack",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 700000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:47:00.000Z"
+  },
+  {
+    "id": "AJ4-09",
+    "slug": "jordan-jordan-4-brick-by-brick",
+    "name": "Jordan 4 Brick by Brick",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 3400000,
+    "sizes": [
+      "8.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:48:00.000Z"
+  },
+  {
+    "id": "AJ4-10",
+    "slug": "jordan-jordan-4-undefeated",
+    "name": "Jordan 4 Undefeated",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1412000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:49:00.000Z"
+  },
+  {
+    "id": "AJ4-11",
+    "slug": "jordan-jordan-4-sb-pine-green",
+    "name": "Jordan 4 SB Pine Green",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 2500000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:50:00.000Z"
+  },
+  {
+    "id": "AJ4-12",
+    "slug": "jordan-jordan-4-sb-navy-4",
+    "name": "Jordan 4 SB Navy",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1215000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:51:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-06",
+    "slug": "nike-dunk-sb-parra",
+    "name": "Dunk SB Parra",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1900000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:52:00.000Z"
+  },
+  {
+    "id": "114",
+    "slug": "kith-cap-7-1-4-special-edition",
+    "name": "Cap 7 1/4 Special Edition",
+    "brand": "Kith",
+    "category": "streetwear",
+    "price": 420000,
+    "sizes": [
+      "7 1/4"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:53:00.000Z"
+  },
+  {
+    "id": "ASICS-07",
+    "slug": "asics-paris-gt-2160",
+    "name": "Paris GT-2160",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "8",
+      "8.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:54:00.000Z"
+  },
+  {
+    "id": "AJ3-03",
+    "slug": "jordan-jordan-3-seul-2-0",
+    "name": "Jordan 3 Seúl 2.0",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1400000,
+    "sizes": [
+      "8",
+      "8.5",
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:55:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-02",
+    "slug": "adidas-yeezy-foam-runner-mx-cinder",
+    "name": "Yeezy Foam Runner MX Cinder",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:56:00.000Z"
+  },
+  {
+    "id": "AJ5-02",
+    "slug": "jordan-jordan-5-gore-tex",
+    "name": "Jordan 5 GORE-TEX",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:57:00.000Z"
+  },
+  {
+    "id": "SLMN-03",
+    "slug": "salomon-salomon-xt-6-pathway-white",
+    "name": "Salomon XT-6 Pathway White",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:58:00.000Z"
+  },
+  {
+    "id": "120",
+    "slug": "supreme-bear-x-north-face",
+    "name": "Bear x North Face",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 620000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T01:59:00.000Z"
+  },
+  {
+    "id": "OFFWHITE-01",
+    "slug": "off-white-vulcanized-2018",
+    "name": "Vulcanized 2018",
+    "brand": "Off-White",
+    "category": "sneakers",
+    "price": 1450000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:00:00.000Z"
+  },
+  {
+    "id": "122",
+    "slug": "supreme-nerf-super-soaker",
+    "name": "Nerf Super Soaker",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 380000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Rareza alta (🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:01:00.000Z"
+  },
+  {
+    "id": "123",
+    "slug": "supreme-rawlings-mask",
+    "name": "Rawlings Mask",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "price": 550000,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Rareza alta (🔥🔥). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:02:00.000Z"
+  },
+  {
+    "id": "ADI-BB-06",
+    "slug": "adidas-x-bad-bunny-paso-fino-2",
+    "name": "Paso Fino",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:03:00.000Z"
+  },
+  {
+    "id": "AJ1-03",
+    "slug": "jordan-jordan-1-rookie-of-the-year",
+    "name": "Jordan 1 Rookie of the Year",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:04:00.000Z"
+  },
+  {
+    "id": "ASICS-08",
+    "slug": "asics-nunobiki-white-blue",
+    "name": "Nunobiki White Blue",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 340000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:05:00.000Z"
+  },
+  {
+    "id": "NB-05",
+    "slug": "new-balance-new-balance-1906r-green",
+    "name": "New Balance 1906R Green",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:06:00.000Z"
+  },
+  {
+    "id": "ASICS-09",
+    "slug": "asics-kinetic-gel",
+    "name": "Kinetic Gel",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:07:00.000Z"
+  },
+  {
+    "id": "NB-06",
+    "slug": "new-balance-new-balance-1000",
+    "name": "New Balance 1000",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:08:00.000Z"
+  },
+  {
+    "id": "SAUCONY-01",
+    "slug": "saucony-saucony",
+    "name": "Saucony",
+    "brand": "Saucony",
+    "category": "sneakers",
+    "price": 430000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:09:00.000Z"
+  },
+  {
+    "id": "AJ3-04",
+    "slug": "jordan-jordan-3-rio-2",
+    "name": "Jordan 3 Rio",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:10:00.000Z"
+  },
+  {
+    "id": "SLMN-04",
+    "slug": "salomon-feid-x-ferxxocalipsis",
+    "name": "Feid x Ferxxocalipsis",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1400000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:11:00.000Z"
+  },
+  {
+    "id": "AF1-02",
+    "slug": "nike-air-force-1-mid-green",
+    "name": "Air Force 1 Mid Green",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:12:00.000Z"
+  },
+  {
+    "id": "AJ4-13",
+    "slug": "jordan-jordan-4-unc",
+    "name": "Jordan 4 UNC",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 2200000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:13:00.000Z"
+  },
+  {
+    "id": "AJ-SPZ-01",
+    "slug": "jordan-jordan-spizike",
+    "name": "Jordan Spizike",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:14:00.000Z"
+  },
+  {
+    "id": "ASICS-10",
+    "slug": "asics-x-kith-asics-x-kith-marvel",
+    "name": "Asics x Kith Marvel",
+    "brand": "Asics x Kith",
+    "category": "sneakers",
+    "price": 720000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:15:00.000Z"
+  },
+  {
+    "id": "ASICS-11",
+    "slug": "asics-gt-2160-black",
+    "name": "GT-2160 Black",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 640000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:16:00.000Z"
+  },
+  {
+    "id": "ASICS-12",
+    "slug": "asics-x-hidden-ny-gel-ds-trainer-x-hidden",
+    "name": "Gel-DS Trainer x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:17:00.000Z"
+  },
+  {
+    "id": "SLMN-05",
+    "slug": "salomon-salomon-xt-4-ferxxocalipsis",
+    "name": "Salomon XT-4 Ferxxocalipsis",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1400000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:18:00.000Z"
+  },
+  {
+    "id": "NB-07",
+    "slug": "new-balance-new-balance-action-bronson",
+    "name": "New Balance Action Bronson",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 990000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:19:00.000Z"
+  },
+  {
+    "id": "NB-08",
+    "slug": "new-balance-new-balance-tiger-eye",
+    "name": "New Balance Tiger Eye",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 830000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:20:00.000Z"
+  },
+  {
+    "id": "NB-09",
+    "slug": "new-balance-new-balance-x-kith-daytona",
+    "name": "New Balance x Kith Daytona",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:21:00.000Z"
+  },
+  {
+    "id": "NB-10",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-joe-freshgoods",
+    "name": "New Balance Joe Freshgoods",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 1100000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:22:00.000Z"
+  },
+  {
+    "id": "NB-11",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-joe-freshgoods-2",
+    "name": "New Balance Joe Freshgoods",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:23:00.000Z"
+  },
+  {
+    "id": "AJ1-04",
+    "slug": "jordan-jordan-1-voodoo",
+    "name": "Jordan 1 Voodoo",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 2350000,
+    "sizes": [
+      "9.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:24:00.000Z"
+  },
+  {
+    "id": "DUNK-02",
+    "slug": "nike-dunk-halloween-2021",
+    "name": "Dunk Halloween 2021",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1250000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:25:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-07",
+    "slug": "nike-dunk-sb-setsubun",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "7",
+      "7.5",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:26:00.000Z"
+  },
+  {
+    "id": "NB-12",
+    "slug": "new-balance-new-balance-1000-2",
+    "name": "New Balance 1000",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:27:00.000Z"
   }
 ]
