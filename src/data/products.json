@@ -313,9 +313,9 @@
   },
   {
     "id": "ADI-BB-02",
-    "slug": "adidas-x-bad-bunny-jellyfish-triple-black",
+    "slug": "adidas-jellyfish-triple-black",
     "name": "Jellyfish Triple Black",
-    "brand": "Adidas x Bad Bunny",
+    "brand": "Adidas",
     "category": "sneakers",
     "price": 2200000,
     "sizes": [
@@ -603,9 +603,9 @@
   },
   {
     "id": "NB-04",
-    "slug": "new-balance-x-kith-x-ronnie-fieg",
+    "slug": "new-balance-x-ronnie-fieg",
     "name": "x Ronnie Fieg",
-    "brand": "New Balance x Kith",
+    "brand": "New Balance",
     "category": "sneakers",
     "price": 1650000,
     "sizes": [
