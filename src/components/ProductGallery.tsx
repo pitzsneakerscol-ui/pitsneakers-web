@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Product } from "@/types/product";
+import { ProductGroup } from "@/types/product";
 import ProductMedia from "@/components/ProductMedia";
 
-export default function ProductGallery({ product }: { product: Product }) {
+export default function ProductGallery({ group }: { group: ProductGroup }) {
   const [active, setActive] = useState(0);
-  const count = Math.max(product.images.length, 1);
+  const count = Math.max(group.images.length, 1);
 
   return (
     <div>
       <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-ink">
-        <ProductMedia product={product} index={active} priority sizes="(min-width: 1024px) 50vw, 100vw" />
+        <ProductMedia product={group} index={active} priority sizes="(min-width: 1024px) 50vw, 100vw" />
         <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink">
           Verificado por Pitsneakers
         </span>
@@ -29,7 +29,7 @@ export default function ProductGallery({ product }: { product: Product }) {
               }`}
               aria-label={`Ver foto ${index + 1}`}
             >
-              <ProductMedia product={product} index={index} sizes="12vw" />
+              <ProductMedia product={group} index={index} sizes="12vw" />
             </button>
           ))}
         </div>

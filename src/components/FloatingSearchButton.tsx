@@ -13,6 +13,7 @@ interface SearchResult {
   colorway: string | null;
   category: "sneakers" | "streetwear";
   price: number;
+  multiVariant: boolean;
   condition: "nuevo" | "usado";
   sizes: string[];
   image: string | null;
@@ -192,7 +193,9 @@ export default function FloatingSearchButton() {
                   </Link>
                   <div className="mt-1 flex items-center justify-between gap-2">
                     <p className="text-sm font-semibold text-ink">
-                      {formatPrice(product.price)}
+                      {product.multiVariant
+                        ? `Desde ${formatPrice(product.price)}`
+                        : formatPrice(product.price)}
                     </p>
                     <WhatsAppButtonSmall
                       product={{

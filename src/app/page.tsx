@@ -8,10 +8,10 @@ import Testimonials from "@/components/Testimonials";
 import AboutSection from "@/components/AboutSection";
 import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
-import { getFeaturedProducts } from "@/lib/products";
+import { getFeaturedGroups } from "@/lib/products";
 
 export default async function Home() {
-  const featured = await getFeaturedProducts(6);
+  const featured = await getFeaturedGroups(6);
 
   return (
     <>
@@ -25,7 +25,7 @@ export default async function Home() {
           linkLabel="Ver lanzamientos"
         />
         <div className="mt-10">
-          <ProductGrid products={featured} />
+          <ProductGrid groups={featured} />
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { getProductsByCategory, getBrands, getSizes } from "@/lib/products";
+import { getGroupsByCategory, getBrands, getSizes } from "@/lib/products";
 import { applyCatalogFilters, CatalogSearchParams } from "@/lib/filters";
 import ProductGrid from "@/components/ProductGrid";
 import CatalogFilters from "@/components/CatalogFilters";
@@ -18,11 +18,11 @@ export default async function SneakersPage({
 }) {
   const params = await searchParams;
   const [allSneakers, brands, sizes] = await Promise.all([
-    getProductsByCategory("sneakers"),
+    getGroupsByCategory("sneakers"),
     getBrands("sneakers"),
     getSizes("sneakers"),
   ]);
-  const products = applyCatalogFilters(allSneakers, params);
+  const groups = applyCatalogFilters(allSneakers, params);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -46,11 +46,11 @@ export default async function SneakersPage({
       </div>
 
       <p className="mt-6 text-xs uppercase tracking-wide text-muted">
-        {products.length} {products.length === 1 ? "resultado" : "resultados"}
+        {groups.length} {groups.length === 1 ? "resultado" : "resultados"}
       </p>
 
       <div className="mt-4">
-        <ProductGrid products={products} />
+        <ProductGrid groups={groups} />
       </div>
 
       <CommunityNotice />

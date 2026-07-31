@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getNewArrivals } from "@/lib/products";
+import { getNewArrivalGroups } from "@/lib/products";
 import ProductGrid from "@/components/ProductGrid";
 import CommunityNotice from "@/components/CommunityNotice";
 
@@ -15,10 +15,10 @@ export default async function LanzamientosPage({
   searchParams: Promise<{ categoria?: string }>;
 }) {
   const { categoria } = await searchParams;
-  const arrivals = await getNewArrivals();
-  const products =
+  const arrivals = await getNewArrivalGroups();
+  const groups =
     categoria === "sneakers" || categoria === "streetwear"
-      ? arrivals.filter((p) => p.category === categoria)
+      ? arrivals.filter((g) => g.category === categoria)
       : arrivals;
 
   const tabs = [
@@ -59,11 +59,11 @@ export default async function LanzamientosPage({
       </div>
 
       <p className="mt-6 text-xs uppercase tracking-wide text-muted">
-        {products.length} {products.length === 1 ? "resultado" : "resultados"}
+        {groups.length} {groups.length === 1 ? "resultado" : "resultados"}
       </p>
 
       <div className="mt-4">
-        <ProductGrid products={products} />
+        <ProductGrid groups={groups} />
       </div>
 
       <CommunityNotice />

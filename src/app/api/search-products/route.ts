@@ -1,19 +1,24 @@
-import { getAllProducts } from "@/lib/products";
+import { getAllGroups } from "@/lib/products";
+import { groupPriceRange } from "@/lib/grouping";
 
 export async function GET() {
-  const products = await getAllProducts();
+  const groups = await getAllGroups();
 
-  const lite = products.map((p) => ({
-    slug: p.slug,
-    name: p.name,
-    brand: p.brand,
-    colorway: p.colorway ?? null,
-    category: p.category,
-    price: p.price,
-    condition: p.condition,
-    sizes: p.sizes,
-    image: p.images[0] ?? null,
-  }));
+  const lite = groups.map((g) => {
+    const { min } = groupPriceRange(g);
+    return {
+      slug: g.groupSlug,
+      name: g.name,
+      brand: g.brand,
+      colorway: g.colorway ?? null,
+      category: g.category,
+      price: min,
+      multiVariant: g.variants.length > 1,
+      condition: g.variants[0].condition,
+      sizes: Array.from(new Set(g.variants.flatMap((v) => v.sizes))),
+      image: g.images[0] ?? null,
+    };
+  });
 
   return Response.json(lite);
 }

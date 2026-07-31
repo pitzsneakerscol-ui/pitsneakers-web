@@ -1,4 +1,5 @@
-import { Product } from "@/types/product";
+import { ProductGroup } from "@/types/product";
+import { groupPriceRange, groupSizes } from "@/lib/grouping";
 
 export type CatalogSearchParams = {
   marca?: string;
@@ -8,26 +9,31 @@ export type CatalogSearchParams = {
 };
 
 export function applyCatalogFilters(
-  products: Product[],
+  groups: ProductGroup[],
   params: CatalogSearchParams
-): Product[] {
-  let result = products;
+): ProductGroup[] {
+  let result = groups;
 
   if (params.marca) {
-    result = result.filter((p) => p.brand === params.marca);
+    result = result.filter((g) => g.brand === params.marca);
   }
 
   if (params.talla) {
-    result = result.filter((p) => p.sizes.includes(params.talla!));
+    result = result.filter((g) => groupSizes(g).includes(params.talla!));
   }
 
   if (params.estado) {
-    result = result.filter((p) => p.condition === params.estado);
+    result = result.filter((g) =>
+      g.variants.some((v) => v.condition === params.estado)
+    );
   }
 
   if (params.precio) {
     const [min, max] = params.precio.split("-").map(Number);
-    result = result.filter((p) => p.price >= min && p.price <= max);
+    result = result.filter((g) => {
+      const range = groupPriceRange(g);
+      return range.min <= max && range.max >= min;
+    });
   }
 
   return result;
