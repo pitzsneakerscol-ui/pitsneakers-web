@@ -797,8 +797,8 @@
   },
   {
     "id": "42",
-    "slug": "gallery-dept-gallery-dept-camiseta",
-    "name": "Gallery Dept Camiseta",
+    "slug": "gallery-dept-gallery-dept-t-shirt",
+    "name": "Gallery Dept t shirt",
     "brand": "Gallery Dept",
     "category": "streetwear",
     "price": 800000,
@@ -2464,7 +2464,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/mg97V2qq/Copia-de-Sin-titulo-(83).png"
+      "https://i.postimg.cc/525JWTRY/Copia-de-Sin-titulo-2026-07-31T151151-254.png"
     ],
     "featured": false,
     "isNew": false,
@@ -2482,7 +2482,9 @@
     ],
     "condition": "usado",
     "description": "Usado con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/tCdVhZ8M/Copia-de-Sin-titulo-(18).png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:10:00.000Z"
@@ -2499,7 +2501,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/QtfyBySk/Copia-de-Sin-titulo-(8).png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:11:00.000Z"
@@ -2630,7 +2634,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/QtfyBySk/Copia-de-Sin-titulo-(8).png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:18:00.000Z"
