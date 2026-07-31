@@ -519,7 +519,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/zvp8jxNp/Diseno-sin-titulo-(26).jpg"
+      "https://i.postimg.cc/50NdWmHj/Copia-de-Sin-titulo-2026-07-31T155557-630.png"
     ],
     "featured": false,
     "isNew": false,
@@ -595,7 +595,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/BQChptGQ/Copia-de-Sin-titulo-(58).png"
+      "https://i.postimg.cc/k4kcvJdS/Copia-de-Sin-titulo-2026-07-31T155112-409.png"
     ],
     "featured": false,
     "isNew": false,
@@ -614,7 +614,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/BQChptGQ/Copia-de-Sin-titulo-(58).png"
+      "https://i.postimg.cc/N0sPKjgq/Copia-de-Sin-titulo-2026-07-31T154930-471.png"
     ],
     "featured": false,
     "isNew": false,
@@ -2426,7 +2426,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/MTwpbswM/Copia-de-Sin-titulo-(81).png"
+      "https://i.postimg.cc/525JWTRY/Copia-de-Sin-titulo-2026-07-31T151151-254.png"
     ],
     "featured": false,
     "isNew": false,
@@ -2445,30 +2445,11 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
     "images": [
-      "https://i.postimg.cc/cLM9LmhW/Copia-de-Sin-titulo-(82).png"
+      "https://i.postimg.cc/wMbvJZpm/Copia-de-Sin-titulo-(100).png"
     ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:08:00.000Z"
-  },
-  {
-    "id": "SAUCONY-01",
-    "slug": "saucony-saucony",
-    "name": "Saucony",
-    "brand": "Saucony",
-    "category": "sneakers",
-    "price": 430000,
-    "sizes": [
-      "8.5"
-    ],
-    "condition": "nuevo",
-    "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [
-      "https://i.postimg.cc/525JWTRY/Copia-de-Sin-titulo-2026-07-31T151151-254.png"
-    ],
-    "featured": false,
-    "isNew": false,
-    "dateAdded": "1970-01-01T02:09:00.000Z"
   },
   {
     "id": "AJ3-04",
@@ -2487,7 +2468,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:10:00.000Z"
+    "dateAdded": "1970-01-01T02:09:00.000Z"
   },
   {
     "id": "SLMN-04",
@@ -2506,7 +2487,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:11:00.000Z"
+    "dateAdded": "1970-01-01T02:10:00.000Z"
   },
   {
     "id": "AF1-02",
@@ -2525,7 +2506,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:12:00.000Z"
+    "dateAdded": "1970-01-01T02:11:00.000Z"
   },
   {
     "id": "AJ4-13",
@@ -2544,7 +2525,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:13:00.000Z"
+    "dateAdded": "1970-01-01T02:12:00.000Z"
   },
   {
     "id": "AJ-SPZ-01",
@@ -2563,7 +2544,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:14:00.000Z"
+    "dateAdded": "1970-01-01T02:13:00.000Z"
   },
   {
     "id": "ASICS-10",
@@ -2582,7 +2563,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:15:00.000Z"
+    "dateAdded": "1970-01-01T02:14:00.000Z"
   },
   {
     "id": "ASICS-11",
@@ -2601,7 +2582,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:16:00.000Z"
+    "dateAdded": "1970-01-01T02:15:00.000Z"
   },
   {
     "id": "ASICS-12",
@@ -2620,7 +2601,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:17:00.000Z"
+    "dateAdded": "1970-01-01T02:16:00.000Z"
   },
   {
     "id": "SLMN-05",
@@ -2639,7 +2620,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:18:00.000Z"
+    "dateAdded": "1970-01-01T02:17:00.000Z"
   },
   {
     "id": "NB-07",
@@ -2658,7 +2639,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:19:00.000Z"
+    "dateAdded": "1970-01-01T02:18:00.000Z"
   },
   {
     "id": "NB-08",
@@ -2677,7 +2658,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:20:00.000Z"
+    "dateAdded": "1970-01-01T02:19:00.000Z"
   },
   {
     "id": "NB-09",
@@ -2696,7 +2677,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:21:00.000Z"
+    "dateAdded": "1970-01-01T02:20:00.000Z"
   },
   {
     "id": "NB-10",
@@ -2715,7 +2696,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:22:00.000Z"
+    "dateAdded": "1970-01-01T02:21:00.000Z"
   },
   {
     "id": "NB-11",
@@ -2734,7 +2715,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:23:00.000Z"
+    "dateAdded": "1970-01-01T02:22:00.000Z"
   },
   {
     "id": "AJ1-04",
@@ -2754,7 +2735,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:24:00.000Z"
+    "dateAdded": "1970-01-01T02:23:00.000Z"
   },
   {
     "id": "DUNK-02",
@@ -2773,7 +2754,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:25:00.000Z"
+    "dateAdded": "1970-01-01T02:24:00.000Z"
   },
   {
     "id": "SB-DUNK-07",
@@ -2789,10 +2770,12 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/5NssD3xp/Copia-de-Sin-titulo-2026-07-31T153122-975.png"
+    ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:26:00.000Z"
+    "dateAdded": "1970-01-01T02:25:00.000Z"
   },
   {
     "id": "NB-12",
@@ -2811,6 +2794,6 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T02:27:00.000Z"
+    "dateAdded": "1970-01-01T02:26:00.000Z"
   }
 ]
