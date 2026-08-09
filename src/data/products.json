@@ -2795,5 +2795,3902 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:26:00.000Z"
+  },
+  {
+    "id": "AF1-03",
+    "slug": "nike-af1-oregon",
+    "name": "AF1 Oregón",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:27:00.000Z"
+  },
+  {
+    "id": "DUNK-03",
+    "slug": "nike-dunk-off-white-lot-12",
+    "name": "Dunk Off-White Lot 12",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:28:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-08",
+    "slug": "nike-dunk-sb-75-aniversario-nba",
+    "name": "Dunk SB 75 Aniversario NBA",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:29:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-09",
+    "slug": "nike-dunk-sb-gulf",
+    "name": "Dunk SB Gulf",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:30:00.000Z"
+  },
+  {
+    "id": "AM90-01",
+    "slug": "nike-air-max-90-dia-de-muertos",
+    "name": "Air Max 90 Día de Muertos",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 5850000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:31:00.000Z"
+  },
+  {
+    "id": "AM90-02",
+    "slug": "nike-air-max-90-dia-de-muertos-2",
+    "name": "Air Max 90 Día de Muertos",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 5850000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:32:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-10",
+    "slug": "nike-dunk-sb-trocadero",
+    "name": "Dunk SB Trocadero",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1050000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:33:00.000Z"
+  },
+  {
+    "id": "DUNK-04",
+    "slug": "nike-dunk-low-pro",
+    "name": "Dunk Low Pro",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:34:00.000Z"
+  },
+  {
+    "id": "MIND002-01",
+    "slug": "nike-mind-002-grey",
+    "name": "Mind 002 Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:35:00.000Z"
+  },
+  {
+    "id": "MIND002-02",
+    "slug": "nike-mind-002-black",
+    "name": "Mind 002 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:36:00.000Z"
+  },
+  {
+    "id": "MIND001-01",
+    "slug": "nike-mind-001-light-smoke",
+    "name": "Mind 001 Light Smoke",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1050000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:37:00.000Z"
+  },
+  {
+    "id": "MIND001-02",
+    "slug": "nike-mind-001-black",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:38:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-11",
+    "slug": "nike-dunk-sb-ocean",
+    "name": "Dunk SB Ocean",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1600000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:39:00.000Z"
+  },
+  {
+    "id": "AF1-04",
+    "slug": "nike-af1-nocta-white-cobalt",
+    "name": "AF1 Nocta White Cobalt",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:40:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-12",
+    "slug": "nike-dunk-sb-setsubun-2",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:41:00.000Z"
+  },
+  {
+    "id": "SABRINA3-01",
+    "slug": "nike-sabrina-3-x-blueprint",
+    "name": "Sabrina 3 x Blueprint",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:42:00.000Z"
+  },
+  {
+    "id": "SABRINA3-02",
+    "slug": "nike-sabrina-3-x-blueprint-2",
+    "name": "Sabrina 3 x Blueprint",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:43:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-13",
+    "slug": "nike-dunk-sb-bubbles",
+    "name": "Dunk SB Bubbles",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1300000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:44:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-14",
+    "slug": "nike-dunk-sb-albino",
+    "name": "Dunk SB Albino",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 930000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:45:00.000Z"
+  },
+  {
+    "id": "ADI-BB-07",
+    "slug": "adidas-x-bad-bunny-bad-bunny-last-forum",
+    "name": "Bad Bunny Last Forum",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:46:00.000Z"
+  },
+  {
+    "id": "ADI-BB-08",
+    "slug": "adidas-x-bad-bunny-bad-bunny-easter-egg",
+    "name": "Bad Bunny Easter Egg",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 2600000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:47:00.000Z"
+  },
+  {
+    "id": "YUGIOH-01",
+    "slug": "adidas-yu-gi-oh-adidas-con-carta",
+    "name": "Yu-Gi-Oh Adidas con carta",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1050000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:48:00.000Z"
+  },
+  {
+    "id": "GATO-01",
+    "slug": "nike-nike-gato-x-supreme",
+    "name": "Nike Gato x Supreme",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:49:00.000Z"
+  },
+  {
+    "id": "YUGIOH-02",
+    "slug": "adidas-yu-gi-oh-adidas-con-carta-2",
+    "name": "Yu-Gi-Oh Adidas con carta",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1050000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:50:00.000Z"
+  },
+  {
+    "id": "ADI-BB-09",
+    "slug": "adidas-x-bad-bunny-bad-bunny-easter-egg-2",
+    "name": "Bad Bunny Easter Egg",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 2600000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:51:00.000Z"
+  },
+  {
+    "id": "ADI-BB-10",
+    "slug": "adidas-x-bad-bunny-bad-bunny-last-forum-2",
+    "name": "Bad Bunny Last Forum",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:52:00.000Z"
+  },
+  {
+    "id": "DN8-01",
+    "slug": "nike-dn8",
+    "name": "DN8",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:53:00.000Z"
+  },
+  {
+    "id": "DN8-02",
+    "slug": "nike-dn8-2",
+    "name": "DN8",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:54:00.000Z"
+  },
+  {
+    "id": "VK2-01",
+    "slug": "nike-vk2",
+    "name": "VK2",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "6W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:55:00.000Z"
+  },
+  {
+    "id": "AF1-05",
+    "slug": "nike-af1-black",
+    "name": "AF1 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:56:00.000Z"
+  },
+  {
+    "id": "AF1-06",
+    "slug": "nike-af1-white",
+    "name": "AF1 White",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:57:00.000Z"
+  },
+  {
+    "id": "ADI-BB-11",
+    "slug": "adidas-x-bad-bunny-bad-bunny-campus",
+    "name": "Bad Bunny Campus",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1100000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:58:00.000Z"
+  },
+  {
+    "id": "AMBUBBLE-01",
+    "slug": "nike-air-max-bubble",
+    "name": "Air Max Bubble",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T02:59:00.000Z"
+  },
+  {
+    "id": "VAPORMAX-01",
+    "slug": "nike-vapormax",
+    "name": "Vapormax",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:00:00.000Z"
+  },
+  {
+    "id": "DUNK-05",
+    "slug": "nike-dunk-pink-foam",
+    "name": "Dunk Pink Foam",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "7Y"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:01:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-15",
+    "slug": "nike-dunk-sb-civilist",
+    "name": "Dunk SB Civilist",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2880000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:02:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-16",
+    "slug": "nike-dunk-sb-iso-orange-label-grey",
+    "name": "Dunk SB Iso Orange Label Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1250000,
+    "sizes": [
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:03:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-17",
+    "slug": "nike-dunk-sb-iso-orange-label-grey-2",
+    "name": "Dunk SB Iso Orange Label Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1250000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:04:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-18",
+    "slug": "nike-dunk-sb-philadelphia-phillies",
+    "name": "Dunk SB Philadelphia Phillies",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1730000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:05:00.000Z"
+  },
+  {
+    "id": "AM90-03",
+    "slug": "nike-air-max-90-dia-de-muertos-3",
+    "name": "Air Max 90 Día de Muertos",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 5850000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:06:00.000Z"
+  },
+  {
+    "id": "AF1-07",
+    "slug": "nike-air-force-1-g-dragon-w",
+    "name": "Air Force 1 G-Dragon W",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2550000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:07:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-19",
+    "slug": "nike-dunk-sb-huf-nyc",
+    "name": "Dunk SB HUF NYC",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1250000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:08:00.000Z"
+  },
+  {
+    "id": "KOBE-02",
+    "slug": "nike-kobe-rev-grinch",
+    "name": "Kobe REV Grinch",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2250000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:09:00.000Z"
+  },
+  {
+    "id": "KOBE-03",
+    "slug": "nike-kobe-grinch",
+    "name": "Kobe Grinch",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 4000000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:10:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-20",
+    "slug": "nike-dunk-sb-verdy-visty",
+    "name": "Dunk SB Verdy Visty",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1950000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:11:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-21",
+    "slug": "nike-dunk-sb-bellota",
+    "name": "Dunk SB Bellota",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1600000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:12:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-22",
+    "slug": "nike-dunk-sb-street-hawker",
+    "name": "Dunk SB Street Hawker",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2250000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:13:00.000Z"
+  },
+  {
+    "id": "MIND001-03",
+    "slug": "nike-mind-001",
+    "name": "Mind 001",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:14:00.000Z"
+  },
+  {
+    "id": "MIND001-04",
+    "slug": "nike-mind-001-2",
+    "name": "Mind 001",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:15:00.000Z"
+  },
+  {
+    "id": "MIND001-05",
+    "slug": "nike-mind-001-barely-green",
+    "name": "Mind 001 Barely Green",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "8W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer (equivale a 6.5 US hombre). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:16:00.000Z"
+  },
+  {
+    "id": "MIND001-06",
+    "slug": "nike-mind-001-sail",
+    "name": "Mind 001 Sail",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "10W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer (equivale a 8.5 US hombre). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:17:00.000Z"
+  },
+  {
+    "id": "MIND001-07",
+    "slug": "nike-mind-001-3",
+    "name": "Mind 001",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:18:00.000Z"
+  },
+  {
+    "id": "MIND001-08",
+    "slug": "nike-mind-001-4",
+    "name": "Mind 001",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:19:00.000Z"
+  },
+  {
+    "id": "MIND001-09",
+    "slug": "nike-mind-001-blackened-blue",
+    "name": "Mind 001 Blackened Blue",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:20:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-23",
+    "slug": "nike-dunk-sb-ebay",
+    "name": "Dunk SB Ebay",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:21:00.000Z"
+  },
+  {
+    "id": "MIND001-10",
+    "slug": "nike-mind-001-5",
+    "name": "Mind 001",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:22:00.000Z"
+  },
+  {
+    "id": "KOBE-04",
+    "slug": "nike-kobe-all-star-2",
+    "name": "Kobe All Star",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1900000,
+    "sizes": [
+      "7",
+      "8.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:23:00.000Z"
+  },
+  {
+    "id": "AM90-04",
+    "slug": "nike-air-max-dia-de-los-muertos",
+    "name": "Air Max Día de los Muertos",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 3500000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:24:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-24",
+    "slug": "nike-dunk-sb-low-baroque-brown",
+    "name": "Dunk SB Low Baroque Brown",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 680000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:25:00.000Z"
+  },
+  {
+    "id": "FIELDJAXX-01",
+    "slug": "nike-travis-zoom-field-jaxx",
+    "name": "Travis Zoom Field Jaxx",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:26:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-25",
+    "slug": "nike-dunk-sb-futura-laboratories",
+    "name": "Dunk SB Futura Laboratories",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1400000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:27:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-26",
+    "slug": "nike-dunk-sb-rayssa",
+    "name": "Dunk SB Rayssa",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1300000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:28:00.000Z"
+  },
+  {
+    "id": "MIND002-03",
+    "slug": "nike-mind-002",
+    "name": "Mind 002",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "9",
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:29:00.000Z"
+  },
+  {
+    "id": "P6000-01",
+    "slug": "new-balance-p6000-metallic-silver",
+    "name": "P6000 Metallic Silver",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:30:00.000Z"
+  },
+  {
+    "id": "AF1-08",
+    "slug": "nike-air-force-one",
+    "name": "Air Force One",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 540000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:31:00.000Z"
+  },
+  {
+    "id": "AF1-09",
+    "slug": "nike-air-force-one-x-off-white",
+    "name": "Air Force One x Off-White",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:32:00.000Z"
+  },
+  {
+    "id": "AF1-10",
+    "slug": "nike-air-force-one-x-supreme",
+    "name": "Air Force One x Supreme",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 770000,
+    "sizes": [
+      "7",
+      "7.5",
+      "8",
+      "8.5",
+      "9",
+      "9.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:33:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-27",
+    "slug": "nike-dunk-sb-huf-san-francisco",
+    "name": "Dunk SB HUF San Francisco",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 730000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:34:00.000Z"
+  },
+  {
+    "id": "AF1-11",
+    "slug": "nike-fontanka-af1",
+    "name": "Fontanka AF1",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 400000,
+    "sizes": [
+      "6.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:35:00.000Z"
+  },
+  {
+    "id": "VOMERO-01",
+    "slug": "nike-vomero-platinum",
+    "name": "Vomero Platinum",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:36:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-28",
+    "slug": "nike-dunk-sb-civilist-2",
+    "name": "Dunk SB Civilist",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2100000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Cambia de color con el sol. Con extra laces. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:37:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-29",
+    "slug": "nike-dunk-sb-oregon-special-edition",
+    "name": "Dunk SB Oregon Special Edition",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2200000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Viene con libro de Oregón. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:38:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-30",
+    "slug": "nike-dunk-sb-futura",
+    "name": "Dunk SB Futura",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1280000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:39:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-31",
+    "slug": "nike-dunk-sb-yuto-horigome-og",
+    "name": "Dunk SB Yuto Horigome OG",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1590000,
+    "sizes": [
+      "11",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:40:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-32",
+    "slug": "nike-dunk-sb-lonster-special-box",
+    "name": "Dunk SB Lonster Special Box",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2200000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con accesorios completos, trae menú de lanzamiento. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:41:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-33",
+    "slug": "nike-dunk-sb-yuto-h-sparragus",
+    "name": "Dunk SB Yuto H Sparragus",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:42:00.000Z"
+  },
+  {
+    "id": "AF1-12",
+    "slug": "nike-nocta-af1-citron",
+    "name": "Nocta AF1 Citron",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:43:00.000Z"
+  },
+  {
+    "id": "DUNK-06",
+    "slug": "nike-dunk-photon-dust",
+    "name": "Dunk Photon Dust",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "5W",
+      "6W",
+      "7W",
+      "8W",
+      "9W",
+      "10W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Tallas de mujer (9W equivale a 7.5 US hombre, 10W a 8.5 US hombre). Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:44:00.000Z"
+  },
+  {
+    "id": "BLAZER-01",
+    "slug": "nike-blazer-x-sacai",
+    "name": "Blazer x Sacai",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:45:00.000Z"
+  },
+  {
+    "id": "MIND002-04",
+    "slug": "nike-mind-002-grey-2",
+    "name": "Mind 002 Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:46:00.000Z"
+  },
+  {
+    "id": "AM1-02",
+    "slug": "nike-travis-scott-air-max-1",
+    "name": "Travis Scott Air Max 1",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1550000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:47:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-34",
+    "slug": "nike-dunk-sb-grateful-dead",
+    "name": "Dunk SB Grateful Dead",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2900000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con accesorios. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:48:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-35",
+    "slug": "nike-dunk-sb-ben-and-jerry-s",
+    "name": "Dunk SB Ben and Jerry's",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 3000000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Con todos los accesorios. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:49:00.000Z"
+  },
+  {
+    "id": "UNHEARDOF-01",
+    "slug": "adidas-unheardof",
+    "name": "Unheardof",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "7.5",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:50:00.000Z"
+  },
+  {
+    "id": "ADI-BB-12",
+    "slug": "adidas-x-bad-bunny-bad-bunny-badbo",
+    "name": "Bad Bunny Badbo",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:51:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-36",
+    "slug": "nike-dunk-sb-x-supreme",
+    "name": "Dunk SB x Supreme",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:52:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-37",
+    "slug": "nike-dunk-sb-x-supreme-2",
+    "name": "Dunk SB x Supreme",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:53:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-02",
+    "slug": "adidas-yeezy-slide-azure-2",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:54:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-03",
+    "slug": "adidas-yeezy-slide-slate-grey",
+    "name": "Yeezy Slide Slate Grey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:55:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-04",
+    "slug": "adidas-yeezy-slide-bone",
+    "name": "Yeezy Slide Bone",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:56:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-05",
+    "slug": "adidas-yeezy-slide-onyx",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "4",
+      "5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:57:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-06",
+    "slug": "adidas-yeezy-slide-glow-green",
+    "name": "Yeezy Slide Glow Green",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:58:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-07",
+    "slug": "adidas-yeezy-slide-ochre",
+    "name": "Yeezy Slide Ochre",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T03:59:00.000Z"
+  },
+  {
+    "id": "YZYQUANTUM-01",
+    "slug": "adidas-yeezy-quantum-sea-teal",
+    "name": "Yeezy Quantum Sea Teal",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 250000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Sin caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:00:00.000Z"
+  },
+  {
+    "id": "YZY01-01",
+    "slug": "adidas-yzy-01-cream",
+    "name": "YZY 01 Cream",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 280000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con bolsa. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:01:00.000Z"
+  },
+  {
+    "id": "YZY700-01",
+    "slug": "adidas-700-analog-v1",
+    "name": "700 Analog V1",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1500000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:02:00.000Z"
+  },
+  {
+    "id": "YZY350-01",
+    "slug": "adidas-yeezy-350-bone",
+    "name": "Yeezy 350 Bone",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:03:00.000Z"
+  },
+  {
+    "id": "DARKMAGICIAN-01",
+    "slug": "adidas-dark-magician",
+    "name": "Dark Magician",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 680000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:04:00.000Z"
+  },
+  {
+    "id": "FORUMBAPE-01",
+    "slug": "adidas-x-bape-forum-x-bape",
+    "name": "Forum x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:05:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-03",
+    "slug": "adidas-yeezy-foam-rnr-mx-carbon",
+    "name": "Yeezy Foam RNR MX Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:06:00.000Z"
+  },
+  {
+    "id": "ADI-BB-13",
+    "slug": "adidas-x-bad-bunny-bad-bunny-resilience",
+    "name": "Bad Bunny Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:07:00.000Z"
+  },
+  {
+    "id": "ADI-BB-14",
+    "slug": "adidas-x-bad-bunny-bad-bunny-resilience-2",
+    "name": "Bad Bunny Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:08:00.000Z"
+  },
+  {
+    "id": "ADI-BB-15",
+    "slug": "adidas-x-bad-bunny-jellyfish-blue",
+    "name": "Jellyfish Blue",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 2850000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:09:00.000Z"
+  },
+  {
+    "id": "YS01-01",
+    "slug": "adidas-ys-01-black",
+    "name": "YS-01 Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con bolsa. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:10:00.000Z"
+  },
+  {
+    "id": "ADI-BB-16",
+    "slug": "adidas-x-bad-bunny-bad-bunny-campus-light",
+    "name": "Bad Bunny Campus Light",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:11:00.000Z"
+  },
+  {
+    "id": "ADI-BB-17",
+    "slug": "adidas-x-bad-bunny-bad-bunny-cabo-rojo",
+    "name": "Bad Bunny Cabo Rojo",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "9",
+      "9.5",
+      "10",
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:12:00.000Z"
+  },
+  {
+    "id": "GAZELLE-01",
+    "slug": "adidas-x-bad-bunny-gazelle-benito",
+    "name": "Gazelle Benito",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "6.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:13:00.000Z"
+  },
+  {
+    "id": "YZYSLATE-01",
+    "slug": "adidas-yeezy-slate-marine",
+    "name": "Yeezy Slate Marine",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 390000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:14:00.000Z"
+  },
+  {
+    "id": "ADI-BB-18",
+    "slug": "adidas-x-bad-bunny-bad-bo-1-0-resilience",
+    "name": "Bad Bo 1.0 Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:15:00.000Z"
+  },
+  {
+    "id": "ADI-BB-19",
+    "slug": "adidas-x-bad-bunny-bad-bo-1-0-resilience-2",
+    "name": "Bad Bo 1.0 Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:16:00.000Z"
+  },
+  {
+    "id": "ULTIMASHOW-01",
+    "slug": "adidas-ultimashow-2-0-mercedes",
+    "name": "Ultimashow 2.0 Mercedes",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Sin caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:17:00.000Z"
+  },
+  {
+    "id": "ADI-BB-20",
+    "slug": "adidas-x-bad-bunny-jellyfish-black",
+    "name": "Jellyfish Black",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:18:00.000Z"
+  },
+  {
+    "id": "ADI-BB-21",
+    "slug": "adidas-x-bad-bunny-bad-bunny-leo-messi",
+    "name": "Bad Bunny Leo Messi",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:19:00.000Z"
+  },
+  {
+    "id": "ADI-BB-22",
+    "slug": "adidas-x-bad-bunny-bad-bunny-resilience-3",
+    "name": "Bad Bunny Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:20:00.000Z"
+  },
+  {
+    "id": "ADI-BB-23",
+    "slug": "adidas-x-bad-bunny-bad-bunny-resilience-4",
+    "name": "Bad Bunny Resilience",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "4.5",
+      "5",
+      "5.5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:21:00.000Z"
+  },
+  {
+    "id": "ADI-SL72-02",
+    "slug": "adidas-x-bad-bunny-bad-bunny-sl-72",
+    "name": "Bad Bunny SL 72",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:22:00.000Z"
+  },
+  {
+    "id": "ADI-BB-24",
+    "slug": "adidas-x-bad-bunny-bad-bunny-san-juan",
+    "name": "Bad Bunny San Juan",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1500000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:23:00.000Z"
+  },
+  {
+    "id": "HELLSTAR-01",
+    "slug": "adidas-hellstar",
+    "name": "Hellstar",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1200000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:24:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-04",
+    "slug": "adidas-yeezy-foam-rnr-carbon",
+    "name": "Yeezy Foam RNR Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "7",
+      "8",
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:25:00.000Z"
+  },
+  {
+    "id": "YZY350-02",
+    "slug": "adidas-yeezy-350-pirate-black",
+    "name": "Yeezy 350 Pirate Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1050000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:26:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-05",
+    "slug": "adidas-yeezy-foam-rnr-stone-age",
+    "name": "Yeezy Foam RNR Stone Age",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:27:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-08",
+    "slug": "adidas-yeezy-slide-azure-3",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:28:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-09",
+    "slug": "adidas-yeezy-slide-azure-4",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:29:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-06",
+    "slug": "adidas-yeezy-foam-rnr-carbon-2",
+    "name": "Yeezy Foam RNR Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:30:00.000Z"
+  },
+  {
+    "id": "YZY350-03",
+    "slug": "adidas-yeezy-350-mx-rock",
+    "name": "Yeezy 350 MX Rock",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Sin caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:31:00.000Z"
+  },
+  {
+    "id": "YZY700-02",
+    "slug": "adidas-yeezy-700-enflame-amber",
+    "name": "Yeezy 700 Enflame Amber",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 899000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:32:00.000Z"
+  },
+  {
+    "id": "TORSION-01",
+    "slug": "adidas-torsion",
+    "name": "Torsion",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:33:00.000Z"
+  },
+  {
+    "id": "ADIFOAM-01",
+    "slug": "adidas-adifoam-ink-aluminum",
+    "name": "Adifoam Ink Aluminum",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 300000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:34:00.000Z"
+  },
+  {
+    "id": "CROP420-01",
+    "slug": "adidas-80-crop-420",
+    "name": "80 Crop 420",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 350000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:35:00.000Z"
+  },
+  {
+    "id": "YZY450-01",
+    "slug": "adidas-yeezy-450-utility-black",
+    "name": "Yeezy 450 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:36:00.000Z"
+  },
+  {
+    "id": "XBAPE-01",
+    "slug": "adidas-x-bape-x-bape",
+    "name": "x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:37:00.000Z"
+  },
+  {
+    "id": "ADI-BB-25",
+    "slug": "adidas-x-bad-bunny-bad-bo-1-0",
+    "name": "Bad Bo 1.0",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:38:00.000Z"
+  },
+  {
+    "id": "ADI-SL72-03",
+    "slug": "adidas-x-bad-bunny-bad-bunny-sl72",
+    "name": "Bad Bunny SL72",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:39:00.000Z"
+  },
+  {
+    "id": "STANSMITH-01",
+    "slug": "adidas-x-bape-stan-smith-x-bape",
+    "name": "Stan Smith x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 550000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:40:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-07",
+    "slug": "adidas-foam-rnr-carbon",
+    "name": "Foam RNR Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "8",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:41:00.000Z"
+  },
+  {
+    "id": "ADI-BB-26",
+    "slug": "adidas-x-bad-bunny-bad-bunny-last",
+    "name": "Bad Bunny Last",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:42:00.000Z"
+  },
+  {
+    "id": "ADI-BB-27",
+    "slug": "adidas-x-bad-bunny-jellyfish-black-2",
+    "name": "Jellyfish Black",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1700000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:43:00.000Z"
+  },
+  {
+    "id": "CLOTBAPE-01",
+    "slug": "adidas-x-bape-clot-x-bape",
+    "name": "Clot x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 1220000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:44:00.000Z"
+  },
+  {
+    "id": "SL72-01",
+    "slug": "adidas-sl-72-leopard",
+    "name": "SL 72 Leopard",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 330000,
+    "sizes": [
+      "7.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:45:00.000Z"
+  },
+  {
+    "id": "CAMPUS-01",
+    "slug": "adidas-campus-00-s-stitchy",
+    "name": "Campus 00's Stitchy",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 420000,
+    "sizes": [
+      "8.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:46:00.000Z"
+  },
+  {
+    "id": "GAZELLE-02",
+    "slug": "adidas-gazelle-y-3-olive",
+    "name": "Gazelle Y-3 Olive",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 830000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:47:00.000Z"
+  },
+  {
+    "id": "NMDHU-01",
+    "slug": "adidas-nmd-hu-running-dog",
+    "name": "NMD HU Running Dog",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:48:00.000Z"
+  },
+  {
+    "id": "ADIFOAM-02",
+    "slug": "adidas-adifoam-q-orange",
+    "name": "Adifoam Q Orange",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 280000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:49:00.000Z"
+  },
+  {
+    "id": "XBAPE80-01",
+    "slug": "adidas-x-bape-x-bape-80-s",
+    "name": "x Bape 80's",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 480000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:50:00.000Z"
+  },
+  {
+    "id": "GAZELLE-03",
+    "slug": "adidas-x-kith-gazelle-x-ronnie-fieg",
+    "name": "Gazelle x Ronnie Fieg",
+    "brand": "Adidas x Kith",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. También sirve para talla 9.5 US. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:51:00.000Z"
+  },
+  {
+    "id": "ADI-BB-28",
+    "slug": "adidas-x-bad-bunny-bad-bunny-badbo-r",
+    "name": "Bad Bunny Badbo R",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:52:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-10",
+    "slug": "adidas-yeezy-slide-azure-5",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:53:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-11",
+    "slug": "adidas-yeezy-slide-slate-marine",
+    "name": "Yeezy Slide Slate Marine",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:54:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-12",
+    "slug": "adidas-yeezy-slide-dark-onyx",
+    "name": "Yeezy Slide Dark Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 780000,
+    "sizes": [
+      "5",
+      "7",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:55:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-13",
+    "slug": "adidas-yeezy-slide-dark-onyx-2",
+    "name": "Yeezy Slide Dark Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "6",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:56:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-14",
+    "slug": "adidas-yeezy-slide-soot",
+    "name": "Yeezy Slide Soot",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja dañada. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:57:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-15",
+    "slug": "adidas-yeezy-slide-soot-2",
+    "name": "Yeezy Slide Soot",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:58:00.000Z"
+  },
+  {
+    "id": "ADI-BB-29",
+    "slug": "adidas-x-bad-bunny-bad-bunny-the-last-campus",
+    "name": "Bad Bunny The Last Campus",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T04:59:00.000Z"
+  },
+  {
+    "id": "ADI-BB-30",
+    "slug": "adidas-x-bad-bunny-bad-bunny-chalky-brown",
+    "name": "Bad Bunny Chalky Brown",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:00:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-16",
+    "slug": "adidas-yeezy-slide-granite",
+    "name": "Yeezy Slide Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:01:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-17",
+    "slug": "adidas-yeezy-slide-granite-2",
+    "name": "Yeezy Slide Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "12",
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:02:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-18",
+    "slug": "adidas-yeezy-slide-bone-restock",
+    "name": "Yeezy Slide Bone Restock",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 780000,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:03:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-19",
+    "slug": "adidas-yeezy-slide-bone-restock-2",
+    "name": "Yeezy Slide Bone Restock",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "8",
+      "11",
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:04:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-08",
+    "slug": "adidas-yeezy-foam-rnr-mx-sand-grey",
+    "name": "Yeezy Foam RNR MX Sand Grey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1750000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:05:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-09",
+    "slug": "adidas-yeezy-foam-rnr-mx-cream-clay",
+    "name": "Yeezy Foam RNR MX Cream Clay",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1750000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:06:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-10",
+    "slug": "adidas-yeezy-foam-rnr-clay-taupe",
+    "name": "Yeezy Foam RNR Clay Taupe",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:07:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-11",
+    "slug": "adidas-yeezy-foam-rnr-clay-taupe-2",
+    "name": "Yeezy Foam RNR Clay Taupe",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "8",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:08:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-12",
+    "slug": "adidas-yeezy-foam-rnr-ochre",
+    "name": "Yeezy Foam RNR Ochre",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "7",
+      "8",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:09:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-13",
+    "slug": "adidas-yeezy-foam-rnr-sand",
+    "name": "Yeezy Foam RNR Sand",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:10:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-14",
+    "slug": "adidas-yeezy-foam-rnr-carbon-3",
+    "name": "Yeezy Foam RNR Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "6",
+      "7",
+      "10",
+      "11",
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:11:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-15",
+    "slug": "adidas-yeezy-foam-rnr-stone-salt",
+    "name": "Yeezy Foam RNR Stone Salt",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 780000,
+    "sizes": [
+      "7",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:12:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-16",
+    "slug": "adidas-yeezy-foam-rnr-stone-salt-2",
+    "name": "Yeezy Foam RNR Stone Salt",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja dañada. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:13:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-17",
+    "slug": "adidas-yeezy-foam-rnr-mx-granite",
+    "name": "Yeezy Foam RNR MX Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "6",
+      "11",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:14:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-20",
+    "slug": "adidas-yeezy-slide-flax",
+    "name": "Yeezy Slide Flax",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:15:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-18",
+    "slug": "adidas-yeezy-foam-rnr-mx-granite-2",
+    "name": "Yeezy Foam RNR MX Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:16:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-19",
+    "slug": "adidas-yeezy-foam-rnr-mx-granite-3",
+    "name": "Yeezy Foam RNR MX Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 780000,
+    "sizes": [
+      "12",
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:17:00.000Z"
+  },
+  {
+    "id": "YZY350-04",
+    "slug": "adidas-yeezy-350-carbon-beluga",
+    "name": "Yeezy 350 Carbon Beluga",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "4",
+      "4.5",
+      "5",
+      "5.5",
+      "6",
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:18:00.000Z"
+  },
+  {
+    "id": "YZY700-03",
+    "slug": "adidas-yeezy-700-salt",
+    "name": "Yeezy 700 Salt",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:19:00.000Z"
+  },
+  {
+    "id": "YZY350-05",
+    "slug": "adidas-yeezy-350-pirate-black-2023",
+    "name": "Yeezy 350 Pirate Black 2023",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "4",
+      "4.5",
+      "5",
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:20:00.000Z"
+  },
+  {
+    "id": "YZY350-06",
+    "slug": "adidas-yeezy-350-bone-2",
+    "name": "Yeezy 350 Bone",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "4.5",
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:21:00.000Z"
+  },
+  {
+    "id": "YZY350-07",
+    "slug": "adidas-yeezy-350-bone-3",
+    "name": "Yeezy 350 Bone",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1300000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:22:00.000Z"
+  },
+  {
+    "id": "YZY350-08",
+    "slug": "adidas-yeezy-350-bone-4",
+    "name": "Yeezy 350 Bone",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1100000,
+    "sizes": [
+      "11.5",
+      "12.5",
+      "13",
+      "13.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:23:00.000Z"
+  },
+  {
+    "id": "YZY350-09",
+    "slug": "adidas-yeezy-350-onyx",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "4",
+      "4.5",
+      "5",
+      "5.5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:24:00.000Z"
+  },
+  {
+    "id": "YZY350-10",
+    "slug": "adidas-yeezy-350-onyx-2",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "6.5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:25:00.000Z"
+  },
+  {
+    "id": "YZY350-11",
+    "slug": "adidas-yeezy-350-onyx-3",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1750000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:26:00.000Z"
+  },
+  {
+    "id": "YZY350-12",
+    "slug": "adidas-yeezy-350-onyx-4",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 2000000,
+    "sizes": [
+      "12.5",
+      "13",
+      "13.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:27:00.000Z"
+  },
+  {
+    "id": "YZY350-13",
+    "slug": "adidas-yeezy-350-granite",
+    "name": "Yeezy 350 Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "4",
+      "4.5",
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:28:00.000Z"
+  },
+  {
+    "id": "YZY350-14",
+    "slug": "adidas-yeezy-350-static",
+    "name": "Yeezy 350 Static",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "4.5",
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:29:00.000Z"
+  },
+  {
+    "id": "YZY350-15",
+    "slug": "adidas-yeezy-350-static-2",
+    "name": "Yeezy 350 Static",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "6",
+      "6.5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:30:00.000Z"
+  },
+  {
+    "id": "YZY350-16",
+    "slug": "adidas-yeezy-350-static-3",
+    "name": "Yeezy 350 Static",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1750000,
+    "sizes": [
+      "7.5",
+      "11.5",
+      "12",
+      "12.5",
+      "13",
+      "13.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:31:00.000Z"
+  },
+  {
+    "id": "YZY350-17",
+    "slug": "adidas-yeezy-350-steelgrey",
+    "name": "Yeezy 350 Steelgrey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "4.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:32:00.000Z"
+  },
+  {
+    "id": "SAMBA-01",
+    "slug": "adidas-samba-cardboard",
+    "name": "Samba Cardboard",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "7.5",
+      "8",
+      "9.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:33:00.000Z"
+  },
+  {
+    "id": "SAMBA-02",
+    "slug": "adidas-samba-cardboard-2",
+    "name": "Samba Cardboard",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "8.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:34:00.000Z"
+  },
+  {
+    "id": "SAMBA-03",
+    "slug": "adidas-samba-og-navy",
+    "name": "Samba OG Navy",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:35:00.000Z"
+  },
+  {
+    "id": "SAMBA-04",
+    "slug": "adidas-samba-og-navy-2",
+    "name": "Samba OG Navy",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 650000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:36:00.000Z"
+  },
+  {
+    "id": "HANDSPEZIAL-01",
+    "slug": "adidas-hand-spezial-scarlet-gum",
+    "name": "Hand Spezial Scarlet Gum",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 680000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:37:00.000Z"
+  },
+  {
+    "id": "SOUTHPARK-01",
+    "slug": "adidas-south-park-towelie",
+    "name": "South Park Towelie",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja dañada, falta 1 llavero. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:38:00.000Z"
+  },
+  {
+    "id": "ALLSTAR-01",
+    "slug": "adidas-allstar-ninja-turtles",
+    "name": "Allstar Ninja Turtles",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 580000,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:39:00.000Z"
+  },
+  {
+    "id": "ADI-BB-31",
+    "slug": "adidas-x-bad-bunny-bad-bunny-cabo-rojo-2",
+    "name": "Bad Bunny Cabo Rojo",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1350000,
+    "sizes": [
+      "5",
+      "6",
+      "6.5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:40:00.000Z"
+  },
+  {
+    "id": "SAMBA-05",
+    "slug": "adidas-samba-cow-print",
+    "name": "Samba Cow Print",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "6",
+      "7",
+      "7.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:41:00.000Z"
+  },
+  {
+    "id": "YZY350-18",
+    "slug": "adidas-yeezy-350-compct",
+    "name": "Yeezy 350 Compct",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "13",
+      "13.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:42:00.000Z"
+  },
+  {
+    "id": "YZY350-19",
+    "slug": "adidas-yeezy-350-clay",
+    "name": "Yeezy 350 Clay",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 880000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:43:00.000Z"
+  },
+  {
+    "id": "YZY350-20",
+    "slug": "adidas-yeezy-350-bred",
+    "name": "Yeezy 350 Bred",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1500000,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:44:00.000Z"
+  },
+  {
+    "id": "YZY450-02",
+    "slug": "adidas-yeezy-450-utility-black-2",
+    "name": "Yeezy 450 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 580000,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:45:00.000Z"
+  },
+  {
+    "id": "YZYDSRT-01",
+    "slug": "adidas-yeezy-desert-boot-rock",
+    "name": "Yeezy Desert Boot Rock",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 2800000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:46:00.000Z"
+  },
+  {
+    "id": "YZY350-21",
+    "slug": "adidas-yeezy-350-beluga-rf",
+    "name": "Yeezy 350 Beluga RF",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1800000,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:47:00.000Z"
+  },
+  {
+    "id": "YZY350-22",
+    "slug": "adidas-yeezy-350-dazzling-blue",
+    "name": "Yeezy 350 Dazzling Blue",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 2000000,
+    "sizes": [
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:48:00.000Z"
+  },
+  {
+    "id": "YZY700-04",
+    "slug": "adidas-yeezy-700-vanta",
+    "name": "Yeezy 700 Vanta",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 2250000,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:49:00.000Z"
+  },
+  {
+    "id": "YZY700-05",
+    "slug": "adidas-yeezy-700-enflame-amber-2",
+    "name": "Yeezy 700 Enflame Amber",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "4.5",
+      "5",
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:50:00.000Z"
+  },
+  {
+    "id": "YZY350-23",
+    "slug": "adidas-yeezy-350-mx-dark-salt",
+    "name": "Yeezy 350 MX Dark Salt",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "4.5",
+      "5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:51:00.000Z"
+  },
+  {
+    "id": "YZY700-06",
+    "slug": "adidas-yeezy-700-utility-black",
+    "name": "Yeezy 700 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 750000,
+    "sizes": [
+      "4.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:52:00.000Z"
+  },
+  {
+    "id": "YZY700-07",
+    "slug": "adidas-yeezy-700-utility-black-2",
+    "name": "Yeezy 700 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "sizes": [
+      "6.5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:53:00.000Z"
+  },
+  {
+    "id": "YZY700V3-01",
+    "slug": "adidas-yeezy-700-v3-fade-salt",
+    "name": "Yeezy 700 V3 Fade Salt",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "sizes": [
+      "4",
+      "4.5",
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:54:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-21",
+    "slug": "adidas-yeezy-slide-enflame-orange",
+    "name": "Yeezy Slide Enflame Orange",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1650000,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:55:00.000Z"
+  },
+  {
+    "id": "YZY700-08",
+    "slug": "adidas-yeezy-700-washed-orange",
+    "name": "Yeezy 700 Washed Orange",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 980000,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:56:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-22",
+    "slug": "adidas-yeezy-slide-slate-grey-2",
+    "name": "Yeezy Slide Slate Grey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 800000,
+    "sizes": [
+      "4",
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:57:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-23",
+    "slug": "adidas-yeezy-slide-slate-grey-3",
+    "name": "Yeezy Slide Slate Grey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 950000,
+    "sizes": [
+      "6",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:58:00.000Z"
+  },
+  {
+    "id": "YZY500-01",
+    "slug": "adidas-yeezy-500-bone-white",
+    "name": "Yeezy 500 Bone White",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "12.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Upper manchado. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:59:00.000Z"
+  },
+  {
+    "id": "YZY500-02",
+    "slug": "adidas-yeezy-500-bone-white-2",
+    "name": "Yeezy 500 Bone White",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "sizes": [
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Upper manchado. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:00:00.000Z"
+  },
+  {
+    "id": "ADI2000-01",
+    "slug": "adidas-adi2000-yu-gi-oh-blue-eyes",
+    "name": "Adi2000 Yu-Gi-Oh Blue Eyes",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1700000,
+    "sizes": [
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja dañada, accesorios completos. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:01:00.000Z"
+  },
+  {
+    "id": "ADI-BB-32",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-easter-egg",
+    "name": "Forum Bad Bunny Easter Egg",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 4100000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con accesorios. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:02:00.000Z"
+  },
+  {
+    "id": "ADI-BB-33",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-first-cafe",
+    "name": "Forum Bad Bunny First Cafe",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 5000000,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Con accesorios. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:03:00.000Z"
+  },
+  {
+    "id": "VOMEROPLUS-01",
+    "slug": "nike-vomero-plus-orange-pulse",
+    "name": "Vomero Plus Orange Pulse",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:04:00.000Z"
+  },
+  {
+    "id": "ADI-BB-34",
+    "slug": "adidas-x-bad-bunny-jellyfish-white",
+    "name": "Jellyfish White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1600000,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:05:00.000Z"
+  },
+  {
+    "id": "LEFLEUR-01",
+    "slug": "converse-converse-le-fleur",
+    "name": "Converse Le Fleur",
+    "brand": "Converse",
+    "category": "sneakers",
+    "price": 700000,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:06:00.000Z"
+  },
+  {
+    "id": "AJ3-05",
+    "slug": "jordan-jordan-3-retro-spring",
+    "name": "Jordan 3 Retro Spring",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 850000,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:07:00.000Z"
+  },
+  {
+    "id": "YZYAZARETH-01",
+    "slug": "adidas-yeezy-azareth",
+    "name": "Yeezy Azareth",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1250000,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:08:00.000Z"
+  },
+  {
+    "id": "AM1-03",
+    "slug": "nike-travis-scott-mocha",
+    "name": "Travis Scott Mocha",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 5800000,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "usado",
+    "description": "Usado con caja. Usado 1 vez. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:09:00.000Z"
   }
 ]
