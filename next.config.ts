@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         hostname: "i.postimg.cc",
       },
     ],
+    minimumCacheTTL: 2592000,
   },
 };
 
