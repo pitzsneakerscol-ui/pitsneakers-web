@@ -6279,7 +6279,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "https://i.postimg.cc/7YZfYK2X/Copia-de-Copia-de-Sin-titulo-(2000-x-2000-px).png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:38:00.000Z"
