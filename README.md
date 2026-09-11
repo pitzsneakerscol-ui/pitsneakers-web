@@ -17,7 +17,7 @@ tocar código, editar archivos ni hacer commits.
    prefieres armarlo a mano, usa estas columnas en ese orden, en la primera fila:
 
    ```
-   NOMBRE | MARCA | SKU | CATEGORIA | PRECIO | TALLAS | CONDICION | DESCRIPCION | FOTOS | DESTACADO | LANZAMIENTO
+   NOMBRE | MARCA | SKU | CATEGORIA | SUBCATEGORIA | PRECIO | TALLAS | CONDICION | DESCRIPCION | FOTOS | DESTACADO | LANZAMIENTO
    ```
 
 2. Agrega un producto por fila, debajo de los encabezados. Guía de cada columna:
@@ -28,6 +28,7 @@ tocar código, editar archivos ni hacer commits.
    | MARCA | Marca | `Nike` |
    | SKU | Tu código interno de referencia (el que ya usas para identificar cada par) | `NK-AM97-001` |
    | CATEGORIA | `sneakers` o `streetwear` | `sneakers` |
+   | SUBCATEGORIA | Solo para `streetwear`: `ropa` (hoodies, camisetas, pantalones, chaquetas) o `accesorio` (gorras, medias, bolsos, coleccionables). Vacío para sneakers. | `ropa` |
    | PRECIO | Solo números | `690000` o `690.000` |
    | TALLAS | Separadas por coma | `8, 9, 9.5, 10` |
    | CONDICION | `nuevo` o `usado` | `nuevo` |
@@ -36,8 +37,8 @@ tocar código, editar archivos ni hacer commits.
    | DESTACADO | `SI` para que aparezca en "Destacados" del Home, si no `NO` o vacío | `SI` |
    | LANZAMIENTO | `SI` para que aparezca en "Lanzamientos", si no `NO` o vacío | `SI` |
 
-   Opcionales, si algún día los quieres agregar (no rompen nada si no están):
-   `COLORWAY` (ej. `Silver Bullet`) y `SUBCATEGORIA` (ej. `Lifestyle`).
+   Opcional, si algún día lo quieres agregar (no rompe nada si no está):
+   `COLORWAY` (ej. `Silver Bullet`).
 
    - Para **quitar** un producto del catálogo, borra su fila (o córtala y pégala en otra hoja como archivo).
    - Los productos nuevos se agregan **al final** — mientras más abajo esté la fila, más reciente se muestra en la web.
