@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import SectionHeading from "@/components/SectionHeading";
 import ProductGrid from "@/components/ProductGrid";
+import PromoSection from "@/components/PromoSection";
 import TrustSteps from "@/components/TrustSteps";
 import CategoryBanners from "@/components/CategoryBanners";
 import VipCallout from "@/components/VipCallout";
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <PromoSection />
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionHeading

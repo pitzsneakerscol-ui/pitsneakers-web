@@ -50,6 +50,11 @@ export default function ProductPurchasePanel({ group }: { group: ProductGroup })
   );
   const selected = options.find((o) => o.key === selectedKey);
   const { min, max } = groupPriceRange(group);
+  const activeVariant = selected ? selected.variant : !multiVariant ? options[0]?.variant : undefined;
+  const activePromo =
+    activeVariant?.promo && activeVariant.priceBefore && activeVariant.priceBefore > activeVariant.price
+      ? activeVariant
+      : undefined;
 
   return (
     <div>
@@ -64,7 +69,12 @@ export default function ProductPurchasePanel({ group }: { group: ProductGroup })
       )}
 
       <div className="mt-4 flex items-center gap-3">
-        <p className="text-2xl font-semibold">
+        {activePromo && (
+          <p className="text-lg text-muted line-through">
+            {formatPrice(activePromo.priceBefore!)}
+          </p>
+        )}
+        <p className={`text-2xl font-semibold ${activePromo ? "text-accent" : ""}`}>
           {selected
             ? formatPrice(selected.price)
             : multiVariant

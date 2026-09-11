@@ -86,3 +86,23 @@ export function groupSizes(group: ProductGroup): string[] {
 export function groupConditions(group: ProductGroup): ProductCondition[] {
   return Array.from(new Set(group.variants.map((v) => v.condition)));
 }
+
+export interface GroupPromo {
+  price: number;
+  priceBefore: number;
+  discountPercent: number;
+}
+
+/** Si al menos una variante está en promo (con un precio "antes" mayor al actual),
+ * devuelve el precio promo más barato disponible. Si no, null. */
+export function groupPromo(group: ProductGroup): GroupPromo | null {
+  const promoVariants = group.variants.filter(
+    (v) => v.promo && v.priceBefore && v.priceBefore > v.price
+  );
+  if (promoVariants.length === 0) return null;
+
+  const cheapest = promoVariants.reduce((a, b) => (a.price <= b.price ? a : b));
+  const priceBefore = cheapest.priceBefore!;
+  const discountPercent = Math.round((1 - cheapest.price / priceBefore) * 100);
+  return { price: cheapest.price, priceBefore, discountPercent };
+}

@@ -10,6 +10,8 @@ export interface Product {
   category: ProductCategory;
   subcategory?: string;
   price: number;
+  priceBefore?: number;
+  promo?: boolean;
   sizes: string[];
   condition: ProductCondition;
   description: string;

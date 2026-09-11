@@ -2,7 +2,7 @@ import productsFallback from "@/data/products.json";
 import { Product, ProductCategory, ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
-import { groupProducts } from "@/lib/grouping";
+import { groupProducts, groupPromo } from "@/lib/grouping";
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -45,6 +45,11 @@ export async function getGroupsByCategory(
 ): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
   return groups.filter((g) => g.category === category);
+}
+
+export async function getPromoGroups(): Promise<ProductGroup[]> {
+  const groups = await getAllGroups();
+  return groups.filter((g) => groupPromo(g) !== null);
 }
 
 export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {

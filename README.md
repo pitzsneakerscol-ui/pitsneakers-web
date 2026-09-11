@@ -17,7 +17,7 @@ tocar código, editar archivos ni hacer commits.
    prefieres armarlo a mano, usa estas columnas en ese orden, en la primera fila:
 
    ```
-   NOMBRE | MARCA | SKU | CATEGORIA | SUBCATEGORIA | PRECIO | TALLAS | CONDICION | DESCRIPCION | FOTOS | DESTACADO | LANZAMIENTO
+   NOMBRE | MARCA | SKU | CATEGORIA | SUBCATEGORIA | PROMO | PRECIO_ANTES | PRECIO | TALLAS | CONDICION | DESCRIPCION | FOTOS | DESTACADO | LANZAMIENTO
    ```
 
 2. Agrega un producto por fila, debajo de los encabezados. Guía de cada columna:
@@ -29,7 +29,9 @@ tocar código, editar archivos ni hacer commits.
    | SKU | Tu código interno de referencia (el que ya usas para identificar cada par) | `NK-AM97-001` |
    | CATEGORIA | `sneakers` o `streetwear` | `sneakers` |
    | SUBCATEGORIA | Solo para `streetwear`: `ropa` (hoodies, camisetas, pantalones, chaquetas) o `accesorio` (gorras, medias, bolsos, coleccionables). Vacío para sneakers. | `ropa` |
-   | PRECIO | Solo números | `690000` o `690.000` |
+   | PROMO | `SI` para que el par entre a la sección de promo del Home con cuenta regresiva (ver abajo), si no `NO` o vacío | `SI` |
+   | PRECIO_ANTES | Solo si PROMO es `SI`: el precio de lista, antes del descuento. Se muestra tachado junto al precio actual. | `900000` |
+   | PRECIO | Solo números. Si el par está en promo, este es el precio **ya rebajado** | `690000` o `690.000` |
    | TALLAS | Separadas por coma | `8, 9, 9.5, 10` |
    | CONDICION | `nuevo` o `usado` | `nuevo` |
    | DESCRIPCION | Uno o dos renglones | `Cuero premium, nuevo en caja.` |
@@ -42,6 +44,23 @@ tocar código, editar archivos ni hacer commits.
 
    - Para **quitar** un producto del catálogo, borra su fila (o córtala y pégala en otra hoja como archivo).
    - Los productos nuevos se agregan **al final** — mientras más abajo esté la fila, más reciente se muestra en la web.
+
+### Sección de Promo (Home con cuenta regresiva)
+
+En el Home, arriba de "Destacados", aparece automáticamente una sección de
+promo con cuenta regresiva **solo si hay al menos un producto con `PROMO = SI`**.
+Si no hay ninguno, la sección no se muestra — no hay que hacer nada para
+"apagarla".
+
+- La fecha/hora en que termina la promo la controlo yo en
+  [`src/config/site.ts`](src/config/site.ts) (campo `promo.endsAt`). Pídeme
+  el cambio cuando quieras correr otra promo o extender el plazo.
+- Cuando el timer llega a cero, la sección desaparece sola de la página
+  (sin que nadie tenga que tocar nada) — los productos vuelven a mostrar su
+  precio normal en el resto del catálogo.
+- Un mismo par puede estar en promo y seguir apareciendo en su categoría
+  normal (Sneakers/Streetwear/Destacados) — ahí también se ve el precio
+  tachado y el descuento mientras la promo esté activa.
 
 3. En Google Sheets: **Archivo → Compartir → Publicar en la Web**. Elige la
    hoja correcta y el formato **"Valores separados por comas (.csv)"**, dale

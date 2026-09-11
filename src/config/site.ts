@@ -21,4 +21,12 @@ export const siteConfig = {
     instagramFollowers: "15K",
     whatsappGroups: 6,
   },
+  promo: {
+    // Poné en false para ocultar la sección de promo sin borrar nada.
+    enabled: true,
+    title: "Promo de lanzamiento",
+    subtitle: "Precios especiales por tiempo limitado en pares seleccionados.",
+    // Fecha y hora exacta en que termina la promo (zona horaria Colombia, -05:00).
+    endsAt: "2026-09-15T23:59:00-05:00",
+  },
 };

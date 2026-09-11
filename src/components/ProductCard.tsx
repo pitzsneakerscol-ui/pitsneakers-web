@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
-import { groupPriceRange, groupConditions } from "@/lib/grouping";
+import { groupPriceRange, groupConditions, groupPromo } from "@/lib/grouping";
 import ProductMedia from "@/components/ProductMedia";
 import { WhatsAppButtonSmall } from "@/components/WhatsAppButton";
 
@@ -12,6 +12,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
   const hasNuevo = conditions.includes("nuevo");
   const cheapestVariant = group.variants.reduce((a, b) => (a.price <= b.price ? a : b));
   const multiVariant = group.variants.length > 1;
+  const promo = groupPromo(group);
 
   return (
     <div className="group relative flex h-full flex-col">
@@ -24,7 +25,12 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           className="transition duration-500 group-hover:scale-[1.04]"
         />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
-          {group.isNew && (
+          {promo && (
+            <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+              -{promo.discountPercent}%
+            </span>
+          )}
+          {!promo && group.isNew && (
             <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
               Nuevo
             </span>
@@ -48,9 +54,20 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-2 pt-2">
-        <p className="text-sm font-semibold text-ink">
-          {multiVariant ? `Desde ${formatPrice(min)}` : formatPrice(min)}
-        </p>
+        {promo ? (
+          <p className="flex flex-col leading-tight">
+            <span className="text-xs text-muted line-through">
+              {formatPrice(promo.priceBefore)}
+            </span>
+            <span className="text-sm font-semibold text-accent">
+              {formatPrice(promo.price)}
+            </span>
+          </p>
+        ) : (
+          <p className="text-sm font-semibold text-ink">
+            {multiVariant ? `Desde ${formatPrice(min)}` : formatPrice(min)}
+          </p>
+        )}
         <WhatsAppButtonSmall product={cheapestVariant} />
       </div>
     </div>

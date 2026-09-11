@@ -103,6 +103,8 @@ export function rowsToProducts(rows: string[][]): Product[] {
         : "nuevo";
       const slugBase = slugify(`${brand}-${name}-${colorway}`);
 
+      const precioAntes = getCell(cols, "precio_antes");
+
       const product: Product = {
         id: sku || String(index + 1),
         slug: slugBase || `producto-${index + 1}`,
@@ -112,6 +114,8 @@ export function rowsToProducts(rows: string[][]): Product[] {
         category,
         subcategory: getCell(cols, "subcategoria") || undefined,
         price: parsePrice(getCell(cols, "precio")),
+        priceBefore: precioAntes ? parsePrice(precioAntes) : undefined,
+        promo: parseBoolean(getCell(cols, "promo")),
         sizes: parseList(getCell(cols, "tallas")),
         condition,
         description: getCell(cols, "descripcion"),
