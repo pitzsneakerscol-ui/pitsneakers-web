@@ -710,7 +710,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/DUNK-01.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:34:00.000Z"
@@ -728,7 +730,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-05.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:35:00.000Z"
@@ -746,7 +750,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SB-DUNK-03.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:36:00.000Z"
@@ -764,7 +770,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-01.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:37:00.000Z"
@@ -782,13 +790,15 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/CROCS-01.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:38:00.000Z"
   },
   {
-    "id": "40",
+    "id": "PALACE-MCD-01",
     "slug": "palace-mcdonald-s-x-palace-camiseta",
     "name": "McDonald's x Palace Camiseta",
     "brand": "Palace",
@@ -801,13 +811,15 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/PALACE-MCD-01.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:39:00.000Z"
   },
   {
-    "id": "41",
+    "id": "GALLERYDEPT-01",
     "slug": "gallery-dept-gallery-dept-t-shirt",
     "name": "Gallery Dept t shirt",
     "brand": "Gallery Dept",
@@ -820,13 +832,16 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/GALLERYDEPT-01-1.png",
+      "/products/GALLERYDEPT-01-2.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:40:00.000Z"
   },
   {
-    "id": "42",
+    "id": "GALLERYDEPT-02",
     "slug": "gallery-dept-gallery-dept-skull-tee",
     "name": "Gallery Dept Skull Tee",
     "brand": "Gallery Dept",
@@ -839,13 +854,16 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/GALLERYDEPT-02-1.png",
+      "/products/GALLERYDEPT-02-2.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:41:00.000Z"
   },
   {
-    "id": "43",
+    "id": "JORDAN-CANGURO-01",
     "slug": "jordan-canguro-jordan-gris",
     "name": "Canguro Jordan Gris",
     "brand": "Jordan",
@@ -856,13 +874,15 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con bolsa. Rareza alta (🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/JORDAN-CANGURO-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:42:00.000Z"
   },
   {
-    "id": "44",
+    "id": "ESSENTIALS-TUSCA-01",
     "slug": "essentials-essentials-light-tusca",
     "name": "Essentials Light Tusca",
     "brand": "Essentials",
@@ -875,13 +895,15 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-TUSCA-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:43:00.000Z"
   },
   {
-    "id": "45",
+    "id": "ESSENTIALS-JETBLACK-01",
     "slug": "essentials-essentials-jet-black-s23",
     "name": "Essentials Jet Black S23",
     "brand": "Essentials",
@@ -894,13 +916,15 @@
     ],
     "condition": "nuevo",
     "description": "Talla S, calza como M. Nuevo con bolsa. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-JETBLACK-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:44:00.000Z"
   },
   {
-    "id": "46",
+    "id": "ESSENTIALS-JETBLACK-02",
     "slug": "essentials-essentials-jet-black-s23-2",
     "name": "Essentials Jet Black S23",
     "brand": "Essentials",
@@ -913,13 +937,15 @@
     ],
     "condition": "nuevo",
     "description": "Talla M, calza como L. Nuevo con bolsa. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-JETBLACK-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:45:00.000Z"
   },
   {
-    "id": "47",
+    "id": "DENIMTEARS-01",
     "slug": "denim-tears-denim-tears-zip-up-hoodie-2024-ss",
     "name": "Denim Tears Zip Up Hoodie 2024 SS",
     "brand": "Denim Tears",
@@ -932,7 +958,10 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/DENIMTEARS-01-1.png",
+      "/products/DENIMTEARS-01-2.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:46:00.000Z"
@@ -957,7 +986,7 @@
     "dateAdded": "1970-01-01T00:47:00.000Z"
   },
   {
-    "id": "49",
+    "id": "SUPREME-CAP-01",
     "slug": "supreme-cap-special-edition",
     "name": "Cap Special Edition",
     "brand": "Supreme",
@@ -970,13 +999,15 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con bolsa y etiquetas. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-CAP-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:48:00.000Z"
   },
   {
-    "id": "50",
+    "id": "SUPREME-PREVAIL-01",
     "slug": "supreme-always-prevail-camo-green",
     "name": "Always Prevail Camo Green",
     "brand": "Supreme",
@@ -989,7 +1020,10 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-PREVAIL-01-1.png",
+      "/products/SUPREME-PREVAIL-01-2.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:49:00.000Z"
@@ -1028,7 +1062,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SLMN-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:51:00.000Z"
@@ -1046,7 +1082,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AM95-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T00:52:00.000Z"
@@ -4058,7 +4096,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-02.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:33:00.000Z"
@@ -4649,7 +4689,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-08.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:05:00.000Z"
@@ -4667,7 +4709,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-09.jpg"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:06:00.000Z"
