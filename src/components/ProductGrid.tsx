@@ -1,5 +1,6 @@
 import { ProductGroup } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
+import Reveal from "@/components/Reveal";
 
 export default function ProductGrid({
   groups,
@@ -18,8 +19,10 @@ export default function ProductGrid({
 
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-      {groups.map((group) => (
-        <ProductCard key={group.groupSlug} group={group} />
+      {groups.map((group, i) => (
+        <Reveal key={group.groupSlug} delay={(i % 4) * 70} className="h-full">
+          <ProductCard group={group} />
+        </Reveal>
       ))}
     </div>
   );

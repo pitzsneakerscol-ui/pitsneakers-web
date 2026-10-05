@@ -42,7 +42,8 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm uppercase tracking-wide transition hover:text-accent ${
+              aria-current={pathname === link.href ? "page" : undefined}
+              className={`nav-link text-sm uppercase tracking-wide transition hover:text-accent ${
                 pathname === link.href ? "text-accent" : "text-white/85"
               }`}
             >

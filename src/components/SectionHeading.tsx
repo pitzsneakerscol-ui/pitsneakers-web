@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
 
 export default function SectionHeading({
   eyebrow,
@@ -12,7 +13,7 @@ export default function SectionHeading({
   linkLabel?: string;
 }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4">
+    <Reveal className="flex flex-wrap items-end justify-between gap-4">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
           {eyebrow}
@@ -29,6 +30,6 @@ export default function SectionHeading({
           {linkLabel}
         </Link>
       )}
-    </div>
+    </Reveal>
   );
 }

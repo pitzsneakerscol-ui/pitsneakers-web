@@ -65,7 +65,10 @@ export default function CountdownTimer({
           key={label}
           className="flex min-w-[3.25rem] flex-col items-center rounded-lg bg-ink px-2.5 py-2 text-white"
         >
-          <span className="font-display text-xl tabular-nums leading-none sm:text-2xl">
+          <span
+            key={value}
+            className="tick-pop font-display text-xl tabular-nums leading-none sm:text-2xl"
+          >
             {pad(value)}
           </span>
           <span className="mt-1 text-[9px] uppercase tracking-widest text-white/60">

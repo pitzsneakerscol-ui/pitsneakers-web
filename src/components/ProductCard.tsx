@@ -15,7 +15,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
   const promo = groupPromo(group);
 
   return (
-    <div className="group relative flex h-full flex-col">
+    <div className="card-lift group relative flex h-full flex-col">
       <Link
         href={`/producto/${group.groupSlug}`}
         className="relative block aspect-square w-full overflow-hidden bg-ink"
@@ -24,14 +24,15 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           product={group}
           className="transition duration-500 group-hover:scale-[1.04]"
         />
+        <span className="card-shine" aria-hidden="true" />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {promo && (
-            <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+            <span className="badge-wiggle rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
               -{promo.discountPercent}%
             </span>
           )}
           {!promo && group.isNew && (
-            <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+            <span className="badge-wiggle rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
               Nuevo
             </span>
           )}
@@ -64,7 +65,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
             </span>
           </p>
         ) : (
-          <p className="text-sm font-semibold text-ink">
+          <p className="card-price text-sm font-semibold text-ink">
             {multiVariant ? `Desde ${formatPrice(min)}` : formatPrice(min)}
           </p>
         )}

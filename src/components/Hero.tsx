@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
 
+const HEADLINE = ["SNEAKERS", "Y", "STREETWEAR,", "VERIFICADOS", "PAR", "A", "PAR."];
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-ink text-white">
@@ -16,27 +18,46 @@ export default function Hero() {
 
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:px-8 lg:py-32">
         <div className="order-2 flex flex-col lg:order-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
+          <p
+            className="fade-up text-xs font-semibold uppercase tracking-[0.3em] text-white/50"
+            style={{ "--delay": "0ms" } as React.CSSProperties}
+          >
             {siteConfig.city} · Compra, vende e intercambia
           </p>
           <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[0.95] tracking-wide text-balance sm:text-7xl lg:text-8xl">
-            SNEAKERS Y STREETWEAR, <span className="text-accent">VERIFICADOS</span> PAR A PAR.
+            {HEADLINE.map((word, i) => (
+              <span key={i}>
+                <span
+                  className={`hero-word ${word === "VERIFICADOS" ? "hero-underline text-accent" : ""}`}
+                  style={{ "--i": i } as React.CSSProperties}
+                >
+                  {word}
+                </span>
+                {i < HEADLINE.length - 1 ? " " : ""}
+              </span>
+            ))}
           </h1>
-          <p className="mt-6 max-w-xl text-base text-white/70 sm:text-lg">
+          <p
+            className="fade-up mt-6 max-w-xl text-base text-white/70 sm:text-lg"
+            style={{ "--delay": "700ms" } as React.CSSProperties}
+          >
             Cada producto pasa por revisión física y autenticación antes de
             llegar a ti. Consulta el catálogo y cierra tu compra directo por
             WhatsApp, como siempre lo has hecho con nosotros.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div
+            className="fade-up mt-10 flex flex-col gap-3 sm:flex-row"
+            style={{ "--delay": "900ms" } as React.CSSProperties}
+          >
             <Link
               href="/sneakers"
-              className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold uppercase tracking-wide text-ink transition hover:bg-white/90"
+              className="btn-pop btn-shine inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-white/90"
             >
               Ver catálogo
             </Link>
             <Link
               href="/verificacion"
-              className="inline-flex items-center justify-center rounded-full border border-white/30 px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:border-white/60"
+              className="btn-pop inline-flex items-center justify-center rounded-full border border-white/30 px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white hover:border-accent hover:text-accent"
             >
               Cómo verificamos
             </Link>
@@ -45,7 +66,7 @@ export default function Hero() {
 
         <div className="relative order-1 flex justify-center lg:order-2 lg:justify-end">
           <div
-            className="pointer-events-none absolute h-64 w-64 rounded-full opacity-40 blur-3xl sm:h-80 sm:w-80"
+            className="glow-pulse pointer-events-none absolute h-64 w-64 rounded-full blur-3xl sm:h-80 sm:w-80"
             style={{
               background:
                 "radial-gradient(circle, var(--color-accent) 0%, transparent 70%)",
@@ -57,10 +78,11 @@ export default function Hero() {
             width={2048}
             height={2048}
             priority
-            className="relative h-48 w-48 sm:h-64 sm:w-64 lg:h-80 lg:w-80"
+            className="mascot relative h-48 w-48 sm:h-64 sm:w-64 lg:h-80 lg:w-80"
           />
         </div>
       </div>
+      <div className="checker-strip" aria-hidden="true" />
     </section>
   );
 }

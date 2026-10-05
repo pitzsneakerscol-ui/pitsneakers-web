@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import Reveal from "@/components/Reveal";
 
 const categories = [
   {
@@ -21,11 +22,11 @@ export default function CategoryBanners() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
       <SectionHeading eyebrow="Catálogo" title="Explora por categoría" />
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {categories.map((category) => (
+        {categories.map((category, i) => (
+          <Reveal key={category.href} delay={i * 120} className="h-full">
           <Link
-            key={category.href}
             href={category.href}
-            className={`group relative flex h-72 flex-col justify-end overflow-hidden rounded-lg bg-gradient-to-br p-8 text-white sm:h-96 ${category.gradient}`}
+            className={`card-lift group relative flex h-72 flex-col justify-end overflow-hidden rounded-lg bg-gradient-to-br p-8 text-white sm:h-96 ${category.gradient}`}
           >
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.06] transition group-hover:opacity-[0.1]"
@@ -42,9 +43,10 @@ export default function CategoryBanners() {
               {category.description}
             </p>
             <span className="relative mt-4 inline-flex w-fit items-center gap-2 text-xs font-semibold uppercase tracking-widest">
-              Ver todo →
+              Ver todo <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
             </span>
           </Link>
+          </Reveal>
         ))}
       </div>
     </section>

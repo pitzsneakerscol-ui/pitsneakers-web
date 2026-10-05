@@ -1,5 +1,6 @@
 "use client";
 
+import type { MouseEvent } from "react";
 import { Product } from "@/types/product";
 import { buildProductWhatsAppLink } from "@/lib/whatsapp";
 
@@ -17,6 +18,26 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
   );
 }
 
+const CONFETTI_COLORS = ["#c84028", "#ffffff", "#0a0a0a", "#ffd23f"];
+
+function burst(e: MouseEvent<HTMLElement>) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const host = e.currentTarget;
+  for (let i = 0; i < 16; i++) {
+    const bit = document.createElement("span");
+    const angle = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+    const dist = 50 + Math.random() * 60;
+    bit.className = "confetti-bit";
+    bit.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+    bit.style.borderRadius = i % 3 === 0 ? "50%" : "1px";
+    bit.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
+    bit.style.setProperty("--dy", `${Math.sin(angle) * dist}px`);
+    bit.style.setProperty("--rot", `${Math.random() * 540 - 270}deg`);
+    host.appendChild(bit);
+    setTimeout(() => bit.remove(), 900);
+  }
+}
+
 export function WhatsAppButtonLarge({
   product,
   size,
@@ -32,7 +53,8 @@ export function WhatsAppButtonLarge({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-whatsapp px-8 py-4 text-base font-semibold text-white transition hover:bg-whatsapp-dark ${className}`}
+      onClick={burst}
+      className={`btn-pop wa-pulse relative inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-whatsapp px-8 py-4 text-base font-semibold text-white hover:bg-whatsapp-dark ${className}`}
     >
       <WhatsAppIcon className="h-5 w-5" />
       Consultar por WhatsApp
@@ -53,8 +75,11 @@ export function WhatsAppButtonSmall({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
-      className={`inline-flex items-center justify-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-white transition hover:bg-whatsapp-dark ${className}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        burst(e);
+      }}
+      className={`btn-pop relative inline-flex items-center justify-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-white hover:bg-whatsapp-dark ${className}`}
     >
       <WhatsAppIcon className="h-3.5 w-3.5" />
       Consultar

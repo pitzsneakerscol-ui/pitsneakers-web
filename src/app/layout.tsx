@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TopTicker from "@/components/TopTicker";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
+import ScrollProgress from "@/components/ScrollProgress";
 import { siteConfig } from "@/config/site";
 
 const inter = Inter({
@@ -43,6 +44,7 @@ export default function RootLayout({
       className={`${inter.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
+        <ScrollProgress />
         <TopTicker />
         <Navbar />
         <main className="flex-1">{children}</main>

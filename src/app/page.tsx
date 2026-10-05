@@ -9,6 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import AboutSection from "@/components/AboutSection";
 import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
+import Reveal from "@/components/Reveal";
 import { getFeaturedGroups } from "@/lib/products";
 
 export default async function Home() {
@@ -31,13 +32,13 @@ export default async function Home() {
         </div>
       </section>
 
-      <TrustSteps />
+      <Reveal><TrustSteps /></Reveal>
       <CategoryBanners />
-      <VipCallout />
-      <Testimonials />
-      <AboutSection />
-      <CommunityStats />
-      <CTASection />
+      <Reveal><VipCallout /></Reveal>
+      <Reveal><Testimonials /></Reveal>
+      <Reveal><AboutSection /></Reveal>
+      <Reveal><CommunityStats /></Reveal>
+      <Reveal><CTASection /></Reveal>
     </>
   );
 }
