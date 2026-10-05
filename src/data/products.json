@@ -2664,7 +2664,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ASICS-12.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:12:00.000Z"
@@ -2702,7 +2704,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NB-07.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:14:00.000Z"
@@ -2720,7 +2724,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NB-08.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:15:00.000Z"
@@ -2738,7 +2744,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NB-09.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:16:00.000Z"
@@ -2756,7 +2764,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NB-10.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:17:00.000Z"
@@ -2774,7 +2784,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NB-11.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:18:00.000Z"
@@ -2793,7 +2805,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AJ1-04.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:19:00.000Z"
@@ -2811,7 +2825,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/DUNK-02.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:20:00.000Z"
@@ -2831,7 +2847,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SB-DUNK-07.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:21:00.000Z"
