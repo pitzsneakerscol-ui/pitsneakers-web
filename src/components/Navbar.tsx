@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
@@ -33,17 +32,9 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          aria-label="Pitsneakers — inicio"
-          className="flex items-center"
+          className="font-display text-xl tracking-wide sm:text-2xl"
         >
-          <Image
-            src="/logo-pitsneakers-nav.png"
-            alt="Pitsneakers"
-            width={257}
-            height={240}
-            priority
-            className="h-14 w-auto"
-          />
+          PIT<span className="text-accent">SNEAKERS</span>
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
