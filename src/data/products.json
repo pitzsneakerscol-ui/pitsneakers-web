@@ -301,7 +301,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/ADI-BB-01.jpg"
+      "/products/ADI-BB-01.png"
     ],
     "featured": false,
     "isNew": false,
@@ -2372,7 +2372,7 @@
     "dateAdded": "1970-01-01T01:57:00.000Z"
   },
   {
-    "id": "119",
+    "id": "SUPREME-SUPERSOAKER-01",
     "slug": "supreme-nerf-super-soaker",
     "name": "Nerf Super Soaker",
     "brand": "Supreme",
@@ -2383,13 +2383,15 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza alta (🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-SUPERSOAKER-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:58:00.000Z"
   },
   {
-    "id": "120",
+    "id": "SUPREME-RAWLINGSMASK-01",
     "slug": "supreme-rawlings-mask",
     "name": "Rawlings Mask",
     "brand": "Supreme",
@@ -2400,7 +2402,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza alta (🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-RAWLINGSMASK-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:59:00.000Z"
