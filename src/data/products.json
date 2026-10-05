@@ -2566,7 +2566,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-02.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:07:00.000Z"
