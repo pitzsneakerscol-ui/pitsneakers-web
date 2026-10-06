@@ -4070,7 +4070,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-12.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:21:00.000Z"
@@ -4129,7 +4131,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:24:00.000Z"
@@ -4147,7 +4151,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-04.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:25:00.000Z"
@@ -4167,7 +4173,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-05.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:26:00.000Z"
@@ -4185,7 +4193,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-06.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:27:00.000Z"
@@ -4203,7 +4213,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-07.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:28:00.000Z"
@@ -4221,7 +4233,9 @@
     ],
     "condition": "usado",
     "description": "Usado sin caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZYQUANTUM-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:29:00.000Z"
@@ -4239,7 +4253,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Con bolsa. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY01-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:30:00.000Z"
@@ -6348,7 +6364,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-22.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:22:00.000Z"
@@ -6367,7 +6385,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-23.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:23:00.000Z"
