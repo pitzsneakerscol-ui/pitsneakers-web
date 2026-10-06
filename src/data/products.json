@@ -5884,7 +5884,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SAMBA-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:48:00.000Z"
@@ -5903,7 +5905,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SAMBA-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:49:00.000Z"
@@ -5921,7 +5925,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SAMBA-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:50:00.000Z"
@@ -5939,7 +5945,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SAMBA-04.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:51:00.000Z"
@@ -5957,7 +5965,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/HANDSPEZIAL-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:52:00.000Z"
@@ -5975,7 +5985,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Caja dañada, falta 1 llavero. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SOUTHPARK-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:53:00.000Z"
@@ -5993,7 +6005,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ALLSTAR-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:54:00.000Z"
@@ -6037,7 +6051,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SAMBA-05.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:56:00.000Z"
@@ -6056,7 +6072,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-18.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:57:00.000Z"
@@ -6074,7 +6092,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-19.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:58:00.000Z"
@@ -6092,7 +6112,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-20.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:59:00.000Z"
