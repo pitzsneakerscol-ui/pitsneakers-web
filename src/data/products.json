@@ -3924,7 +3924,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-12.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:14:00.000Z"
@@ -3967,7 +3969,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/BLAZER-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:16:00.000Z"
@@ -3985,7 +3989,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AM1-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:17:00.000Z"
@@ -4044,7 +4050,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/UNHEARDOF-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:20:00.000Z"
