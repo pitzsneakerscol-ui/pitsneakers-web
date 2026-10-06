@@ -6152,7 +6152,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZYDSRT-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:01:00.000Z"
@@ -6188,7 +6190,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-22.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:03:00.000Z"
@@ -6206,7 +6210,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-04.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:04:00.000Z"
@@ -6248,7 +6254,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-23.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:06:00.000Z"
@@ -6266,7 +6274,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-06.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:07:00.000Z"
@@ -6285,7 +6295,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-07.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:08:00.000Z"
@@ -6305,7 +6317,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700V3-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:09:00.000Z"
@@ -6343,7 +6357,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-08.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:11:00.000Z"
@@ -6404,7 +6420,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Upper manchado. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY500-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:14:00.000Z"
