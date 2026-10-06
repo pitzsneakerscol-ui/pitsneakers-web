@@ -2867,7 +2867,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-03.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:22:00.000Z"
@@ -2885,7 +2887,9 @@
     ],
     "condition": "usado",
     "description": "Usado con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/DUNK-03.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:23:00.000Z"
@@ -2943,7 +2947,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AM90-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:26:00.000Z"
@@ -3002,7 +3008,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND002-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:29:00.000Z"
@@ -3020,7 +3028,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND002-02.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:30:00.000Z"
@@ -3038,7 +3048,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:31:00.000Z"
@@ -3056,7 +3068,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-02.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:32:00.000Z"
@@ -3094,7 +3108,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-04.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:34:00.000Z"
@@ -3113,7 +3129,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SABRINA3-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:35:00.000Z"
@@ -3169,7 +3187,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-07.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:38:00.000Z"
@@ -3187,7 +3207,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-08.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:39:00.000Z"
@@ -3206,7 +3228,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YUGIOH-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:40:00.000Z"
@@ -3224,7 +3248,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/GATO-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:41:00.000Z"
@@ -3242,7 +3268,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/DN8-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:42:00.000Z"
@@ -3260,7 +3288,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/VK2-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:43:00.000Z"
@@ -3278,7 +3308,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-05.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:44:00.000Z"
@@ -3296,7 +3328,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-06.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:45:00.000Z"
@@ -3314,7 +3348,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-11.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:46:00.000Z"
@@ -3332,7 +3368,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AMBUBBLE-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:47:00.000Z"
@@ -3350,7 +3388,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/VAPORMAX-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:48:00.000Z"
@@ -3449,7 +3489,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-07.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:53:00.000Z"
@@ -3487,7 +3529,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/KOBE-02.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:55:00.000Z"
@@ -3505,7 +3549,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/KOBE-03.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:56:00.000Z"
