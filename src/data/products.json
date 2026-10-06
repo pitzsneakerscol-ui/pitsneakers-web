@@ -4446,7 +4446,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZYSLATE-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:39:00.000Z"
@@ -4464,7 +4466,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo sin caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ULTIMASHOW-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:40:00.000Z"
@@ -4483,7 +4487,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-20.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:41:00.000Z"
@@ -4501,7 +4507,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-21.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:42:00.000Z"
@@ -4519,7 +4527,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-SL72-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:43:00.000Z"
@@ -4537,7 +4547,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-24.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:44:00.000Z"
@@ -4555,7 +4567,9 @@
     ],
     "condition": "usado",
     "description": "Usado con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/HELLSTAR-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:45:00.000Z"
@@ -4576,7 +4590,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-FOAM-04.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:46:00.000Z"
@@ -4594,7 +4610,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:47:00.000Z"
@@ -4612,7 +4630,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-FOAM-05.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:48:00.000Z"
@@ -4671,7 +4691,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-FOAM-06.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:51:00.000Z"
@@ -4689,7 +4711,9 @@
     ],
     "condition": "usado",
     "description": "Usado sin caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY350-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:52:00.000Z"
@@ -4707,7 +4731,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:53:00.000Z"
@@ -4815,7 +4841,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-SL72-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:59:00.000Z"
@@ -4869,7 +4897,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-27.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:02:00.000Z"
@@ -5355,7 +5385,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-FOAM-14.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:28:00.000Z"
@@ -6115,7 +6147,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY700-05.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:07:00.000Z"
