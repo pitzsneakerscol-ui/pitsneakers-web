@@ -5033,7 +5033,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. También sirve para talla 9.5 US. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/GAZELLE-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:08:00.000Z"
@@ -5112,7 +5114,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Caja dañada. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-14.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:12:00.000Z"
@@ -5130,7 +5134,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY-SLIDE-15.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:13:00.000Z"
@@ -5148,7 +5154,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-29.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:14:00.000Z"
@@ -5166,7 +5174,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-30.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:15:00.000Z"
