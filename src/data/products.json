@@ -4752,7 +4752,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADIFOAM-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:54:00.000Z"
@@ -4770,7 +4772,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/CROP420-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:55:00.000Z"
@@ -4788,7 +4792,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY450-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:56:00.000Z"
@@ -4826,7 +4832,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/STANSMITH-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:58:00.000Z"
@@ -4844,7 +4852,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-26.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:59:00.000Z"
@@ -4882,7 +4892,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/CLOTBAPE-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:01:00.000Z"
@@ -4900,7 +4912,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SL72-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:02:00.000Z"
@@ -4919,7 +4933,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/CAMPUS-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:03:00.000Z"
@@ -4937,7 +4953,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/GAZELLE-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:04:00.000Z"
@@ -4955,7 +4973,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/NMDHU-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:05:00.000Z"
@@ -4973,7 +4993,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADIFOAM-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:06:00.000Z"
@@ -4991,7 +5013,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/XBAPE80-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T04:07:00.000Z"
@@ -6020,7 +6044,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZY450-02.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:00:00.000Z"
