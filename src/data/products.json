@@ -3589,7 +3589,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SB-DUNK-22.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:58:00.000Z"
@@ -3607,7 +3609,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer (equivale a 6.5 US hombre). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-05.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T02:59:00.000Z"
@@ -3625,7 +3629,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer (equivale a 8.5 US hombre). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-06.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:00:00.000Z"
@@ -3644,7 +3650,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-07.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:01:00.000Z"
@@ -3662,7 +3670,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/MIND001-09.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:02:00.000Z"
@@ -3736,7 +3746,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/FIELDJAXX-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:06:00.000Z"
@@ -3809,7 +3821,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/P6000-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:10:00.000Z"
@@ -3853,7 +3867,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Con extra laces. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-10.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:12:00.000Z"
@@ -3871,7 +3887,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SB-DUNK-27.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:13:00.000Z"
@@ -3889,7 +3907,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AF1-11.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:14:00.000Z"
@@ -3907,7 +3927,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/VOMERO-01.png"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T03:15:00.000Z"
