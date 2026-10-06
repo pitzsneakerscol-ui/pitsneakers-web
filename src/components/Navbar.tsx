@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
-const links = [
+const baseLinks = [
   { href: "/sneakers", label: "Sneakers" },
   { href: "/streetwear", label: "Streetwear" },
   { href: "/lanzamientos", label: "Lanzamientos" },
@@ -15,7 +15,10 @@ const links = [
   { href: "/contacto", label: "Contacto" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: boolean }) {
+  const links = resellerEnabled
+    ? [...baseLinks, { href: "/revendedores", label: "Revendedores" }]
+    : baseLinks;
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 

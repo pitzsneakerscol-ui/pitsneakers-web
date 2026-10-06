@@ -239,3 +239,22 @@ cada vez que se hace push a GitHub.
 - `/verificacion` — proceso de verificación y confianza
 - `/contacto` — canales de contacto (WhatsApp, Instagram)
 - `/producto/[slug]` — página de cada producto
+
+## Portal de revendedores (`/revendedores`)
+
+Cada revendedor crea su usuario y contraseña y administra su propio stock:
+cuánto pagó por par, talla, cuánto espera cobrar, estado (stock / reservado /
+vendido), ventas con comisiones, utilidad real y esperada, alertas de pares
+estancados (60+ días), importación/exportación CSV y lista para WhatsApp.
+Los pares se pueden anclar a un modelo del catálogo de la tienda.
+
+Los datos viven en una base libSQL/SQLite:
+
+- **Local:** funciona solo (`.data/revendedores.db`, ignorado por git).
+- **Producción (una sola vez):** crea una base gratis en [Turso](https://turso.tech)
+  y define en Vercel → Settings → Environment Variables:
+  - `DATABASE_URL` = `libsql://tu-base.turso.io`
+  - `DATABASE_AUTH_TOKEN` = token de la base
+
+  Luego redespliega. Sin estas variables el portal queda oculto ("Muy pronto")
+  y el resto del sitio no se ve afectado. Las tablas se crean solas.

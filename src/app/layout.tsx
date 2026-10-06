@@ -7,6 +7,7 @@ import TopTicker from "@/components/TopTicker";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import ScrollProgress from "@/components/ScrollProgress";
 import { siteConfig } from "@/config/site";
+import { isDbConfigured } from "@/lib/db";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,7 +47,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ScrollProgress />
         <TopTicker />
-        <Navbar />
+        <Navbar resellerEnabled={isDbConfigured()} />
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingSearchButton />
