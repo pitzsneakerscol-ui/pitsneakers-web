@@ -167,7 +167,7 @@ export default function FloatingSearchButton() {
                   <Link
                     href={`/producto/${product.slug}`}
                     onClick={() => setOpen(false)}
-                    className="relative block aspect-square w-full overflow-hidden rounded-md bg-ink"
+                    className="relative block aspect-square w-full overflow-hidden rounded-md bg-[#ebe8e2]"
                   >
                     <ProductMedia
                       product={{

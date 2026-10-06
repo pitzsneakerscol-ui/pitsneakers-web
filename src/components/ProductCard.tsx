@@ -18,7 +18,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
     <div className="card-lift group relative flex h-full flex-col">
       <Link
         href={`/producto/${group.groupSlug}`}
-        className="relative block aspect-square w-full overflow-hidden bg-ink"
+        className="relative block aspect-square w-full overflow-hidden bg-[#ebe8e2]"
       >
         <ProductMedia
           product={group}

@@ -36,7 +36,7 @@ export default function ProductMedia({
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
         priority={priority}
         quality={90}
-        className={`object-cover ${className}`}
+        className={`object-cover mix-blend-multiply ${className}`}
       />
     );
   }

@@ -10,7 +10,7 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
 
   return (
     <div>
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-ink">
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#ebe8e2]">
         <ProductMedia product={group} index={active} priority sizes="(min-width: 1024px) 50vw, 100vw" />
         <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink">
           Verificado por Pitsneakers
@@ -24,7 +24,7 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
               key={index}
               type="button"
               onClick={() => setActive(index)}
-              className={`relative aspect-square overflow-hidden rounded-md bg-ink ring-2 transition ${
+              className={`relative aspect-square overflow-hidden rounded-md bg-[#ebe8e2] ring-2 transition ${
                 active === index ? "ring-ink" : "ring-transparent"
               }`}
               aria-label={`Ver foto ${index + 1}`}
