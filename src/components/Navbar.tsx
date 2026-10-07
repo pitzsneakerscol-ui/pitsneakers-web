@@ -17,7 +17,7 @@ const baseLinks = [
 
 export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: boolean }) {
   const links = resellerEnabled
-    ? [...baseLinks, { href: "/revendedores", label: "Revendedores" }]
+    ? [...baseLinks, { href: "/revendedores", label: "Vende con nosotros" }]
     : baseLinks;
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -40,13 +40,13 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
           PIT<span className="text-accent">SNEAKERS</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-8">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
-              className={`nav-link text-sm uppercase tracking-wide transition hover:text-accent ${
+              className={`nav-link text-[13px] uppercase tracking-wide transition hover:text-accent xl:text-sm ${
                 pathname === link.href ? "text-accent" : "text-white/85"
               }`}
             >
@@ -62,7 +62,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
             )}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden rounded-full bg-whatsapp px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark sm:inline-block"
+            className="hidden rounded-full bg-whatsapp px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark sm:inline-block lg:hidden xl:inline-block"
           >
             WhatsApp
           </a>

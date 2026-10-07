@@ -5,7 +5,7 @@ import { isDbConfigured } from "@/lib/db";
 import AuthForms from "@/components/reseller/AuthForms";
 
 export const metadata: Metadata = {
-  title: "Revendedores — controla tu stock",
+  title: "Vende con nosotros — controla tu stock",
   description:
     "Crea tu cuenta gratis y lleva el control de tu inventario de sneakers: cuánto pagaste, talla, cuánto esperas cobrar y tu utilidad real.",
 };
@@ -49,7 +49,7 @@ export default async function RevendedoresPage() {
       <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-16">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-            Para revendedores
+            Vende con nosotros
           </p>
           <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-wide text-balance sm:text-7xl">
             TU STOCK, <span className="text-accent">BAJO CONTROL</span>.
@@ -76,7 +76,7 @@ export default async function RevendedoresPage() {
             <div className="rounded-2xl border border-line bg-paper-raised p-8 text-center">
               <p className="font-display text-3xl tracking-wide">MUY PRONTO</p>
               <p className="mt-3 text-sm text-muted">
-                Estamos terminando de activar las cuentas de revendedor. Vuelve
+                Estamos terminando de activar las cuentas para vender con nosotros. Vuelve
                 en unos días o escríbenos por WhatsApp para que te avisemos.
               </p>
             </div>
