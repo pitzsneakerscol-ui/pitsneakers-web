@@ -12,7 +12,7 @@ export default function ResellerSection() {
   return (
     <div className="flex h-full flex-col justify-center rounded-lg border border-line bg-paper-raised px-6 py-12 sm:px-10">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-        Red Pitsneakers
+        Vende con nosotros
       </p>
       <h2 className="mt-4 font-display text-3xl leading-[1] tracking-wide text-balance sm:text-4xl">
         CONVIERTE TU STOCK EN UN <span className="text-accent">NEGOCIO DE VERDAD.</span>
