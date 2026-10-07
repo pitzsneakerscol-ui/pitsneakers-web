@@ -106,13 +106,16 @@ const SCHEMA = [
   `CREATE INDEX IF NOT EXISTS idx_email_log_created ON email_log(created_at)`,
 ];
 
-// Columnas agregadas después de la primera versión de `users`.
-const USER_COLUMNS: [string, string][] = [
-  ["email", "TEXT NOT NULL DEFAULT ''"],
-  ["role", "TEXT NOT NULL DEFAULT 'revendedor'"],
-  ["suspended", "INTEGER NOT NULL DEFAULT 0"],
-  ["last_login", "INTEGER"],
-];
+// Columnas agregadas después de la primera versión de cada tabla.
+const ADDED_COLUMNS: Record<string, [string, string][]> = {
+  users: [
+    ["email", "TEXT NOT NULL DEFAULT ''"],
+    ["role", "TEXT NOT NULL DEFAULT 'revendedor'"],
+    ["suspended", "INTEGER NOT NULL DEFAULT 0"],
+    ["last_login", "INTEGER"],
+  ],
+  email_templates: [["tpl_version", "INTEGER NOT NULL DEFAULT 0"]],
+};
 
 type Cache = { ready?: Promise<Client> };
 const g = globalThis as unknown as { __rvDb?: Cache };
@@ -129,10 +132,12 @@ export async function getDb(): Promise<Client> {
       authToken: process.env.DATABASE_AUTH_TOKEN || undefined,
     });
     await client.batch(SCHEMA, "write");
-    const info = await client.execute("PRAGMA table_info(users)");
-    const have = new Set(info.rows.map((r) => String(r.name)));
-    for (const [col, def] of USER_COLUMNS) {
-      if (!have.has(col)) await client.execute(`ALTER TABLE users ADD COLUMN ${col} ${def}`);
+    for (const [table, cols] of Object.entries(ADDED_COLUMNS)) {
+      const info = await client.execute(`PRAGMA table_info(${table})`);
+      const have = new Set(info.rows.map((r) => String(r.name)));
+      for (const [col, def] of cols) {
+        if (!have.has(col)) await client.execute(`ALTER TABLE ${table} ADD COLUMN ${col} ${def}`);
+      }
     }
     return client;
   })();

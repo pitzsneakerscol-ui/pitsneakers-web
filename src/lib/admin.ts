@@ -2,7 +2,7 @@ import "server-only";
 import type { Row } from "@libsql/client";
 import { getDb } from "@/lib/db";
 import { todayBogota, type Item } from "@/lib/reseller-shared";
-import { DEFAULT_TEMPLATES, type TemplateData } from "@/lib/email-templates";
+import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, type TemplateData } from "@/lib/email-templates";
 
 /* ---------- Tipos ---------- */
 
@@ -359,8 +359,13 @@ export async function listTemplates(): Promise<TemplateData[]> {
   if (!seeded) {
     await db.batch(
       DEFAULT_TEMPLATES.map((t) => ({
-        sql: "INSERT OR IGNORE INTO email_templates (key, name, subject, body, builtin, updated_at) VALUES (?, ?, ?, ?, 1, ?)",
-        args: [t.key, t.name, t.subject, t.body, Date.now()],
+        // Las incluidas se actualizan solas cuando cambia TEMPLATE_VERSION, salvo que las hayas editado.
+        sql: `INSERT INTO email_templates (key, name, subject, body, builtin, updated_at, tpl_version)
+              VALUES (?, ?, ?, ?, 1, ?, ?)
+              ON CONFLICT(key) DO UPDATE SET name = excluded.name, subject = excluded.subject,
+                body = excluded.body, updated_at = excluded.updated_at, tpl_version = excluded.tpl_version
+              WHERE email_templates.builtin = 1 AND email_templates.tpl_version < excluded.tpl_version`,
+        args: [t.key, t.name, t.subject, t.body, Date.now(), TEMPLATE_VERSION],
       })),
       "write"
     );

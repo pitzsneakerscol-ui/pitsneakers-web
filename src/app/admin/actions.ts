@@ -2,13 +2,12 @@
 
 import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { siteConfig } from "@/config/site";
 import { getDb } from "@/lib/db";
 import { hashPassword, requireAdmin } from "@/lib/auth";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
-import { DEFAULT_TEMPLATES, missingVars, renderTemplate, type Vars } from "@/lib/email-templates";
+import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, missingVars, renderTemplate, siteVars, type Vars } from "@/lib/email-templates";
 import { formatPrice } from "@/lib/format";
 
 const text = (fd: FormData, key: string, max: number): string => {
@@ -200,7 +199,7 @@ export async function saveTemplate(_prev: ActionState, fd: FormData): Promise<Ac
   const db = await getDb();
   if (key) {
     await db.execute({
-      sql: "UPDATE email_templates SET name = ?, subject = ?, body = ?, updated_at = ? WHERE key = ?",
+      sql: "UPDATE email_templates SET name = ?, subject = ?, body = ?, updated_at = ?, tpl_version = 1000 WHERE key = ?",
       args: [name, subject, body, Date.now(), key],
     });
   } else {
@@ -230,8 +229,8 @@ export async function restoreTemplate(fd: FormData): Promise<void> {
   if (!def) return;
   const db = await getDb();
   await db.execute({
-    sql: "UPDATE email_templates SET name = ?, subject = ?, body = ?, updated_at = ? WHERE key = ?",
-    args: [def.name, def.subject, def.body, Date.now(), key],
+    sql: "UPDATE email_templates SET name = ?, subject = ?, body = ?, updated_at = ?, tpl_version = ? WHERE key = ?",
+    args: [def.name, def.subject, def.body, Date.now(), TEMPLATE_VERSION, key],
   });
   refresh();
 }
@@ -297,8 +296,7 @@ export async function sendEmails(_prev: ActionState, fd: FormData): Promise<Acti
 
   const amount = money(fd, "monto");
   const base: Vars = {
-    tienda: siteConfig.name,
-    whatsapp: `https://wa.me/${siteConfig.whatsappNumber}`,
+    ...siteVars(),
     monto: amount ? formatPrice(amount) : "",
     concepto: text(fd, "concepto", 160),
     fecha_limite: text(fd, "fecha_limite", 30),

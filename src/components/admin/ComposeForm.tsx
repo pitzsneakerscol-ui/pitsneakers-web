@@ -2,9 +2,9 @@
 
 import { useActionState, useMemo, useState } from "react";
 import { sendEmails } from "@/app/admin/actions";
-import { TEMPLATE_VARS, missingVars, renderTemplate, type TemplateData } from "@/lib/email-templates";
+import { TEMPLATE_VARS, missingVars, renderTemplate, siteVars, type TemplateData } from "@/lib/email-templates";
 import { formatPrice } from "@/lib/format";
-import { siteConfig } from "@/config/site";
+import EmailPreview from "@/components/admin/EmailPreview";
 import { btnAccent, cardCls, inputCls, labelCls, selectAutoCls, submitWith } from "@/components/reseller/ui";
 
 export interface Contact {
@@ -76,9 +76,8 @@ export default function ComposeForm({
   const firstName = all.find((c) => selected.has(c.token))?.name ?? "Nombre";
   const digits = monto.replace(/\D/g, "");
   const vars = {
+    ...siteVars(),
     nombre: firstName,
-    tienda: siteConfig.name,
-    whatsapp: `https://wa.me/${siteConfig.whatsappNumber}`,
     monto: digits ? formatPrice(Number(digits)) : "",
     concepto,
     fecha_limite: fecha,
@@ -169,9 +168,9 @@ export default function ComposeForm({
           </div>
           <div>
             <label className={labelCls} htmlFor="cp-body">Mensaje</label>
-            <textarea id="cp-body" name="body" value={body} onChange={(e) => setBody(e.target.value)} required rows={12} maxLength={5000} className={`${inputCls} font-mono text-[13px] leading-relaxed`} />
+            <textarea id="cp-body" name="body" value={body} onChange={(e) => setBody(e.target.value)} required rows={16} maxLength={5000} className={`${inputCls} font-mono text-[13px] leading-relaxed`} />
             <p className="mt-1.5 text-xs text-muted">
-              Variables: {TEMPLATE_VARS.map((v) => `{{${v.key}}}`).join("  ")} — se llenan solas para cada persona.
+              Variables: {TEMPLATE_VARS.map((v) => `{{${v.key}}}`).join("  ")} — se llenan solas para cada persona. Formato: # titular · ==rojo== · **negrita** · &gt; caja · - lista · [boton: Texto | https://…]
             </p>
           </div>
         </section>
@@ -181,15 +180,7 @@ export default function ComposeForm({
         <section className={`${cardCls} p-5 sm:p-6 lg:sticky lg:top-6`}>
           <h2 className="font-display text-2xl tracking-wide">Vista previa</h2>
           <p className="mt-1 text-xs text-muted">Así lo verá {selected.size > 0 ? firstName : "el destinatario"}.</p>
-          <div className="mt-4 overflow-hidden rounded-xl border border-line">
-            <div className="bg-ink px-5 py-3 font-display text-xl tracking-wide text-white">
-              PIT<span className="text-accent">SNEAKERS</span>
-            </div>
-            <div className="space-y-3 px-5 py-4 text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">{previewSubject || "(sin asunto)"}</p>
-              <p className="whitespace-pre-wrap leading-relaxed">{previewBody}</p>
-            </div>
-          </div>
+          <div className="mt-4"><EmailPreview subject={subject} body={body} vars={vars} /></div>
           {missing.length > 0 && (
             <p className="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-900">
               Falta llenar: {missing.map((m) => `{{${m}}}`).join(", ")}

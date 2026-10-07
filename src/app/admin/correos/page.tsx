@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getPayment, listCustomers, listEmailLog, listResellers, listTemplates } from "@/lib/admin";
 import { isEmailConfigured } from "@/lib/email";
+import { renderEmailText } from "@/lib/email-templates";
 import { fmtDateTime } from "@/lib/admin-shared";
 import { cardCls } from "@/components/reseller/ui";
 import ComposeForm, { type Contact } from "@/components/admin/ComposeForm";
@@ -87,7 +88,7 @@ export default async function MailPage({
                   <td className="px-3 py-2.5">
                     <details>
                       <summary className="cursor-pointer">{m.subject}</summary>
-                      <p className="mt-2 whitespace-pre-wrap rounded-lg bg-paper p-3 text-xs leading-relaxed text-muted">{m.body}</p>
+                      <p className="mt-2 whitespace-pre-wrap rounded-lg bg-paper p-3 text-xs leading-relaxed text-muted">{renderEmailText(m.body)}</p>
                     </details>
                   </td>
                   <td className="py-2.5 pl-3">

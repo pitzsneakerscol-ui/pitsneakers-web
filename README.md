@@ -288,3 +288,12 @@ Crea una cuenta, verifica tu dominio y define en Vercel:
 
 Sin estas variables el panel funciona igual, pero el botón de enviar avisa que
 falta configurar el correo. Máximo 50 destinatarios por envío.
+
+Los correos salen con diseño de marca (cabecera, titular grande, cajas, botones
+y pie con tus redes). Vienen 14 plantillas listas (novedades, promo flash,
+encargos VIP, gracias por tu compra, reactivar clientes, comunidad, cobros,
+pedidos y revendedores) y puedes editarlas o crear otras con vista previa en
+vivo. Formato del mensaje: `# titular`, `==rojo==`, `**negrita**`,
+`> caja destacada`, `- lista`, `[boton: Texto | https://enlace]` y `---`.
+Si defines `siteUrl` en `src/config/site.ts`, los botones "Ver el catálogo"
+apuntan a tu página (si no, a tu WhatsApp).
