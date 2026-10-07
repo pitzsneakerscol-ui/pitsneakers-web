@@ -39,11 +39,9 @@ export default async function SneakersPage({
         </p>
       </div>
 
-      <div className="mt-8">
-        <Suspense>
-          <CatalogFilters brands={brands} sizes={sizes} />
-        </Suspense>
-      </div>
+      <Suspense>
+        <CatalogFilters brands={brands} sizes={sizes} />
+      </Suspense>
 
       <p className="mt-6 text-xs uppercase tracking-wide text-muted">
         {groups.length} {groups.length === 1 ? "resultado" : "resultados"}

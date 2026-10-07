@@ -25,7 +25,7 @@ export default function SectionHeading({
       {href && linkLabel && (
         <Link
           href={href}
-          className="text-sm font-medium uppercase tracking-wide underline underline-offset-4 hover:text-accent"
+          className="-my-2 py-2 text-sm font-medium uppercase tracking-wide underline underline-offset-4 hover:text-accent"
         >
           {linkLabel}
         </Link>

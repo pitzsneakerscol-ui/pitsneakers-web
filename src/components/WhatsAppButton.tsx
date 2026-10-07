@@ -80,9 +80,9 @@ export function WhatsAppButtonSmall({
         e.stopPropagation();
         burst(e);
       }}
-      className={`btn-pop relative inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-white hover:bg-whatsapp-dark ${className}`}
+      className={`btn-pop relative inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-whatsapp text-xs font-semibold text-white hover:bg-whatsapp-dark h-10 w-10 sm:h-auto sm:w-auto sm:px-3 sm:py-2 ${className}`}
     >
-      <WhatsAppIcon className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+      <WhatsAppIcon className="h-5 w-5 sm:h-3.5 sm:w-3.5" />
       <span className="hidden sm:inline">Consultar</span>
     </a>
   );

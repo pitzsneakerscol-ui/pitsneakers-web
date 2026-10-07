@@ -97,7 +97,7 @@ export default function QuickViewButton({ slug, name }: { slug: string; name: st
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="quick-btn absolute inset-x-3 bottom-3 z-10 rounded-full bg-white/95 py-2 text-[11px] font-semibold uppercase tracking-wider text-ink shadow-sm transition hover:bg-ink hover:text-white"
+        className="quick-btn absolute inset-x-3 bottom-3 z-10 rounded-full bg-white/95 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-ink shadow-sm transition hover:bg-ink hover:text-white"
       >
         Vista rápida
       </button>

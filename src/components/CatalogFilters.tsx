@@ -39,8 +39,8 @@ function FilterField({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex flex-col gap-1 px-4 py-3">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">
+    <label className="flex shrink-0 flex-col gap-1 rounded-full border border-line bg-paper-raised px-4 py-2.5 sm:rounded-none sm:border-0 sm:bg-transparent sm:py-3">
+      <span className="hidden text-[10px] font-semibold uppercase tracking-wider text-muted sm:block">
         {label}
       </span>
       <div className="flex items-center justify-between gap-2">
@@ -48,7 +48,7 @@ function FilterField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           aria-label={ariaLabel}
-          className="w-full appearance-none bg-transparent text-sm font-medium text-ink focus:outline-none"
+          className="w-full appearance-none bg-transparent pr-1 text-sm font-medium text-ink focus:outline-none"
         >
           {children}
         </select>
@@ -93,9 +93,9 @@ export default function CatalogFilters({
   const hasFilters = brand || size || price || condition || favActive;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-line bg-paper-raised">
+    <div className="sticky top-16 z-30 -mx-4 mt-8 border-y border-line bg-paper/95 backdrop-blur sm:static sm:mx-0 sm:overflow-hidden sm:rounded-lg sm:border sm:bg-paper-raised sm:backdrop-blur-none">
       <div
-        className={`grid grid-cols-2 divide-y divide-line sm:divide-y-0 sm:divide-x ${
+        className={`scrollbar-hide flex gap-2 overflow-x-auto px-4 py-3 sm:grid sm:gap-0 sm:divide-x sm:divide-line sm:overflow-visible sm:p-0 ${
           showCondition ? "sm:grid-cols-4" : "sm:grid-cols-3"
         }`}
       >
@@ -155,7 +155,7 @@ export default function CatalogFilters({
       </div>
 
       {(hasFilters || favorites.length > 0) && (
-        <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-2.5">
+        <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-2 sm:py-2.5">
           <button
             type="button"
             aria-pressed={favActive}

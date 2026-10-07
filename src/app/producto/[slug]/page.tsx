@@ -48,10 +48,10 @@ export default async function ProductPage({
   const related = await getRelatedGroups(group);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         <ProductGallery group={group} />
-        <ProductPurchasePanel group={group} />
+        <ProductPurchasePanel group={group} sticky />
       </div>
 
       {related.length > 0 && (

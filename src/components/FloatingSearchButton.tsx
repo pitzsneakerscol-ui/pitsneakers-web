@@ -63,6 +63,13 @@ export default function FloatingSearchButton() {
   const inputRef = useRef<HTMLInputElement>(null);
   const loading = open && products === null;
 
+  // La barra inferior del celular abre este mismo buscador.
+  useEffect(() => {
+    const openSearch = () => setOpen(true);
+    window.addEventListener("pit:open-search", openSearch);
+    return () => window.removeEventListener("pit:open-search", openSearch);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
 
@@ -115,7 +122,7 @@ export default function FloatingSearchButton() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Buscar tu par"
-        className="fixed bottom-6 right-6 z-40 flex h-14 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink/90"
+        className="fixed bottom-6 right-6 z-40 hidden h-14 lg:flex items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink/90"
       >
         <SearchIcon />
         <span className="hidden sm:inline">Buscar mi par</span>

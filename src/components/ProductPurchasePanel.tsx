@@ -42,7 +42,14 @@ function buildOptions(group: ProductGroup): Option[] {
   return options.sort((a, b) => a.price - b.price);
 }
 
-export default function ProductPurchasePanel({ group }: { group: ProductGroup }) {
+export default function ProductPurchasePanel({
+  group,
+  sticky = false,
+}: {
+  group: ProductGroup;
+  /** En celular, fija el botón de WhatsApp al borde inferior (página de producto). */
+  sticky?: boolean;
+}) {
   const options = useMemo(() => buildOptions(group), [group]);
   const multiVariant = group.variants.length > 1;
   const [selectedKey, setSelectedKey] = useState<string | undefined>(
@@ -55,6 +62,13 @@ export default function ProductPurchasePanel({ group }: { group: ProductGroup })
     activeVariant?.promo && activeVariant.priceBefore && activeVariant.priceBefore > activeVariant.price
       ? activeVariant
       : undefined;
+
+  const priceLabel = selected
+    ? formatPrice(selected.price)
+    : multiVariant
+      ? `Desde ${formatPrice(min)}`
+      : formatPrice(options[0]?.price ?? min);
+  const ready = !multiVariant || Boolean(selected);
 
   return (
     <div>
@@ -139,7 +153,7 @@ export default function ProductPurchasePanel({ group }: { group: ProductGroup })
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className={`mt-8 ${sticky ? "hidden lg:block" : ""}`}>
         {!multiVariant || selected ? (
           <>
             <WhatsAppButtonLarge
@@ -167,6 +181,33 @@ export default function ProductPurchasePanel({ group }: { group: ProductGroup })
           {group.description}
         </p>
       </div>
+
+      {sticky && (
+        <div
+          className="fixed inset-x-0 z-40 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur lg:hidden"
+          style={{ bottom: "calc(4rem + env(safe-area-inset-bottom))" }}
+        >
+          <div className="mx-auto flex max-w-lg items-center gap-3">
+            <div className="min-w-0 shrink-0 leading-tight">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">
+                {selected ? `Talla ${selected.size}` : "Precio"}
+              </p>
+              <p className={`text-lg font-semibold ${activePromo ? "text-accent" : ""}`}>{priceLabel}</p>
+            </div>
+            {ready ? (
+              <WhatsAppButtonLarge
+                product={selected ? selected.variant : options[0].variant}
+                size={selected ? selected.size : undefined}
+                className="!px-4 !py-3 !text-sm"
+              />
+            ) : (
+              <div className="flex-1 rounded-full border border-dashed border-ink/30 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide text-muted">
+                Elige talla para continuar
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
