@@ -11,7 +11,7 @@ const TABS = [
   { href: "/revendedores/cuenta", label: "Cuenta" },
 ];
 
-export default function ResellerNav({ name }: { name: string }) {
+export default function ResellerNav({ name, isAdmin = false }: { name: string; isAdmin?: boolean }) {
   const pathname = usePathname();
   return (
     <div className="border-b border-line bg-paper-raised">
@@ -30,6 +30,11 @@ export default function ResellerNav({ name }: { name: string }) {
               </Link>
             );
           })}
+          {isAdmin && (
+            <Link href="/admin" className="whitespace-nowrap border-b-2 border-transparent px-4 py-4 text-xs font-semibold uppercase tracking-wider text-accent hover:text-ink">
+              Admin
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-3 py-2 text-xs text-muted">
           <span className="hidden sm:inline">

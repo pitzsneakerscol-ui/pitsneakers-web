@@ -62,6 +62,56 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_items_user_status ON items(user_id, status)`,
+  `CREATE TABLE IF NOT EXISTS customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL DEFAULT '',
+    whatsapp TEXT NOT NULL DEFAULT '',
+    notes TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    party_type TEXT NOT NULL,
+    party_id INTEGER NOT NULL,
+    concept TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    due_date TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendiente',
+    paid_date TEXT NOT NULL DEFAULT '',
+    method TEXT NOT NULL DEFAULT '',
+    notes TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status, due_date)`,
+  `CREATE TABLE IF NOT EXISTS email_templates (
+    key TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    body TEXT NOT NULL,
+    builtin INTEGER NOT NULL DEFAULT 0,
+    updated_at INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS email_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    to_email TEXT NOT NULL,
+    to_name TEXT NOT NULL DEFAULT '',
+    subject TEXT NOT NULL,
+    body TEXT NOT NULL,
+    template TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_email_log_created ON email_log(created_at)`,
+];
+
+// Columnas agregadas después de la primera versión de `users`.
+const USER_COLUMNS: [string, string][] = [
+  ["email", "TEXT NOT NULL DEFAULT ''"],
+  ["role", "TEXT NOT NULL DEFAULT 'revendedor'"],
+  ["suspended", "INTEGER NOT NULL DEFAULT 0"],
+  ["last_login", "INTEGER"],
 ];
 
 type Cache = { ready?: Promise<Client> };
@@ -79,6 +129,11 @@ export async function getDb(): Promise<Client> {
       authToken: process.env.DATABASE_AUTH_TOKEN || undefined,
     });
     await client.batch(SCHEMA, "write");
+    const info = await client.execute("PRAGMA table_info(users)");
+    const have = new Set(info.rows.map((r) => String(r.name)));
+    for (const [col, def] of USER_COLUMNS) {
+      if (!have.has(col)) await client.execute(`ALTER TABLE users ADD COLUMN ${col} ${def}`);
+    }
     return client;
   })();
   cache.ready = ready;

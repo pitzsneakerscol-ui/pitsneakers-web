@@ -97,6 +97,8 @@ export interface CurrentUser {
   username: string;
   displayName: string;
   whatsapp: string;
+  email: string;
+  isAdmin: boolean;
 }
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
@@ -105,9 +107,9 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   if (!token) return null;
   const db = await getDb();
   const res = await db.execute({
-    sql: `SELECT u.id, u.username, u.display_name, u.whatsapp
+    sql: `SELECT u.id, u.username, u.display_name, u.whatsapp, u.email, u.role
           FROM sessions s JOIN users u ON u.id = s.user_id
-          WHERE s.id = ? AND s.expires_at > ?`,
+          WHERE s.id = ? AND s.expires_at > ? AND u.suspended = 0`,
     args: [sha256(token), Date.now()],
   });
   const row = res.rows[0];
@@ -117,6 +119,8 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     username: String(row.username),
     displayName: String(row.display_name),
     whatsapp: String(row.whatsapp),
+    email: String(row.email),
+    isAdmin: row.role === "admin" && String(row.username) === adminUsername(),
   };
 });
 
@@ -124,6 +128,35 @@ export async function requireUser(): Promise<CurrentUser> {
   const user = await getCurrentUser();
   if (!user) redirect("/revendedores");
   return user;
+}
+
+/** Solo el dueño (cuenta definida por ADMIN_USERNAME / ADMIN_PASSWORD). */
+export async function requireAdmin(): Promise<CurrentUser> {
+  const user = await getCurrentUser();
+  if (!user || !user.isAdmin) redirect("/revendedores");
+  return user;
+}
+
+/* ---------- Cuenta del dueño (variables de entorno) ---------- */
+
+export function adminUsername(): string {
+  const name = (process.env.ADMIN_USERNAME ?? "").trim().toLowerCase();
+  return process.env.ADMIN_PASSWORD && /^[a-z0-9._-]{3,24}$/.test(name) ? name : "";
+}
+
+const RESERVED = ["admin", "administrador", "root", "soporte", "pitsneakers", "pitzsneakers"];
+
+export function isReservedUsername(username: string): boolean {
+  const u = username.toLowerCase();
+  return u === adminUsername() || RESERVED.includes(u);
+}
+
+export function checkAdminPassword(password: string): boolean {
+  const expected = process.env.ADMIN_PASSWORD ?? "";
+  if (expected.length < 10) return false;
+  const a = createHash("sha256").update(password).digest();
+  const b = createHash("sha256").update(expected).digest();
+  return timingSafeEqual(a, b);
 }
 
 /* ---------- Límite de intentos ---------- */

@@ -15,7 +15,7 @@ export default async function CuentaPage() {
           respaldo desde la sección Inventario.
         </p>
       </header>
-      <ProfileForm username={user.username} displayName={user.displayName} whatsapp={user.whatsapp} />
+      <ProfileForm username={user.username} displayName={user.displayName} whatsapp={user.whatsapp} email={user.email} />
       <PasswordForm />
     </div>
   );

@@ -17,10 +17,12 @@ export function ProfileForm({
   username,
   displayName,
   whatsapp,
+  email,
 }: {
   username: string;
   displayName: string;
   whatsapp: string;
+  email: string;
 }) {
   const [state, action, pending] = useActionState(updateProfile, undefined);
   return (
@@ -39,6 +41,10 @@ export function ProfileForm({
           <label className={labelCls} htmlFor="p-wa">WhatsApp</label>
           <input id="p-wa" name="whatsapp" inputMode="tel" maxLength={20} defaultValue={whatsapp} className={inputCls} />
         </div>
+      </div>
+      <div>
+        <label className={labelCls} htmlFor="p-email">Correo</label>
+        <input id="p-email" name="email" type="email" maxLength={120} defaultValue={email} className={inputCls} />
       </div>
       <Status state={state} />
       <button type="submit" disabled={pending} className={btnPrimary}>

@@ -258,3 +258,33 @@ Los datos viven en una base libSQL/SQLite:
 
   Luego redespliega. Sin estas variables el portal queda oculto ("Muy pronto")
   y el resto del sitio no se ve afectado. Las tablas se crean solas.
+
+## Panel del dueño (`/admin`)
+
+Panel de super administrador para ver y gestionar todo: resumen de la red,
+revendedores (con su inventario y ventas, suspender cuenta, restablecer
+contraseña), inventario y ventas globales, **pagos pendientes** (vencidos,
+cobrados, método de pago), libreta de **compradores** y **correos con
+plantillas** a compradores o revendedores (con historial).
+
+El dueño no se registra: su cuenta sale de variables de entorno. En Vercel →
+Settings → Environment Variables define:
+
+- `ADMIN_USERNAME` — tu usuario (3 a 24 caracteres: letras, números, `.`, `_`, `-`)
+- `ADMIN_PASSWORD` — una contraseña larga (mínimo 10 caracteres)
+
+Ingresas desde `/revendedores` → "Ingresar" y te lleva a `/admin`. Para cambiar
+la contraseña, cambia la variable y redespliega. Ese usuario queda reservado y
+nadie más puede registrarlo.
+
+### Envío de correos
+
+Se envían con [Resend](https://resend.com) (plan gratis suficiente para empezar).
+Crea una cuenta, verifica tu dominio y define en Vercel:
+
+- `RESEND_API_KEY` — la clave de la API
+- `EMAIL_FROM` — remitente verificado, ej: `Pitsneakers <hola@tudominio.com>`
+- `EMAIL_REPLY_TO` — (opcional) correo donde quieres recibir las respuestas
+
+Sin estas variables el panel funciona igual, pero el botón de enviar avisa que
+falta configurar el correo. Máximo 50 destinatarios por envío.

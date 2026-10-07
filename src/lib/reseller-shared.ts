@@ -91,6 +91,9 @@ export function itemLabel(i: Pick<Item, "brand" | "name" | "colorway">): string 
   return [i.name, i.colorway].filter(Boolean).join(" ");
 }
 
+export const isEmail = (v: string) =>
+  /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/.test(v) && v.length <= 120;
+
 export type ActionState =
   | { ok?: boolean; error?: string; message?: string }
   | undefined;

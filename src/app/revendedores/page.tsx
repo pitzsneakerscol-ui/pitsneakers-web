@@ -41,7 +41,7 @@ export default async function RevendedoresPage() {
   const enabled = isDbConfigured();
   if (enabled) {
     const user = await getCurrentUser();
-    if (user) redirect("/revendedores/panel");
+    if (user) redirect(user.isAdmin ? "/admin" : "/revendedores/panel");
   }
 
   return (

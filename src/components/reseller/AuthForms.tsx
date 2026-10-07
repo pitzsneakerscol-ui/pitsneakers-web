@@ -65,6 +65,11 @@ export default function AuthForms() {
               <input id="r-wa" name="whatsapp" inputMode="tel" maxLength={20} placeholder="573001234567" className={inputCls} />
             </div>
           </div>
+          <div>
+            <label htmlFor="r-email" className={labelCls}>Correo (opcional)</label>
+            <input id="r-email" name="email" type="email" autoComplete="email" maxLength={120} placeholder="tu@correo.com" className={inputCls} />
+            <p className="mt-1.5 text-xs text-muted">Para avisos de Pitsneakers sobre tu cuenta.</p>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="r-pass" className={labelCls}>Contraseña *</label>

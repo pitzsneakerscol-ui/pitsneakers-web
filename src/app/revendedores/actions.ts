@@ -4,8 +4,11 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb, isDbConfigured } from "@/lib/db";
 import {
+  adminUsername,
+  checkAdminPassword,
   clientIp,
   createSession,
+  isReservedUsername,
   destroyOtherSessions,
   destroySession,
   hashPassword,
@@ -28,6 +31,7 @@ import {
 } from "@/lib/reseller";
 import {
   SALE_CHANNELS,
+  isEmail,
   isValidDate,
   todayBogota,
   type ActionState,
@@ -67,9 +71,12 @@ export async function register(
   const username = text(fd, "username", 24).toLowerCase();
   const displayName = text(fd, "displayName", 40);
   const whatsapp = text(fd, "whatsapp", 20).replace(/[^\d]/g, "");
+  const email = text(fd, "email", 120).toLowerCase();
   const password = String(fd.get("password") ?? "");
   const confirm = String(fd.get("confirm") ?? "");
 
+  if (isReservedUsername(username)) return { error: "Ese usuario no está disponible. Prueba con otro." };
+  if (email && !isEmail(email)) return { error: "El correo no parece válido." };
   if (!/^[a-z0-9._-]{3,24}$/.test(username))
     return {
       error: "El usuario debe tener 3 a 24 caracteres: letras, números, punto, guion o guion bajo.",
@@ -89,8 +96,8 @@ export async function register(
   let userId: number;
   try {
     const res = await db.execute({
-      sql: "INSERT INTO users (username, display_name, whatsapp, password_hash, created_at) VALUES (?, ?, ?, ?, ?)",
-      args: [username, displayName || username, whatsapp, passwordHash, Date.now()],
+      sql: "INSERT INTO users (username, display_name, whatsapp, email, password_hash, created_at, last_login) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      args: [username, displayName || username, whatsapp, email, passwordHash, Date.now(), Date.now()],
     });
     userId = Number(res.lastInsertRowid);
   } catch {
@@ -116,18 +123,39 @@ export async function login(
     return { error: "Demasiados intentos fallidos. Espera 15 minutos e intenta de nuevo." };
 
   const db = await getDb();
+  const fail = async (): Promise<ActionState> => {
+    await rateLimitHit(userKey, 5, 15 * MIN);
+    await rateLimitHit(ipKey, 30, 15 * MIN);
+    return { error: "Usuario o contraseña incorrectos." };
+  };
+
+  // Cuenta del dueño: su contraseña vive en variables de entorno, no en la base.
+  if (username === adminUsername()) {
+    if (!checkAdminPassword(password)) return fail();
+    await db.execute({
+      sql: `INSERT INTO users (username, display_name, password_hash, role, created_at)
+            VALUES (?, 'Pitsneakers', '!', 'admin', ?)
+            ON CONFLICT(username) DO UPDATE SET role = 'admin', suspended = 0, password_hash = '!'`,
+      args: [username, Date.now()],
+    });
+    const adm = await db.execute({ sql: "SELECT id FROM users WHERE username = ?", args: [username] });
+    await rateLimitClear(userKey);
+    await db.execute({ sql: "UPDATE users SET last_login = ? WHERE username = ?", args: [Date.now(), username] });
+    await createSession(Number(adm.rows[0].id));
+    redirect("/admin");
+  }
+
   const res = await db.execute({
-    sql: "SELECT id, password_hash FROM users WHERE username = ?",
+    sql: "SELECT id, password_hash, suspended, role FROM users WHERE username = ?",
     args: [username],
   });
   const row = res.rows[0];
   const ok = await verifyPassword(password, row ? String(row.password_hash) : null);
-  if (!row || !ok) {
-    await rateLimitHit(userKey, 5, 15 * MIN);
-    await rateLimitHit(ipKey, 30, 15 * MIN);
-    return { error: "Usuario o contraseña incorrectos." };
-  }
+  if (!row || !ok || row.role === "admin") return fail();
+  if (Number(row.suspended) === 1)
+    return { error: "Tu cuenta está suspendida. Escríbenos por WhatsApp para resolverlo." };
   await rateLimitClear(userKey);
+  await db.execute({ sql: "UPDATE users SET last_login = ? WHERE id = ?", args: [Date.now(), Number(row.id)] });
   await createSession(Number(row.id));
   redirect(PANEL);
 }
@@ -144,12 +172,14 @@ export async function updateProfile(
   const user = await requireUser();
   const displayName = text(fd, "displayName", 40);
   const whatsapp = text(fd, "whatsapp", 20).replace(/[^\d]/g, "");
+  const email = text(fd, "email", 120).toLowerCase();
   if (whatsapp && (whatsapp.length < 7 || whatsapp.length > 15))
     return { error: "El número de WhatsApp no parece válido." };
+  if (email && !isEmail(email)) return { error: "El correo no parece válido." };
   const db = await getDb();
   await db.execute({
-    sql: "UPDATE users SET display_name = ?, whatsapp = ? WHERE id = ?",
-    args: [displayName || user.username, whatsapp, user.id],
+    sql: "UPDATE users SET display_name = ?, whatsapp = ?, email = ? WHERE id = ?",
+    args: [displayName || user.username, whatsapp, email, user.id],
   });
   refresh();
   return { ok: true, message: "Perfil actualizado." };
