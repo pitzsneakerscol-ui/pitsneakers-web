@@ -417,6 +417,72 @@ body {
   animation: qv-rise 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
+/* ---------- Sección "Vende con nosotros" ---------- */
+
+.rs-armed .rs-reveal {
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 130ms + 200ms);
+}
+.rs-armed.rs-play .rs-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.rs-armed .rs-bar {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+  transition-delay: calc(var(--i, 0) * 90ms + 800ms);
+}
+.rs-armed.rs-play .rs-bar {
+  transform: scaleY(1);
+}
+
+.rs-armed .rs-chip {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s ease 1.6s, transform 0.5s cubic-bezier(0.2, 1.5, 0.3, 1) 1.6s;
+}
+.rs-armed.rs-play .rs-chip {
+  opacity: 1;
+  transform: none;
+}
+
+/* Subrayado que se dibuja bajo "negocio de verdad" */
+.rs-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 3px;
+}
+.rs-armed .rs-underline {
+  background-size: 0 3px;
+  transition: background-size 0.9s cubic-bezier(0.7, 0, 0.2, 1) 0.4s;
+}
+.rs-armed.rs-play .rs-underline {
+  background-size: 100% 3px;
+}
+
+@keyframes rs-toast {
+  0% { opacity: 0; transform: translateY(14px); }
+  12%, 82% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+.rs-toast {
+  animation: rs-toast 4s ease both;
+}
+
+/* Anillo suave que invita a tocar el botón */
+@keyframes rs-ring {
+  0% { box-shadow: 0 0 0 0 rgb(200 64 42 / 0.45); }
+  70%, 100% { box-shadow: 0 0 0 14px rgb(200 64 42 / 0); }
+}
+.rs-play .rs-cta {
+  animation: rs-ring 2.4s ease-out 2.2s infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -434,5 +500,19 @@ body {
   .fade-up,
   .mascot {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-armed .rs-reveal,
+  .rs-armed .rs-bar,
+  .rs-armed .rs-chip {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .rs-armed .rs-underline {
+    background-size: 100% 3px;
+    transition: none;
   }
 }
