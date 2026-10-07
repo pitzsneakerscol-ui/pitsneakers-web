@@ -27,7 +27,8 @@ const LOG = path.join(ROOT, "fotos-nuevas", ".procesadas.json");
 const LIENZO = 2000;
 const CAJA_W = 1700;
 const CAJA_H = 1500;
-const MAX_AMPLIAR = 1.8; // no ampliar más de esto para no perder nitidez
+const MAX_AMPLIAR = 1.8; // al igualar fotos ya publicadas: no ampliar más de esto para no perder nitidez
+const MAX_AMPLIAR_NUEVAS = 4; // fotos nuevas muy chicas: se amplían más (y se avisa que se verán suaves)
 const UMBRAL_BLANCO = 247;
 const FOTOS_COL = 11;
 
@@ -46,7 +47,7 @@ const HORAS = valor("--ultimas") ? Number(valor("--ultimas")) : INBOX === INBOX_
 /* ---------- utilidades ---------- */
 
 const norm = (s) =>
-  s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+  s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/['’]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
 const tokens = (s) => new Set(norm(s).split(" ").filter(Boolean));
 const slug = (s) => norm(s).replace(/ /g, "-").toUpperCase();
 
@@ -103,6 +104,17 @@ function leerCatalogo() {
   return { lines, eol, productos };
 }
 
+/** Distancia de edición <= 1 (para tolerar errores de ortografía en palabras de 5+ letras). */
+function parecida(a, b) {
+  if (a === b) return true;
+  if (a.length < 5 || b.length < 5 || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1);
+  const [corta, larga] = a.length < b.length ? [a, b] : [b, a];
+  return corta.slice(i) === larga.slice(i + 1);
+}
+
 /** Busca a qué producto(s) corresponde un archivo. Devuelve { productos, razon } */
 function emparejar(base, productos) {
   const nombre = base;
@@ -112,8 +124,8 @@ function emparejar(base, productos) {
   if (nTok.size === 0) return { productos: [], razon: "sin texto" };
   const puntuados = productos
     .map((p) => {
-      const inter = [...nTok].filter((t) => p.toks.has(t)).length;
-      const union = new Set([...nTok, ...p.toks]).size;
+      const inter = [...nTok].filter((t) => [...p.toks].some((q) => parecida(t, q))).length;
+      const union = nTok.size + p.toks.size - inter;
       const contenido = inter === nTok.size || inter === p.toks.size; // uno incluye al otro
       return { p, score: contenido ? inter / union : 0 };
     })
@@ -133,6 +145,102 @@ function emparejar(base, productos) {
 }
 
 /* ---------- imagen: quitar fondo + igualar tamaño ---------- */
+
+/**
+ * Fondo liso o con degradado suave (pared gris, estudio): se avanza desde los bordes mientras el color
+ * cambie poco de un píxel al siguiente. Se detiene en el contorno del producto. Devuelve null si el resultado no es creíble.
+ */
+async function quitarDegradado(px, w, h) {
+  const dist = (i, j) =>
+    Math.max(Math.abs(px[i * 4] - px[j * 4]), Math.abs(px[i * 4 + 1] - px[j * 4 + 1]), Math.abs(px[i * 4 + 2] - px[j * 4 + 2]));
+
+  // Intenta varios "pasos" (cambio de color tolerado entre vecinos): muy bajo deja motas, muy alto se come el producto.
+  for (const PASO of [2, 1, 3]) {
+    const bg = new Uint8Array(w * h);
+    const pila = new Int32Array(w * h);
+    let sp = 0;
+    const semilla = (i) => {
+      if (!bg[i]) {
+        bg[i] = 1;
+        pila[sp++] = i;
+      }
+    };
+    for (let x = 0; x < w; x++) {
+      semilla(x);
+      semilla((h - 1) * w + x);
+    }
+    for (let y = 0; y < h; y++) {
+      semilla(y * w);
+      semilla(y * w + w - 1);
+    }
+    while (sp > 0) {
+      const i = pila[--sp];
+      const x = i % w;
+      const vecinos = [];
+      if (x > 0) vecinos.push(i - 1);
+      if (x < w - 1) vecinos.push(i + 1);
+      if (i >= w) vecinos.push(i - w);
+      if (i < w * h - w) vecinos.push(i + w);
+      for (const n of vecinos) {
+        if (!bg[n] && dist(i, n) <= PASO) {
+          bg[n] = 1;
+          pila[sp++] = n;
+        }
+      }
+    }
+
+    // Quita motas sueltas: se conservan solo las piezas grandes del producto.
+    const comp = new Int32Array(w * h).fill(-1);
+    const tamanos = [];
+    for (let s0 = 0; s0 < w * h; s0++) {
+      if (bg[s0] || comp[s0] >= 0) continue;
+      const id = tamanos.length;
+      let n = 0;
+      const st = [s0];
+      comp[s0] = id;
+      while (st.length) {
+        const i = st.pop();
+        n++;
+        const x = i % w;
+        const vecinos = [];
+        if (x > 0) vecinos.push(i - 1);
+        if (x < w - 1) vecinos.push(i + 1);
+        if (i >= w) vecinos.push(i - w);
+        if (i < w * h - w) vecinos.push(i + w);
+        for (const v of vecinos) {
+          if (!bg[v] && comp[v] < 0) {
+            comp[v] = id;
+            st.push(v);
+          }
+        }
+      }
+      tamanos.push(n);
+    }
+    if (!tamanos.length) continue;
+    const mayor = Math.max(...tamanos);
+    const conservar = tamanos.map((t) => t >= mayor * 0.15 || t >= w * h * 0.01);
+    let fg = 0;
+    for (let i = 0; i < w * h; i++) {
+      if (!bg[i] && !conservar[comp[i]]) bg[i] = 1;
+      if (!bg[i]) fg++;
+    }
+    const fraccion = fg / (w * h);
+    if (fraccion < 0.06 || fraccion > 0.7) continue; // no se separó bien con este paso
+
+    const alfa = Buffer.alloc(w * h);
+    for (let i = 0; i < w * h; i++) alfa[i] = bg[i] ? 0 : 255;
+    const suave = await sharp(alfa, { raw: { width: w, height: h, channels: 1 } }).blur(1.1).raw().toBuffer({ resolveWithObject: true });
+    const rgba = Buffer.alloc(w * h * 4);
+    for (let i = 0; i < w * h; i++) {
+      rgba[i * 4] = px[i * 4];
+      rgba[i * 4 + 1] = px[i * 4 + 1];
+      rgba[i * 4 + 2] = px[i * 4 + 2];
+      rgba[i * 4 + 3] = suave.data[i * suave.info.channels];
+    }
+    return { rgba, w, h, conFondo: "degradado" };
+  }
+  return null; // no se pudo separar bien: se deja la foto completa
+}
 
 async function quitarFondo(file) {
   const meta = await sharp(file).metadata();
@@ -160,7 +268,10 @@ async function quitarFondo(file) {
     if (blanco(y * w)) bordeBlanco++;
     if (blanco(y * w + w - 1)) bordeBlanco++;
   }
-  if (bordeBlanco / bordeTotal < 0.6) return { rgba: Buffer.from(px), w, h, conFondo: "no-blanco" };
+  if (bordeBlanco / bordeTotal < 0.6) {
+    const r = await quitarDegradado(px, w, h);
+    return r ?? { rgba: Buffer.from(px), w, h, conFondo: "no-blanco" };
+  }
 
   const bg = new Uint8Array(w * h);
   const pila = new Int32Array(w * h);
@@ -234,7 +345,7 @@ async function quitarFondo(file) {
 }
 
 /** Recorta al producto, lo escala a la caja común y lo centra en el lienzo. Devuelve { webp, info }. */
-async function igualarTamano({ rgba, w, h }) {
+async function igualarTamano({ rgba, w, h }, maxAmpliar = MAX_AMPLIAR) {
   let x0 = w, y0 = h, x1 = -1, y1 = -1;
   for (let y = 0; y < h; y++)
     for (let x = 0; x < w; x++)
@@ -247,7 +358,7 @@ async function igualarTamano({ rgba, w, h }) {
   if (x1 < 0) throw new Error("la imagen quedó vacía (¿todo era fondo?)");
   const bw = x1 - x0 + 1;
   const bh = y1 - y0 + 1;
-  const escala = Math.min(CAJA_W / bw, CAJA_H / bh, MAX_AMPLIAR);
+  const escala = Math.min(CAJA_W / bw, CAJA_H / bh, maxAmpliar);
   const tw = Math.max(1, Math.round(bw * escala));
   const th = Math.max(1, Math.round(bh * escala));
   const recorte = await sharp(rgba, { raw: { width: w, height: h, channels: 4 } })
@@ -292,7 +403,7 @@ async function regenerarCatalogo() {
 
 /* ---------- flujo principal ---------- */
 
-const EXT = /\.(png|jpe?g|webp)$/i;
+const EXT = /\.(png|jpe?g|webp|avif)$/i;
 
 async function modoIgualar() {
   const archivos = fs.readdirSync(PUBLIC).filter((f) => f.endsWith(".webp"));
@@ -361,7 +472,7 @@ async function modoProcesar() {
       continue;
     }
     const img = await quitarFondo(ruta);
-    const { webp, info } = await igualarTamano(img);
+    const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS);
     const destino = `${productos[0].archivo}${segunda ? "-2" : ""}.webp`;
     const url = `/products/${destino}`;
     if (!PROBAR) {
@@ -375,7 +486,7 @@ async function modoProcesar() {
     }
     const reemplaza = !segunda && productos.some((p) => p.fotos.length > 0);
     reporte.ok.push(
-      `${f}  →  ${productos.map((p) => p.nombre).join(" + ")} [${razon}]  ${info.original} → ${info.final}${img.conFondo === "no-blanco" ? "  (fondo no blanco: se dejó la foto completa)" : img.conFondo ? "" : " (ya tenía transparencia)"}${reemplaza ? "  ⚠ REEMPLAZA la foto que ya tenía" : ""}`
+      `${f}  →  ${productos.map((p) => p.nombre).join(" + ")} [${razon}]  ${info.original} → ${info.final}${img.conFondo === "no-blanco" ? "  (fondo no blanco: se dejó la foto completa)" : img.conFondo === "degradado" ? "  (fondo de degradado quitado por color)" : img.conFondo ? "" : " (ya tenía transparencia)"}${info.escala > 2.2 ? `  ⚠ foto de baja resolución (x${info.escala}): se verá suave, mejor mándala más grande` : ""}${reemplaza ? "  ⚠ REEMPLAZA la foto que ya tenía" : ""}`
     );
   }
 

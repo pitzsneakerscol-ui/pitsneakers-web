@@ -1795,7 +1795,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-T-SHIRT-MINT.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:27:00.000Z"
@@ -1816,7 +1818,9 @@
     ],
     "condition": "nuevo",
     "description": "Tallaje de mujer. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-CREWNECK-CANARY-YELLOW.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:28:00.000Z"
@@ -1835,7 +1839,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-WASHED-CHINO-CAP.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:29:00.000Z"
@@ -1854,7 +1860,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-WASHED-CHINO-CAP.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:30:00.000Z"
@@ -1873,7 +1881,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ESSENTIALS-ZIP-CANARY-YELLOW-JACKET.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:31:00.000Z"
@@ -1892,7 +1902,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/CORTEIZ-BRASIL-T-SHIRT.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:32:00.000Z"
@@ -1909,7 +1921,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo sellado. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-ITS-TOO-CASSETTE.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:33:00.000Z"
@@ -1926,7 +1940,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-BEANIE-OVAL-PATCH.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:34:00.000Z"
@@ -1943,7 +1959,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-BEANIE-STICKY-NOTE.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:35:00.000Z"
@@ -2216,7 +2234,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/KITH-CAP-7-1-4-SPECIAL-EDITION.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:49:00.000Z"
