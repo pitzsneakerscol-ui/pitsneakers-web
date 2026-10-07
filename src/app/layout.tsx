@@ -58,7 +58,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingSearchButton />
-        <MobileTabBar />
+        <MobileTabBar sellEnabled={isDbConfigured()} />
       </body>
     </html>
   );

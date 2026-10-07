@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useFavorites } from "@/lib/favorites";
+import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 type IconProps = { className?: string };
 
@@ -38,35 +38,50 @@ function SearchIcon({ className }: IconProps) {
     </svg>
   );
 }
-function HeartIcon({ className }: IconProps) {
+function SellIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+      <path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v1a3 3 0 0 0 6 0M9 10a3 3 0 0 0 6 0M15 10a3 3 0 0 0 6 0V9M5 13v8h14v-8" />
+    </svg>
+  );
+}
+function ChatIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M21 12a8.5 8.5 0 0 1-12.600 7.400L3 21l1.600-5.200A8.500 8.500 0 1 1 21 12Z" />
     </svg>
   );
 }
 
 // El panel de dueño y el de revendedores tienen su propia navegación.
-const HIDDEN_PREFIXES = ["/admin", "/revendedores"];
+// (La página pública /revendedores sí lleva barra; sus paneles internos no.)
+const HIDDEN_PREFIXES = ["/admin", "/revendedores/"];
 
-export default function MobileTabBar() {
+export default function MobileTabBar({ sellEnabled = false }: { sellEnabled?: boolean }) {
   const pathname = usePathname();
-  const favorites = useFavorites();
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  const tabs: { key: string; label: string; href?: string; icon: React.ReactNode; badge?: number; match: (p: string) => boolean }[] = [
+  const tabs: { key: string; label: string; href?: string; icon: React.ReactNode; external?: boolean; match: (p: string) => boolean }[] = [
     { key: "home", label: "Inicio", href: "/", icon: <HomeIcon className="h-6 w-6" />, match: (p) => p === "/" },
     { key: "sneakers", label: "Sneakers", href: "/sneakers", icon: <ShoeIcon className="h-6 w-6" />, match: (p) => p.startsWith("/sneakers") },
     { key: "streetwear", label: "Ropa", href: "/streetwear", icon: <ShirtIcon className="h-6 w-6" />, match: (p) => p.startsWith("/streetwear") },
     { key: "search", label: "Buscar", icon: <SearchIcon className="h-6 w-6" />, match: () => false },
-    {
-      key: "favs",
-      label: "Favoritos",
-      href: favorites.length > 0 ? `/favoritos?fav=${encodeURIComponent(favorites.join(","))}` : "/favoritos",
-      icon: <HeartIcon className="h-6 w-6" />,
-      badge: favorites.length,
-      match: (p) => p.startsWith("/favoritos"),
-    },
+    sellEnabled
+      ? {
+          key: "sell",
+          label: "Vende",
+          href: "/revendedores",
+          icon: <SellIcon className="h-6 w-6" />,
+          match: (p) => p === "/revendedores",
+        }
+      : {
+          key: "wa",
+          label: "WhatsApp",
+          href: buildGeneralWhatsAppLink("Hola! Quiero más información sobre Pitsneakers"),
+          external: true,
+          icon: <ChatIcon className="h-6 w-6" />,
+          match: () => false,
+        },
   ];
 
   const itemCls = (active: boolean) =>
@@ -88,22 +103,23 @@ export default function MobileTabBar() {
               <>
                 <span className="relative">
                   {t.icon}
-                  {t.badge ? (
-                    <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[9px] font-bold leading-none text-white">
-                      {t.badge > 9 ? "9+" : t.badge}
-                    </span>
-                  ) : null}
+                  {active ? <span className="nav-dot absolute -right-2 -top-1" style={{ ["--glow" as string]: "#25d366" }} /> : null}
                 </span>
                 {t.label}
-                {active && <span className="absolute inset-x-6 top-0 h-0.5 rounded-full bg-accent" />}
               </>
             );
             return (
               <li key={t.key} className="flex flex-1">
                 {t.href ? (
-                  <Link href={t.href} aria-current={active ? "page" : undefined} className={itemCls(active)}>
-                    {inner}
-                  </Link>
+                  t.external ? (
+                    <a href={t.href} target="_blank" rel="noopener noreferrer" className={itemCls(false)}>
+                      {inner}
+                    </a>
+                  ) : (
+                    <Link href={t.href} aria-current={active ? "page" : undefined} className={itemCls(active)}>
+                      {inner}
+                    </Link>
+                  )
                 ) : (
                   <button type="button" onClick={() => window.dispatchEvent(new Event("pit:open-search"))} className={itemCls(false)}>
                     {inner}
