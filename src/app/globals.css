@@ -976,3 +976,25 @@ body {
     animation: none;
   }
 }
+
+/* ---------- Barra de anuncios ---------- */
+@keyframes ab-slide-in {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: none; }
+}
+.ab-slide {
+  animation: ab-slide-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+@keyframes ab-flow {
+  to { background-position: -200% 0; }
+}
+.ab-line {
+  background: linear-gradient(90deg, transparent, #ff5a3c, #ffd23f, #3ddc84, #4cc9f0, #ff6b9d, transparent, #ff5a3c, #ffd23f, #3ddc84, #4cc9f0, #ff6b9d, transparent);
+  background-size: 200% 100%;
+  animation: ab-flow 7s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab-line {
+    animation: none;
+  }
+}

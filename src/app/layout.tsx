@@ -3,7 +3,8 @@ import { Inter, Anton } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import TopTicker from "@/components/TopTicker";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import { getAllGroups } from "@/lib/products";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
 import ScrollProgress from "@/components/ScrollProgress";
@@ -41,11 +42,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Datos reales para la barra de anuncios.
+  const groups = await getAllGroups();
+  const latest = groups.find((g) => g.images.length > 0);
+
   return (
     <html
       lang="es"
@@ -53,7 +58,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ScrollProgress />
-        <TopTicker />
+        <AnnouncementBar
+          total={groups.length}
+          latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
+          members={siteConfig.stats.whatsappMembers}
+          communityUrl={siteConfig.whatsappCommunityUrl}
+          promo={siteConfig.promo.enabled ? { title: siteConfig.promo.title, endsAt: siteConfig.promo.endsAt } : undefined}
+        />
         <Navbar resellerEnabled={isDbConfigured()} />
         <main className="flex-1">{children}</main>
         <Footer />
