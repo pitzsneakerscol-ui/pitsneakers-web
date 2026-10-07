@@ -12,12 +12,34 @@ import CTASection from "@/components/CTASection";
 import NewArrivalsStrip from "@/components/NewArrivalsStrip";
 import Reveal from "@/components/Reveal";
 import { getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
+import { groupPriceRange } from "@/lib/grouping";
+import { formatPrice } from "@/lib/format";
+import type { ChatPair } from "@/components/CTASection";
 
 export default async function Home() {
   const [featured, arrivals] = await Promise.all([
     getFeaturedGroups(6),
     getNewArrivalGroups(12),
   ]);
+
+  // Pares reales (de marcas distintas) que la tienda "sube" en el chat de la comunidad.
+  const candidates = arrivals.filter((g) => g.category === "sneakers" && g.images.length > 0);
+  const seenBrands = new Set<string>();
+  const distinct = candidates.filter((g) => {
+    if (seenBrands.has(g.brand)) return false;
+    seenBrands.add(g.brand);
+    return true;
+  });
+  const picked = [...distinct, ...candidates.filter((g) => !distinct.includes(g))];
+  const chatPairs: ChatPair[] = picked.slice(0, 3).map((g) => {
+    const cheapest = [...g.variants].sort((x, y) => x.price - y.price)[0];
+    return {
+      name: g.name,
+      image: g.images[0],
+      size: cheapest.sizes[0] ?? "única",
+      price: formatPrice(groupPriceRange(g).min),
+    };
+  });
 
   return (
     <>
@@ -49,7 +71,7 @@ export default async function Home() {
       </section>
 
       <Reveal><CommunityStats /></Reveal>
-      <Reveal><CTASection /></Reveal>
+      <Reveal><CTASection pairs={chatPairs} /></Reveal>
     </>
   );
 }

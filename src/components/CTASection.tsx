@@ -1,19 +1,50 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
+import Image from "next/image";
 import OdometerValue from "@/components/OdometerValue";
 
-// Conversación de ejemplo: así se mueve el grupo. (Ilustrativa, no son mensajes reales.)
-const CHAT: { who: string; text: string; admin?: boolean; color: string }[] = [
-  { who: "Andrés", text: "🔥 Cayó un Jordan 4 Military Black talla 9", color: "#53bdeb" },
-  { who: "Valen", text: "¿Viene verificado?", color: "#ffd279" },
-  { who: "Pitsneakers", text: "Verificado par por par ✅ Escríbenos y te lo separamos", admin: true, color: "#ffffff" },
-  { who: "Camilo", text: "Busco unos Dunk SB talla 10, ¿alguien?", color: "#ff8fa3" },
-  { who: "Laura", text: "Yo tengo unos 👀 te escribo al privado", color: "#a0e87b" },
-  { who: "Pitsneakers", text: "Vendido 🎉 Gracias por la confianza, comunidad", admin: true, color: "#ffffff" },
-];
+export interface ChatPair {
+  name: string;
+  image: string;
+  size: string;
+  price: string;
+}
+
+interface Message {
+  who: string;
+  text?: string;
+  admin?: boolean;
+  color: string;
+  pair?: ChatPair; // mensaje con foto de un par
+}
+
+const ME = "Pitsneakers";
+
+/** Guion de ejemplo con pares reales del catálogo: la tienda sube varios y alguien se interesa. */
+function buildChat(pairs: ChatPair[]): Message[] {
+  if (pairs.length < 3) {
+    return [
+      { who: "Andrés", text: "🔥 Cayó un Jordan 4 Military Black talla 9", color: "#53bdeb" },
+      { who: "Valen", text: "¿Viene verificado?", color: "#ffd279" },
+      { who: ME, text: "Verificado par por par ✅ Escríbenos y te lo separamos", admin: true, color: "#fff" },
+      { who: ME, text: "Vendido 🎉 Gracias por la confianza, comunidad", admin: true, color: "#fff" },
+    ];
+  }
+  const [first, second, third] = pairs;
+  return [
+    { who: ME, text: "📦 Llegaron pares nuevos, verificados uno por uno", admin: true, color: "#fff" },
+    { who: ME, pair: first, admin: true, color: "#fff" },
+    { who: ME, pair: second, admin: true, color: "#fff" },
+    { who: ME, pair: third, admin: true, color: "#fff" },
+    { who: "Andrés", text: `Me interesan los ${second.name} 👀 ¿Talla ${second.size} sigue disponible?`, color: "#53bdeb" },
+    { who: ME, text: "Disponible ✅ Te lo separamos ahora mismo", admin: true, color: "#fff" },
+    { who: "Andrés", text: "¡Listo, voy por ellos! 🙌", color: "#53bdeb" },
+    { who: ME, text: "Vendido 🎉 Gracias por la confianza, comunidad", admin: true, color: "#fff" },
+  ];
+}
 
 const VISIBLE = 4;
 
@@ -40,7 +71,8 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export default function CTASection() {
+export default function CTASection({ pairs = [] }: { pairs?: ChatPair[] }) {
+  const CHAT = useMemo(() => buildChat(pairs), [pairs]);
   const root = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [counted, setCounted] = useState(false);
@@ -82,7 +114,7 @@ export default function CTASection() {
     }
     const id = setTimeout(next, delay);
     return () => clearTimeout(id);
-  }, [inView, reduced, typing, shown]);
+  }, [inView, reduced, typing, shown, CHAT.length]);
 
   const count = reduced ? CHAT.length : shown;
   const visible = CHAT.slice(Math.max(0, count - VISIBLE), count);
@@ -164,7 +196,7 @@ export default function CTASection() {
               </div>
             </div>
 
-            <div className="flex h-72 flex-col justify-end gap-2 px-3 py-3">
+            <div className="flex h-[26rem] flex-col justify-end gap-2 overflow-hidden px-3 py-3">
               {visible.map((m, i) => {
                 const key = count - visible.length + i;
                 return (
@@ -178,6 +210,17 @@ export default function CTASection() {
                         <p className="mb-0.5 text-[11px] font-semibold" style={{ color: m.color }}>
                           {m.who}
                         </p>
+                      )}
+                      {m.pair && (
+                        <div className="-mx-1 -mt-0.5 w-44 sm:w-48">
+                          <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-[#ebe8e2]">
+                            <Image src={m.pair.image} alt="" fill sizes="192px" className="object-contain p-2 mix-blend-multiply" />
+                          </div>
+                          <p className="mt-1.5 truncate px-0.5 text-[12px] font-semibold">{m.pair.name}</p>
+                          <p className="px-0.5 text-[11px] text-white/70">
+                            Talla {m.pair.size} · <span className="font-semibold text-white">{m.pair.price}</span>
+                          </p>
+                        </div>
                       )}
                       {m.text}
                     </div>
