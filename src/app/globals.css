@@ -379,6 +379,44 @@ body {
   pointer-events: none;
 }
 
+/* ---------- Catálogo: favoritos y vista rápida ---------- */
+
+@keyframes fav-pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.fav-pop {
+  animation: fav-pop 0.4s cubic-bezier(0.2, 1.4, 0.3, 1);
+}
+
+@media (hover: hover) {
+  .quick-btn {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .group:hover .quick-btn,
+  .quick-btn:focus-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes qv-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes qv-rise {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.quickview-backdrop {
+  animation: qv-fade 0.2s ease-out both;
+}
+.quickview-panel {
+  animation: qv-rise 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -44,7 +44,8 @@ export async function getGroupsByCategory(
   category: ProductCategory
 ): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  return groups.filter((g) => g.category === category);
+  // Los pares sin foto van al final: el catálogo abre con lo que ya se puede ver bien.
+  return photosFirst(groups.filter((g) => g.category === category));
 }
 
 export async function getPromoGroups(): Promise<ProductGroup[]> {
@@ -52,17 +53,22 @@ export async function getPromoGroups(): Promise<ProductGroup[]> {
   return groups.filter((g) => groupPromo(g) !== null);
 }
 
+/** Los que tienen foto van primero: la portada no debería mostrar tarjetas vacías. */
+function photosFirst(groups: ProductGroup[]): ProductGroup[] {
+  return [...groups.filter((g) => g.images.length > 0), ...groups.filter((g) => g.images.length === 0)];
+}
+
 export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  const featured = groups.filter((g) => g.featured);
-  const pool = featured.length > 0 ? featured : groups;
+  const featured = photosFirst(groups.filter((g) => g.featured));
+  const pool = featured.length >= limit ? featured : photosFirst([...featured, ...groups.filter((g) => !g.featured)]);
   return pool.slice(0, limit);
 }
 
 export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  const news = groups.filter((g) => g.isNew);
-  const pool = news.length > 0 ? news : groups;
+  const news = photosFirst(groups.filter((g) => g.isNew));
+  const pool = news.length > 0 ? news : photosFirst(groups);
   return typeof limit === "number" ? pool.slice(0, limit) : pool;
 }
 

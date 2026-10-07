@@ -4,6 +4,8 @@ import { formatPrice } from "@/lib/format";
 import { groupPriceRange, groupConditions, groupPromo } from "@/lib/grouping";
 import ProductMedia from "@/components/ProductMedia";
 import { WhatsAppButtonSmall } from "@/components/WhatsAppButton";
+import FavoriteButton from "@/components/FavoriteButton";
+import QuickViewButton from "@/components/QuickView";
 
 export default function ProductCard({ group }: { group: ProductGroup }) {
   const { min } = groupPriceRange(group);
@@ -16,6 +18,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
 
   return (
     <div className="card-lift group relative flex h-full flex-col">
+      <div className="relative">
       <Link
         href={`/producto/${group.groupSlug}`}
         className="relative block aspect-square w-full overflow-hidden bg-[#ebe8e2]"
@@ -43,6 +46,9 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           )}
         </div>
       </Link>
+      <FavoriteButton slug={group.groupSlug} name={group.name} />
+      <QuickViewButton slug={group.groupSlug} name={group.name} />
+      </div>
 
       <div className="mt-3 flex items-start justify-between gap-2">
         <Link href={`/producto/${group.groupSlug}`} className="min-w-0">

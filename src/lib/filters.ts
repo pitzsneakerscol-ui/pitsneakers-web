@@ -6,6 +6,7 @@ export type CatalogSearchParams = {
   talla?: string;
   precio?: string;
   estado?: string;
+  fav?: string;
 };
 
 export function applyCatalogFilters(
@@ -13,6 +14,11 @@ export function applyCatalogFilters(
   params: CatalogSearchParams
 ): ProductGroup[] {
   let result = groups;
+
+  if (params.fav) {
+    const wanted = new Set(params.fav.split(",").slice(0, 60));
+    result = result.filter((g) => wanted.has(g.groupSlug));
+  }
 
   if (params.marca) {
     result = result.filter((g) => g.brand === params.marca);

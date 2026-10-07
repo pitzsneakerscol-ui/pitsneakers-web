@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useFavorites } from "@/lib/favorites";
 
 const PRICE_RANGES = [
   { value: "", label: "Todos los precios" },
@@ -74,6 +75,8 @@ export default function CatalogFilters({
   const size = searchParams.get("talla") ?? "";
   const price = searchParams.get("precio") ?? "";
   const condition = searchParams.get("estado") ?? "";
+  const favActive = Boolean(searchParams.get("fav"));
+  const favorites = useFavorites();
 
   function updateParam(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -87,7 +90,7 @@ export default function CatalogFilters({
     });
   }
 
-  const hasFilters = brand || size || price || condition;
+  const hasFilters = brand || size || price || condition || favActive;
 
   return (
     <div className="overflow-hidden rounded-lg border border-line bg-paper-raised">
@@ -151,15 +154,24 @@ export default function CatalogFilters({
         )}
       </div>
 
-      {hasFilters && (
-        <div className="flex justify-end border-t border-line px-4 py-2.5">
+      {(hasFilters || favorites.length > 0) && (
+        <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-2.5">
           <button
+            type="button"
+            aria-pressed={favActive}
+            onClick={() => updateParam("fav", favActive ? "" : favorites.join(","))}
+            disabled={!favActive && favorites.length === 0}
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition ${favActive ? "bg-accent text-white" : "border border-line text-ink hover:border-ink"}`}
+          >
+            <span aria-hidden="true">♥</span> Favoritos{favorites.length > 0 ? ` (${favorites.length})` : ""}
+          </button>
+          {hasFilters && <button
             type="button"
             onClick={() => router.push(pathname, { scroll: false })}
             className="text-xs font-medium uppercase tracking-wide text-muted underline underline-offset-4 hover:text-ink"
           >
             Limpiar filtros
-          </button>
+          </button>}
         </div>
       )}
     </div>

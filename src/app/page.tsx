@@ -5,24 +5,29 @@ import PromoSection from "@/components/PromoSection";
 import TrustSteps from "@/components/TrustSteps";
 import CategoryBanners from "@/components/CategoryBanners";
 import VipCallout from "@/components/VipCallout";
+import ResellerSection from "@/components/ResellerSection";
 import Testimonials from "@/components/Testimonials";
-import AboutSection from "@/components/AboutSection";
 import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
+import NewArrivalsStrip from "@/components/NewArrivalsStrip";
 import Reveal from "@/components/Reveal";
-import { getFeaturedGroups } from "@/lib/products";
+import { getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
 
 export default async function Home() {
-  const featured = await getFeaturedGroups(6);
+  const [featured, arrivals] = await Promise.all([
+    getFeaturedGroups(6),
+    getNewArrivalGroups(12),
+  ]);
 
   return (
     <>
       <Hero />
+      <NewArrivalsStrip groups={arrivals} />
       <PromoSection />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          eyebrow="Recién llegados"
+          eyebrow="Selección Pitsneakers"
           title="Destacados"
           href="/lanzamientos"
           linkLabel="Ver lanzamientos"
@@ -34,9 +39,15 @@ export default async function Home() {
 
       <Reveal><TrustSteps /></Reveal>
       <CategoryBanners />
-      <Reveal><VipCallout /></Reveal>
       <Reveal><Testimonials /></Reveal>
-      <Reveal><AboutSection /></Reveal>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <Reveal className="grid gap-6 lg:grid-cols-2">
+          <VipCallout />
+          <ResellerSection />
+        </Reveal>
+      </section>
+
       <Reveal><CommunityStats /></Reveal>
       <Reveal><CTASection /></Reveal>
     </>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
+import PointerTilt from "@/components/PointerTilt";
 
 const HEADLINE = ["SNEAKERS", "Y", "STREETWEAR,", "VERIFICADOS", "PAR", "A", "PAR."];
 
@@ -72,14 +73,17 @@ export default function Hero() {
                 "radial-gradient(circle, var(--color-accent) 0%, transparent 70%)",
             }}
           />
-          <Image
-            src="/logo-pitsneakers.png"
-            alt="Pitsneakers"
-            width={2048}
-            height={2048}
-            priority
-            className="mascot relative h-48 w-48 sm:h-64 sm:w-64 lg:h-80 lg:w-80"
-          />
+          <PointerTilt>
+            <Image
+              src="/logo-pitsneakers.png"
+              alt="Pitsneakers"
+              width={2048}
+              height={2048}
+              sizes="(min-width: 1024px) 320px, 256px"
+              priority
+              className="mascot relative h-48 w-48 sm:h-64 sm:w-64 lg:h-80 lg:w-80"
+            />
+          </PointerTilt>
         </div>
       </div>
       <div className="checker-strip" aria-hidden="true" />
