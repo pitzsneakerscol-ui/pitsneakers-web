@@ -6350,7 +6350,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Caja dañada, accesorios completos. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI2000-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:10:00.000Z"
@@ -6368,7 +6370,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Con accesorios. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-32.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:11:00.000Z"
@@ -6386,7 +6390,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Con accesorios. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-33.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:12:00.000Z"
@@ -6404,7 +6410,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/VOMEROPLUS-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:13:00.000Z"
@@ -6422,7 +6430,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ADI-BB-34.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:14:00.000Z"
@@ -6458,7 +6468,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AJ3-05.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:16:00.000Z"
@@ -6476,7 +6488,9 @@
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/YZYAZARETH-01.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:17:00.000Z"
@@ -6494,7 +6508,9 @@
     ],
     "condition": "usado",
     "description": "Usado con caja. Usado 1 vez. Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/AM1-03.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:18:00.000Z"
