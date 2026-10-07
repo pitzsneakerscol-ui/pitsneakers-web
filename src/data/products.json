@@ -2037,7 +2037,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo sellado. Rareza alta (🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/LABUBU-BIG-INTO-ENERGY.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:40:00.000Z"
@@ -2054,7 +2056,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-DUFFLE-BAG.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:41:00.000Z"
@@ -2071,7 +2075,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con bolsa. Rareza alta (🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-SHOULDER-BAG.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:42:00.000Z"
@@ -2088,7 +2094,9 @@
     "sizes": [],
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-BACKPACK.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:43:00.000Z"

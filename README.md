@@ -297,3 +297,27 @@ vivo. Formato del mensaje: `# titular`, `==rojo==`, `**negrita**`,
 `> caja destacada`, `- lista`, `[boton: Texto | https://enlace]` y `---`.
 Si defines `siteUrl` en `src/config/site.ts`, los botones "Ver el catálogo"
 apuntan a tu página (si no, a tu WhatsApp).
+
+## Subir fotos de productos (`npm run fotos`)
+
+Deja las fotos en la carpeta `fotos-nuevas/` y corre:
+
+```bash
+npm run fotos
+```
+
+El comando, por cada foto:
+
+1. **Quita el fondo blanco** (si el fondo no es blanco, deja la foto completa y avisa).
+2. **La deja del mismo tamaño que las demás**: la recorta al producto, la escala a una caja común y la centra en un lienzo cuadrado de 2000×2000.
+3. **La conecta al catálogo**: guarda `public/products/<SKU>.webp`, actualiza la columna FOTOS del CSV y regenera `src/data/products.json`.
+
+El **nombre del archivo** dice de qué producto es: el SKU (`AJ4-01.png`) o el nombre ("Jordan 4 Brick.png", "supreme duffle bag.png"). Para una segunda foto del mismo producto, termina el nombre en ` 2` ("Gorra Nocta 2.png"). Lo que no coincide con ningún producto se lista al final para renombrarlo.
+
+Opciones útiles:
+
+- `npm run fotos -- --probar` — muestra qué haría, sin escribir nada.
+- `npm run fotos -- --desde "C:\Users\tu-usuario\Downloads"` — lee otra carpeta (solo archivos de la última hora; usa `--ultimas 3` para 3 horas).
+- `npm run fotos -- --igualar` — vuelve a igualar el tamaño de todas las fotos que ya están en el catálogo.
+
+Después de procesar, revisa los cambios y súbelos con git (commit + push).

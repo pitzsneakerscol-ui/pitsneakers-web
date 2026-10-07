@@ -42,3 +42,7 @@ next-env.d.ts
 
 # base de datos local de revendedores (desarrollo)
 /.data/
+
+# fotos por procesar (el comando `npm run fotos` las lee de aquí)
+/fotos-nuevas/*
+!/fotos-nuevas/.gitkeep
