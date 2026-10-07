@@ -59,7 +59,6 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ScrollProgress />
         <AnnouncementBar
-          total={groups.length}
           latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
           members={siteConfig.stats.whatsappMembers}
           communityUrl={siteConfig.whatsappCommunityUrl}

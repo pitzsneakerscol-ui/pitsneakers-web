@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export interface AnnouncementProps {
-  total: number;
   latest?: { name: string; slug: string };
   members: string;
   communityUrl: string;
@@ -30,7 +29,7 @@ function formatLeft(ms: number): string {
 }
 
 /** Barra de anuncios en vivo: mensajes que rotan con datos reales del catálogo y, si hay promo vigente, su cuenta regresiva. */
-export default function AnnouncementBar({ total, latest, members, communityUrl, promo }: AnnouncementProps) {
+export default function AnnouncementBar({ latest, members, communityUrl, promo }: AnnouncementProps) {
   const [now, setNow] = useState<number | null>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -68,7 +67,7 @@ export default function AnnouncementBar({ total, latest, members, communityUrl, 
       icon: "🔥",
       text: (
         <>
-          <strong className="text-[#ff8a6b]">{total}</strong> pares y prendas verificados disponibles hoy
+          <strong className="text-[#ff8a6b]">+1000</strong> pares y prendas publicados cada semana
         </>
       ),
       href: "/sneakers",
@@ -101,7 +100,7 @@ export default function AnnouncementBar({ total, latest, members, communityUrl, 
       { key: "vip", icon: "✨", text: <>¿No encuentras tu par? Pídelo por encargo VIP</>, href: "/encargos" }
     );
     return list;
-  }, [promoLive, promo, promoEnd, now, total, latest, members, communityUrl]);
+  }, [promoLive, promo, promoEnd, now, latest, members, communityUrl]);
 
   useEffect(() => {
     if (paused || messages.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
