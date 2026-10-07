@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
+import { getNewArrivalGroups } from "@/lib/products";
 import CommunityStats from "@/components/CommunityStats";
 import Testimonials from "@/components/Testimonials";
-import StepsCarousel from "@/components/StepsCarousel";
+import Reveal from "@/components/Reveal";
+import VerifyHero from "@/components/verify/VerifyHero";
+import VerifyTimeline from "@/components/verify/VerifyTimeline";
+import WhatWeCheck from "@/components/verify/WhatWeCheck";
+import SealBadge from "@/components/verify/SealBadge";
 
 export const metadata: Metadata = {
   title: "Verificación",
@@ -44,59 +49,87 @@ const steps = [
   },
 ];
 
-export default function VerificacionPage() {
+const guarantees = [
+  { icon: "🔍", title: "Autenticidad verificada", text: "Antes de que el producto se publique." },
+  { icon: "🤝", title: "Pitsneakers en el medio", text: "Intermediamos toda la negociación y la entrega." },
+  { icon: "👥", title: "Respaldo de la comunidad", text: `Más de ${siteConfig.stats.whatsappMembers} miembros activos compran y venden con nosotros.` },
+  { icon: "💬", title: "Trato directo", text: "Negocias precio y condiciones por WhatsApp, como siempre." },
+];
+
+export default async function VerificacionPage() {
+  // Un par real del catálogo para la demostración del escáner.
+  const sample = (await getNewArrivalGroups()).find((g) => g.category === "sneakers" && g.images.length > 0);
+
   return (
     <div>
-      <section className="bg-ink py-20 text-white sm:py-28">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
-            Sobre nosotros
-          </p>
-          <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-6xl text-balance">
-            LA GARANTÍA DETRÁS DE CADA PAR
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm text-white/70 sm:text-base">
-            Pitsneakers nació como una comunidad de reventa por WhatsApp e
-            Instagram en {siteConfig.city}. Hoy seguimos operando igual — pero
-            con un proceso de verificación que protege a compradores y
-            vendedores en cada transacción.
-          </p>
-        </div>
-      </section>
+      <VerifyHero
+        photo={sample?.images[0] ?? null}
+        photoName={sample ? `${sample.brand} ${sample.name}` : "Tu par"}
+        members={siteConfig.stats.whatsappMembers}
+        city={siteConfig.city}
+      />
 
-      <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
-          Paso a paso
-        </p>
-        <h2 className="mt-3 font-display text-3xl tracking-wide sm:text-4xl">
-          Así verificamos cada producto
-        </h2>
+      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Paso a paso</p>
+          <h2 className="mt-3 font-display text-3xl tracking-wide sm:text-4xl">Así verificamos cada producto</h2>
+        </Reveal>
         <div className="mt-10">
-          <StepsCarousel steps={steps} />
+          <VerifyTimeline steps={steps} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
-        <div className="rounded-lg border border-line bg-paper-raised p-8 sm:p-10">
-          <h2 className="font-display text-2xl tracking-wide">
-            ¿Qué garantía te da esto como comprador?
-          </h2>
-          <ul className="mt-5 space-y-3 text-sm text-muted">
-            <li>· Autenticidad verificada antes de que el producto se publique.</li>
-            <li>· Intermediación de Pitsneakers durante toda la negociación y entrega.</li>
-            <li>· Historial de la comunidad: más de {siteConfig.stats.whatsappMembers} miembros activos que compran y venden con nosotros.</li>
-            <li>· Comunicación directa y sin intermediarios de pago — negocias precio y condiciones por WhatsApp, como siempre.</li>
-          </ul>
-          <a
-            href={buildGeneralWhatsAppLink(
-              "Hola! Tengo una pregunta sobre el proceso de verificación de Pitsneakers"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center justify-center rounded-full bg-whatsapp px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark"
-          >
-            Tengo una pregunta
-          </a>
+      <section className="bg-paper-raised/60 py-16 sm:py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Con lupa</p>
+            <h2 className="mt-3 font-display text-3xl tracking-wide sm:text-4xl">
+              Qué revisamos <span className="text-accent">en cada par</span>
+            </h2>
+          </Reveal>
+          <Reveal className="mt-10" delay={100}>
+            <WhatWeCheck />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="grid items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-14">
+          <Reveal className="mx-auto text-ink">
+            <SealBadge size={190} />
+          </Reveal>
+          <div>
+            <Reveal>
+              <h2 className="font-display text-3xl tracking-wide sm:text-4xl">
+                ¿Qué garantía te da esto <span className="text-accent">como comprador?</span>
+              </h2>
+            </Reveal>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+              {guarantees.map((g, i) => (
+                <li key={g.title}>
+                  <Reveal delay={i * 90} className="h-full">
+                    <div className="rl-card group relative h-full overflow-hidden rounded-xl border border-line bg-paper-raised p-5" style={{ ["--c" as string]: "#3ddc84" }}>
+                      <span aria-hidden="true" className="rl-icon inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/15 text-xl">
+                        {g.icon}
+                      </span>
+                      <h3 className="mt-3 text-base font-semibold">{g.title}</h3>
+                      <p className="mt-1 text-sm text-muted">{g.text}</p>
+                    </div>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+            <Reveal delay={200}>
+              <a
+                href={buildGeneralWhatsAppLink("Hola! Tengo una pregunta sobre el proceso de verificación de Pitsneakers")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-pop btn-shine relative mt-8 inline-flex items-center justify-center rounded-full bg-whatsapp px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white hover:bg-whatsapp-dark"
+              >
+                Tengo una pregunta
+              </a>
+            </Reveal>
+          </div>
         </div>
       </section>
 

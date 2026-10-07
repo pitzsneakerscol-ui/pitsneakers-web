@@ -823,3 +823,85 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+/* ---------- Verificación y Contacto ---------- */
+
+/* Rayo de escaneo sobre la foto */
+@keyframes vf-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+.vf-beam {
+  background: linear-gradient(to bottom, transparent, rgb(61 220 132 / 0.35) 70%, rgb(61 220 132 / 0.9));
+  border-bottom: 2px solid #3ddc84;
+  animation: vf-scan 1.3s linear infinite;
+}
+@keyframes vf-ping-ring {
+  0% { box-shadow: 0 0 0 0 rgb(200 64 42 / 0.6); }
+  100% { box-shadow: 0 0 0 12px rgb(200 64 42 / 0); }
+}
+.vf-ping {
+  animation: vf-ping-ring 0.9s ease-out infinite;
+}
+@keyframes vf-spin-around {
+  to { transform: rotate(360deg); }
+}
+.vf-spin {
+  animation: vf-spin-around 0.8s linear infinite;
+}
+/* Sello que "cae" con golpe */
+@keyframes vf-stamp-slam {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(-18deg) scale(2.6); }
+  55% { opacity: 1; transform: translate(-50%, -50%) rotate(-8deg) scale(0.92); }
+  75% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.06); }
+  100% { opacity: 1; transform: translate(-50%, -50%) rotate(-8deg) scale(1); }
+}
+.vf-stamp {
+  background: rgb(255 255 255 / 0.55);
+  backdrop-filter: blur(2px);
+  animation: vf-stamp-slam 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+/* Sello circular: gira lentamente; el visto se dibuja */
+@keyframes vf-rotate-slow {
+  to { transform: rotate(360deg); }
+}
+.vf-rotate {
+  animation: vf-rotate-slow 22s linear infinite;
+}
+@keyframes vf-check-draw {
+  0%, 15% { stroke-dashoffset: 1; }
+  45%, 100% { stroke-dashoffset: 0; }
+}
+.vf-check path {
+  stroke-dasharray: 1;
+  animation: vf-check-draw 4s ease-in-out infinite;
+}
+
+/* "Qué revisamos": barra de progreso del autoavance y entrada del panel */
+@keyframes wc-timer-run {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.wc-timer {
+  transform-origin: left;
+  animation: wc-timer-run 3.4s linear both;
+}
+@keyframes wc-panel-in {
+  from { opacity: 0; transform: translateX(14px); }
+  to { opacity: 1; transform: none; }
+}
+.wc-panel {
+  animation: wc-panel-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-rotate,
+  .vf-check path,
+  .vf-beam,
+  .wc-timer {
+    animation: none;
+  }
+  .vf-check path {
+    stroke-dashoffset: 0;
+  }
+}
