@@ -649,3 +649,177 @@ body {
     transition: none;
   }
 }
+
+/* ---------- Página "Vende con nosotros" ---------- */
+
+/* Frase rotatoria: entra desde abajo */
+@keyframes rl-rotate-in {
+  0% { opacity: 0; transform: translateY(100%); }
+  100% { opacity: 1; transform: none; }
+}
+.rl-rotate {
+  animation: rl-rotate-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+/* Panel en vivo */
+.rl-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.rl-play .rl-draw {
+  animation: rl-draw-line 1.4s cubic-bezier(0.6, 0, 0.2, 1) 0.2s forwards;
+}
+@keyframes rl-draw-line {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes rl-dot-pulse {
+  0%, 100% { opacity: 1; r: 4; }
+  50% { opacity: 0.4; r: 7; }
+}
+.rl-pulse-dot {
+  animation: rl-dot-pulse 1.6s ease-in-out infinite;
+}
+.rl-bar {
+  transform-origin: bottom;
+  transition: height 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.rl-demo:not(.rl-play) .rl-bar {
+  transform: scaleY(0);
+}
+.rl-demo .rl-bar {
+  transition: height 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2), transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+  transition-delay: 0s, calc(var(--i, 0) * 90ms + 400ms);
+}
+@keyframes rl-row-in {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: none; }
+}
+.rl-row {
+  animation: rl-row-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  transition: background-color 0.3s ease, transform 0.6s ease, opacity 0.6s ease;
+}
+.rl-row-sold {
+  background: rgb(61 220 132 / 0.18);
+  transform: translateX(-10px);
+  opacity: 0.55;
+}
+@keyframes rl-warn-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.rl-warn {
+  animation: rl-warn-blink 2s ease-in-out infinite;
+}
+
+/* Tarjetas de beneficios: se elevan y se iluminan con su color */
+.rl-card {
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.rl-card::before {
+  content: "";
+  position: absolute;
+  inset: auto -20% -60% -20%;
+  height: 60%;
+  background: radial-gradient(circle, var(--c) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.rl-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--c);
+  box-shadow: 0 14px 30px -12px var(--c);
+}
+.rl-card:hover::before {
+  opacity: 0.18;
+}
+.rl-icon {
+  transition: transform 0.4s cubic-bezier(0.2, 1.5, 0.3, 1);
+}
+.rl-card:hover .rl-icon {
+  transform: rotate(-10deg) scale(1.18);
+}
+
+/* Pasos: los números saltan y el conector se dibuja uno tras otro */
+.rl-steps:not(.rl-play) .rl-step {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.rl-step {
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 220ms);
+}
+.rl-steps:not(.rl-play) .rl-num {
+  transform: scale(0);
+}
+.rl-num {
+  transition: transform 0.6s cubic-bezier(0.2, 1.6, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 220ms + 250ms);
+}
+.rl-steps:not(.rl-play) .rl-link {
+  transform: scaleX(0);
+}
+.rl-link {
+  transform-origin: left;
+  background: var(--c, var(--color-line));
+  transition: transform 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 220ms + 500ms);
+}
+
+/* Controles deslizantes de la calculadora */
+.rl-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--color-accent) var(--pct, 50%), var(--color-line) var(--pct, 50%));
+  outline: none;
+  cursor: pointer;
+}
+.rl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 26px;
+  width: 26px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+  transition: transform 0.15s ease;
+}
+.rl-range:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+.rl-range::-moz-range-thumb {
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+}
+.rl-meter {
+  transition: width 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* Anillo suave en botones de llamada a la acción */
+@keyframes rs-ring-loop {
+  0% { box-shadow: 0 0 0 0 rgb(200 64 42 / 0.45); }
+  70%, 100% { box-shadow: 0 0 0 16px rgb(200 64 42 / 0); }
+}
+.rs-ring {
+  animation: rs-ring-loop 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rl-demo:not(.rl-play) .rl-bar,
+  .rl-steps:not(.rl-play) .rl-step,
+  .rl-steps:not(.rl-play) .rl-num,
+  .rl-steps:not(.rl-play) .rl-link {
+    transform: none;
+    opacity: 1;
+  }
+  .rl-draw {
+    stroke-dashoffset: 0;
+  }
+}
