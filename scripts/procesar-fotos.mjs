@@ -6,10 +6,16 @@
 //   npm run fotos -- --desde "C:\Users\user\Downloads" --ultimas 3   ...de las últimas 3 horas
 //   npm run fotos -- --probar        muestra qué haría, sin escribir nada
 //   npm run fotos -- --igualar       vuelve a igualar el tamaño de TODAS las fotos que ya están en el catálogo
+//   npm run fotos -- --forzar        procesa de nuevo archivos que ya se habían procesado
+//   npm run fotos -- --versionar     renombra las fotos del catálogo con una huella de su contenido (rompe cachés viejos)
+//
+// Cada foto se guarda como SKU.<huella>.webp: si la foto cambia, su dirección cambia, y ningún navegador ni CDN
+// puede seguir mostrando la versión anterior (el sitio guarda las imágenes 30 días).
 //
 // El nombre del archivo dice de qué producto es: el SKU (AJ4-01.png) o el nombre ("Jordan 4 Brick.png",
 // "supreme duffle bag.png"). Para una segunda foto del mismo producto termina el nombre en " 2" (ej. "Gorra Nocta 2.png").
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -40,6 +46,8 @@ const valor = (n) => {
 };
 const PROBAR = flag("--probar");
 const IGUALAR = flag("--igualar");
+const FORZAR = flag("--forzar");
+const VERSIONAR = flag("--versionar");
 const INBOX = valor("--desde") ? path.resolve(valor("--desde")) : INBOX_DEFAULT;
 // En una carpeta compartida (Descargas) solo se miran archivos recientes, para no volver a tocar fotos de antes.
 const HORAS = valor("--ultimas") ? Number(valor("--ultimas")) : INBOX === INBOX_DEFAULT ? null : 1;
@@ -143,6 +151,11 @@ function emparejar(base, productos) {
   }
   return { productos: [], razon: `ambiguo (${empatados.slice(0, 3).map((x) => x.p.nombre).join(" / ")})` };
 }
+
+const HUELLA = /\.[0-9a-f]{8}$/;
+const huella = (buf) => crypto.createHash("sha1").update(buf).digest("hex").slice(0, 8);
+const sinHuella = (nombreSinExt) => nombreSinExt.replace(HUELLA, "");
+const escapar = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /* ---------- imagen: quitar fondo + igualar tamaño ---------- */
 
@@ -426,6 +439,37 @@ async function modoIgualar() {
   console.log(`\n${PROBAR ? "Se igualarían" : "Igualadas"} ${cambiadas} de ${archivos.length} fotos.`);
 }
 
+async function modoVersionar() {
+  const catalogo = leerCatalogo();
+  const mapa = new Map(); // url vieja -> url nueva
+  for (const prod of catalogo.productos) {
+    for (const url of prod.fotos) {
+      if (mapa.has(url) || !url.startsWith("/products/") || !url.endsWith(".webp")) continue;
+      const archivo = path.join(PUBLIC, path.basename(url));
+      if (!fs.existsSync(archivo)) continue;
+      const base = sinHuella(path.basename(url, ".webp"));
+      const nuevo = `${base}.${huella(fs.readFileSync(archivo))}.webp`;
+      mapa.set(url, `/products/${nuevo}`);
+    }
+  }
+  let renombradas = 0;
+  for (const [viejo, nuevo] of mapa) {
+    if (viejo === nuevo) continue;
+    renombradas++;
+    if (!PROBAR) fs.renameSync(path.join(PUBLIC, path.basename(viejo)), path.join(PUBLIC, path.basename(nuevo)));
+  }
+  console.log(`${PROBAR ? "Se renombrarían" : "Renombradas"} ${renombradas} de ${mapa.size} fotos.`);
+  if (PROBAR || !renombradas) return;
+  const cambios = new Map();
+  for (const prod of catalogo.productos) {
+    const nuevas = prod.fotos.map((u) => mapa.get(u) ?? u);
+    if (nuevas.some((u, i) => u !== prod.fotos[i])) cambios.set(prod, nuevas);
+  }
+  escribirFotosCsv(catalogo, cambios);
+  const total = await regenerarCatalogo();
+  console.log(`Catálogo actualizado: ${total.length} productos, ${total.filter((x) => x.images.length).length} con foto.`);
+}
+
 async function modoProcesar() {
   if (!fs.existsSync(INBOX)) {
     fs.mkdirSync(INBOX, { recursive: true });
@@ -451,7 +495,7 @@ async function modoProcesar() {
     const ruta = path.join(INBOX, f);
     const st = fs.statSync(ruta);
     const clave = `${f}|${st.size}|${Math.round(st.mtimeMs)}`;
-    if (hecho[clave]) {
+    if (hecho[clave] && !FORZAR) {
       reporte.omitidas++;
       continue;
     }
@@ -473,13 +517,19 @@ async function modoProcesar() {
     }
     const img = await quitarFondo(ruta);
     const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS);
-    const destino = `${productos[0].archivo}${segunda ? "-2" : ""}.webp`;
+    const baseNombre = `${productos[0].archivo}${segunda ? "-2" : ""}`;
+    const destino = `${baseNombre}.${huella(webp)}.webp`;
     const url = `/products/${destino}`;
     if (!PROBAR) {
+      // Se borran las versiones anteriores de esta misma foto (con o sin huella).
+      const anterior = new RegExp(`^${escapar(baseNombre)}(\\.[0-9a-f]{8})?\\.webp$`);
+      for (const f2 of fs.readdirSync(PUBLIC)) if (anterior.test(f2) && f2 !== destino) fs.unlinkSync(path.join(PUBLIC, f2));
       fs.writeFileSync(path.join(PUBLIC, destino), webp);
+      const mismaFoto = (u) => anterior.test(path.basename(u));
+      const esSegunda = (u) => /-2(\.[0-9a-f]{8})?\.webp$/.test(u);
       for (const p of productos) {
         const actuales = cambios.get(p) ?? p.fotos;
-        const siguientes = segunda ? [...new Set([...actuales, url])] : [url, ...actuales.filter((x) => x !== url && /-2\.webp$/.test(x))];
+        const siguientes = segunda ? [...actuales.filter((u) => !mismaFoto(u)), url] : [url, ...actuales.filter((u) => !mismaFoto(u) && esSegunda(u))];
         cambios.set(p, siguientes);
       }
       hecho[clave] = new Date().toISOString();
@@ -506,7 +556,7 @@ async function modoProcesar() {
   if (reporte.omitidas) console.log(`\n(${reporte.omitidas} ya procesadas antes, omitidas)`);
 }
 
-(IGUALAR ? modoIgualar() : modoProcesar()).catch((e) => {
+(VERSIONAR ? modoVersionar() : IGUALAR ? modoIgualar() : modoProcesar()).catch((e) => {
   console.error("Error:", e.message);
   process.exit(1);
 });
