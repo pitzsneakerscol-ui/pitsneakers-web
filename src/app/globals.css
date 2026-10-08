@@ -1109,3 +1109,30 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .scarcity-flame { animation: none; }
 }
+
+/* Aviso de escasez: toda la línea (llama + texto) se anima */
+@keyframes scarcity-breathe {
+  0%, 100% { transform: translateX(0) scale(1); }
+  50% { transform: translateX(2px) scale(1.035); }
+}
+@keyframes scarcity-fire-text {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.scarcity-line {
+  transform-origin: left center;
+  animation: scarcity-breathe 1.6s ease-in-out infinite;
+}
+.scarcity-text {
+  background: linear-gradient(90deg, #e11d2e 0%, #ff5a1f 25%, #ffb02e 50%, #ff5a1f 75%, #e11d2e 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: scarcity-fire-text 2.2s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scarcity-line { animation: none; }
+  .scarcity-text { animation: none; background-position: 0 50%; }
+}

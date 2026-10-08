@@ -1,13 +1,13 @@
 import { ProductGroup } from "@/types/product";
 import { groupScarcity } from "@/lib/scarcity";
 
-/** Aviso discreto: una línea de texto pequeña con una llama que parpadea, sin fondo ni etiqueta. */
+/** Aviso discreto: una línea de texto pequeña con una llama y el texto animados (la línea completa respira y el texto brilla en tonos de fuego), sin fondo ni etiqueta. */
 export default function ScarcityBadge({ group, className = "" }: { group: ProductGroup; className?: string }) {
   const s = groupScarcity(group);
   if (!s || s.level === "rare") return null;
   return (
     <p
-      className={`flex items-center gap-1.5 text-xs font-medium ${s.level === "last" ? "text-accent" : "text-ink"} ${className}`}
+      className={`scarcity-line flex w-fit items-center gap-1.5 text-xs font-semibold ${className}`}
     >
       <svg className="scarcity-flame h-4 w-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -19,7 +19,7 @@ export default function ScarcityBadge({ group, className = "" }: { group: Produc
           fill="#ffc83d"
         />
       </svg>
-      <span>{s.text}</span>
+      <span className="scarcity-text">{s.text}</span>
     </p>
   );
 }
