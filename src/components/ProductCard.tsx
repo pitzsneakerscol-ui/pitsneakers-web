@@ -6,7 +6,6 @@ import ProductMedia from "@/components/ProductMedia";
 import { WhatsAppButtonSmall } from "@/components/WhatsAppButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import QuickViewButton from "@/components/QuickView";
-import ScarcityBadge from "@/components/ScarcityBadge";
 
 export default function ProductCard({ group }: { group: ProductGroup }) {
   const { min } = groupPriceRange(group);
@@ -58,7 +57,6 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           </p>
           <h3 className="truncate text-sm font-medium text-ink">{group.name}</h3>
           <p className="truncate text-xs text-muted">{group.colorway || " "}</p>
-          <ScarcityBadge group={group} className="mt-0.5" />
         </Link>
       </div>
 
