@@ -539,9 +539,12 @@ async function modoProcesar() {
     // "Nombre 2" / "Nombre (3)": foto número N del mismo producto (solo si el nombre completo no coincidía).
     let numero = 1;
     const sufijo = /\s*(?:\((\d)\)|[-_ ](\d))$/.exec(base);
-    if (!productos.length && sufijo) {
+    if (sufijo) {
+      // Se usa el número si el nombre sin él apunta al mismo producto que el nombre completo
+      // ("Nombre 2" también coincide con "Nombre" en el emparejador flexible) o si el completo no coincidía.
       const r2 = emparejar(base.slice(0, sufijo.index), catalogo.productos);
-      if (r2.productos.length) {
+      const mismos = productos.length === r2.productos.length && productos.every((x) => r2.productos.includes(x));
+      if (r2.productos.length && (!productos.length || mismos)) {
         ({ productos, razon } = r2);
         numero = Number(sufijo[1] ?? sufijo[2]);
       }

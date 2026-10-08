@@ -6469,5 +6469,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:12:00.000Z"
+  },
+  {
+    "id": "AJ1-06",
+    "slug": "jordan-jordan-1-low-travis-scott-fragment",
+    "name": "Jordan 1 Low Travis Scott Fragment",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 6200000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-06.7380e132.webp",
+      "/products/AJ1-06-2.e20d3a0e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:13:00.000Z"
   }
 ]
