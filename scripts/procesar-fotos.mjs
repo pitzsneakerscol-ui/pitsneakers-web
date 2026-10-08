@@ -13,7 +13,8 @@
 // puede seguir mostrando la versión anterior (el sitio guarda las imágenes 30 días).
 //
 // El nombre del archivo dice de qué producto es: el SKU (AJ4-01.png) o el nombre ("Jordan 4 Brick.png",
-// "supreme duffle bag.png"). Para una segunda foto del mismo producto termina el nombre en " 2" (ej. "Gorra Nocta 2.png").
+// "supreme duffle bag.png"). Para varias fotos del mismo producto, termina cada nombre en su número: "Fat Fit Pant 1.jpg", "Fat Fit Pant 2.jpg", "Fat Fit Pant 3.jpg"
+// (la 1 es la principal; las demás forman la galería).
 
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -155,6 +156,11 @@ function emparejar(base, productos) {
 const HUELLA = /\.[0-9a-f]{8}$/;
 const huella = (buf) => crypto.createHash("sha1").update(buf).digest("hex").slice(0, 8);
 const sinHuella = (nombreSinExt) => nombreSinExt.replace(HUELLA, "");
+/** Número de foto de una URL: SKU-2.webp / SKU-2.<huella>.webp -> 2; si no lleva número, es la principal (1). */
+const numeroDeFoto = (url) => {
+  const m = /-(\d)(\.[0-9a-f]{8})?\.webp$/.exec(url);
+  return m ? Number(m[1]) : 1;
+};
 const escapar = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /* ---------- imagen: quitar fondo + igualar tamaño ---------- */
@@ -501,15 +507,17 @@ async function modoProcesar() {
     }
     const base = f.replace(EXT, "");
     let { productos, razon } = emparejar(base, catalogo.productos);
-    // "Nombre 2" / "Nombre (2)": segunda foto del mismo producto (solo si el nombre completo no coincidía).
-    let segunda = false;
-    if (!productos.length && /\s*(\(2\)|[-_ ]2)$/.test(base)) {
-      const r2 = emparejar(base.replace(/\s*(\(2\)|[-_ ]2)$/, ""), catalogo.productos);
+    // "Nombre 2" / "Nombre (3)": foto número N del mismo producto (solo si el nombre completo no coincidía).
+    let numero = 1;
+    const sufijo = /\s*(?:\((\d)\)|[-_ ](\d))$/.exec(base);
+    if (!productos.length && sufijo) {
+      const r2 = emparejar(base.slice(0, sufijo.index), catalogo.productos);
       if (r2.productos.length) {
         ({ productos, razon } = r2);
-        segunda = true;
+        numero = Number(sufijo[1] ?? sufijo[2]);
       }
     }
+    const segunda = numero > 1;
     if (!productos.length) {
       // En una carpeta compartida (Descargas) lo que no coincide simplemente no es una foto de producto.
       if (INBOX === INBOX_DEFAULT) reporte.sinPareja.push(`${f}  →  ${razon}`);
@@ -517,7 +525,7 @@ async function modoProcesar() {
     }
     const img = await quitarFondo(ruta);
     const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS);
-    const baseNombre = `${productos[0].archivo}${segunda ? "-2" : ""}`;
+    const baseNombre = `${productos[0].archivo}${numero > 1 ? `-${numero}` : ""}`;
     const destino = `${baseNombre}.${huella(webp)}.webp`;
     const url = `/products/${destino}`;
     if (!PROBAR) {
@@ -526,11 +534,11 @@ async function modoProcesar() {
       for (const f2 of fs.readdirSync(PUBLIC)) if (anterior.test(f2) && f2 !== destino) fs.unlinkSync(path.join(PUBLIC, f2));
       fs.writeFileSync(path.join(PUBLIC, destino), webp);
       const mismaFoto = (u) => anterior.test(path.basename(u));
-      const esSegunda = (u) => /-2(\.[0-9a-f]{8})?\.webp$/.test(u);
       for (const p of productos) {
         const actuales = cambios.get(p) ?? p.fotos;
-        const siguientes = segunda ? [...actuales.filter((u) => !mismaFoto(u)), url] : [url, ...actuales.filter((u) => !mismaFoto(u) && esSegunda(u))];
-        cambios.set(p, siguientes);
+        // Se reemplaza la foto que tuviera ese mismo número y se ordena la galería por número.
+        const resto = actuales.filter((u) => !mismaFoto(u) && numeroDeFoto(u) !== numero);
+        cambios.set(p, [...resto, url].sort((a, b) => numeroDeFoto(a) - numeroDeFoto(b)));
       }
       hecho[clave] = new Date().toISOString();
     }

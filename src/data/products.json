@@ -1643,7 +1643,11 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-FAT-FIT-PANT.9450ef62.webp",
+      "/products/SUPREME-FAT-FIT-PANT-2.05fa9a15.webp",
+      "/products/SUPREME-FAT-FIT-PANT-3.10211532.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:19:00.000Z"
@@ -1738,7 +1742,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/HIDDEN-NY-FERXXO-TEE.973f28b2.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:24:00.000Z"
@@ -1757,7 +1763,9 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/ANTI-SOCIAL-SOCIAL-CLUB-STAY-AWAKE-T-SHIRT.34dfd18b.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:25:00.000Z"
@@ -1776,7 +1784,11 @@
     ],
     "condition": "nuevo",
     "description": "Comisión incluida en el precio.",
-    "images": [],
+    "images": [
+      "/products/SUPREME-FAT-FIT-PANT.9450ef62.webp",
+      "/products/SUPREME-FAT-FIT-PANT-2.05fa9a15.webp",
+      "/products/SUPREME-FAT-FIT-PANT-3.10211532.webp"
+    ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T01:26:00.000Z"

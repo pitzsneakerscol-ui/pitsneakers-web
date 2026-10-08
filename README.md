@@ -312,12 +312,14 @@ El comando, por cada foto:
 2. **La deja del mismo tamaño que las demás**: la recorta al producto, la escala a una caja común y la centra en un lienzo cuadrado de 2000×2000.
 3. **La conecta al catálogo**: guarda `public/products/<SKU>.webp`, actualiza la columna FOTOS del CSV y regenera `src/data/products.json`.
 
-El **nombre del archivo** dice de qué producto es: el SKU (`AJ4-01.png`) o el nombre ("Jordan 4 Brick.png", "supreme duffle bag.png"). Para una segunda foto del mismo producto, termina el nombre en ` 2` ("Gorra Nocta 2.png"). Lo que no coincide con ningún producto se lista al final para renombrarlo.
+El **nombre del archivo** dice de qué producto es: el SKU (`AJ4-01.png`) o el nombre ("Jordan 4 Brick.png", "supreme duffle bag.png"). Para varias fotos del mismo producto, termina cada nombre en su número ("Fat Fit Pant 1.jpg", "Fat Fit Pant 2.jpg", "Fat Fit Pant 3.jpg"): la 1 es la principal y las demás forman la galería. Lo que no coincide con ningún producto se lista al final para renombrarlo.
 
 Opciones útiles:
 
 - `npm run fotos -- --probar` — muestra qué haría, sin escribir nada.
 - `npm run fotos -- --desde "C:\Users\tu-usuario\Downloads"` — lee otra carpeta (solo archivos de la última hora; usa `--ultimas 3` para 3 horas).
 - `npm run fotos -- --igualar` — vuelve a igualar el tamaño de todas las fotos que ya están en el catálogo.
+- `npm run fotos -- --forzar` — reprocesa archivos que ya se habían procesado.
+- `npm run fotos -- --versionar` — renombra las fotos con una huella de su contenido (cada foto se guarda como `SKU.<huella>.webp`, así una foto cambiada nunca se queda pegada en la caché de 30 días).
 
 Después de procesar, revisa los cambios y súbelos con git (commit + push).
