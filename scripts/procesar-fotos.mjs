@@ -38,6 +38,10 @@ const CAJA_H = 1500;
 const MAX_AMPLIAR = 1.8; // al igualar fotos ya publicadas: no ampliar más de esto para no perder nitidez
 const MAX_AMPLIAR_NUEVAS = 4; // fotos nuevas muy chicas: se amplían más (y se avisa que se verán suaves)
 const UMBRAL_BLANCO = 247;
+// "Peso visual": raíz del área que ocupa el producto (en px del lienzo). Se usa para que un zapato plano y una bota alta
+// se vean del mismo tamaño; el ajuste nunca se aparta más de AJUSTE_PESO del tamaño que daría la caja.
+const PESO_VISUAL = 925;
+const AJUSTE_PESO = 0.15;
 const FOTOS_COL = 11;
 
 const args = process.argv.slice(2);
@@ -106,6 +110,7 @@ function leerCatalogo() {
       nombre,
       marca,
       sku,
+      categoria: unquote(f[3]).toLowerCase(),
       fotos: unquote(f[FOTOS_COL]).split(",").map((s) => s.trim()).filter(Boolean),
       // Nombre de archivo para sus fotos: el SKU, o uno derivado de marca + nombre si no tiene.
       archivo: sku || (slug(nombre).startsWith(slug(marca)) ? slug(nombre) : `${slug(marca)}-${slug(nombre)}`),
@@ -393,11 +398,12 @@ async function quitarFondo(file, completa = false) {
 }
 
 /** Recorta al producto, lo escala a la caja común y lo centra en el lienzo. Devuelve { webp, info }. */
-async function igualarTamano({ rgba, w, h }, maxAmpliar = MAX_AMPLIAR) {
-  let x0 = w, y0 = h, x1 = -1, y1 = -1;
+async function igualarTamano({ rgba, w, h }, maxAmpliar = MAX_AMPLIAR, conPeso = false) {
+  let x0 = w, y0 = h, x1 = -1, y1 = -1, area = 0;
   for (let y = 0; y < h; y++)
     for (let x = 0; x < w; x++)
       if (rgba[(y * w + x) * 4 + 3] > 12) {
+        area += rgba[(y * w + x) * 4 + 3] / 255;
         if (x < x0) x0 = x;
         if (x > x1) x1 = x;
         if (y < y0) y0 = y;
@@ -406,7 +412,12 @@ async function igualarTamano({ rgba, w, h }, maxAmpliar = MAX_AMPLIAR) {
   if (x1 < 0) throw new Error("la imagen quedó vacía (¿todo era fondo?)");
   const bw = x1 - x0 + 1;
   const bh = y1 - y0 + 1;
-  const escala = Math.min(CAJA_W / bw, CAJA_H / bh, maxAmpliar);
+  // Escala base: lo que cabe en la caja. Luego se acerca al peso visual común (±AJUSTE_PESO) sin salirse del lienzo.
+  const base = Math.min(CAJA_W / bw, CAJA_H / bh, maxAmpliar);
+  const deseada = PESO_VISUAL / Math.sqrt(area);
+  const tope = Math.min(1800 / bw, 1500 / bh, maxAmpliar);
+  // El peso visual solo se aplica a los pares (la ropa tiene formas y proporciones muy distintas).
+  const escala = conPeso ? Math.min(tope, Math.max(base * (1 - AJUSTE_PESO), Math.min(base * (1 + AJUSTE_PESO), deseada))) : base;
   const tw = Math.max(1, Math.round(bw * escala));
   const th = Math.max(1, Math.round(bh * escala));
   const recorte = await sharp(rgba, { raw: { width: w, height: h, channels: 4 } })
@@ -456,6 +467,10 @@ async function regenerarCatalogo() {
 const EXT = /\.(png|jpe?g|webp|avif)$/i;
 
 async function modoIgualar() {
+  // Fotos de pares (sneakers): a esas se les ajusta además el peso visual.
+  const pares = new Set(
+    leerCatalogo().productos.filter((p) => p.categoria === "sneakers").flatMap((p) => p.fotos.map((u) => path.basename(u)))
+  );
   const archivos = fs.readdirSync(PUBLIC).filter((f) => f.endsWith(".webp"));
   let cambiadas = 0;
   for (const f of archivos) {
@@ -466,7 +481,7 @@ async function modoIgualar() {
       continue;
     }
     const img = await quitarFondo(ruta);
-    const { webp, info } = await igualarTamano(img);
+    const { webp, info } = await igualarTamano(img, MAX_AMPLIAR, pares.has(f));
     const cambio = Math.abs(info.escala - 1) > 0.01 || img.w !== LIENZO || img.h !== LIENZO || info.descentrada;
     if (!cambio) continue;
     cambiadas++;
@@ -558,7 +573,7 @@ async function modoProcesar() {
       continue;
     }
     const img = await quitarFondo(ruta, Boolean(SIN_RECORTE) && f.toLowerCase().includes(SIN_RECORTE));
-    const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS);
+    const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS, productos[0].categoria === "sneakers");
     const baseNombre = `${productos[0].archivo}${numero > 1 ? `-${numero}` : ""}`;
     const destino = `${baseNombre}.${huella(webp)}.webp`;
     const url = `/products/${destino}`;
