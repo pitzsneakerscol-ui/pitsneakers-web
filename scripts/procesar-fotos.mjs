@@ -418,9 +418,7 @@ async function igualarTamano({ rgba, w, h }, maxAmpliar = MAX_AMPLIAR) {
     .composite([{ input: recorte, left: Math.round((LIENZO - tw) / 2), top: Math.round((LIENZO - th) / 2) }])
     .webp({ quality: 95 })
     .toBuffer();
-  // Descentrada: el producto no está en el medio del lienzo (≥ 8 px) → hay que volver a centrarla aunque la escala sea la correcta.
-  const descentrada = Math.abs((x0 + x1) / 2 - w / 2) > 8 || Math.abs((y0 + y1) / 2 - h / 2) > 8;
-  return { webp, info: { original: `${bw}x${bh}`, final: `${tw}x${th}`, escala: +escala.toFixed(2), descentrada } };
+  return { webp, info: { original: `${bw}x${bh}`, final: `${tw}x${th}`, escala: +escala.toFixed(2) } };
 }
 
 /* ---------- catálogo: CSV + products.json ---------- */
@@ -467,7 +465,7 @@ async function modoIgualar() {
     }
     const img = await quitarFondo(ruta);
     const { webp, info } = await igualarTamano(img);
-    const cambio = Math.abs(info.escala - 1) > 0.01 || img.w !== LIENZO || img.h !== LIENZO || info.descentrada;
+    const cambio = Math.abs(info.escala - 1) > 0.01 || img.w !== LIENZO || img.h !== LIENZO;
     if (!cambio) continue;
     cambiadas++;
     console.log(`  ✓ ${f}: ${info.original} → ${info.final} (x${info.escala})`);
