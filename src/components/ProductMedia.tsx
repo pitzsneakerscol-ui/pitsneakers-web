@@ -26,6 +26,9 @@ export default function ProductMedia({
   className?: string;
 }) {
   const src = product.images[index];
+  // Las fotos del catálogo ya son recortes transparentes (WebP): se muestran con sus colores reales, sin mezclar con
+  // el fondo (así lo blanco se ve blanco). El efecto "multiplicar" queda solo para fotos antiguas con fondo blanco (PNG/JPG).
+  const blend = src && /\.(png|jpe?g)$/i.test(src) ? "mix-blend-multiply" : "";
 
   if (src) {
     return (
@@ -36,7 +39,7 @@ export default function ProductMedia({
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
         priority={priority}
         quality={90}
-        className={`object-cover mix-blend-multiply ${className}`}
+        className={`object-cover ${blend} ${className}`}
       />
     );
   }
