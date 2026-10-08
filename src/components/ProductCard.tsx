@@ -6,6 +6,7 @@ import ProductMedia from "@/components/ProductMedia";
 import { WhatsAppButtonSmall } from "@/components/WhatsAppButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import QuickViewButton from "@/components/QuickView";
+import ScarcityBadge from "@/components/ScarcityBadge";
 
 export default function ProductCard({ group }: { group: ProductGroup }) {
   const { min } = groupPriceRange(group);
@@ -28,6 +29,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           className="transition duration-500 group-hover:scale-[1.04]"
         />
         <span className="card-shine" aria-hidden="true" />
+        <ScarcityBadge group={group} className="absolute bottom-3 left-3" />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {promo && (
             <span className="badge-wiggle rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">

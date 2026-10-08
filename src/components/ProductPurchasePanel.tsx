@@ -5,6 +5,7 @@ import { Product, ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
 import { groupPriceRange } from "@/lib/grouping";
 import { WhatsAppButtonLarge } from "@/components/WhatsAppButton";
+import ScarcityBadge from "@/components/ScarcityBadge";
 
 interface Option {
   key: string;
@@ -81,6 +82,8 @@ export default function ProductPurchasePanel({
       {group.colorway && (
         <p className="mt-1 text-sm text-muted">{group.colorway}</p>
       )}
+
+      <ScarcityBadge group={group} className="mt-3" />
 
       <div className="mt-4 flex items-center gap-3">
         {activePromo && (

@@ -1082,3 +1082,15 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+/* Aviso de escasez (última unidad / pocos pares) */
+@keyframes scarcity-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.7); }
+}
+.scarcity-dot {
+  animation: scarcity-blink 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scarcity-dot { animation: none; }
+}
