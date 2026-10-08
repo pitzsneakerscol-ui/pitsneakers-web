@@ -1,21 +1,16 @@
 import { ProductGroup } from "@/types/product";
 import { groupScarcity } from "@/lib/scarcity";
 
-const COLORS = {
-  last: "bg-accent text-white",
-  low: "bg-ink text-white",
-  rare: "bg-white/90 text-ink",
-} as const;
-
+/** Aviso discreto: una línea de texto pequeña con un punto, sin fondo ni etiqueta sobre la foto. */
 export default function ScarcityBadge({ group, className = "" }: { group: ProductGroup; className?: string }) {
   const s = groupScarcity(group);
-  if (!s) return null;
+  if (!s || s.level === "rare") return null;
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${COLORS[s.level]} ${className}`}
+    <p
+      className={`flex items-center gap-1.5 truncate text-[11px] font-medium ${s.level === "last" ? "text-accent" : "text-muted"} ${className}`}
     >
-      <span className="scarcity-dot h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
-      {s.text}
-    </span>
+      <span className="scarcity-dot h-1 w-1 shrink-0 rounded-full bg-current" aria-hidden="true" />
+      <span className="truncate">{s.text}</span>
+    </p>
   );
 }

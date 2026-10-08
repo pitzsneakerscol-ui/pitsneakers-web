@@ -29,7 +29,6 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           className="transition duration-500 group-hover:scale-[1.04]"
         />
         <span className="card-shine" aria-hidden="true" />
-        <ScarcityBadge group={group} className="absolute bottom-3 left-3" />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {promo && (
             <span className="badge-wiggle rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
@@ -59,6 +58,7 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
           </p>
           <h3 className="truncate text-sm font-medium text-ink">{group.name}</h3>
           <p className="truncate text-xs text-muted">{group.colorway || " "}</p>
+          <ScarcityBadge group={group} className="mt-0.5" />
         </Link>
       </div>
 
