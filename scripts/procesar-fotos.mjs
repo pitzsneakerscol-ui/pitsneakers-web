@@ -7,6 +7,7 @@
 //   npm run fotos -- --probar        muestra qué haría, sin escribir nada
 //   npm run fotos -- --igualar       vuelve a igualar el tamaño de TODAS las fotos que ya están en el catálogo
 //   npm run fotos -- --forzar        procesa de nuevo archivos que ya se habían procesado
+//   npm run fotos -- --sin-recorte "NY Flag"   para esos archivos NO se quita el fondo (prendas blancas sobre blanco: el catálogo ya funde el blanco)
 //   npm run fotos -- --versionar     renombra las fotos del catálogo con una huella de su contenido (rompe cachés viejos)
 //
 // Cada foto se guarda como SKU.<huella>.webp: si la foto cambia, su dirección cambia, y ningún navegador ni CDN
@@ -49,6 +50,7 @@ const PROBAR = flag("--probar");
 const IGUALAR = flag("--igualar");
 const FORZAR = flag("--forzar");
 const VERSIONAR = flag("--versionar");
+const SIN_RECORTE = valor("--sin-recorte")?.toLowerCase();
 const INBOX = valor("--desde") ? path.resolve(valor("--desde")) : INBOX_DEFAULT;
 // En una carpeta compartida (Descargas) solo se miran archivos recientes, para no volver a tocar fotos de antes.
 const HORAS = valor("--ultimas") ? Number(valor("--ultimas")) : INBOX === INBOX_DEFAULT ? null : 1;
@@ -261,12 +263,13 @@ async function quitarDegradado(px, w, h) {
   return null; // no se pudo separar bien: se deja la foto completa
 }
 
-async function quitarFondo(file) {
+async function quitarFondo(file, completa = false) {
   const meta = await sharp(file).metadata();
   const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const w = info.width;
   const h = info.height;
   const px = new Uint8Array(data);
+  if (completa) return { rgba: Buffer.from(px), w, h, conFondo: "conservado" };
   if (meta.hasAlpha) {
     // Si ya tiene transparencia real, se respeta.
     let transp = 0;
@@ -326,6 +329,32 @@ async function quitarFondo(file) {
     lumN++;
   }
   if (lumN > 0 && lumSum / lumN < 100) {
+    // Halo: la sombra clara y poco saturada pegada al fondo también es fondo (un producto oscuro no tiene bordes claros).
+    const claro = (i) => {
+      const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2];
+      return Math.min(r, g, b) >= 200 && Math.max(r, g, b) - Math.min(r, g, b) <= 16;
+    };
+    const frontera = [];
+    for (let i = 0; i < w * h; i++) {
+      if (!bg[i]) continue;
+      const x = i % w;
+      if ((x > 0 && !bg[i - 1]) || (x < w - 1 && !bg[i + 1]) || (i >= w && !bg[i - w]) || (i < w * h - w && !bg[i + w])) frontera.push(i);
+    }
+    while (frontera.length) {
+      const i = frontera.pop();
+      const x = i % w;
+      const vecinos = [];
+      if (x > 0) vecinos.push(i - 1);
+      if (x < w - 1) vecinos.push(i + 1);
+      if (i >= w) vecinos.push(i - w);
+      if (i < w * h - w) vecinos.push(i + w);
+      for (const n of vecinos) {
+        if (!bg[n] && claro(n)) {
+          bg[n] = 1;
+          frontera.push(n);
+        }
+      }
+    }
     const visto = new Uint8Array(w * h);
     const puro = (i) => px[i * 4] >= 253 && px[i * 4 + 1] >= 253 && px[i * 4 + 2] >= 253;
     for (let s0 = 0; s0 < w * h; s0++) {
@@ -523,7 +552,7 @@ async function modoProcesar() {
       if (INBOX === INBOX_DEFAULT) reporte.sinPareja.push(`${f}  →  ${razon}`);
       continue;
     }
-    const img = await quitarFondo(ruta);
+    const img = await quitarFondo(ruta, Boolean(SIN_RECORTE) && f.toLowerCase().includes(SIN_RECORTE));
     const { webp, info } = await igualarTamano(img, MAX_AMPLIAR_NUEVAS);
     const baseNombre = `${productos[0].archivo}${numero > 1 ? `-${numero}` : ""}`;
     const destino = `${baseNombre}.${huella(webp)}.webp`;
@@ -544,7 +573,7 @@ async function modoProcesar() {
     }
     const reemplaza = !segunda && productos.some((p) => p.fotos.length > 0);
     reporte.ok.push(
-      `${f}  →  ${productos.map((p) => p.nombre).join(" + ")} [${razon}]  ${info.original} → ${info.final}${img.conFondo === "no-blanco" ? "  (fondo no blanco: se dejó la foto completa)" : img.conFondo === "degradado" ? "  (fondo de degradado quitado por color)" : img.conFondo ? "" : " (ya tenía transparencia)"}${info.escala > 2.2 ? `  ⚠ foto de baja resolución (x${info.escala}): se verá suave, mejor mándala más grande` : ""}${reemplaza ? "  ⚠ REEMPLAZA la foto que ya tenía" : ""}`
+      `${f}  →  ${productos.map((p) => p.nombre).join(" + ")} [${razon}]  ${info.original} → ${info.final}${img.conFondo === "conservado" ? "  (foto completa, sin recorte)" : img.conFondo === "no-blanco" ? "  (fondo no blanco: se dejó la foto completa)" : img.conFondo === "degradado" ? "  (fondo de degradado quitado por color)" : img.conFondo ? "" : " (ya tenía transparencia)"}${info.escala > 2.2 ? `  ⚠ foto de baja resolución (x${info.escala}): se verá suave, mejor mándala más grande` : ""}${reemplaza ? "  ⚠ REEMPLAZA la foto que ya tenía" : ""}`
     );
   }
 
