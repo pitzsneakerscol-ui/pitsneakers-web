@@ -1160,3 +1160,37 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .mascot-hint, .mascot-bubble { animation: none; }
 }
+
+/* Ranking de vendedores */
+@keyframes rank-row-in {
+  0% { opacity: 0; transform: translateX(-14px); }
+  100% { opacity: 1; transform: none; }
+}
+.rank-row {
+  animation: rank-row-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+@keyframes rank-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.rank-bar {
+  transform-origin: left center;
+  animation: rank-bar-grow 0.9s cubic-bezier(0.2, 0.8, 0.3, 1) 0.2s both;
+}
+@keyframes rank-lock-shake {
+  0%, 82%, 100% { transform: rotate(0); }
+  86% { transform: rotate(-14deg); }
+  90% { transform: rotate(12deg); }
+  94% { transform: rotate(-8deg); }
+  98% { transform: rotate(4deg); }
+}
+.rank-lock-icon {
+  display: inline-block;
+  transform-origin: 50% 20%;
+  animation: rank-lock-shake 4.2s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.7s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rank-row, .rank-bar, .rank-lock-icon { animation: none; }
+}
