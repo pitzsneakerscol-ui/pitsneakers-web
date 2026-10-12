@@ -143,6 +143,22 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_password_resets_user ON password_resets(user_id)`,
+  `CREATE TABLE IF NOT EXISTS offers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    item_name TEXT NOT NULL,
+    size TEXT NOT NULL DEFAULT '',
+    amount INTEGER NOT NULL,
+    valid_until TEXT NOT NULL DEFAULT '',
+    note TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendiente',
+    counter_amount INTEGER NOT NULL DEFAULT 0,
+    response_note TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL,
+    responded_at INTEGER
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_offers_user ON offers(user_id, status, created_at)`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.

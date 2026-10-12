@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { logout } from "@/app/revendedores/actions";
-import { BoxIcon, ChartIcon, ChatIcon, HomeIcon, MoreIcon, OutIcon, UserIcon, svg, type IconProps } from "@/components/reseller/ResellerShell";
+import { BoxIcon, ChartIcon, ChatIcon, HomeIcon, MoreIcon, OutIcon, TagIcon, UserIcon, svg, type IconProps } from "@/components/reseller/ResellerShell";
 
 const WalletIcon = svg(<><path d="M3.5 7.5h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-10Z" /><path d="M3.5 7.5 16 4.5v3M16 13.5h4.5" /></>);
 const UsersIcon = svg(<><circle cx="9" cy="8" r="3.2" /><path d="M2.5 19c.8-3.3 3.2-5 6.5-5s5.7 1.7 6.5 5" /><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.2c1.8.5 3 2 3.5 4.8" /></>);
@@ -25,6 +25,7 @@ const MAIN: Item[] = [
   { href: "/admin/consultas", label: "Consultas", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/admin/ofertas", label: "Ofertas", Icon: TagIcon },
   { href: "/admin/ventas", label: "Ventas", Icon: ChartIcon },
   { href: "/admin/pagos", label: "Pagos", Icon: WalletIcon },
   { href: "/admin/compradores", label: "Compradores", Icon: UsersIcon },
@@ -38,6 +39,7 @@ const TITLES: Record<string, string> = {
   inventario: "Inventario global",
   ventas: "Ventas",
   consultas: "Consultas de mercado",
+  ofertas: "Ofertas",
   pagos: "Pagos",
   compradores: "Compradores",
   correos: "Correos",

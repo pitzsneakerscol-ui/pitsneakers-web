@@ -8,6 +8,7 @@ import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
 import { notifyInventory } from "@/lib/seller-notify";
 import { createNotification } from "@/lib/notifications";
+import { createOffer } from "@/lib/offers";
 import { getQuestion, saveAnswer, type Verdict } from "@/lib/market";
 import { answerEmail, verdictLabel } from "@/lib/market-emails";
 import { cleanUsername, usernameError } from "@/lib/username";
@@ -582,11 +583,12 @@ export async function notifyOffer(_prev: ActionState, fd: FormData): Promise<Act
   const seller = String(row.display_name || row.username);
   const price = formatPrice(amount);
 
+  await createOffer({ itemId, userId: Number(row.user_id), itemName: par, size, amount, validUntil: until, note });
   await createNotification(Number(row.user_id), {
     kind: "inventario",
     title: `Oferta de ${price} por tu ${par}`,
-    body: `${size ? `Talla ${size}. ` : ""}${until ? `Vigente hasta ${until}. ` : ""}${note ? `${note} ` : ""}Respóndenos por WhatsApp para aceptarla o contraofertar.`.trim(),
-    href: "/revendedores/inventario",
+    body: `${size ? `Talla ${size}. ` : ""}${until ? `Vigente hasta ${until}. ` : ""}${note ? `${note} ` : ""}Entra para aceptarla, contraofertar o rechazarla.`.trim(),
+    href: "/revendedores/ofertas",
   });
 
   let mail = "";

@@ -227,7 +227,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 3;
+export const TEMPLATE_VERSION = 4;
 
 export interface TemplateData {
   key: string;
@@ -520,11 +520,11 @@ Llegó una oferta por **{{concepto}}**:
 > **Oferta:** {{monto}}
 > **Vigente hasta:** {{fecha_limite}}
 
-Entra a tu panel, mira tu costo y tu utilidad con este precio y respóndenos por WhatsApp si la aceptas, si quieres contraofertar o si prefieres esperar a otro comprador.
+Entra a tu panel: ahí ves tu utilidad con este precio y puedes **aceptarla, contraofertar o rechazarla** con un toque.
 
-[boton: Ver mi inventario | {{web}}/revendedores/inventario]
+[boton: Ver y responder la oferta | {{web}}/revendedores/ofertas]
 
-[boton: Responder por WhatsApp | {{whatsapp}}]
+¿Dudas? Escríbenos: {{whatsapp}}
 
 **Equipo {{tienda}}**`,
     builtin: true,

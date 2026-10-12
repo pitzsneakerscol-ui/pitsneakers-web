@@ -23,6 +23,7 @@ const TrophyIcon = svg(<><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z" /><path d="M8 6H4v1
 export const BellIcon = svg(<><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2H4.5l1.5-2Z" /><path d="M10 21h4" /></>);
 export const UserIcon = svg(<><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c.9-3.6 3.8-5.4 7.5-5.4s6.6 1.8 7.5 5.4" /></>);
 export const MoreIcon = svg(<><circle cx="5" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="19" cy="12" r="1.2" /></>);
+export const TagIcon = svg(<><path d="M3.5 12.5V4.5h8l9 9-8 8-9-9Z" /><circle cx="8" cy="9" r="1.3" /></>);
 export const OutIcon = svg(<><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" /></>);
 
 interface Item {
@@ -38,6 +39,7 @@ const MAIN: Item[] = [
   { href: "/revendedores/consultas", label: "Mercado", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/revendedores/ofertas", label: "Ofertas", Icon: TagIcon },
   { href: "/revendedores/ranking", label: "Ranking", Icon: TrophyIcon },
   { href: "/revendedores/avisos", label: "Avisos", Icon: BellIcon },
   { href: "/revendedores/cuenta", label: "Mi cuenta", Icon: UserIcon },
@@ -48,6 +50,7 @@ const TITLES: Record<string, string> = {
   inventario: "Inventario",
   ventas: "Ventas",
   consultas: "Pregunta al mercado",
+  ofertas: "Ofertas",
   ranking: "Ranking",
   avisos: "Avisos",
   cuenta: "Mi cuenta",
@@ -66,11 +69,13 @@ export default function ResellerShell({
   name,
   isAdmin,
   unread,
+  offers = 0,
   children,
 }: {
   name: string;
   isAdmin: boolean;
   unread: number;
+  offers?: number;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -98,6 +103,7 @@ export default function ResellerShell({
       <it.Icon className="h-5 w-5 shrink-0" />
       {it.label}
       {it.href === "/revendedores/avisos" && <Badge n={unread} />}
+      {it.href === "/revendedores/ofertas" && <Badge n={offers} />}
     </Link>
   );
 
@@ -191,7 +197,7 @@ export default function ResellerShell({
         >
           <MoreIcon className="h-6 w-6" />
           Más
-          {unread > 0 && <span className="rsh-badge absolute right-[28%] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true" />}
+          {unread + offers > 0 && <span className="rsh-badge absolute right-[28%] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true" />}
         </button>
       </nav>
 
