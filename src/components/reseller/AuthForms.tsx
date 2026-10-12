@@ -4,8 +4,8 @@ import { useActionState, useState } from "react";
 import { login, register } from "@/app/revendedores/actions";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
-export default function AuthForms() {
-  const [tab, setTab] = useState<"login" | "register">("register");
+export default function AuthForms({ startOnLogin = false }: { startOnLogin?: boolean }) {
+  const [tab, setTab] = useState<"login" | "register">(startOnLogin ? "login" : "register");
   const [loginState, loginAction, loginPending] = useActionState(login, undefined);
   const [regState, regAction, regPending] = useActionState(register, undefined);
 

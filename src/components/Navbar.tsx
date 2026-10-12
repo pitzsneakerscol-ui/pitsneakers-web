@@ -6,6 +6,20 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
+interface Session {
+  name: string;
+  admin: boolean;
+}
+
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 20 20" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="10" cy="7" r="3.2" />
+      <path d="M3.5 16.5c.8-3 3.3-4.6 6.5-4.6s5.7 1.6 6.5 4.6" />
+    </svg>
+  );
+}
+
 // Cada palabra tiene su propio color de brillo (ola de brillo y al pasar el mouse).
 const baseLinks = [
   { href: "/sneakers", label: "Sneakers", glow: "#ff5a3c" },
@@ -21,7 +35,26 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
     ? [...baseLinks, { href: "/revendedores", label: "Vende con nosotros", glow: "#25d366" }]
     : baseLinks;
   const [open, setOpen] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
   const pathname = usePathname();
+
+  // Si el vendedor ya tiene sesión abierta, el botón dice "Mi panel" en vez de "Ingresar".
+  useEffect(() => {
+    if (!resellerEnabled) return;
+    let alive = true;
+    fetch("/api/sesion", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d?.in) setSession({ name: String(d.name ?? ""), admin: Boolean(d.admin) });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [resellerEnabled, pathname]);
+
+  const accountHref = session ? (session.admin ? "/admin" : "/revendedores/panel") : "/revendedores/ingresar";
+  const accountLabel = session ? "Mi panel" : "Ingresar";
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -56,7 +89,18 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {resellerEnabled && (
+            <Link
+              href={accountHref}
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/10 sm:px-4 sm:text-xs"
+              title={session ? `Sesión de ${session.name}` : "Inicio de sesión para revendedores"}
+            >
+              <UserIcon />
+              {accountLabel}
+            </Link>
+          )}
           <a
             href={buildGeneralWhatsAppLink(
               "Hola! Quiero más información sobre Pitsneakers"
@@ -102,13 +146,23 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
               </Link>
             ))}
           </nav>
+          {resellerEnabled && (
+            <Link
+              href={accountHref}
+              onClick={() => setOpen(false)}
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
+            >
+              <UserIcon />
+              {session ? `Mi panel · ${session.name}` : "Iniciar sesión (revendedores)"}
+            </Link>
+          )}
           <a
             href={buildGeneralWhatsAppLink(
               "Hola! Quiero más información sobre Pitsneakers"
             )}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-whatsapp px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
+            className="mt-3 inline-flex items-center justify-center rounded-full bg-whatsapp px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
           >
             Escríbenos por WhatsApp
           </a>
