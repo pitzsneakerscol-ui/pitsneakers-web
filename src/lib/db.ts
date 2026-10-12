@@ -159,6 +159,13 @@ const SCHEMA = [
     responded_at INTEGER
   )`,
   `CREATE INDEX IF NOT EXISTS idx_offers_user ON offers(user_id, status, created_at)`,
+  `CREATE TABLE IF NOT EXISTS waitlist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+    code TEXT NOT NULL UNIQUE,
+    welcomed INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.

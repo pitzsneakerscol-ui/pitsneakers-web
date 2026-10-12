@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 
 export default function robots(): MetadataRoute.Robots {
+  // Con el candado del sitio activo, nada se indexa hasta el lanzamiento.
+  if (process.env.SITE_LOCKED === "1") return { rules: [{ userAgent: "*", disallow: "/" }] };
   return {
     rules: [
       {

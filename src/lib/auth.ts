@@ -126,14 +126,14 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
 export async function requireUser(): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user) redirect("/revendedores");
+  if (!user) redirect("/revendedores/ingresar");
   return user;
 }
 
 /** Solo el dueño (cuenta definida por ADMIN_USERNAME / ADMIN_PASSWORD). */
 export async function requireAdmin(): Promise<CurrentUser> {
   const user = await getCurrentUser();
-  if (!user || !user.isAdmin) redirect("/revendedores");
+  if (!user || !user.isAdmin) redirect("/revendedores/ingresar");
   return user;
 }
 

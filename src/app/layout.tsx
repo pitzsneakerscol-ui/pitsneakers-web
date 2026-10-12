@@ -53,6 +53,7 @@ export default async function RootLayout({
 }>) {
   // Datos reales para la barra de anuncios.
   const groups = await getAllGroups();
+  const locked = process.env.SITE_LOCKED === "1";
   const latest = groups.find((g) => g.images.length > 0);
 
   return (
@@ -61,7 +62,7 @@ export default async function RootLayout({
       className={`${inter.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <ChromeGate>
+        <ChromeGate locked={locked}>
         <ScrollProgress />
         <AnnouncementBar
           latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
@@ -72,7 +73,7 @@ export default async function RootLayout({
         <Navbar resellerEnabled={isDbConfigured()} />
         </ChromeGate>
         <main className="flex-1">{children}</main>
-        <ChromeGate>
+        <ChromeGate locked={locked}>
         <Footer />
         <FloatingSearchButton />
         <MobileTabBar sellEnabled={isDbConfigured()} />

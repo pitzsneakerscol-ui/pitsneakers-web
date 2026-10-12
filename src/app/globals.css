@@ -1469,3 +1469,52 @@ body {
 .theme-dark .border-amber-300 { border-color: rgba(255, 196, 61, 0.3); }
 .theme-dark .border-emerald-200 { border-color: rgba(61, 220, 132, 0.3); }
 
+
+/* ---------- Página "Próximamente" (candado del sitio) ---------- */
+.pl-glow {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 80%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 30%, rgba(200, 64, 40, 0.38), rgba(200, 64, 40, 0) 62%);
+  animation: pl-breathe 7s ease-in-out infinite;
+}
+.pl-stripes {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.5;
+  background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 46px);
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+}
+.pl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  animation: pl-ping 1.6s ease-out infinite;
+}
+.pl-cta {
+  animation: pl-pulse 2.6s ease-in-out infinite;
+}
+.pl-done {
+  animation: pl-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.pl-marquee {
+  overflow: hidden;
+}
+.pl-track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  white-space: nowrap;
+  animation: pl-slide 38s linear infinite;
+}
+@keyframes pl-slide { to { transform: translateX(-50%); } }
+@keyframes pl-breathe { 50% { opacity: 0.65; transform: scale(1.04); } }
+@keyframes pl-ping { 0% { box-shadow: 0 0 0 0 rgba(200, 64, 40, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(200, 64, 40, 0); } }
+@keyframes pl-pulse { 50% { box-shadow: 0 0 0 6px rgba(200, 64, 40, 0.22); } }
+@keyframes pl-pop { from { opacity: 0; transform: scale(0.92); } }
+@media (prefers-reduced-motion: reduce) {
+  .pl-glow, .pl-dot, .pl-cta, .pl-done, .pl-track { animation: none; }
+}

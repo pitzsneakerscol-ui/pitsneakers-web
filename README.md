@@ -339,3 +339,14 @@ Opciones útiles:
 - `npm run fotos -- --versionar` — renombra las fotos con una huella de su contenido (cada foto se guarda como `SKU.<huella>.webp`, así una foto cambiada nunca se queda pegada en la caché de 30 días).
 
 Después de procesar, revisa los cambios y súbelos con git (commit + push).
+
+## Candado del sitio ("Próximamente" + lista de espera)
+
+Con el candado activo, el público solo ve `/proximamente`: ahí deja su correo y recibe un **código personal de descuento** (configurable en `src/config/prelaunch.ts`: porcentaje y beneficios). Los correos se guardan en **Admin → Lista de espera** (con descarga en CSV) y cada inscrito recibe un correo de bienvenida con su código.
+
+Variables de entorno en Vercel (Settings → Environment Variables; después haz **Redeploy**):
+
+- `SITE_LOCKED=1` — activa el candado. Para abrir el sitio, borra la variable y haz Redeploy.
+- `SITE_PREVIEW_KEY=` una clave larga que inventes — te permite ver la página completa tú mismo: entra una vez a `https://pitsneakers.com/?acceso=TU_CLAVE` (queda guardado 30 días en ese navegador).
+
+Siguen abiertos con el candado: el ingreso de vendedores y sus paneles, `/admin`, las APIs (incluida la tarea programada) y las imágenes. Google no indexa nada mientras esté activo (`robots.txt` bloquea todo).

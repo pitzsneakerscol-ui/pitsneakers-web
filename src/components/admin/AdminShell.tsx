@@ -10,6 +10,7 @@ const WalletIcon = svg(<><path d="M3.5 7.5h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a
 const UsersIcon = svg(<><circle cx="9" cy="8" r="3.2" /><path d="M2.5 19c.8-3.3 3.2-5 6.5-5s5.7 1.7 6.5 5" /><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.2c1.8.5 3 2 3.5 4.8" /></>);
 const MailIcon = svg(<><rect x="3" y="5.5" width="18" height="13" rx="2" /><path d="m4 7.5 8 6 8-6" /></>);
 const DocIcon = svg(<><path d="M6 3.5h8l4 4V20.5H6V3.5Z" /><path d="M14 3.5v4h4M9 12h6M9 15.5h6" /></>);
+const GiftIcon = svg(<><rect x="3.5" y="8.5" width="17" height="4" rx="1" /><path d="M5 12.5v7h14v-7M12 8.5v11M12 8.5c-2.5 0-4.5-.8-4.5-2.5S10 4 12 8.5c2-4.5 4.5-3.2 4.5-1.5s-2 2.5-4.5 2.5Z" /></>);
 const ReceiptIcon = svg(<><path d="M5 3.5h14v17l-2.3-1.6-2.3 1.6-2.4-1.6-2.4 1.6-2.3-1.6L5 20.5v-17Z" /><path d="M8.5 8.5h7M8.5 12h7" /></>);
 
 interface Item {
@@ -29,6 +30,7 @@ const MORE: Item[] = [
   { href: "/admin/ventas", label: "Ventas", Icon: ChartIcon },
   { href: "/admin/pagos", label: "Pagos", Icon: WalletIcon },
   { href: "/admin/compradores", label: "Compradores", Icon: UsersIcon },
+  { href: "/admin/lista-espera", label: "Lista de espera", Icon: GiftIcon },
   { href: "/admin/correos", label: "Correos", Icon: MailIcon },
   { href: "/admin/plantillas", label: "Plantillas", Icon: DocIcon },
 ];
@@ -42,6 +44,7 @@ const TITLES: Record<string, string> = {
   ofertas: "Ofertas",
   pagos: "Pagos",
   compradores: "Compradores",
+  "lista-espera": "Lista de espera",
   correos: "Correos",
   plantillas: "Plantillas",
 };
