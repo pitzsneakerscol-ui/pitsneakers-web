@@ -1460,3 +1460,12 @@ body {
   .rsh-badge, .rsh-sheet { animation: none; }
 }
 
+
+.theme-dark .text-amber-900 { color: #ffd166; }
+.theme-dark .text-emerald-900 { color: #8bf0b8; }
+.theme-dark .bg-emerald-800 { background-color: rgba(61, 220, 132, 0.25); }
+.theme-dark .bg-emerald-700 { background-color: rgba(61, 220, 132, 0.35); }
+.theme-dark .border-amber-200,
+.theme-dark .border-amber-300 { border-color: rgba(255, 196, 61, 0.3); }
+.theme-dark .border-emerald-200 { border-color: rgba(61, 220, 132, 0.3); }
+

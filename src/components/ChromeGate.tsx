@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 
-/** Páginas del panel de revendedores: ahí no se muestran la barra de anuncios, el menú ni el pie del sitio público. */
-const PANEL = /^\/revendedores\/(panel|inventario|ventas|ranking|cuenta|avisos|consultas)(\/|$)/;
+/** Panel de revendedores y de administración: ahí no se muestran la barra de anuncios, el menú ni el pie del sitio público. */
+const PANEL = /^\/(revendedores\/(panel|inventario|ventas|ranking|cuenta|avisos|consultas)|admin)(\/|$)/;
 
 export default function ChromeGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
