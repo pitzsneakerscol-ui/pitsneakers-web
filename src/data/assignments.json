@@ -1,5 +1,39 @@
 [
   {
+    "seller": "santiagoflex",
+    "slug": "nike-air-force-one-x-supreme",
+    "name": "Air Force One x Supreme",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-10",
+    "sizes": [
+      "7",
+      "7.5",
+      "8",
+      "8.5",
+      "9",
+      "10",
+      "11"
+    ],
+    "price": 770000,
+    "condition": "nuevo",
+    "image": "/products/AF1-10.59ea1cd6.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-nocta-af1-citron",
+    "name": "Nocta AF1 Citron",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-12",
+    "sizes": [
+      "11"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/AF1-12.d3164a72.webp"
+  },
+  {
     "seller": "juanlopez319",
     "slug": "adidas-x-bape-x-bape-80-s",
     "name": "x Bape 80's",
@@ -168,5 +202,301 @@
     "price": 1250000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-34.08f8718e.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-mind-001-black-2",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-17",
+    "sizes": [
+      "8",
+      "9"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-02.841a88ca.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-yeezy-slide-onyx-2",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-24",
+    "sizes": [
+      "4",
+      "5",
+      "7"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-05.c280347b.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-yeezy-slide-slate-grey-4",
+    "name": "Yeezy Slide Slate Grey",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-25",
+    "sizes": [
+      "6"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-03.2ef9fe64.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-yeezy-slide-azure-5",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-26",
+    "sizes": [
+      "5"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-01.7141ed31.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-yeezy-slide-450",
+    "name": "Yeezy Slide 450",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY450-03",
+    "sizes": [
+      "8"
+    ],
+    "price": 420000,
+    "condition": "nuevo",
+    "image": "/products/YZY450-03.fd870c0d.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-high-volt",
+    "name": "Jordan 1 High Volt",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-08",
+    "sizes": [
+      "9"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-08.41511e81.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-reimagined-black-toe",
+    "name": "Jordan 1 Reimagined Black Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-09",
+    "sizes": [
+      "8.5",
+      "9",
+      "9.5",
+      "11"
+    ],
+    "price": 580000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-09.422b601c.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-low-iced",
+    "name": "Jordan 1 Low Iced",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-10",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-10.d63f5593.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-11-low-space-jam",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ11-01",
+    "sizes": [
+      "11"
+    ],
+    "price": 870000,
+    "condition": "nuevo",
+    "image": "/products/AJ11-01.82cd35f1.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-yuto-horigome-og-2",
+    "name": "Dunk SB Yuto Horigome OG",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-37",
+    "sizes": [
+      "9",
+      "11"
+    ],
+    "price": 1300000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-31.8ea1809f.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-lobster-special-box-2",
+    "name": "Dunk SB Lobster Special Box",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-38",
+    "sizes": [
+      "9"
+    ],
+    "price": 2000000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-32.16208d79.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-photon-dust-2",
+    "name": "Dunk Photon Dust",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-07",
+    "sizes": [
+      "5W",
+      "6W",
+      "7W",
+      "9W",
+      "10W",
+      "12W"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-06.b4a33d47.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-futura-2",
+    "name": "Dunk SB Futura",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-39",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1220000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-02.77980ffe.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-oregon-special-edition-2",
+    "name": "Dunk SB Oregon Special Edition",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-40",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 2100000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-29.8c8b2cf3.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-civilist-2",
+    "name": "Dunk SB Civilist",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-41",
+    "sizes": [
+      "9"
+    ],
+    "price": 1800000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-15.fb264b4b.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-travis-scott-mac-attack",
+    "name": "Travis Scott Mac Attack",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MACATTACK-01",
+    "sizes": [
+      "11"
+    ],
+    "price": 678000,
+    "condition": "nuevo",
+    "image": "/products/MACATTACK-01.48dfbc7a.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-blazer-x-sacai-2",
+    "name": "Blazer x Sacai",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "BLAZER-02",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 420000,
+    "condition": "nuevo",
+    "image": "/products/BLAZER-02.136d180c.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "asics-gel-paris",
+    "name": "Gel Paris",
+    "brand": "Asics",
+    "colorway": "",
+    "sku": "ASICS-13",
+    "sizes": [
+      "8.5",
+      "9"
+    ],
+    "price": 420000,
+    "condition": "nuevo",
+    "image": "/products/ASICS-13.9430e831.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-joe-freshgoods-990v4-white",
+    "name": "New Balance Joe Freshgoods 990v4 White",
+    "brand": "New Balance x Joe Freshgoods",
+    "colorway": "",
+    "sku": "NB-11",
+    "sizes": [
+      "10"
+    ],
+    "price": 1450000,
+    "condition": "nuevo",
+    "image": "/products/NB-11.1fc6fd88.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-x-bad-bunny-bad-bunny-cabo-rojo-3",
+    "name": "Bad Bunny Cabo Rojo",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-36",
+    "sizes": [
+      "9.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-17.d2606bf5.webp"
   }
 ]

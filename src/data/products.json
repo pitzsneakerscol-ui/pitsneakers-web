@@ -3688,9 +3688,7 @@
       "8",
       "8.5",
       "9",
-      "9.5",
       "10",
-      "10.5",
       "11"
     ],
     "condition": "nuevo",
@@ -6712,5 +6710,421 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:24:00.000Z"
+  },
+  {
+    "id": "MIND001-17",
+    "slug": "nike-mind-001-black-2",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 700000,
+    "promo": false,
+    "sizes": [
+      "8",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-02.841a88ca.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:25:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-24",
+    "slug": "adidas-yeezy-slide-onyx-2",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 700000,
+    "promo": false,
+    "sizes": [
+      "4",
+      "5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-05.c280347b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:26:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-25",
+    "slug": "adidas-yeezy-slide-slate-grey-4",
+    "name": "Yeezy Slide Slate Grey",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-03.2ef9fe64.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:27:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-26",
+    "slug": "adidas-yeezy-slide-azure-5",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-01.7141ed31.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:28:00.000Z"
+  },
+  {
+    "id": "YZY450-03",
+    "slug": "adidas-yeezy-slide-450",
+    "name": "Yeezy Slide 450",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 420000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY450-03.fd870c0d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:29:00.000Z"
+  },
+  {
+    "id": "AJ1-08",
+    "slug": "jordan-jordan-1-high-volt",
+    "name": "Jordan 1 High Volt",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-08.41511e81.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:30:00.000Z"
+  },
+  {
+    "id": "AJ1-09",
+    "slug": "jordan-jordan-1-reimagined-black-toe",
+    "name": "Jordan 1 Reimagined Black Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 580000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "9",
+      "9.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-09.422b601c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:31:00.000Z"
+  },
+  {
+    "id": "AJ1-10",
+    "slug": "jordan-jordan-1-low-iced",
+    "name": "Jordan 1 Low Iced",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-10.d63f5593.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:32:00.000Z"
+  },
+  {
+    "id": "AJ11-01",
+    "slug": "jordan-jordan-11-low-space-jam",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 870000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ11-01.82cd35f1.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:33:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-37",
+    "slug": "nike-dunk-sb-yuto-horigome-og-2",
+    "name": "Dunk SB Yuto Horigome OG",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1300000,
+    "promo": false,
+    "sizes": [
+      "9",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-31.8ea1809f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:34:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-38",
+    "slug": "nike-dunk-sb-lobster-special-box-2",
+    "name": "Dunk SB Lobster Special Box",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2000000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-32.16208d79.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:35:00.000Z"
+  },
+  {
+    "id": "DUNK-07",
+    "slug": "nike-dunk-photon-dust-2",
+    "name": "Dunk Photon Dust",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "5W",
+      "6W",
+      "7W",
+      "9W",
+      "10W",
+      "12W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Tallas de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-06.b4a33d47.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:36:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-39",
+    "slug": "nike-dunk-sb-futura-2",
+    "name": "Dunk SB Futura",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1220000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-02.77980ffe.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:37:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-40",
+    "slug": "nike-dunk-sb-oregon-special-edition-2",
+    "name": "Dunk SB Oregon Special Edition",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2100000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-29.8c8b2cf3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:38:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-41",
+    "slug": "nike-dunk-sb-civilist-2",
+    "name": "Dunk SB Civilist",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1800000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-15.fb264b4b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:39:00.000Z"
+  },
+  {
+    "id": "MACATTACK-01",
+    "slug": "nike-travis-scott-mac-attack",
+    "name": "Travis Scott Mac Attack",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 678000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MACATTACK-01.48dfbc7a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:40:00.000Z"
+  },
+  {
+    "id": "BLAZER-02",
+    "slug": "nike-blazer-x-sacai-2",
+    "name": "Blazer x Sacai",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 420000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/BLAZER-02.136d180c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:41:00.000Z"
+  },
+  {
+    "id": "ASICS-13",
+    "slug": "asics-gel-paris",
+    "name": "Gel Paris",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 420000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-13.9430e831.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:42:00.000Z"
+  },
+  {
+    "id": "NB-11",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-joe-freshgoods-990v4-white",
+    "name": "New Balance Joe Freshgoods 990v4 White",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 1450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-11.1fc6fd88.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:43:00.000Z"
+  },
+  {
+    "id": "ADI-BB-36",
+    "slug": "adidas-x-bad-bunny-bad-bunny-cabo-rojo-3",
+    "name": "Bad Bunny Cabo Rojo",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "9.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-17.d2606bf5.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:44:00.000Z"
   }
 ]
