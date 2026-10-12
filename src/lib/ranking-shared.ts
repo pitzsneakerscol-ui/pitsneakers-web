@@ -42,3 +42,20 @@ export interface RankRow {
 }
 
 export type RankPeriod = "mes" | "total";
+
+/** Tapa un nombre con x para que nadie lo identifique del todo: "sebastianzon" -> "sebastixxxzon". Los espacios se conservan. */
+export function maskName(name: string): string {
+  return name
+    .split(/(\s+)/)
+    .map((part) => {
+      if (!part.trim()) return part;
+      const chars = [...part];
+      const n = chars.length;
+      if (n <= 2) return chars[0] + "x".repeat(n - 1);
+      const head = Math.max(1, Math.ceil(n * 0.4));
+      const tail = n >= 6 ? Math.floor(n * 0.25) : 0;
+      const hidden = Math.max(2, n - head - tail);
+      return chars.slice(0, head).join("") + "x".repeat(hidden) + (tail ? chars.slice(n - tail).join("") : "");
+    })
+    .join("");
+}

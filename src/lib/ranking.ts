@@ -1,13 +1,14 @@
 import "server-only";
 import { getDb } from "@/lib/db";
-import { RANK_START, type RankPeriod, type RankRow } from "@/lib/ranking-shared";
+import { RANK_START, maskName, type RankPeriod, type RankRow } from "@/lib/ranking-shared";
 
 /**
  * Ranking de vendedores por pedidos (pares vendidos). Los puestos se numeran desde RANK_START:
  * el vendedor con más pedidos aparece en el puesto 21, el siguiente en el 22, y así hacia abajo.
- * Se ordena por pedidos; en empate gana quien lleva más tiempo en la comunidad.
+ * Los nombres de los demás vendedores salen tapados con x (se enmascaran aquí, en el servidor: el nombre completo nunca llega al navegador);
+ * solo el propio vendedor ve el suyo completo. Se ordena por pedidos; en empate gana quien lleva más tiempo en la comunidad.
  */
-export async function getLeaderboard(period: RankPeriod): Promise<RankRow[]> {
+export async function getLeaderboard(period: RankPeriod, viewerId: number): Promise<RankRow[]> {
   const db = await getDb();
   const month = new Date().toISOString().slice(0, 7);
   const monthOnly = period === "mes";
@@ -21,7 +22,7 @@ export async function getLeaderboard(period: RankPeriod): Promise<RankRow[]> {
   });
   return res.rows.map((r, i) => ({
     userId: Number(r.id),
-    name: String(r.display_name || r.username),
+    name: Number(r.id) === viewerId ? String(r.display_name || r.username) : maskName(String(r.display_name || r.username)),
     orders: Number(r.orders),
     rank: RANK_START + i,
   }));

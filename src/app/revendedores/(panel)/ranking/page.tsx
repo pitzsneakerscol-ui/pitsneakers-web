@@ -24,7 +24,7 @@ export default async function RankingPage({
   const user = await requireUser();
   const { periodo } = await searchParams;
   const period: RankPeriod = periodo === "total" ? "total" : "mes";
-  const rows = await getLeaderboard(period);
+  const rows = await getLeaderboard(period, user.id);
   const mine = rows.find((r) => r.userId === user.id);
   const myLevel = mine ? levelFor(mine.orders) : null;
   const myNext = mine ? nextLevel(mine.orders) : null;
