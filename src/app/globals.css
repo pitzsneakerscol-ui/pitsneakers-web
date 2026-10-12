@@ -979,8 +979,16 @@ body {
 
 /* ---------- Barra de anuncios ---------- */
 @keyframes ab-slide-in {
-  from { opacity: 0; transform: translateY(100%); }
+  from { opacity: 0; transform: translateX(var(--ab-from, 22px)); }
   to { opacity: 1; transform: none; }
+}
+/* Barra de progreso hacia el siguiente anuncio (al terminar, el componente avanza) */
+@keyframes ab-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.ab-progress {
+  animation: ab-progress 5.5s linear forwards;
 }
 .ab-slide {
   animation: ab-slide-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
@@ -994,7 +1002,9 @@ body {
   animation: ab-flow 7s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
-  .ab-line {
+  .ab-line,
+  .ab-slide,
+  .ab-progress {
     animation: none;
   }
 }
