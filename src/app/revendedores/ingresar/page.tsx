@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+export const dynamic = "force-dynamic";
+
 /** Entrada rápida para vendedores que ya tienen cuenta: solo el formulario, sin la página de presentación. */
 export default async function IngresarPage() {
   if (!isDbConfigured()) redirect("/revendedores");
