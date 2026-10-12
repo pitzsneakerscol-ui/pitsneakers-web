@@ -6,8 +6,14 @@ import { createClient, type Client } from "@libsql/client";
 // Desarrollo: sin variables, usa un archivo SQLite local en .data/.
 const DEV_URL = "file:.data/revendedores.db";
 
+/** Lee una variable de entorno quitando espacios, saltos de línea y comillas que a veces se pegan sin querer. */
+function envValue(name: string): string {
+  return (process.env[name] ?? "").trim().replace(/^["']+|["']+$/g, "").trim();
+}
+
 function resolveUrl(): string {
-  if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
+  const url = envValue("DATABASE_URL");
+  if (url) return url;
   return process.env.NODE_ENV === "production" ? "" : DEV_URL;
 }
 
@@ -129,7 +135,7 @@ export async function getDb(): Promise<Client> {
     if (url.startsWith("file:")) mkdirSync(".data", { recursive: true });
     const client = createClient({
       url,
-      authToken: process.env.DATABASE_AUTH_TOKEN || undefined,
+      authToken: envValue("DATABASE_AUTH_TOKEN") || undefined,
     });
     await client.batch(SCHEMA, "write");
     for (const [table, cols] of Object.entries(ADDED_COLUMNS)) {

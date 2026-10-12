@@ -23,6 +23,13 @@ export async function GET() {
     return Response.json({ db: "ok" }, { headers });
   } catch (e) {
     console.error("[salud] error de base de datos:", e);
-    return Response.json({ db: "error", tipo: kindOf(e) }, { status: 503, headers });
+    // Pistas sin datos sensibles: cómo empieza la URL (solo el esquema) y si traía espacios o comillas.
+    const raw = process.env.DATABASE_URL ?? "";
+    const pista = {
+      esquema: raw.trim().replace(/^["']+/, "").split("://")[0].slice(0, 12),
+      espaciosOComillas: raw !== raw.trim() || /["']/.test(raw),
+      largo: raw.length,
+    };
+    return Response.json({ db: "error", tipo: kindOf(e), pista }, { status: 503, headers });
   }
 }
