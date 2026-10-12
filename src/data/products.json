@@ -655,7 +655,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-02.e6948ab1.webp"
+      "/products/AJ1-02.cdbb273a.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -4944,7 +4944,7 @@
     "name": "x Bape 80's",
     "brand": "Adidas x Bape",
     "category": "sneakers",
-    "price": 480000,
+    "price": 450000,
     "promo": false,
     "sizes": [
       "10.5"
@@ -4952,7 +4952,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/XBAPE80-01.702d90d7.webp"
+      "/products/XBAPE80-01.56ec55aa.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -6671,5 +6671,46 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:22:00.000Z"
+  },
+  {
+    "id": "AJ1-07",
+    "slug": "jordan-jordan-1-travis-scott-tropical-pink-2",
+    "name": "Jordan 1 Travis Scott Tropical Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1500000,
+    "promo": false,
+    "sizes": [
+      "9",
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-02.cdbb273a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:23:00.000Z"
+  },
+  {
+    "id": "ADI-BB-35",
+    "slug": "adidas-x-pharrell-williams-jellyfish-white-2",
+    "name": "Jellyfish White",
+    "brand": "Adidas x Pharrell Williams",
+    "category": "sneakers",
+    "price": 1250000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-34.08f8718e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:24:00.000Z"
   }
 ]

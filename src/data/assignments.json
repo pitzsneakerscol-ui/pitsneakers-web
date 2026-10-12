@@ -1,6 +1,20 @@
 [
   {
     "seller": "juanlopez319",
+    "slug": "adidas-x-bape-x-bape-80-s",
+    "name": "x Bape 80's",
+    "brand": "Adidas x Bape",
+    "colorway": "",
+    "sku": "XBAPE80-01",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/XBAPE80-01.56ec55aa.webp"
+  },
+  {
+    "seller": "juanlopez319",
     "slug": "nike-mind-001-solar-red",
     "name": "Mind 001 Solar Red",
     "brand": "Nike",
@@ -125,5 +139,34 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/MIND001-16.e3dce1b9.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "jordan-jordan-1-travis-scott-tropical-pink-2",
+    "name": "Jordan 1 Travis Scott Tropical Pink",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-07",
+    "sizes": [
+      "9",
+      "9.5"
+    ],
+    "price": 1500000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-02.cdbb273a.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "adidas-x-pharrell-williams-jellyfish-white-2",
+    "name": "Jellyfish White",
+    "brand": "Adidas x Pharrell Williams",
+    "colorway": "",
+    "sku": "ADI-BB-35",
+    "sizes": [
+      "10"
+    ],
+    "price": 1250000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-34.08f8718e.webp"
   }
 ]
