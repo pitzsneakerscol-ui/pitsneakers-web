@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
 import { insertItems } from "@/lib/reseller";
@@ -102,3 +103,56 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
   }
   return { added, sellers, waiting };
 }
+
+/**
+ * Carga en la cuenta de un vendedor los pares del catálogo que llevan su usuario y todavía no tiene.
+ * Se llama sola cuando el vendedor entra a su panel, así que sus pares aparecen sin que el dueño tenga que pulsar nada.
+ */
+export async function syncUser(userId: number, username: string): Promise<number> {
+  const seller = username.trim().toLowerCase();
+  const mine = assignments.filter((a) => a.seller === seller);
+  if (mine.length === 0) return 0;
+  const db = await getDb();
+  const items = await db.execute({
+    sql: "SELECT catalog_slug, size FROM items WHERE user_id = ? AND catalog_slug != ''",
+    args: [userId],
+  });
+  // Cuenta cualquier estado (incluido "vendido") para no volver a cargar un par que ya vendió.
+  const have = new Set(items.rows.map((r) => `${String(r.catalog_slug)}|${String(r.size)}`));
+  const today = todayBogota();
+  let added = 0;
+  for (const a of mine) {
+    const sizes = [...new Set(a.sizes.length ? a.sizes : [""])];
+    const missing = sizes.filter((s) => !have.has(`${a.slug}|${s}`));
+    if (missing.length === 0) continue;
+    added += await insertItems(
+      userId,
+      {
+        brand: a.brand,
+        name: a.name,
+        colorway: a.colorway,
+        sku: a.sku,
+        condition: a.condition,
+        cost: 0,
+        extraCost: 0,
+        expectedPrice: a.price,
+        purchaseDate: today,
+        source: "Cargado por Pitsneakers",
+        notes: "",
+        imageUrl: a.image,
+        catalogSlug: a.slug,
+      },
+      missing
+    );
+  }
+  return added;
+}
+
+/** Igual que syncUser, pero una sola vez por petición (la comparten el layout y la página) y sin lanzar errores. */
+export const ensureSynced = cache(async (userId: number, username: string): Promise<number> => {
+  try {
+    return await syncUser(userId, username);
+  } catch {
+    return 0;
+  }
+});

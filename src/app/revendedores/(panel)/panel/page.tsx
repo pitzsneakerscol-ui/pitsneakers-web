@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
+import { ensureSynced } from "@/lib/seller-sync";
 import { computeStats, listItems } from "@/lib/reseller";
 import {
   STALE_DAYS,
@@ -72,6 +73,7 @@ function Bars({
 
 export default async function PanelPage() {
   const user = await requireUser();
+  if (!user.isAdmin) await ensureSynced(user.id, user.username);
   const items = await listItems(user.id);
   const today = todayBogota();
   const s = computeStats(items, today);

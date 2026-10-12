@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { requireUser } from "@/lib/auth";
+import { ensureSynced } from "@/lib/seller-sync";
 import { listItems } from "@/lib/reseller";
 import { todayBogota } from "@/lib/reseller-shared";
 import { getCatalogEntries } from "@/lib/reseller-catalog";
@@ -11,6 +12,7 @@ export const metadata: Metadata = { title: "Mi inventario" };
 
 export default async function InventarioPage() {
   const user = await requireUser();
+  if (!user.isAdmin) await ensureSynced(user.id, user.username);
   const [items, catalog] = await Promise.all([listItems(user.id), getCatalogEntries()]);
   const open = items.filter((i) => i.status !== "vendido");
   const today = todayBogota();

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
+import { ensureSynced } from "@/lib/seller-sync";
 import { listItems } from "@/lib/reseller";
 import { setStatus } from "@/app/revendedores/actions";
 import {
@@ -21,6 +22,7 @@ export default async function VentasPage({
   searchParams: Promise<{ mes?: string }>;
 }) {
   const user = await requireUser();
+  if (!user.isAdmin) await ensureSynced(user.id, user.username);
   const { mes } = await searchParams;
   const sold = (await listItems(user.id))
     .filter((i) => i.status === "vendido")
