@@ -13,4 +13,8 @@ export interface PodiumSeller {
   month?: number;
 }
 
-export const PODIUM_SELLERS: PodiumSeller[] = [];
+export const PODIUM_SELLERS: PodiumSeller[] = [
+  { name: "Alejxxxro Villxxil", total: 634 },
+  { name: "Alejxxxro Zulxxxa", total: 387 },
+  { name: "Santxxgo Gonzxxes", total: 256 },
+];
