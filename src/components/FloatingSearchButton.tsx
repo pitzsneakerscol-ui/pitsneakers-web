@@ -115,6 +115,39 @@ function CloseIcon() {
   );
 }
 
+/** Tenis de perfil (silueta simple) para la animación de la pista. */
+function SneakerIcon() {
+  return (
+    <svg viewBox="0 0 34 16" className="h-4 w-8" aria-hidden="true">
+      <path d="M2 13v-2.2c0-1.4 1-2.4 2.4-2.6l5.2-.8L13 4.2c.5-.6 1.3-.7 2-.3l2.2 1.5 2.6.6c3.4.8 6.6 2.4 8.7 4.9.6.7.9 1.4.9 2.3V13Z" fill="currentColor" />
+      <path d="M2 13.6h28.8" stroke="#ff5a3c" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Pista de carreras fina bajo el buscador: cada vez que cambia la búsqueda, un tenis la cruza dejando estela. */
+function Track({ lap }: { lap: number }) {
+  return (
+    <div className="srch-track" aria-hidden="true">
+      <span className="srch-track-line" />
+      <span key={lap} className="srch-runner">
+        <SneakerIcon />
+      </span>
+    </div>
+  );
+}
+
+/** Semáforo de salida de la Fórmula 1: se encienden en cadena y pasan a verde. Se ve mientras carga el catálogo. */
+function StartLights() {
+  return (
+    <div className="mb-6 flex items-center justify-center gap-2" role="status" aria-label="Cargando catálogo">
+      {Array.from({ length: 5 }, (_, i) => (
+        <span key={i} className="srch-light" style={{ "--i": i } as React.CSSProperties} />
+      ))}
+    </div>
+  );
+}
+
 const chipBase = "shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition active:scale-95";
 const chipOff = "border-line bg-paper-raised text-ink hover:border-ink";
 const chipOn = "border-ink bg-ink text-white";
@@ -128,6 +161,7 @@ export default function FloatingSearchButton() {
   const [sort, setSort] = useState<Sort>("relevancia");
   const [active, setActive] = useState(0);
   const [hint, setHint] = useState(0);
+  const [lap, setLap] = useState(0);
   const [recent, setRecent] = useState<string[]>([]);
   const [products, setProducts] = useState<SearchResult[] | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -140,6 +174,7 @@ export default function FloatingSearchButton() {
     setSize("");
     setSort("relevancia");
     setActive(0);
+    setLap((n) => n + 1);
     try {
       const raw = window.localStorage.getItem(RECENT_KEY);
       setRecent(raw ? (JSON.parse(raw) as string[]).filter((x) => typeof x === "string").slice(0, 6) : []);
@@ -293,6 +328,7 @@ export default function FloatingSearchButton() {
   const setQ = (v: string) => {
     setQuery(v);
     setActive(0);
+    setLap((n) => n + 1);
   };
 
   return (
@@ -311,7 +347,7 @@ export default function FloatingSearchButton() {
       {open && (
         <div className="srch-overlay fixed inset-0 z-[60] flex flex-col bg-paper" role="dialog" aria-modal="true" aria-label="Buscar tu par">
           {/* Barra de búsqueda */}
-          <div className="border-b border-line bg-paper-raised px-4 pb-3 pt-4 sm:px-6">
+          <div className="relative border-b border-line bg-paper-raised px-4 pb-3 pt-4 sm:px-6">
             <div className="mx-auto flex max-w-4xl items-center gap-3">
               <SearchIcon className="h-5 w-5 shrink-0 text-accent" />
               <div className="relative flex-1">
@@ -371,9 +407,12 @@ export default function FloatingSearchButton() {
             </div>
           </div>
 
+          <Track lap={lap} />
+
           {/* Contenido */}
           <div ref={listRef} className="flex-1 overflow-y-auto px-4 py-5 sm:px-6">
             <div className="mx-auto max-w-4xl">
+              {loading && <StartLights />}
               {loading && (
                 <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4" aria-label="Cargando catálogo">
                   {Array.from({ length: 8 }, (_, i) => (
@@ -461,7 +500,7 @@ export default function FloatingSearchButton() {
 
                   {results.length === 0 ? (
                     <div className="srch-pop mx-auto max-w-md py-10 text-center" style={{ "--i": 0 } as React.CSSProperties}>
-                      <p className="font-display text-3xl tracking-wide">No lo encontramos… todavía</p>
+                      <p className="font-display text-3xl tracking-wide">Pit stop: no lo encontramos… todavía</p>
                       <p className="mt-2 text-sm text-muted">
                         {size ? "Prueba quitando la talla o cambiando la búsqueda." : "Revisa la ortografía o prueba con la marca."} Si es un par que quieres de verdad, lo conseguimos por encargo.
                       </p>
@@ -498,6 +537,11 @@ export default function FloatingSearchButton() {
                         >
                           <span className="relative block aspect-square w-full overflow-hidden rounded-md bg-[#ebe8e2]">
                             <ProductMedia product={{ images: p.image ? [p.image] : [], brand: p.brand, name: p.name, category: p.category }} sizes="25vw" className="transition duration-500 group-hover:scale-[1.05]" />
+                            {i === 0 && q.length > 0 && sort === "relevancia" && (
+                              <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" title="La mejor coincidencia">
+                                <span aria-hidden="true">🏁</span> P1
+                              </span>
+                            )}
                             {size && (
                               <span className="absolute bottom-2 left-2 rounded-full bg-ink/85 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">Talla {size}</span>
                             )}
