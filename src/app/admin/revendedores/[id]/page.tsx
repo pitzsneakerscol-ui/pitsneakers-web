@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getReseller, listAllItems, listPayments } from "@/lib/admin";
-import { setSuspended } from "@/app/admin/actions";
+import { adminAddItems, setSuspended } from "@/app/admin/actions";
+import { getCatalogEntries } from "@/lib/reseller-catalog";
+import AddItemsPanel from "@/components/reseller/AddItemsPanel";
 import { ago, fmtDay, waLink } from "@/lib/admin-shared";
 import {
   daysInStock,
@@ -29,6 +31,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
   if (!r) notFound();
 
   const today = todayBogota();
+  const catalog = await getCatalogEntries();
   const [items, payments] = await Promise.all([
     listAllItems({ userId: id, limit: 1000 }),
     listPayments("todos").then((all) => all.filter((p) => p.partyType === "reseller" && p.partyId === id)),
@@ -82,6 +85,15 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
         <Kpi label="Ganancia realizada" value={formatPrice(r.profit)} hint={`${r.soldCount} vendidos · ${formatPrice(r.revenue)}`} tone={r.profit >= 0 ? "good" : "bad"} />
         <Kpi label="Pagos pendientes con él/ella" value={formatPrice(owed)} tone={owed > 0 ? "bad" : undefined} />
       </div>
+
+      <AddItemsPanel
+        catalog={catalog}
+        today={today}
+        submit={adminAddItems}
+        hidden={{ userId: r.id }}
+        title={`Cargar pares a ${name}`}
+        subtitle="Busca el par en el catálogo y se carga de una vez en su inventario, con foto y con su número de WhatsApp."
+      />
 
       <section className={`${cardCls} overflow-x-auto p-4 sm:p-6`}>
         <h2 className="font-display text-2xl tracking-wide">Inventario actual</h2>

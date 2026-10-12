@@ -3,7 +3,9 @@
 import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
-import { hashPassword, requireAdmin } from "@/lib/auth";
+import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
+import { insertItems } from "@/lib/reseller";
+import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
@@ -335,5 +337,86 @@ export async function sendEmails(_prev: ActionState, fd: FormData): Promise<Acti
   if (failed.length === 0) return { ok: true, message: `Enviamos ${sent} correo${sent === 1 ? "" : "s"}.` };
   return {
     error: `Enviados ${sent} de ${recipients.length}. Fallaron: ${failed.join("; ")}`,
+  };
+}
+
+/* ---------- Cuentas de revendedor y stock cargado por el dueño ---------- */
+
+const TEMP_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
+
+/** El dueño le crea la cuenta a un revendedor: la contraseña temporal se genera aquí y se muestra una sola vez. */
+export async function createReseller(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const username = text(fd, "username", 24).toLowerCase();
+  const displayName = text(fd, "displayName", 40);
+  const whatsapp = text(fd, "whatsapp", 20).replace(/[^\d]/g, "");
+  const email = text(fd, "email", 120).toLowerCase();
+
+  if (isReservedUsername(username)) return { error: "Ese usuario no está disponible. Prueba con otro." };
+  if (!/^[a-z0-9._-]{3,24}$/.test(username))
+    return { error: "El usuario debe tener 3 a 24 caracteres: letras, números, punto, guion o guion bajo." };
+  if (!whatsapp || whatsapp.length < 7 || whatsapp.length > 15)
+    return { error: "Escribe el WhatsApp del vendedor con indicativo (ej. 573001234567): queda registrado en su perfil." };
+  if (email && !isEmail(email)) return { error: "El correo no parece válido." };
+
+  const temp = Array.from(randomBytes(10), (b) => TEMP_ALPHABET[b % TEMP_ALPHABET.length]).join("");
+  const db = await getDb();
+  try {
+    await db.execute({
+      sql: "INSERT INTO users (username, display_name, whatsapp, email, password_hash, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+      args: [username, displayName || username, whatsapp, email, await hashPassword(temp), Date.now()],
+    });
+  } catch {
+    return { error: "Ese usuario ya existe. Prueba con otro." };
+  }
+  refresh();
+  return {
+    ok: true,
+    message: `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} — cópialos y envíaselos al vendedor; la contraseña solo se muestra ahora. Que la cambie en Cuenta.`,
+  };
+}
+
+/** El dueño carga pares (del catálogo o nuevos) directamente en el inventario de un revendedor. */
+export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const userId = int(fd, "userId");
+  if (!userId) return { error: "Revendedor inválido." };
+  const db = await getDb();
+  const who = await db.execute({ sql: "SELECT username FROM users WHERE id = ? AND role != 'admin'", args: [userId] });
+  if (!who.rows[0]) return { error: "No se encontró el revendedor." };
+
+  const parsed = readItem(fd);
+  if ("error" in parsed) return { error: parsed.error };
+  const sizes = parseSizes(text(fd, "sizes", 300));
+  if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2)." };
+  if (sizes.length > 60) return { error: "Máximo 60 pares por registro." };
+  const data = { ...parsed.data, source: parsed.data.source || "Cargado por Pitsneakers" };
+
+  // Si el par ya está en su stock con esa talla (mismo producto del catálogo), no se duplica.
+  let toAdd = sizes;
+  let skipped = 0;
+  if (data.catalogSlug) {
+    const have = await db.execute({
+      sql: "SELECT size FROM items WHERE user_id = ? AND catalog_slug = ? AND status != 'vendido'",
+      args: [userId, data.catalogSlug],
+    });
+    const taken = new Map<string, number>();
+    for (const r of have.rows) taken.set(String(r.size), (taken.get(String(r.size)) ?? 0) + 1);
+    toAdd = sizes.filter((s) => {
+      const left = taken.get(s) ?? 0;
+      if (left > 0) {
+        taken.set(s, left - 1);
+        skipped++;
+        return false;
+      }
+      return true;
+    });
+  }
+  const n = toAdd.length ? await insertItems(userId, data, toAdd) : 0;
+  refresh();
+  const extra = skipped ? ` (${skipped} ya estaba${skipped === 1 ? "" : "n"} en su stock y no se duplicó)` : "";
+  return {
+    ok: true,
+    message: `${n === 1 ? "Cargamos 1 par" : `Cargamos ${n} pares`} a @${String(who.rows[0].username)}${extra}.`,
   };
 }

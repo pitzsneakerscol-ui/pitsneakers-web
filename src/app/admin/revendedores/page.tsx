@@ -4,6 +4,7 @@ import { listResellers } from "@/lib/admin";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
+import NewResellerForm from "@/components/admin/NewResellerForm";
 
 export const metadata: Metadata = { title: "Revendedores" };
 
@@ -16,10 +17,12 @@ export default async function ResellersPage() {
         <p className="mt-2 text-sm text-muted">{rows.length} cuenta{rows.length === 1 ? "" : "s"} registrada{rows.length === 1 ? "" : "s"}.</p>
       </header>
 
+      <NewResellerForm />
+
       {rows.length === 0 ? (
         <div className={`${cardCls} px-6 py-14 text-center`}>
           <p className="font-display text-2xl tracking-wide">Aún no hay revendedores</p>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted">Cuando se registren en /revendedores aparecerán aquí.</p>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted">Créales la cuenta aquí arriba, o aparecerán solos cuando se registren en /revendedores.</p>
         </div>
       ) : (
         <div className={`${cardCls} overflow-x-auto p-4 sm:p-6`}>
@@ -41,7 +44,7 @@ export default async function ResellersPage() {
                 <tr key={r.id} className="border-b border-line/70 align-middle">
                   <td className="py-3 pr-3">
                     <Link href={`/admin/revendedores/${r.id}`} className="font-medium hover:underline">{r.displayName || r.username}</Link>
-                    <p className="text-xs text-muted">@{r.username}{r.email ? ` · ${r.email}` : " · sin correo"}</p>
+                    <p className="text-xs text-muted">@{r.username}{r.whatsapp ? ` · +${r.whatsapp}` : " · sin WhatsApp"}{r.email ? ` · ${r.email}` : ""}</p>
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">{r.stockCount}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{formatPrice(r.invested)}</td>

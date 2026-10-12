@@ -76,6 +76,7 @@ export default function AddWizard({
   message,
   onReset,
   onClose,
+  hidden,
 }: {
   catalog: CatalogEntry[];
   today: string;
@@ -86,6 +87,8 @@ export default function AddWizard({
   message?: string;
   onReset: () => void;
   onClose: () => void;
+  /** Campos ocultos extra (p. ej. el revendedor al que el administrador le carga el par). */
+  hidden?: Record<string, string | number>;
 }) {
   const [step, setStep] = useState(0);
   const [warn, setWarn] = useState<string | null>(null);
@@ -225,6 +228,9 @@ export default function AddWizard({
       <input type="hidden" name="catalogSlug" value={slug} />
       <input type="hidden" name="sizes" value={sizesValue} />
       <input type="hidden" name="condition" value={condition} />
+      {Object.entries(hidden ?? {}).map(([k, v]) => (
+        <input key={k} type="hidden" name={k} value={v} />
+      ))}
 
       {/* Progreso */}
       <ol className="relative mb-6 grid grid-cols-4 gap-2">

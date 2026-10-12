@@ -116,6 +116,7 @@ export async function getReseller(id: number): Promise<ResellerRow | null> {
 export interface AdminItem extends Item {
   ownerId: number;
   ownerName: string;
+  ownerWhatsapp: string;
 }
 
 export async function listAllItems(filters: {
@@ -143,12 +144,12 @@ export async function listAllItems(filters: {
   }
   if (filters.q) {
     where.push(
-      "(i.brand || ' ' || i.name || ' ' || i.colorway || ' ' || i.size || ' ' || u.username || ' ' || u.display_name) LIKE ? ESCAPE '\\'"
+      "(i.brand || ' ' || i.name || ' ' || i.colorway || ' ' || i.size || ' ' || u.username || ' ' || u.display_name || ' ' || u.whatsapp) LIKE ? ESCAPE '\\'"
     );
     args.push(`%${filters.q.replace(/[\\%_]/g, (c) => `\\${c}`)}%`);
   }
   const res = await db.execute({
-    sql: `SELECT i.*, u.username AS owner_username, u.display_name AS owner_display
+    sql: `SELECT i.*, u.username AS owner_username, u.display_name AS owner_display, u.whatsapp AS owner_whatsapp
           FROM items i JOIN users u ON u.id = i.user_id
           WHERE ${where.join(" AND ")}
           ORDER BY ${filters.status === "vendido" ? "i.sold_date DESC," : ""} i.created_at DESC, i.id DESC
@@ -180,6 +181,7 @@ export async function listAllItems(filters: {
     createdAt: n(r.created_at),
     ownerId: n(r.user_id),
     ownerName: String(r.owner_display || r.owner_username),
+    ownerWhatsapp: String(r.owner_whatsapp ?? ""),
   }));
 }
 

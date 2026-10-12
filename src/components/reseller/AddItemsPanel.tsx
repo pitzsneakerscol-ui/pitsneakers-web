@@ -11,15 +11,24 @@ export default function AddItemsPanel({
   catalog,
   today,
   startOpen = false,
+  submit = addItems,
+  hidden,
+  title = "Agregar pares",
+  subtitle = "Te guiamos en 4 pasos: qué par, talla, cuánto y detalles.",
 }: {
   catalog: CatalogEntry[];
   today: string;
   startOpen?: boolean;
+  /** Acción que guarda los pares (por defecto, la del revendedor; el administrador pasa la suya). */
+  submit?: (prev: ActionState, fd: FormData) => Promise<ActionState>;
+  hidden?: Record<string, string | number>;
+  title?: string;
+  subtitle?: string;
 }) {
   const [open, setOpen] = useState(startOpen);
   const [formKey, setFormKey] = useState(0);
   const [dismissed, setDismissed] = useState<ActionState>(undefined);
-  const [state, action, pending] = useActionState(addItems, undefined);
+  const [state, action, pending] = useActionState(submit, undefined);
 
   // La pantalla de "¡Listo!" se muestra mientras no la hayas cerrado.
   const success = Boolean(state?.ok) && state !== dismissed;
@@ -28,8 +37,8 @@ export default function AddItemsPanel({
     <section className={`${cardCls} p-5 sm:p-6`}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl tracking-wide">Agregar pares</h2>
-          <p className="mt-1 text-sm text-muted">Te guiamos en 4 pasos: qué par, talla, cuánto y detalles.</p>
+          <h2 className="font-display text-2xl tracking-wide">{title}</h2>
+          <p className="mt-1 text-sm text-muted">{subtitle}</p>
         </div>
         <button type="button" onClick={() => setOpen((o) => !o)} className={btnGhost} aria-expanded={open}>
           {open ? "Cerrar" : "+ Nuevo par"}
@@ -41,6 +50,7 @@ export default function AddItemsPanel({
           <AddWizard
             key={formKey}
             catalog={catalog}
+            hidden={hidden}
             today={today}
             action={action}
             pending={pending}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { listAllItems, listResellers } from "@/lib/admin";
 import { STALE_DAYS, daysInStock, expectedProfit, itemLabel, itemTotalCost, todayBogota } from "@/lib/reseller-shared";
 import { formatPrice } from "@/lib/format";
+import { waLink } from "@/lib/admin-shared";
 import { btnGhost, btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 
 export const metadata: Metadata = { title: "Inventario global" };
@@ -33,7 +34,7 @@ export default async function AdminInventory({
       <form method="get" className={`${cardCls} flex flex-wrap items-end gap-3 p-4`}>
         <div className="min-w-[12rem] flex-1">
           <label htmlFor="q" className="sr-only">Buscar</label>
-          <input id="q" name="q" defaultValue={q} placeholder="Buscar modelo, marca, talla o revendedor…" className={inputCls} />
+          <input id="q" name="q" defaultValue={q} placeholder="Buscar modelo, marca, talla, revendedor o su número…" className={inputCls} />
         </div>
         <select name="estado" defaultValue={status} aria-label="Estado" className={selectAutoCls}>
           <option value="activos">Stock y reservados</option>
@@ -84,6 +85,9 @@ export default async function AdminInventory({
                     </td>
                     <td className="px-3 py-2.5">
                       <Link href={`/admin/revendedores/${i.ownerId}`} className="hover:underline">{i.ownerName}</Link>
+                      {i.ownerWhatsapp && (
+                        <a href={waLink(i.ownerWhatsapp)} target="_blank" rel="noopener noreferrer" className="block text-xs text-muted underline">+{i.ownerWhatsapp}</a>
+                      )}
                     </td>
                     <td className="px-3 py-2.5">{i.size || "—"}</td>
                     <td className="px-3 py-2.5 text-right tabular-nums">{formatPrice(itemTotalCost(i))}</td>
