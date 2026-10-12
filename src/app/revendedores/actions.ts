@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb, isDbConfigured } from "@/lib/db";
 import {
@@ -49,7 +49,7 @@ function refresh() {
 
 /* ---------- Cuenta ---------- */
 
-export async function register(
+async function registerInner(
   _prev: ActionState,
   fd: FormData
 ): Promise<ActionState> {
@@ -93,7 +93,7 @@ export async function register(
   redirect(PANEL);
 }
 
-export async function login(
+async function loginInner(
   _prev: ActionState,
   fd: FormData
 ): Promise<ActionState> {
@@ -301,4 +301,28 @@ export async function importCsv(
     ok: true,
     message: `Importamos ${n} par(es) (límite ${MAX_IMPORT_ROWS} por archivo).${skipped}`,
   };
+}
+
+/* ---------- Envolturas: si la base de datos falla, el formulario muestra un aviso claro en vez de la pantalla de error ---------- */
+
+const DB_ERROR = "No pudimos conectar con el servidor en este momento. Intenta de nuevo en unos minutos.";
+
+export async function register(prev: ActionState, fd: FormData): Promise<ActionState> {
+  try {
+    return await registerInner(prev, fd);
+  } catch (e) {
+    unstable_rethrow(e);
+    console.error("[register] error:", e);
+    return { error: DB_ERROR };
+  }
+}
+
+export async function login(prev: ActionState, fd: FormData): Promise<ActionState> {
+  try {
+    return await loginInner(prev, fd);
+  } catch (e) {
+    unstable_rethrow(e);
+    console.error("[login] error:", e);
+    return { error: DB_ERROR };
+  }
 }
