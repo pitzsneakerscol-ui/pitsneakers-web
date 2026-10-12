@@ -26,5 +26,90 @@
     "price": 680000,
     "condition": "nuevo",
     "image": "/products/MIND001-11.4da964ae.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "adidas-adifoam-q-impact",
+    "name": "Adifoam Q Impact",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIFOAM-03",
+    "sizes": [
+      "9"
+    ],
+    "price": 280000,
+    "condition": "nuevo",
+    "image": "/products/ADIFOAM-03.f5ebe923.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-sail-2",
+    "name": "Mind 001 Sail",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-12",
+    "sizes": [
+      "8"
+    ],
+    "price": 720000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-06.1ea25c39.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-geode-teal",
+    "name": "Mind 001 Geode Teal",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-13",
+    "sizes": [
+      "9"
+    ],
+    "price": 670000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-13.54664e38.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-bronze-eclipse",
+    "name": "Mind 001 Bronze Eclipse",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-14",
+    "sizes": [
+      "8"
+    ],
+    "price": 730000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-14.22643b20.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-geode-teal-2",
+    "name": "Mind 001 Geode Teal",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-15",
+    "sizes": [
+      "10",
+      "11"
+    ],
+    "price": 730000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-13.54664e38.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "jordan-jordan-4-brick-after-brick-2",
+    "name": "Jordan 4 Brick After Brick",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-14",
+    "sizes": [
+      "10"
+    ],
+    "price": 1300000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-01.223840a3.webp"
   }
 ]

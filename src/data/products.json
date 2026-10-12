@@ -3567,7 +3567,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Talla de mujer (equivale a 8.5 US hombre). Comisión incluida en el precio.",
     "images": [
-      "/products/MIND001-06.b5ebcdf7.webp"
+      "/products/MIND001-06.1ea25c39.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -6530,5 +6530,126 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:15:00.000Z"
+  },
+  {
+    "id": "ADIFOAM-03",
+    "slug": "adidas-adifoam-q-impact",
+    "name": "Adifoam Q Impact",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 280000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIFOAM-03.f5ebe923.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:16:00.000Z"
+  },
+  {
+    "id": "MIND001-12",
+    "slug": "nike-mind-001-sail-2",
+    "name": "Mind 001 Sail",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 720000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-06.1ea25c39.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:17:00.000Z"
+  },
+  {
+    "id": "MIND001-13",
+    "slug": "nike-mind-001-geode-teal",
+    "name": "Mind 001 Geode Teal",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 670000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-13.54664e38.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:18:00.000Z"
+  },
+  {
+    "id": "MIND001-14",
+    "slug": "nike-mind-001-bronze-eclipse",
+    "name": "Mind 001 Bronze Eclipse",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 730000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-14.22643b20.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:19:00.000Z"
+  },
+  {
+    "id": "MIND001-15",
+    "slug": "nike-mind-001-geode-teal-2",
+    "name": "Mind 001 Geode Teal",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 730000,
+    "promo": false,
+    "sizes": [
+      "10",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-13.54664e38.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:20:00.000Z"
+  },
+  {
+    "id": "AJ4-14",
+    "slug": "jordan-jordan-4-brick-after-brick-2",
+    "name": "Jordan 4 Brick After Brick",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1300000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-01.223840a3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:21:00.000Z"
   }
 ]
