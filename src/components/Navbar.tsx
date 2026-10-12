@@ -21,7 +21,15 @@ function UserIcon() {
 }
 
 // Cada palabra tiene su propio color de brillo (ola de brillo y al pasar el mouse).
-const baseLinks = [
+interface NavLink {
+  href: string;
+  label: string;
+  glow: string;
+  /** Versión corta para pantallas de 1280 a 1535 px: así el menú no se aprieta. */
+  short?: string;
+}
+
+const baseLinks: NavLink[] = [
   { href: "/sneakers", label: "Sneakers", glow: "#ff5a3c" },
   { href: "/streetwear", label: "Streetwear", glow: "#ffd23f" },
   { href: "/lanzamientos", label: "Lanzamientos", glow: "#ff8a3d" },
@@ -31,8 +39,8 @@ const baseLinks = [
 ];
 
 export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: boolean }) {
-  const links = resellerEnabled
-    ? [...baseLinks, { href: "/revendedores", label: "Vende con nosotros", glow: "#25d366" }]
+  const links: NavLink[] = resellerEnabled
+    ? [...baseLinks, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]
     : baseLinks;
   const [open, setOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
@@ -65,36 +73,43 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
 
   return (
     <header className="sticky top-0 z-50 border-b border-line/60 bg-ink text-white">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          className="font-display text-xl tracking-wide sm:text-2xl"
+          className="shrink-0 whitespace-nowrap font-display text-xl tracking-wide sm:text-2xl"
         >
           PIT<span className="logo-shine text-accent">SNEAKERS</span>
         </Link>
 
-        <nav className="hidden items-center gap-5 lg:flex xl:gap-8">
+        <nav className="hidden min-w-0 items-center gap-6 xl:flex 2xl:gap-9">
           {links.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
-              className="nav-link nav-glow text-[13px] font-medium uppercase tracking-wide xl:text-sm"
+              className="nav-link nav-glow whitespace-nowrap text-[13px] font-medium uppercase tracking-[0.05em]"
               style={{ "--glow": link.glow, "--i": i } as React.CSSProperties}
             >
               {link.href === "/revendedores" && <span aria-hidden="true" className="nav-dot" />}
-              {link.label}
+              {link.short ? (
+                <>
+                  <span className="2xl:hidden">{link.short}</span>
+                  <span className="hidden 2xl:inline">{link.label}</span>
+                </>
+              ) : (
+                link.label
+              )}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {resellerEnabled && (
             <Link
               href={accountHref}
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/10 sm:px-4 sm:text-xs"
+              className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/10 sm:px-4 sm:text-xs"
               title={session ? `Sesión de ${session.name}` : "Inicio de sesión para revendedores"}
             >
               <UserIcon />
@@ -107,7 +122,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
             )}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden rounded-full bg-whatsapp px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark sm:inline-block lg:hidden xl:inline-block"
+            className="hidden whitespace-nowrap rounded-full bg-whatsapp px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark sm:inline-block"
           >
             WhatsApp
           </a>
@@ -116,7 +131,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-1.5 xl:hidden"
           >
             <span
               className={`h-px w-6 bg-white transition ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
@@ -129,7 +144,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
       </div>
 
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-ink px-6 py-8 lg:hidden">
+        <div className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-ink px-6 py-8 xl:hidden">
           <nav className="flex flex-1 flex-col gap-1">
             {links.map((link, i) => (
               <Link
