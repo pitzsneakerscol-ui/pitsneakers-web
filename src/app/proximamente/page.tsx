@@ -22,9 +22,8 @@ export default function ProximamentePage() {
       <div className="pl-stripes" aria-hidden="true" />
 
       <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-10">
-        <span className="flex items-center gap-1 font-display text-2xl tracking-wide sm:text-3xl">
-          <Image src="/logo-pitsneakers.png" alt="" width={96} height={96} className="-ml-2 h-12 w-12" />
-          <span>PIT<span className="text-accent">SNEAKERS</span></span>
+        <span className="font-display text-2xl tracking-wide sm:text-3xl">
+          PIT<span className="text-accent">SNEAKERS</span>
         </span>
         <Link href="/revendedores/ingresar" className="rounded-full border border-white/20 px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/80 transition hover:border-white hover:text-white">
           Soy revendedor
