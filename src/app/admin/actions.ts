@@ -15,7 +15,7 @@ import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-share
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
-import { PAYMENT_METHODS } from "@/lib/admin";
+import { PAYMENT_METHODS, listTemplates } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, missingVars, renderTemplate, siteVars, type Vars } from "@/lib/email-templates";
 import { formatPrice } from "@/lib/format";
@@ -547,4 +547,70 @@ export async function answerQuestion(_prev: ActionState, fd: FormData): Promise<
   }
   refresh();
   return { ok: true, message: `Respuesta enviada a ${q.sellerName}.${mail}` };
+}
+
+/* ---------- Ofertas por un par ---------- */
+
+/**
+ * El dueño avisa que llegó una oferta por un par de un vendedor: le llega a la campana de su panel y, si tiene correo,
+ * un email con la plantilla "Oferta por un par" (la que tengas editada en Plantillas).
+ */
+export async function notifyOffer(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const itemId = int(fd, "itemId");
+  const amount = money(fd, "monto");
+  const until = text(fd, "hasta", 40);
+  const note = text(fd, "nota", 300);
+  if (!itemId) return { error: "Par inválido." };
+  if (!amount) return { error: "Escribe cuánto están ofreciendo." };
+
+  const db = await getDb();
+  const r = await db.execute({
+    sql: `SELECT i.name AS name, i.brand AS brand, i.size AS size, i.user_id AS user_id,
+                 u.username AS username, u.display_name AS display_name, u.email AS email
+          FROM items i JOIN users u ON u.id = i.user_id WHERE i.id = ? AND u.role != 'admin'`,
+    args: [itemId],
+  });
+  const row = r.rows[0];
+  if (!row) return { error: "No se encontró el par." };
+
+  const brand = String(row.brand ?? "");
+  const name = String(row.name);
+  const par = brand && !name.toLowerCase().startsWith(brand.toLowerCase()) ? `${brand} ${name}` : name;
+  const size = String(row.size ?? "");
+  const concepto = size ? `${par} (talla ${size})` : par;
+  const seller = String(row.display_name || row.username);
+  const price = formatPrice(amount);
+
+  await createNotification(Number(row.user_id), {
+    kind: "inventario",
+    title: `Oferta de ${price} por tu ${par}`,
+    body: `${size ? `Talla ${size}. ` : ""}${until ? `Vigente hasta ${until}. ` : ""}${note ? `${note} ` : ""}Respóndenos por WhatsApp para aceptarla o contraofertar.`.trim(),
+    href: "/revendedores/inventario",
+  });
+
+  let mail = "";
+  const to = String(row.email ?? "");
+  if (!to) mail = " No tiene correo registrado: solo le salió el aviso en su panel.";
+  else if (!isEmailConfigured()) mail = " El correo aún no está configurado: solo le salió el aviso en su panel.";
+  else {
+    const tpl = (await listTemplates()).find((t) => t.key === "oferta_par") ?? DEFAULT_TEMPLATES.find((t) => t.key === "oferta_par")!;
+    const vars: Vars = { ...siteVars(), nombre: seller, concepto, monto: price, fecha_limite: until || "responde lo antes posible" };
+    const subject = renderTemplate(tpl.subject, vars);
+    let bodyLines = renderTemplate(tpl.body, vars).split("\n");
+    if (note) {
+      const at = bodyLines.findIndex((l) => l.startsWith("> **Vigente"));
+      bodyLines.splice(at >= 0 ? at + 1 : bodyLines.length, 0, `> **Comentario:** ${note}`);
+    }
+    bodyLines = bodyLines.filter((l) => !/^>\s*$/.test(l.trim()));
+    const body = bodyLines.join("\n");
+    const res = await sendEmail({ to, subject, body });
+    await db.execute({
+      sql: "INSERT INTO email_log (to_email, to_name, subject, body, template, status, error, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      args: [to, seller, subject, body, "oferta_par", res.ok ? "enviado" : "fallido", res.ok ? "" : res.error, Date.now()],
+    });
+    mail = res.ok ? ` ✉️ También le llegó por correo a ${to}.` : ` No pudimos enviarle el correo (${res.error}), pero ya le salió el aviso en su panel.`;
+  }
+  refresh();
+  return { ok: true, message: `Aviso enviado a ${seller}: oferta de ${price} por ${par}.${mail}` };
 }

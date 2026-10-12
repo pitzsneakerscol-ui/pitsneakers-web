@@ -227,7 +227,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 2;
+export const TEMPLATE_VERSION = 3;
 
 export interface TemplateData {
   key: string;
@@ -503,6 +503,28 @@ Hace unos días no vemos movimiento en tu panel. Un par de minutos ahí te ahorr
 [boton: Abrir mi panel | {{web}}]
 
 Si algo no te funciona, cuéntanos y lo mejoramos: {{whatsapp}}
+
+**Equipo {{tienda}}**`,
+    builtin: true,
+  },
+  {
+    key: "oferta_par",
+    name: "💰 Oferta por un par (revendedor)",
+    subject: "💰 Oferta por tu {{concepto}}: {{monto}}",
+    body: `# Te =={{monto}}== por tu par
+
+Hola {{nombre}},
+
+Llegó una oferta por **{{concepto}}**:
+
+> **Oferta:** {{monto}}
+> **Vigente hasta:** {{fecha_limite}}
+
+Entra a tu panel, mira tu costo y tu utilidad con este precio y respóndenos por WhatsApp si la aceptas, si quieres contraofertar o si prefieres esperar a otro comprador.
+
+[boton: Ver mi inventario | {{web}}/revendedores/inventario]
+
+[boton: Responder por WhatsApp | {{whatsapp}}]
 
 **Equipo {{tienda}}**`,
     builtin: true,

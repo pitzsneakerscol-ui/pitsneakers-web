@@ -20,6 +20,7 @@ import { btnGhost, cardCls } from "@/components/reseller/ui";
 import Kpi from "@/components/admin/Kpi";
 import ConfirmForm from "@/components/admin/ConfirmForm";
 import ResetPassword from "@/components/admin/ResetPassword";
+import OfferForm from "@/components/admin/OfferForm";
 
 export const metadata: Metadata = { title: "Revendedor" };
 
@@ -100,7 +101,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
         {active.length === 0 ? (
           <p className="mt-3 text-sm text-muted">Sin pares en stock.</p>
         ) : (
-          <table className="mt-3 w-full min-w-[720px] text-left text-sm">
+          <table className="mt-3 w-full min-w-[900px] text-left text-sm">
             <thead>
               <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
                 <th className="py-2 pr-3 font-semibold">Par</th>
@@ -109,7 +110,8 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                 <th className="px-3 py-2 text-right font-semibold">Esperado</th>
                 <th className="px-3 py-2 text-right font-semibold">Utilidad</th>
                 <th className="px-3 py-2 font-semibold">Días</th>
-                <th className="py-2 pl-3 font-semibold">Estado</th>
+                <th className="px-3 py-2 font-semibold">Estado</th>
+                <th className="py-2 pl-3 font-semibold">Oferta</th>
               </tr>
             </thead>
             <tbody>
@@ -127,7 +129,8 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                     <td className="px-3 py-2.5 text-right tabular-nums">{i.expectedPrice > 0 ? formatPrice(i.expectedPrice) : "—"}</td>
                     <td className={`px-3 py-2.5 text-right tabular-nums ${profit !== null && profit < 0 ? "text-accent" : "text-emerald-700"}`}>{profit === null ? "—" : formatPrice(profit)}</td>
                     <td className={`px-3 py-2.5 ${days >= STALE_DAYS ? "font-semibold text-accent" : ""}`}>{days}d</td>
-                    <td className="py-2.5 pl-3 capitalize">{i.status}</td>
+                    <td className="px-3 py-2.5 capitalize">{i.status}</td>
+                    <td className="py-2.5 pl-3"><OfferForm itemId={i.id} /></td>
                   </tr>
                 );
               })}
