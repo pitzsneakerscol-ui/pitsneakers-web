@@ -11,7 +11,7 @@ export type WaitlistState = { ok?: boolean; error?: string; message?: string; co
 
 const HOUR = 60 * 60 * 1000;
 
-/** Inscribe el correo en la lista de espera y le manda su código de descuento. */
+/** Inscribe el correo en la lista de espera y le manda su pase para la subasta. */
 export async function joinList(_prev: WaitlistState, fd: FormData): Promise<WaitlistState> {
   try {
     if (!isDbConfigured()) return { error: "Las inscripciones no están disponibles por ahora. Escríbenos por WhatsApp." };
@@ -24,7 +24,7 @@ export async function joinList(_prev: WaitlistState, fd: FormData): Promise<Wait
     if (!(await rateLimitHit(`waitlist:ip:${ip}`, 10, HOUR))) return { error: "Hiciste muchos intentos seguidos. Espera un rato e intenta de nuevo." };
 
     const { code, isNew } = await joinWaitlist(email);
-    if (!isNew) return { ok: true, message: "Este correo ya estaba en la lista. Revisa tu bandeja (y spam): ahí está tu código." };
+    if (!isNew) return { ok: true, message: "Este correo ya estaba en la lista. Revisa tu bandeja (y spam): ahí está tu pase." };
 
     let emailed = false;
     if (isEmailConfigured()) {
@@ -40,7 +40,7 @@ export async function joinList(_prev: WaitlistState, fd: FormData): Promise<Wait
     return {
       ok: true,
       code,
-      message: emailed ? "Te enviamos el código a tu correo (revisa también spam)." : "Guarda este código: es tuyo y no se repite.",
+      message: emailed ? "Te enviamos tu pase a tu correo (revisa también spam)." : "Guarda este código: es tu pase personal y no se repite.",
     };
   } catch (e) {
     unstable_rethrow(e);

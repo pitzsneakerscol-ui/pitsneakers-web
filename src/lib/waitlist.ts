@@ -52,22 +52,21 @@ export function waitlistToCsv(rows: WaitlistEntry[]): string {
 
 /** Correo de bienvenida con el código del incentivo. */
 export function waitlistEmail(code: string): { subject: string; body: string } {
-  const pct = prelaunch.discountPercent;
-  const wa = buildGeneralWhatsAppLink(`Hola! Ya estoy en la lista de Pitsneakers. Mi código es ${code}`);
-  const subject = `Ya estás en la lista: tu ${pct}% de descuento 🎁`;
+  const wa = buildGeneralWhatsAppLink(`Hola! Ya estoy en la lista de Pitsneakers. Mi pase es ${code}`);
+  const subject = `Ya estás en la lista: tu pase para la subasta 🔨`;
   const body = [
     "# Ya estás ==en la lista==",
     "",
-    `Gracias por unirte a ${siteConfig.name}. Estamos preparando el lanzamiento de la nueva página y tú vas a entrar primero.`,
+    `Gracias por unirte a ${siteConfig.name}. Estamos preparando el lanzamiento de la nueva página y tú vas a entrar primero. Por estar en la lista tienes acceso a una **subasta exclusiva de ${prelaunch.auctionPairs} pares** que no van a estar en el catálogo.`,
     "",
-    `> **Tu código personal:** ==${code}==`,
-    `> ${pct}% de descuento en tu primera compra. Dímelo por WhatsApp cuando elijas tu par.`,
+    `> **Tu pase personal:** ==${code}==`,
+    "> Con este pase podrás pujar en la subasta. Guárdalo: solo los inscritos entran.",
     "",
     ...prelaunch.perks.map((p) => `- ${p}`),
     "",
     `[boton: Escríbenos por WhatsApp | ${wa}]`,
     "",
-    "Guarda este correo: ahí está tu código. Te avisamos apenas abramos.",
+    "Guarda este correo: ahí está tu pase. Te avisamos por aquí el día y la hora de la subasta.",
     "",
     "**Equipo Pitsneakers**",
   ].join("\n");

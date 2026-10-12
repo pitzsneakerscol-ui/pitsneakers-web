@@ -7,14 +7,14 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Próximamente",
-  description: `Estamos preparando la nueva ${siteConfig.name}. Deja tu correo y recibe ${prelaunch.discountPercent}% de descuento en tu primera compra.`,
+  description: `Estamos preparando la nueva ${siteConfig.name}. Deja tu correo y entra a la subasta exclusiva de ${prelaunch.auctionPairs} pares.`,
   robots: { index: false, follow: false },
 };
 
 const BRANDS = ["Jordan", "Nike", "Yeezy", "New Balance", "Adidas", "Asics", "Supreme", "Dunk SB", "Travis Scott", "Bad Bunny"];
 
 export default function ProximamentePage() {
-  const pct = prelaunch.discountPercent;
+  const n = prelaunch.auctionPairs;
   return (
     <div className="theme-dark pl-root relative isolate flex min-h-screen flex-col overflow-hidden bg-paper text-ink">
       <div className="pl-glow" aria-hidden="true" />
@@ -41,17 +41,17 @@ export default function ProximamentePage() {
         </p>
 
         <div className="mt-8 w-full max-w-lg rounded-3xl border border-white/10 bg-white/5 p-5 text-left backdrop-blur sm:p-6">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-accent">🎁 Por inscribirte ganas</p>
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-accent">🔨 Por inscribirte ganas</p>
           <ul className="mt-3 space-y-2 text-sm text-white/85">
             {prelaunch.perks.map((p, i) => (
               <li key={p} className="flex gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">{i === 0 ? `${pct}%` : "✓"}</span>
-                <span>{i === 0 ? `${pct}% de descuento en tu primera compra (código personal)` : p}</span>
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">{i === 0 ? n : "✓"}</span>
+                <span>{p}</span>
               </li>
             ))}
           </ul>
           <div className="mt-5">
-            <WaitlistForm percent={pct} />
+            <WaitlistForm />
           </div>
         </div>
       </main>

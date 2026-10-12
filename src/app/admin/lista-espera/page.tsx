@@ -18,7 +18,7 @@ export default async function ListaEsperaPage() {
         <div>
           <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Lista de espera</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Correos de quienes se inscribieron en la página “Próximamente”. Cada uno recibió un código personal de {prelaunch.discountPercent}% de descuento en su primera compra.
+            Correos de quienes se inscribieron en la página “Próximamente”. Cada uno recibió un pase personal para la subasta exclusiva de {prelaunch.auctionPairs} pares.
           </p>
         </div>
         {rows.length > 0 && (

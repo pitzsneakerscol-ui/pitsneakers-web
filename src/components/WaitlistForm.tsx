@@ -4,8 +4,8 @@ import { useActionState, useState } from "react";
 import { joinList } from "@/app/proximamente/actions";
 import { submitWith } from "@/components/reseller/ui";
 
-/** Formulario de la lista de espera: correo → código de descuento. */
-export default function WaitlistForm({ percent }: { percent: number }) {
+/** Formulario de la lista de espera: correo → pase personal para la subasta. */
+export default function WaitlistForm() {
   const [state, action, pending] = useActionState(joinList, undefined);
   const [copied, setCopied] = useState(false);
 
@@ -22,7 +22,7 @@ export default function WaitlistForm({ percent }: { percent: number }) {
   if (state?.ok) {
     return (
       <div className="pl-done rounded-2xl border border-accent/50 bg-white/5 p-6 text-center backdrop-blur">
-        <p className="text-4xl" aria-hidden="true">🎁</p>
+        <p className="text-4xl" aria-hidden="true">🔨</p>
         <h2 className="mt-2 font-display text-3xl tracking-wide">¡Ya estás en la lista!</h2>
         {state.code && (
           <button
@@ -35,7 +35,7 @@ export default function WaitlistForm({ percent }: { percent: number }) {
             <span className="font-sans text-[10px] font-semibold uppercase tracking-wider text-white/70">{copied ? "Copiado" : "Copiar"}</span>
           </button>
         )}
-        {state.code && <p className="mt-2 text-sm text-white/80">{percent}% de descuento en tu primera compra.</p>}
+        {state.code && <p className="mt-2 text-sm text-white/80">Es tu pase personal para la subasta exclusiva.</p>}
         <p className="mt-2 text-sm text-white/70">{state.message}</p>
       </div>
     );
@@ -60,7 +60,7 @@ export default function WaitlistForm({ percent }: { percent: number }) {
           disabled={pending}
           className="pl-cta inline-flex shrink-0 items-center justify-center rounded-full bg-accent px-7 py-3.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110 disabled:opacity-60"
         >
-          {pending ? "Inscribiendo…" : `Quiero mi ${percent}%`}
+          {pending ? "Inscribiendo…" : "Quiero entrar a la subasta"}
         </button>
       </div>
       {/* Campo trampa para bots: las personas no lo ven. */}
@@ -68,7 +68,7 @@ export default function WaitlistForm({ percent }: { percent: number }) {
         <input name="website" tabIndex={-1} autoComplete="off" />
       </div>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/15 px-4 py-3 text-sm text-white">{state.error}</p>}
-      <p className="text-center text-xs text-white/50">Sin spam. Solo tu código y el aviso del lanzamiento.</p>
+      <p className="text-center text-xs text-white/50">Sin spam. Solo tu pase y el aviso de la subasta.</p>
     </form>
   );
 }
