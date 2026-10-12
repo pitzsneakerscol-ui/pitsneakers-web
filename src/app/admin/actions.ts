@@ -7,7 +7,7 @@ import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
 import { cleanUsername, usernameError } from "@/lib/username";
-import { waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
+import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
@@ -69,19 +69,26 @@ export async function resetPassword(_prev: ActionState, fd: FormData): Promise<A
   });
   if (res.rowsAffected === 0) return { error: "No se encontró el revendedor." };
   await db.execute({ sql: "DELETE FROM sessions WHERE user_id = ?", args: [id] });
-  const who = await db.execute({ sql: "SELECT username, display_name, whatsapp FROM users WHERE id = ?", args: [id] });
+  const who = await db.execute({ sql: "SELECT username, display_name, whatsapp, email FROM users WHERE id = ?", args: [id] });
   const uname = String(who.rows[0].username);
   await db.execute({ sql: "DELETE FROM rate_limits WHERE key = ?", args: [`loginfail:${uname}`] });
   const waNum = waNumber(String(who.rows[0].whatsapp ?? ""));
   const wa = waNum
     ? waLink(waNum, welcomeMessage({ name: String(who.rows[0].display_name || uname), username: uname, password: temp, siteUrl: siteConfig.siteUrl, reset: true }))
     : undefined;
+  const mail = await mailAccess(String(who.rows[0].email ?? ""), {
+    name: String(who.rows[0].display_name || uname),
+    username: uname,
+    password: temp,
+    reset: true,
+  });
   return {
     ok: true,
     wa,
-    message: chosen
-      ? "Contraseña cambiada a la que escribiste. Envíasela al vendedor; puede cambiarla en Cuenta."
-      : `Contraseña temporal: ${temp} — cópiala y envíala; solo se muestra ahora. Pídele que la cambie en Cuenta.`,
+    message:
+      (chosen
+        ? "Contraseña cambiada a la que escribiste."
+        : `Contraseña temporal: ${temp} (solo se muestra ahora).`) + ` ${mail}`,
   };
 }
 
@@ -358,6 +365,20 @@ export async function sendEmails(_prev: ActionState, fd: FormData): Promise<Acti
 
 const TEMP_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
 
+/** Envía el acceso por correo si el vendedor tiene correo y el envío está configurado. Devuelve una frase para mostrar al dueño. */
+async function mailAccess(
+  to: string,
+  data: { name: string; username: string; password: string; reset?: boolean }
+): Promise<string> {
+  if (!to) return "No se envió correo (el vendedor no tiene correo registrado): envíale el acceso por WhatsApp con el botón.";
+  if (!isEmailConfigured()) return "No se envió correo porque el envío de correos aún no está configurado: usa el botón de WhatsApp.";
+  const { subject, body } = accessEmail({ ...data, siteUrl: siteConfig.siteUrl });
+  const res = await sendEmail({ to, subject, body });
+  return res.ok
+    ? `✉️ Le enviamos el acceso por correo a ${to}.`
+    : `No pudimos enviar el correo (${res.error}): usa el botón de WhatsApp.`;
+}
+
 /** El dueño le crea la cuenta a un revendedor: la contraseña temporal se genera aquí y se muestra una sola vez. */
 export async function createReseller(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
@@ -387,13 +408,16 @@ export async function createReseller(_prev: ActionState, fd: FormData): Promise<
     return { error: "Ese usuario ya existe. Prueba con otro." };
   }
   refresh();
-  const wa = waLink(waNumber(whatsapp), welcomeMessage({ name: displayName || username, username, password: temp, siteUrl: siteConfig.siteUrl }));
+  const name = displayName || username;
+  const wa = waLink(waNumber(whatsapp), welcomeMessage({ name, username, password: temp, siteUrl: siteConfig.siteUrl }));
+  const mail = await mailAccess(email, { name, username, password: temp });
   return {
     ok: true,
     wa,
-    message: chosen
-      ? `Cuenta creada. Usuario: ${username} · Contraseña: la que escribiste. Envíale los datos al vendedor; puede cambiarla en Cuenta.`
-      : `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} — cópialos y envíaselos al vendedor; la contraseña solo se muestra ahora. Que la cambie en Cuenta.`,
+    message:
+      (chosen
+        ? `Cuenta creada. Usuario: ${username} · Contraseña: la que escribiste.`
+        : `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} (solo se muestra ahora).`) + ` ${mail}`,
   };
 }
 

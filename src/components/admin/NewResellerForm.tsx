@@ -37,7 +37,7 @@ export default function NewResellerForm() {
             <input id="nv-wa" name="whatsapp" required inputMode="numeric" autoComplete="off" placeholder="573001234567" className={inputCls} />
           </div>
           <div>
-            <label htmlFor="nv-email" className={labelCls}>Correo (opcional)</label>
+            <label htmlFor="nv-email" className={labelCls}>Correo (le enviamos su acceso)</label>
             <input id="nv-email" name="email" type="email" autoComplete="off" placeholder="vendedor@correo.com" className={inputCls} />
           </div>
           <div className="sm:col-span-2">

@@ -47,5 +47,30 @@ export function welcomeMessage(opts: { name: string; username: string; password:
   ].join("\n");
 }
 
+/** Correo con el acceso del vendedor (usa el formato de marca de los correos de Pitsneakers). */
+export function accessEmail(opts: { name: string; username: string; password: string; siteUrl: string; reset?: boolean }): { subject: string; body: string } {
+  const url = `${opts.siteUrl.replace(/\/$/, "")}/revendedores/ingresar`;
+  const subject = opts.reset ? "Tu nueva contraseña de Pitsneakers" : "Tu cuenta de vendedor en Pitsneakers ya está lista";
+  const body = [
+    opts.reset ? "# Tu contraseña ==cambió==" : "# Tu cuenta ==ya está lista==",
+    "",
+    `Hola ${opts.name},`,
+    "",
+    opts.reset
+      ? "Cambiamos la contraseña de tu cuenta de vendedor en Pitsneakers. Estos son tus datos de acceso:"
+      : "Ya creamos tu cuenta de vendedor en Pitsneakers. Estos son tus datos de acceso:",
+    "",
+    `> **Usuario:** ${opts.username}`,
+    `> **Contraseña:** ${opts.password}`,
+    "",
+    `[boton: Entrar a mi panel | ${url}]`,
+    "",
+    "Ahí vas a ver tu inventario con tus pares, tus ventas y tu ranking. Te recomendamos **cambiar la contraseña** en la sección Cuenta apenas entres, y borrar este correo después.",
+    "",
+    "**Equipo Pitsneakers**",
+  ].join("\n");
+  return { subject, body };
+}
+
 export const waLink = (number: string, message = "") =>
   `https://wa.me/${number}${message ? `?text=${encodeURIComponent(message)}` : ""}`;
