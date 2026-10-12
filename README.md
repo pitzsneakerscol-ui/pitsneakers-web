@@ -298,6 +298,13 @@ vivo. Formato del mensaje: `# titular`, `==rojo==`, `**negrita**`,
 Si defines `siteUrl` en `src/config/site.ts`, los botones "Ver el catálogo"
 apuntan a tu página (si no, a tu WhatsApp).
 
+## Carga automática de pares a los vendedores (tarea programada)
+
+`vercel.json` programa **una vez al día** (14:00 UTC, 9:00 a. m. en Bogotá) la ruta `/api/cron/sincronizar`: carga en cada cuenta los pares del catálogo con su `@usuario` en la columna VENDEDOR y les manda el aviso por correo. Es lo mismo que el botón **Sincronizar ahora** del panel de administrador.
+
+- Requiere la variable **`CRON_SECRET`** en Vercel (cualquier texto largo y aleatorio). Vercel la envía sola al llamar la ruta; sin ella la ruta no hace nada.
+- En el plan gratis (Hobby) Vercel solo permite una ejecución al día. Con un plan Pro puedes cambiar `schedule` en `vercel.json` (por ejemplo `0 * * * *` = cada hora).
+
 ## Pares de un vendedor (columna VENDEDOR)
 
 La última columna del CSV, `VENDEDOR`, dice de quién es un par: escribe su usuario (con o sin @), por ejemplo `@pepito`. Déjala vacía si el par es de Pitsneakers.

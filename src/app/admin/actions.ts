@@ -6,8 +6,9 @@ import { getDb } from "@/lib/db";
 import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
+import { notifyInventory } from "@/lib/seller-notify";
 import { cleanUsername, usernameError } from "@/lib/username";
-import { accessEmail, inventoryEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
+import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
@@ -377,30 +378,6 @@ async function mailAccess(
   return res.ok
     ? `✉️ Le enviamos el acceso por correo a ${to}.`
     : `No pudimos enviar el correo (${res.error}): usa el botón de WhatsApp.`;
-}
-
-/**
- * Aviso automático por correo: se le cargaron pares al inventario de un vendedor.
- * Devuelve "sent" si se envió, "no-email" si no tiene correo registrado, "off" si el correo no está configurado, "fail" si falló.
- */
-async function notifyInventory(
-  userId: number,
-  items: { name: string; size: string; price: number }[]
-): Promise<"sent" | "no-email" | "off" | "fail"> {
-  if (items.length === 0) return "off";
-  const db = await getDb();
-  const u = await db.execute({ sql: "SELECT username, display_name, email FROM users WHERE id = ?", args: [userId] });
-  const row = u.rows[0];
-  const to = row ? String(row.email ?? "") : "";
-  if (!to) return "no-email";
-  if (!isEmailConfigured()) return "off";
-  const { subject, body } = inventoryEmail({
-    name: String(row.display_name || row.username),
-    items,
-    siteUrl: siteConfig.siteUrl,
-  });
-  const res = await sendEmail({ to, subject, body });
-  return res.ok ? "sent" : "fail";
 }
 
 /** El dueño le crea la cuenta a un revendedor: la contraseña temporal se genera aquí y se muestra una sola vez. */
