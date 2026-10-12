@@ -118,9 +118,10 @@ function CloseIcon() {
 /** Tenis de perfil (silueta simple) para la animación de la pista. */
 function SneakerIcon() {
   return (
-    <svg viewBox="0 0 34 16" className="h-4 w-8" aria-hidden="true">
+    <svg viewBox="0 0 34 16" className="srch-sneaker h-6 w-12" aria-hidden="true">
       <path d="M2 13v-2.2c0-1.4 1-2.4 2.4-2.6l5.2-.8L13 4.2c.5-.6 1.3-.7 2-.3l2.2 1.5 2.6.6c3.4.8 6.6 2.4 8.7 4.9.6.7.9 1.4.9 2.3V13Z" fill="currentColor" />
-      <path d="M2 13.6h28.8" stroke="#ff5a3c" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M2 13.6h28.8" stroke="#ffd23f" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M13.2 4.6l1.6 2M15.4 3.6l1.6 2M17.6 4.4l1.5 1.9" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" opacity=".85" />
     </svg>
   );
 }
@@ -137,13 +138,43 @@ function Track({ lap }: { lap: number }) {
   );
 }
 
+/** Encabezado de carrera: semáforo, título y un tenis que cruza la pista una y otra vez. */
+function RaceBanner() {
+  return (
+    <div className="srch-banner relative mb-6 overflow-hidden rounded-xl bg-ink px-4 pb-6 pt-4 text-white sm:px-6">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+        <div className="order-1 flex shrink-0 gap-1.5" aria-hidden="true">
+          {Array.from({ length: 5 }, (_, i) => (
+            <span key={i} className="srch-light srch-light-lg" style={{ "--i": i } as React.CSSProperties} />
+          ))}
+        </div>
+        <div className="order-3 min-w-0 basis-full sm:order-2 sm:basis-0 sm:flex-1">
+          <p className="font-display text-3xl leading-none tracking-wide sm:text-3xl">
+            ¿QUÉ PAR <span className="text-[#ffd23f]">BUSCAS</span> HOY?
+          </p>
+          <p className="mt-1.5 text-xs text-white/60">Largada: escribe, filtra por tu talla y llega primero.</p>
+        </div>
+        <span className="srch-flag order-2 ml-auto text-3xl sm:order-3 sm:ml-0" aria-hidden="true">🏁</span>
+      </div>
+      <div className="srch-banner-track" aria-hidden="true">
+        <span className="srch-banner-runner">
+          <SneakerIcon />
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /** Semáforo de salida de la Fórmula 1: se encienden en cadena y pasan a verde. Se ve mientras carga el catálogo. */
 function StartLights() {
   return (
-    <div className="mb-6 flex items-center justify-center gap-2" role="status" aria-label="Cargando catálogo">
-      {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} className="srch-light" style={{ "--i": i } as React.CSSProperties} />
-      ))}
+    <div className="mb-6 flex flex-col items-center gap-2" role="status" aria-label="Cargando catálogo">
+      <div className="flex items-center justify-center gap-2.5">
+        {Array.from({ length: 5 }, (_, i) => (
+          <span key={i} className="srch-light srch-light-lg" style={{ "--i": i } as React.CSSProperties} />
+        ))}
+      </div>
+      <span className="srch-go font-display text-xl tracking-[0.3em] text-ink">¡GO!</span>
     </div>
   );
 }
@@ -428,6 +459,7 @@ export default function FloatingSearchButton() {
               {/* Sin búsqueda: ideas para empezar */}
               {!loading && !hasFilter && (
                 <div className="space-y-7">
+                  <RaceBanner />
                   {recent.length > 0 && (
                     <section>
                       <div className="mb-2 flex items-center justify-between">
@@ -538,7 +570,7 @@ export default function FloatingSearchButton() {
                           <span className="relative block aspect-square w-full overflow-hidden rounded-md bg-[#ebe8e2]">
                             <ProductMedia product={{ images: p.image ? [p.image] : [], brand: p.brand, name: p.name, category: p.category }} sizes="25vw" className="transition duration-500 group-hover:scale-[1.05]" />
                             {i === 0 && q.length > 0 && sort === "relevancia" && (
-                              <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" title="La mejor coincidencia">
+                              <span className="srch-p1 absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#ffd23f] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink shadow" title="La mejor coincidencia">
                                 <span aria-hidden="true">🏁</span> P1
                               </span>
                             )}
