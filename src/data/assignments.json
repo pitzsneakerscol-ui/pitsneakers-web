@@ -12,5 +12,19 @@
     "price": 630000,
     "condition": "nuevo",
     "image": "/products/MIND001-10.44dfacaf.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-mineral-slate",
+    "name": "Mind 001 Mineral Slate",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-11",
+    "sizes": [
+      "8"
+    ],
+    "price": 680000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-11.4da964ae.webp"
   }
 ]
