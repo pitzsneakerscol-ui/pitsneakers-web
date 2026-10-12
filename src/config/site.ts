@@ -7,7 +7,7 @@ export const siteConfig = {
   whatsappNumber: "573115609644",
   // Dirección pública de la página (ej: "https://pitsneakers.com"). Se usa en los correos;
   // si la dejas vacía, los botones "Ver el catálogo" apuntan a tu WhatsApp.
-  siteUrl: "",
+  siteUrl: "https://pitsneakers.com",
   whatsappCommunityUrl: "https://wa.me/message/LOOSS56K4XY6M1",
   instagramHandle: "@pitsneakers",
   instagramUrl: "https://instagram.com/pitsneakers",

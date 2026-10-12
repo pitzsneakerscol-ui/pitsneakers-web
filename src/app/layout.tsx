@@ -29,6 +29,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: siteConfig.siteUrl ? new URL(siteConfig.siteUrl) : undefined,
   title: {
     default: `${siteConfig.name} — Sneakers y Streetwear Verificados`,
     template: `%s — ${siteConfig.name}`,
@@ -39,6 +40,8 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     locale: "es_CO",
     type: "website",
+    siteName: siteConfig.name,
+    url: siteConfig.siteUrl || undefined,
   },
 };
 
