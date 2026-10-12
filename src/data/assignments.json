@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-solar-red",
+    "name": "Mind 001 Solar Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-10",
+    "sizes": [
+      "7W"
+    ],
+    "price": 630000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-10.44dfacaf.webp"
+  }
+]

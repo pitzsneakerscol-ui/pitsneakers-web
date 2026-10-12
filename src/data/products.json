@@ -6490,5 +6490,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:13:00.000Z"
+  },
+  {
+    "id": "MIND001-10",
+    "slug": "nike-mind-001-solar-red",
+    "name": "Mind 001 Solar Red",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 630000,
+    "promo": false,
+    "sizes": [
+      "7W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer (equivale a 5.5 US hombre). Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-10.44dfacaf.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:14:00.000Z"
   }
 ]
