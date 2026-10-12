@@ -22,7 +22,7 @@ export default async function IngresarPage() {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-10 sm:py-16">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Revendedores</p>
-      <h1 className="mt-3 font-display text-5xl leading-[0.95] tracking-wide sm:text-6xl">
+      <h1 className="mt-3 font-display text-4xl leading-[0.95] tracking-wide sm:text-6xl">
         BIENVENIDO <span className="text-accent">DE VUELTA</span>
       </h1>
       <p className="mb-6 mt-3 text-sm text-muted">Entra con tu usuario y contraseña para ver tu inventario y tus ventas.</p>

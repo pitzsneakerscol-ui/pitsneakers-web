@@ -34,12 +34,15 @@ export default function AuthForms({ startOnLogin = false }: { startOnLogin?: boo
       {tab === "login" ? (
         <form onSubmit={submitWith(loginAction)} className="space-y-4">
           <div>
-            <label htmlFor="l-user" className={labelCls}>Usuario</label>
-            <input id="l-user" name="username" autoComplete="username" required maxLength={40} className={inputCls} />
+            <label htmlFor="l-user" className={labelCls}>Usuario o correo</label>
+            <input id="l-user" name="username" autoComplete="username" required maxLength={120} placeholder="tu usuario o tu@correo.com" className={inputCls} />
           </div>
           <div>
             <label htmlFor="l-pass" className={labelCls}>Contraseña</label>
             <input id="l-pass" name="password" type="password" autoComplete="current-password" required className={inputCls} />
+            <p className="mt-2 text-right text-xs">
+              <a href="/revendedores/recuperar" className="font-semibold text-muted underline underline-offset-4 hover:text-accent">¿Olvidaste tu contraseña?</a>
+            </p>
           </div>
           {loginState?.error && (
             <p role="alert" className="rounded-lg bg-accent/10 px-4 py-3 text-sm text-accent">{loginState.error}</p>

@@ -98,9 +98,12 @@ async function loginInner(
   fd: FormData
 ): Promise<ActionState> {
   if (!isDbConfigured()) return { error: "El ingreso aún no está disponible." };
-  const username = cleanUsername(String(fd.get("username") ?? ""));
+  // Se puede entrar con el usuario o con el correo registrado.
+  const rawId = String(fd.get("username") ?? "").trim().toLowerCase();
+  const byEmail = isEmail(rawId);
+  const username = byEmail ? rawId.slice(0, 120) : cleanUsername(rawId);
   const password = String(fd.get("password") ?? "");
-  if (!username || !password) return { error: "Escribe tu usuario y contraseña." };
+  if (!username || !password) return { error: "Escribe tu usuario o correo y tu contraseña." };
 
   const ip = await clientIp();
   const userKey = `loginfail:${username}`;
@@ -112,7 +115,7 @@ async function loginInner(
   const fail = async (): Promise<ActionState> => {
     await rateLimitHit(userKey, 5, 15 * MIN);
     await rateLimitHit(ipKey, 30, 15 * MIN);
-    return { error: "Usuario o contraseña incorrectos." };
+    return { error: "Usuario (o correo) o contraseña incorrectos." };
   };
 
   // Cuenta del dueño: su contraseña vive en variables de entorno, no en la base.
@@ -131,13 +134,31 @@ async function loginInner(
     redirect("/admin");
   }
 
-  const res = await db.execute({
-    sql: "SELECT id, password_hash, suspended, role FROM users WHERE username = ?",
-    args: [username],
-  });
-  const row = res.rows[0];
-  const ok = await verifyPassword(password, row ? String(row.password_hash) : null);
-  if (!row || !ok || row.role === "admin") return fail();
+  let rows = (
+    await db.execute({
+      sql: "SELECT id, password_hash, suspended, role FROM users WHERE username = ?",
+      args: [username],
+    })
+  ).rows;
+  if (rows.length === 0 && byEmail) {
+    // Correo registrado: puede haber más de una cuenta con el mismo correo; entra la que coincida con la contraseña.
+    rows = (
+      await db.execute({
+        sql: "SELECT id, password_hash, suspended, role FROM users WHERE email = ? AND role != 'admin' ORDER BY id LIMIT 5",
+        args: [username],
+      })
+    ).rows;
+  }
+  let row = undefined as (typeof rows)[number] | undefined;
+  for (const r of rows) {
+    if (await verifyPassword(password, String(r.password_hash))) {
+      row = r;
+      break;
+    }
+  }
+  // Misma demora aunque la cuenta no exista (no revela si el usuario o el correo están registrados).
+  if (rows.length === 0) await verifyPassword(password, null);
+  if (!row || row.role === "admin") return fail();
   if (Number(row.suspended) === 1)
     return { error: "Tu cuenta está suspendida. Escríbenos por WhatsApp para resolverlo." };
   await rateLimitClear(userKey);
