@@ -7,7 +7,7 @@ import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
 import { cleanUsername, usernameError } from "@/lib/username";
-import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
+import { accessEmail, inventoryEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
@@ -379,6 +379,30 @@ async function mailAccess(
     : `No pudimos enviar el correo (${res.error}): usa el botón de WhatsApp.`;
 }
 
+/**
+ * Aviso automático por correo: se le cargaron pares al inventario de un vendedor.
+ * Devuelve "sent" si se envió, "no-email" si no tiene correo registrado, "off" si el correo no está configurado, "fail" si falló.
+ */
+async function notifyInventory(
+  userId: number,
+  items: { name: string; size: string; price: number }[]
+): Promise<"sent" | "no-email" | "off" | "fail"> {
+  if (items.length === 0) return "off";
+  const db = await getDb();
+  const u = await db.execute({ sql: "SELECT username, display_name, email FROM users WHERE id = ?", args: [userId] });
+  const row = u.rows[0];
+  const to = row ? String(row.email ?? "") : "";
+  if (!to) return "no-email";
+  if (!isEmailConfigured()) return "off";
+  const { subject, body } = inventoryEmail({
+    name: String(row.display_name || row.username),
+    items,
+    siteUrl: siteConfig.siteUrl,
+  });
+  const res = await sendEmail({ to, subject, body });
+  return res.ok ? "sent" : "fail";
+}
+
 /** El dueño le crea la cuenta a un revendedor: la contraseña temporal se genera aquí y se muestra una sola vez. */
 export async function createReseller(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
@@ -460,21 +484,47 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
   const n = toAdd.length ? await insertItems(userId, data, toAdd) : 0;
   refresh();
   const extra = skipped ? ` (${skipped} ya estaba${skipped === 1 ? "" : "n"} en su stock y no se duplicó)` : "";
+  const mail = n > 0 ? await notifyInventory(userId, toAdd.map((size) => ({ name: data.name, size, price: data.expectedPrice }))) : "off";
+  const aviso =
+    n === 0
+      ? ""
+      : mail === "sent"
+        ? " ✉️ Le avisamos por correo."
+        : mail === "no-email"
+          ? " No se le avisó por correo (no tiene correo registrado)."
+          : mail === "fail"
+            ? " No pudimos enviarle el aviso por correo."
+            : "";
   return {
     ok: true,
-    message: `${n === 1 ? "Cargamos 1 par" : `Cargamos ${n} pares`} a @${String(who.rows[0].username)}${extra}.`,
+    message: `${n === 1 ? "Cargamos 1 par" : `Cargamos ${n} pares`} a @${String(who.rows[0].username)}${extra}.${aviso}`,
   };
 }
 
 /** Carga en las cuentas de los vendedores los pares del catálogo que tienen su usuario en la columna VENDEDOR. */
 export async function syncSellerCatalog(): Promise<ActionState> {
   await requireAdmin();
-  const { added, sellers, waiting } = await runSync();
+  const { added, sellers, waiting, notices } = await runSync();
   refresh();
   const wait = waiting.length ? ` Esperando cuenta: ${waiting.map((w) => `@${w}`).join(", ")}.` : "";
   if (added === 0) return { ok: true, message: `No había pares nuevos por cargar.${wait}` };
+
+  // Aviso automático por correo a cada vendedor al que se le cargaron pares.
+  let sent = 0;
+  const noEmail: string[] = [];
+  let failed = 0;
+  for (const n of notices) {
+    const r = await notifyInventory(n.userId, n.items);
+    if (r === "sent") sent++;
+    else if (r === "no-email") noEmail.push(`@${n.username}`);
+    else if (r === "fail") failed++;
+  }
+  const aviso =
+    (sent ? ` ✉️ Avisamos por correo a ${sent} vendedor${sent === 1 ? "" : "es"}.` : "") +
+    (noEmail.length ? ` Sin correo registrado: ${noEmail.join(", ")}.` : "") +
+    (failed ? ` No pudimos enviar ${failed} aviso${failed === 1 ? "" : "s"}.` : "");
   return {
     ok: true,
-    message: `${added === 1 ? "Se cargó 1 par" : `Se cargaron ${added} pares`} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${wait}`,
+    message: `${added === 1 ? "Se cargó 1 par" : `Se cargaron ${added} pares`} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${aviso}${wait}`,
   };
 }

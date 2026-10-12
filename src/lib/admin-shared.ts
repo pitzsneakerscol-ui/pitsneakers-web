@@ -47,6 +47,36 @@ export function welcomeMessage(opts: { name: string; username: string; password:
   ].join("\n");
 }
 
+/** Correo automático para avisarle al vendedor que se le cargaron pares en su inventario. */
+export function inventoryEmail(opts: {
+  name: string;
+  items: { name: string; size: string; price: number }[];
+  siteUrl: string;
+}): { subject: string; body: string } {
+  const url = `${opts.siteUrl.replace(/\/$/, "")}/revendedores/inventario`;
+  const n = opts.items.length;
+  const shown = opts.items.slice(0, 10);
+  const price = (v: number) => (v > 0 ? ` · $${v.toLocaleString("es-CO")}` : "");
+  const subject = n === 1 ? "Actualizamos tu inventario: +1 par en Pitsneakers" : `Actualizamos tu inventario: +${n} pares en Pitsneakers`;
+  const body = [
+    "# Tu inventario ==se actualizó==",
+    "",
+    `Hola ${opts.name},`,
+    "",
+    n === 1 ? "Acabamos de cargar **1 par** en tu inventario de Pitsneakers:" : `Acabamos de cargar **${n} pares** en tu inventario de Pitsneakers:`,
+    "",
+    ...shown.map((i) => `- **${i.name}**${i.size ? ` · talla ${i.size}` : ""}${price(i.price)}`),
+    ...(n > shown.length ? [`- …y ${n - shown.length} más`] : []),
+    "",
+    `[boton: Ver mi inventario | ${url}]`,
+    "",
+    "Entra a tu panel para ajustar el costo y el precio esperado de cada par y ver tu utilidad. Si algo no te cuadra, responde a este correo y lo revisamos.",
+    "",
+    "**Equipo Pitsneakers**",
+  ].join("\n");
+  return { subject, body };
+}
+
 /** Correo con el acceso del vendedor (usa el formato de marca de los correos de Pitsneakers). */
 export function accessEmail(opts: { name: string; username: string; password: string; siteUrl: string; reset?: boolean }): { subject: string; body: string } {
   const url = `${opts.siteUrl.replace(/\/$/, "")}/revendedores/ingresar`;

@@ -63,12 +63,19 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
 }
 
 /** Carga en cada cuenta existente los pares que le faltan. Los vendedores sin cuenta se quedan esperando. */
-export async function runSync(): Promise<{ added: number; sellers: number; waiting: string[] }> {
+export interface SyncNotice {
+  userId: number;
+  username: string;
+  items: { name: string; size: string; price: number }[];
+}
+
+export async function runSync(): Promise<{ added: number; sellers: number; waiting: string[]; notices: SyncNotice[] }> {
   const plan = await getSyncPlan();
   const today = todayBogota();
   let added = 0;
   let sellers = 0;
   const waiting: string[] = [];
+  const notices: SyncNotice[] = [];
   for (const row of plan) {
     if (row.userId === null) {
       if (row.pending.length) waiting.push(row.seller);
@@ -76,6 +83,7 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
     }
     if (!row.pending.length) continue;
     sellers++;
+    const notice: SyncNotice = { userId: row.userId, username: row.seller, items: [] };
     for (const a of assignments.filter((x) => x.seller === row.seller)) {
       const missing = row.pending.filter((p) => p.name === a.name).map((p) => p.size);
       const sizes = missing.filter((s) => (a.sizes.length ? a.sizes.includes(s) : s === ""));
@@ -99,9 +107,11 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
         },
         sizes
       );
+      for (const size of sizes) notice.items.push({ name: a.name, size, price: a.price });
     }
+    if (notice.items.length) notices.push(notice);
   }
-  return { added, sellers, waiting };
+  return { added, sellers, waiting, notices };
 }
 
 /**
