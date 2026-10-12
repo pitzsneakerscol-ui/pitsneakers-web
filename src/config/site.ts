@@ -5,6 +5,8 @@ export const siteConfig = {
     "Comunidad de reventa de sneakers y streetwear en Bogotá. Consignación verificada — cada par pasa por revisión física y autenticación antes de publicarse.",
   // Número de WhatsApp en formato internacional sin "+", ej: 573001234567
   whatsappNumber: "573115609644",
+  // Correo donde llegan las consultas de los revendedores ("¿me recomiendan comprar este par?"). Debe existir como alias (ImprovMX).
+  contactEmail: "info@pitsneakers.com",
   // Dirección pública de la página (ej: "https://pitsneakers.com"). Se usa en los correos;
   // si la dejas vacía, los botones "Ver el catálogo" apuntan a tu WhatsApp.
   siteUrl: "https://pitsneakers.com",

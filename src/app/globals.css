@@ -1415,3 +1415,48 @@ body {
   .srch-banner-runner { left: 70%; }
 }
 
+
+/* ---------- Panel de revendedores: tema oscuro ---------- */
+.theme-dark {
+  --color-ink: #f2efe9;
+  --color-paper: #09090b;
+  --color-paper-raised: #131316;
+  --color-line: #27272d;
+  --color-muted: #9d9ba6;
+  --color-accent: #ff5a3c;
+  color-scheme: dark;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.theme-dark ::selection { background: rgba(255, 90, 60, 0.35); }
+/* Botones y chips "tinta sobre blanco" del tema claro: aquí la tinta es clara, el texto debe ser oscuro. */
+.theme-dark .bg-ink.text-white,
+.theme-dark .bg-ink .text-white { color: #0a0a0a; }
+.theme-dark .bg-white { background-color: var(--color-paper-raised); }
+.theme-dark input,
+.theme-dark select,
+.theme-dark textarea { color-scheme: dark; }
+.theme-dark .bg-emerald-50,
+.theme-dark .bg-emerald-100 { background-color: rgba(61, 220, 132, 0.14); }
+.theme-dark .text-emerald-700,
+.theme-dark .text-emerald-800 { color: #5ee9a0; }
+.theme-dark .bg-amber-50,
+.theme-dark .bg-amber-100 { background-color: rgba(255, 196, 61, 0.14); }
+.theme-dark .text-amber-700,
+.theme-dark .text-amber-800 { color: #ffd166; }
+.theme-dark .bg-accent\/10 { background-color: rgba(255, 90, 60, 0.14); }
+@keyframes rsh-pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.rsh-badge { animation: rsh-pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
+@keyframes rsh-sheet {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+.rsh-sheet { animation: rsh-sheet 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .rsh-badge, .rsh-sheet { animation: none; }
+}
+

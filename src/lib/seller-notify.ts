@@ -1,5 +1,6 @@
 import "server-only";
 import { getDb } from "@/lib/db";
+import { createNotification } from "@/lib/notifications";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { inventoryEmail } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
@@ -15,6 +16,14 @@ export async function notifyInventory(
   items: { name: string; size: string; price: number }[]
 ): Promise<NotifyResult> {
   if (items.length === 0) return "off";
+  // Aviso dentro del panel (la campana), aunque no tenga correo.
+  const names = [...new Set(items.map((i) => i.name))];
+  await createNotification(userId, {
+    kind: "inventario",
+    title: items.length === 1 ? "Se cargó 1 par en tu inventario" : `Se cargaron ${items.length} pares en tu inventario`,
+    body: names.slice(0, 3).join(", ") + (names.length > 3 ? ` y ${names.length - 3} más` : ""),
+    href: "/revendedores/inventario",
+  });
   const db = await getDb();
   const u = await db.execute({ sql: "SELECT username, display_name, email FROM users WHERE id = ?", args: [userId] });
   const row = u.rows[0];

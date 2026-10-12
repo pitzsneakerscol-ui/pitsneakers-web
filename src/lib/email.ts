@@ -16,6 +16,8 @@ export async function sendEmail(opts: {
   to: string;
   subject: string;
   body: string;
+  /** Correo al que va la respuesta (si no se indica, se usa EMAIL_REPLY_TO). */
+  replyTo?: string;
 }): Promise<SendResult> {
   if (!isEmailConfigured()) return { ok: false, error: "Correo no configurado." };
   try {
@@ -31,7 +33,7 @@ export async function sendEmail(opts: {
         subject: opts.subject,
         text: renderEmailText(opts.body),
         html: renderEmailHtml(opts.subject, opts.body),
-        ...(process.env.EMAIL_REPLY_TO ? { reply_to: process.env.EMAIL_REPLY_TO } : {}),
+        ...((opts.replyTo || process.env.EMAIL_REPLY_TO) ? { reply_to: opts.replyTo || process.env.EMAIL_REPLY_TO } : {}),
       }),
       signal: AbortSignal.timeout(15000),
     });

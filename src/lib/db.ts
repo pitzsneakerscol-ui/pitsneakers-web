@@ -110,6 +110,31 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_email_log_created ON email_log(created_at)`,
+  `CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    kind TEXT NOT NULL DEFAULT 'info',
+    title TEXT NOT NULL,
+    body TEXT NOT NULL DEFAULT '',
+    href TEXT NOT NULL DEFAULT '',
+    read_at INTEGER,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, read_at, created_at)`,
+  `CREATE TABLE IF NOT EXISTS market_questions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    model TEXT NOT NULL,
+    size TEXT NOT NULL DEFAULT '',
+    buy_price INTEGER NOT NULL DEFAULT 0,
+    note TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendiente',
+    verdict TEXT NOT NULL DEFAULT '',
+    answer TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL,
+    answered_at INTEGER
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_market_questions ON market_questions(user_id, created_at)`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.

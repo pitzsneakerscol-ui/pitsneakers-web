@@ -7,6 +7,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import { getAllGroups } from "@/lib/products";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
+import ChromeGate from "@/components/ChromeGate";
 import ScrollProgress from "@/components/ScrollProgress";
 import { siteConfig } from "@/config/site";
 import { isDbConfigured } from "@/lib/db";
@@ -60,6 +61,7 @@ export default async function RootLayout({
       className={`${inter.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
+        <ChromeGate>
         <ScrollProgress />
         <AnnouncementBar
           latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
@@ -68,10 +70,13 @@ export default async function RootLayout({
           promo={siteConfig.promo.enabled ? { title: siteConfig.promo.title, endsAt: siteConfig.promo.endsAt } : undefined}
         />
         <Navbar resellerEnabled={isDbConfigured()} />
+        </ChromeGate>
         <main className="flex-1">{children}</main>
+        <ChromeGate>
         <Footer />
         <FloatingSearchButton />
         <MobileTabBar sellEnabled={isDbConfigured()} />
+        </ChromeGate>
       </body>
     </html>
   );

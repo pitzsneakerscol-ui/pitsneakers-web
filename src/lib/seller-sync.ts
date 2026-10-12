@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
+import { createNotification } from "@/lib/notifications";
 import { insertItems } from "@/lib/reseller";
 import { todayBogota } from "@/lib/reseller-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
@@ -131,6 +132,7 @@ export async function syncUser(userId: number, username: string): Promise<number
   const have = new Set(items.rows.map((r) => `${String(r.catalog_slug)}|${String(r.size)}`));
   const today = todayBogota();
   let added = 0;
+  const loaded: string[] = [];
   for (const a of mine) {
     const sizes = [...new Set(a.sizes.length ? a.sizes : [""])];
     const missing = sizes.filter((s) => !have.has(`${a.slug}|${s}`));
@@ -154,6 +156,15 @@ export async function syncUser(userId: number, username: string): Promise<number
       },
       missing
     );
+    loaded.push(a.name);
+  }
+  if (added > 0) {
+    await createNotification(userId, {
+      kind: "inventario",
+      title: added === 1 ? "Se cargó 1 par en tu inventario" : `Se cargaron ${added} pares en tu inventario`,
+      body: loaded.slice(0, 3).join(", ") + (loaded.length > 3 ? ` y ${loaded.length - 3} más` : ""),
+      href: "/revendedores/inventario",
+    });
   }
   return added;
 }

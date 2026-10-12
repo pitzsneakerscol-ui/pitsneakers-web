@@ -7,6 +7,9 @@ import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
 import { notifyInventory } from "@/lib/seller-notify";
+import { createNotification } from "@/lib/notifications";
+import { getQuestion, saveAnswer, type Verdict } from "@/lib/market";
+import { answerEmail, verdictLabel } from "@/lib/market-emails";
 import { cleanUsername, usernameError } from "@/lib/username";
 import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
@@ -504,4 +507,44 @@ export async function syncSellerCatalog(): Promise<ActionState> {
     ok: true,
     message: `${added === 1 ? "Se cargó 1 par" : `Se cargaron ${added} pares`} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${aviso}${wait}`,
   };
+}
+
+/* ---------- Consultas de mercado de los revendedores ---------- */
+
+/** El equipo responde una consulta: se guarda, le llega un aviso en la campana y, si tiene correo, un email. */
+export async function answerQuestion(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const id = int(fd, "id");
+  const verdict = String(fd.get("verdict") ?? "");
+  const answer = text(fd, "answer", 1500);
+  if (!id) return { error: "Consulta inválida." };
+  if (!["comprar", "esperar", "no"].includes(verdict)) return { error: "Elige tu recomendación: comprar, esperar o no." };
+  const q = await getQuestion(id);
+  if (!q) return { error: "No se encontró la consulta." };
+  if (!(await saveAnswer(id, verdict as Verdict, answer))) return { error: "No se pudo guardar la respuesta." };
+
+  await createNotification(q.userId, {
+    kind: "consulta",
+    title: `El equipo respondió tu consulta: ${q.model}`,
+    body: verdictLabel(verdict),
+    href: "/revendedores/consultas",
+  });
+
+  let mail = "";
+  if (q.sellerEmail && isEmailConfigured()) {
+    const { subject, body } = answerEmail({
+      name: q.sellerName,
+      model: q.model,
+      size: q.size,
+      verdict,
+      answer,
+      url: `${siteConfig.siteUrl.replace(/\/$/, "")}/revendedores/consultas`,
+    });
+    const res = await sendEmail({ to: q.sellerEmail, subject, body });
+    mail = res.ok ? ` ✉️ También le llegó por correo a ${q.sellerEmail}.` : " No pudimos enviarle el correo, pero ya le salió el aviso en su panel.";
+  } else if (!q.sellerEmail) {
+    mail = " No tiene correo registrado: le salió el aviso en su panel.";
+  }
+  refresh();
+  return { ok: true, message: `Respuesta enviada a ${q.sellerName}.${mail}` };
 }
