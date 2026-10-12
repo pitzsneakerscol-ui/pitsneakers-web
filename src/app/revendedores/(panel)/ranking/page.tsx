@@ -11,6 +11,7 @@ import {
   type RankPeriod,
 } from "@/lib/ranking-shared";
 import { cardCls } from "@/components/reseller/ui";
+import { PODIUM_SELLERS } from "@/config/ranking";
 
 export const metadata: Metadata = { title: "Ranking de vendedores" };
 
@@ -25,6 +26,11 @@ export default async function RankingPage({
   const { periodo } = await searchParams;
   const period: RankPeriod = periodo === "total" ? "total" : "mes";
   const rows = await getLeaderboard(period, user.id);
+  // Podio: vendedores de WhatsApp anotados a mano en src/config/ranking.ts (en "Este mes" solo los que traen dato del mes).
+  const podium = PODIUM_SELLERS.map((x) => ({ name: x.name, orders: period === "mes" ? x.month : x.total }))
+    .filter((x): x is { name: string; orders: number } => typeof x.orders === "number")
+    .sort((a, b) => b.orders - a.orders)
+    .slice(0, PODIUM_SLOTS);
   const mine = rows.find((r) => r.userId === user.id);
   const myLevel = mine ? levelFor(mine.orders) : null;
   const myNext = mine ? nextLevel(mine.orders) : null;
@@ -81,20 +87,40 @@ export default async function RankingPage({
 
       <section aria-labelledby="podio" className="space-y-3">
         <div className="flex items-end justify-between gap-3">
-          <h2 id="podio" className="font-display text-2xl tracking-wide">Puestos reservados</h2>
-          <p className="text-xs text-muted">Del #1 al #{RANK_START - 1} nadie ha llegado todavía</p>
+          <h2 id="podio" className="font-display text-2xl tracking-wide">{podium.length ? "Podio" : "Puestos reservados"}</h2>
+          <p className="text-xs text-muted">{podium.length ? "Los mejores de la comunidad" : `Del #1 al #${RANK_START - 1} nadie ha llegado todavía`}</p>
         </div>
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
-          {Array.from({ length: PODIUM_SLOTS }, (_, i) => (
-            <div key={i} className={`${cardCls} rank-lock relative flex flex-col items-center gap-1 overflow-hidden px-2 py-5 text-center sm:py-7`} style={{ "--i": i } as React.CSSProperties}>
-              <span className="font-display text-3xl tracking-wide text-muted/70 sm:text-5xl">#{i + 1}</span>
-              <span className="rank-lock-icon text-xl sm:text-2xl" aria-hidden="true">🔒</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted sm:text-xs">Sin dueño</span>
-            </div>
-          ))}
+          {Array.from({ length: PODIUM_SLOTS }, (_, i) => {
+            const seller = podium[i];
+            if (!seller) {
+              return (
+                <div key={i} className={`${cardCls} rank-lock relative flex flex-col items-center gap-1 overflow-hidden px-2 py-5 text-center sm:py-7`} style={{ "--i": i } as React.CSSProperties}>
+                  <span className="font-display text-3xl tracking-wide text-muted/70 sm:text-5xl">#{i + 1}</span>
+                  <span className="rank-lock-icon text-xl sm:text-2xl" aria-hidden="true">🔒</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-muted sm:text-xs">Sin dueño</span>
+                </div>
+              );
+            }
+            const level = levelFor(seller.orders);
+            return (
+              <div key={i} className={`${cardCls} rank-row relative flex flex-col items-center gap-1 overflow-hidden px-2 py-5 text-center sm:py-7`} style={{ "--i": i } as React.CSSProperties}>
+                <span className="font-display text-3xl tracking-wide text-accent sm:text-5xl">#{i + 1}</span>
+                <span className="max-w-full truncate text-xs font-semibold text-ink sm:text-sm">{seller.name}</span>
+                <span className="text-[11px] text-muted sm:text-xs">{plural(seller.orders)}</span>
+                <span className={`mt-1 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${level.badge}`}>
+                  <span aria-hidden="true">{level.icon}</span>
+                  {level.name}
+                </span>
+              </div>
+            );
+          })}
         </div>
         <p className="text-xs text-muted">
-          El mejor vendedor de hoy está en el puesto #{RANK_START}. Cada pedido nuevo te acerca a esos lugares.
+          {podium.length
+            ? "Los puestos del podio son de vendedores de la comunidad que atienden por WhatsApp: su stock no está en la página. "
+            : ""}
+          El mejor vendedor de la página está en el puesto #{RANK_START}. Cada pedido nuevo te acerca a esos lugares.
         </p>
       </section>
 
