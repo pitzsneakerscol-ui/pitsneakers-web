@@ -55,16 +55,20 @@ export function missingVars(rendered: string): string[] {
 
 const INK = "#0a0a0a";
 const ACCENT = "#c8402a";
-const PAPER = "#f1eee8";
+/** Rojo más vivo para resaltar sobre fondo oscuro. */
+const HOT = "#ff5a3c";
 const FONT = "Arial,Helvetica,sans-serif";
-const DISPLAY = "Impact,'Arial Narrow',Arial,sans-serif";
+const DISPLAY = "Impact,'Arial Narrow Bold','Arial Narrow',Arial,sans-serif";
+/** Colores de la marca (los mismos de la barra superior de la página). */
+const BRAND = ["#ff5a3c", "#ffd23f", "#3ddc84", "#4cc9f0", "#ff6b9d"];
 
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const isHttps = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
 
-function inline(raw: string): string {
+/** `mark` es el color del resaltado ==así==; en el titular oscuro se usa amarillo neón. */
+function inline(raw: string, mark = ACCENT): string {
   let s = esc(raw);
   s = s.replace(/https:\/\/[^\s<]+/g, (url) => {
     const m = url.match(/[.,;:!?)]+$/);
@@ -73,8 +77,15 @@ function inline(raw: string): string {
     return `<a href="${clean}" style="color:${ACCENT};font-weight:bold">${clean}</a>${tail}`;
   });
   s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  s = s.replace(/==(.+?)==/g, `<span style="color:${ACCENT}">$1</span>`);
+  s = s.replace(/==(.+?)==/g, `<span style="color:${mark}">$1</span>`);
   return s;
+}
+
+/** Franja de colores de la marca (celdas de tabla: funciona en todos los clientes de correo). */
+function stripe(height = 6): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${BRAND.map(
+    (c) => `<td width="20%" height="${height}" style="background:${c};font-size:0;line-height:0">&nbsp;</td>`
+  ).join("")}</tr></table>`;
 }
 
 function blocks(body: string): string {
@@ -86,22 +97,22 @@ function blocks(body: string): string {
   const flush = () => {
     if (para.length) {
       out.push(
-        `<p style="margin:0 0 16px;font-size:16px;line-height:1.65;color:#222">${para.map(inline).join("<br>")}</p>`
+        `<p style="margin:0 0 18px;font-size:17px;line-height:1.65;color:#1a1a1a">${para.map((l) => inline(l)).join("<br>")}</p>`
       );
       para = [];
     }
     if (quote.length) {
       out.push(
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 20px"><tr><td style="background:${PAPER};border-left:5px solid ${ACCENT};border-radius:6px;padding:16px 18px;font-size:15px;line-height:1.6;color:#222">${quote.map(inline).join("<br>")}</td></tr></table>`
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px"><tr><td style="background:#fff1ec;border-left:6px solid ${ACCENT};border-radius:8px;padding:18px 20px;font-size:16px;line-height:1.6;color:#1a1a1a">${quote.map((l) => inline(l)).join("<br>")}</td></tr></table>`
       );
       quote = [];
     }
     if (list.length) {
       out.push(
-        `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px">${list
+        `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 22px">${list
           .map(
-            (li) =>
-              `<tr><td style="padding:3px 10px 3px 0;color:${ACCENT};font-size:16px;vertical-align:top">&#9656;</td><td style="padding:3px 0;font-size:15px;line-height:1.55;color:#222">${inline(li)}</td></tr>`
+            (li, i) =>
+              `<tr><td style="padding:5px 12px 5px 0;color:${BRAND[i % BRAND.length]};font-size:18px;vertical-align:top;line-height:1.4">&#9654;</td><td style="padding:5px 0;font-size:16px;line-height:1.55;color:#1a1a1a">${inline(li)}</td></tr>`
           )
           .join("")}</table>`
       );
@@ -116,7 +127,7 @@ function blocks(body: string): string {
     } else if (t.startsWith("## ")) {
       flush();
       out.push(
-        `<h2 style="margin:8px 0 12px;font-family:${DISPLAY};font-size:24px;line-height:1.15;letter-spacing:.5px;text-transform:uppercase;color:${INK};font-weight:normal">${inline(t.slice(3))}</h2>`
+        `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:14px 0 12px"><tr><td style="width:44px;height:5px;background:${ACCENT};font-size:0;line-height:0">&nbsp;</td></tr></table><h2 style="margin:0 0 12px;font-family:${DISPLAY};font-size:28px;line-height:1.1;letter-spacing:.5px;text-transform:uppercase;color:${INK};font-weight:normal">${inline(t.slice(3))}</h2>`
       );
     } else if (t.startsWith("# ")) {
       flush();
@@ -125,13 +136,13 @@ function blocks(body: string): string {
       );
     } else if (t === "---") {
       flush();
-      out.push(`<hr style="border:none;border-top:1px solid #e4dfd6;margin:22px 0">`);
+      out.push(`<hr style="border:none;border-top:2px dashed #e4dfd6;margin:26px 0">`);
     } else if (/^\[boton:/i.test(t)) {
       flush();
       const m = t.match(/^\[boton:\s*(.+?)\s*\|\s*(\S+?)\s*\]$/i);
       if (m && isHttps(m[2])) {
         out.push(
-          `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 24px"><tr><td style="background:${ACCENT};border-radius:999px"><a href="${m[2]}" style="display:inline-block;padding:15px 30px;font-family:${FONT};font-size:14px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;text-decoration:none">${esc(m[1])} &rarr;</a></td></tr></table>`
+          `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:10px 0 28px"><tr><td style="background:${ACCENT};border-bottom:4px solid #8f2b1a;border-radius:999px"><a href="${m[2]}" style="display:inline-block;padding:17px 36px;font-family:${FONT};font-size:15px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#ffffff;text-decoration:none">${esc(m[1])} &rarr;</a></td></tr></table>`
         );
       } else {
         // Botón mal escrito o con enlace no seguro: se muestra como texto para que se note.
@@ -155,20 +166,42 @@ function blocks(body: string): string {
 /** Mensaje con formato → HTML de correo con la marca de Pitsneakers. Todo el contenido va escapado. */
 export function renderEmailHtml(subject: string, body: string): string {
   const wa = `https://wa.me/${siteConfig.whatsappNumber}`;
-  const link = (href: string, label: string) =>
-    `<a href="${esc(href)}" style="color:#ffffff;text-decoration:underline">${esc(label)}</a>`;
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(subject)}</title></head>
-<body style="margin:0;padding:0;background:${PAPER};font-family:${FONT};color:#222">
+  const base = siteConfig.siteUrl.replace(/\/$/, "");
+  const logo = base ? `${base}/email/logo.png` : "";
+
+  // El primer titular (# ...) sube a un bloque oscuro grande: lo primero que se ve al abrir el correo.
+  const lines = body.split(/\r?\n/);
+  const first = lines.findIndex((l) => l.trim() !== "");
+  const heroLine = first >= 0 && lines[first].trim().startsWith("# ") ? lines[first].trim().slice(2) : "";
+  const rest = heroLine ? lines.slice(first + 1).join("\n") : body;
+
+  const pill = (href: string, label: string, bg: string, fg = "#ffffff") =>
+    `<a href="${esc(href)}" style="display:inline-block;margin:0 6px 8px 0;padding:9px 16px;border-radius:999px;background:${bg};color:${fg};font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;text-decoration:none">${label}</a>`;
+
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head>
+<body style="margin:0;padding:0;background:${INK};font-family:${FONT};color:#1a1a1a">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(subject)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:24px 12px">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;border-radius:14px;overflow:hidden;background:#ffffff">
-<tr><td style="background:${INK};padding:22px 32px;font-family:${DISPLAY};font-size:30px;letter-spacing:1.5px;color:#ffffff">PIT<span style="color:${ACCENT}">SNEAKERS</span></td></tr>
-<tr><td style="background:${ACCENT};padding:8px 32px;font-size:11px;font-weight:bold;letter-spacing:2.5px;text-transform:uppercase;color:#ffffff">Verificados &#10022; Cultura &#10022; Comunidad</td></tr>
-<tr><td style="padding:34px 32px 18px">${blocks(body)}</td></tr>
-<tr><td style="background:${INK};padding:24px 32px;font-size:12px;line-height:1.7;color:#bdbdbd">
-<strong style="color:#ffffff;font-size:13px">${esc(siteConfig.name)}</strong> &middot; ${esc(siteConfig.city)}<br>
-${link(wa, "WhatsApp")} &nbsp;&middot;&nbsp; ${link(siteConfig.instagramUrl, "Instagram")} &nbsp;&middot;&nbsp; ${link(siteConfig.whatsappCommunityUrl, "Comunidad")}<br>
-<span style="color:#8a8a8a">Recibes este correo porque haces parte de la comunidad Pitsneakers. Si ya no quieres recibir mensajes, responde &ldquo;NO&rdquo; a este correo.</span>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${INK}"><tr><td align="center" style="padding:22px 10px 30px">
+<table role="presentation" width="620" cellpadding="0" cellspacing="0" style="max-width:620px;width:100%;border-radius:18px;overflow:hidden;background:#ffffff">
+<tr><td style="background:${INK};padding:22px 30px 18px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+${logo ? `<td width="62" valign="middle" style="padding-right:14px"><img src="${esc(logo)}" width="56" height="56" alt="" style="display:block;border:0"></td>` : ""}
+<td valign="middle" style="font-family:${DISPLAY};font-size:34px;letter-spacing:2px;line-height:1;color:#ffffff">PIT<span style="color:${HOT}">SNEAKERS</span>
+<div style="margin-top:7px;font-family:${FONT};font-size:10px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a">Verificados &#10022; Cultura &#10022; Comunidad</div></td>
+</tr></table></td></tr>
+<tr><td>${stripe(6)}</td></tr>
+${
+  heroLine
+    ? `<tr><td style="background:${INK};padding:34px 30px 30px"><h1 style="margin:0;font-family:${DISPLAY};font-size:48px;line-height:1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal">${inline(heroLine, "#ffd23f")}</h1><table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:20px"><tr><td style="width:70px;height:6px;background:${HOT};font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>`
+    : ""
+}
+<tr><td style="padding:32px 30px 14px">${blocks(rest)}</td></tr>
+<tr><td>${stripe(4)}</td></tr>
+<tr><td style="background:${INK};padding:26px 30px 24px;font-size:12px;line-height:1.7;color:#bdbdbd">
+<div style="font-family:${DISPLAY};font-size:22px;letter-spacing:1.5px;color:#ffffff;margin-bottom:4px">PIT<span style="color:${HOT}">SNEAKERS</span></div>
+<div style="margin-bottom:14px;color:#9a9a9a">${esc(siteConfig.city)} &middot; Sneakers y streetwear verificados par a par</div>
+<div>${pill(wa, "WhatsApp", "#25d366")}${pill(siteConfig.instagramUrl, "Instagram", "#ff6b9d", "#0a0a0a")}${pill(siteConfig.whatsappCommunityUrl, "Comunidad", "#4cc9f0", "#0a0a0a")}</div>
+<div style="margin-top:8px;color:#7a7a7a">Recibes este correo porque haces parte de la comunidad Pitsneakers. Si ya no quieres recibir mensajes, responde &ldquo;NO&rdquo; a este correo.</div>
 </td></tr>
 </table></td></tr></table></body></html>`;
 }
