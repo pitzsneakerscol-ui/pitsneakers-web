@@ -35,7 +35,7 @@ export default function AuthForms() {
         <form onSubmit={submitWith(loginAction)} className="space-y-4">
           <div>
             <label htmlFor="l-user" className={labelCls}>Usuario</label>
-            <input id="l-user" name="username" autoComplete="username" required maxLength={24} className={inputCls} />
+            <input id="l-user" name="username" autoComplete="username" required maxLength={40} className={inputCls} />
           </div>
           <div>
             <label htmlFor="l-pass" className={labelCls}>Contraseña</label>
@@ -52,8 +52,7 @@ export default function AuthForms() {
         <form onSubmit={submitWith(regAction)} className="space-y-4">
           <div>
             <label htmlFor="r-user" className={labelCls}>Usuario *</label>
-            <input id="r-user" name="username" autoComplete="username" required minLength={3} maxLength={24} placeholder="tu.usuario" className={inputCls} />
-            <p className="mt-1.5 text-xs text-muted">Letras, números, punto, guion o guion bajo.</p>
+            <input id="r-user" name="username" autoComplete="username" required minLength={3} maxLength={40} placeholder="tu.usuario" className={inputCls} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>

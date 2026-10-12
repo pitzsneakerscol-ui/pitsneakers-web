@@ -36,6 +36,7 @@ import {
   type ActionState,
 } from "@/lib/reseller-shared";
 import { money, parseSizes, readItem, text } from "@/lib/item-form";
+import { cleanUsername, usernameError } from "@/lib/username";
 
 const MIN = 60 * 1000;
 const PANEL = "/revendedores/panel";
@@ -55,7 +56,7 @@ export async function register(
   if (!isDbConfigured()) return { error: "El registro aún no está disponible." };
   if (text(fd, "website", 50) !== "") return { error: "No pudimos crear la cuenta." };
 
-  const username = text(fd, "username", 24).toLowerCase();
+  const username = cleanUsername(String(fd.get("username") ?? ""));
   const displayName = text(fd, "displayName", 40);
   const whatsapp = text(fd, "whatsapp", 20).replace(/[^\d]/g, "");
   const email = text(fd, "email", 120).toLowerCase();
@@ -64,10 +65,8 @@ export async function register(
 
   if (isReservedUsername(username)) return { error: "Ese usuario no está disponible. Prueba con otro." };
   if (email && !isEmail(email)) return { error: "El correo no parece válido." };
-  if (!/^[a-z0-9._-]{3,24}$/.test(username))
-    return {
-      error: "El usuario debe tener 3 a 24 caracteres: letras, números, punto, guion o guion bajo.",
-    };
+  const badUser = usernameError(username);
+  if (badUser) return { error: badUser };
   if (password.length < 8 || password.length > 100)
     return { error: "La contraseña debe tener al menos 8 caracteres." };
   if (password !== confirm) return { error: "Las contraseñas no coinciden." };
@@ -99,7 +98,7 @@ export async function login(
   fd: FormData
 ): Promise<ActionState> {
   if (!isDbConfigured()) return { error: "El ingreso aún no está disponible." };
-  const username = text(fd, "username", 24).toLowerCase();
+  const username = cleanUsername(String(fd.get("username") ?? ""));
   const password = String(fd.get("password") ?? "");
   if (!username || !password) return { error: "Escribe tu usuario y contraseña." };
 

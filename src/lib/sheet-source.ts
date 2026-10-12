@@ -169,7 +169,7 @@ export function rowsToAssignments(rows: string[][]): SellerAssignment[] {
   const valid = rows.slice(1).filter((cols) => (cols[nameCol] ?? "").trim() && (cols[brandCol] ?? "").trim());
   const out: SellerAssignment[] = [];
   valid.forEach((cols, i) => {
-    const seller = (cols[col] ?? "").trim().replace(/^@+/, "").toLowerCase();
+    const seller = (cols[col] ?? "").trim().replace(/^@+/, "").replace(/\s+/g, " ").toLowerCase();
     const p = products[i];
     if (!seller || !p) return;
     out.push({

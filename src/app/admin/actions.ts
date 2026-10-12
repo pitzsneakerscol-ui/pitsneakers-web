@@ -6,6 +6,7 @@ import { getDb } from "@/lib/db";
 import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
+import { cleanUsername, usernameError } from "@/lib/username";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS } from "@/lib/admin";
@@ -352,14 +353,14 @@ const TEMP_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
 /** El dueño le crea la cuenta a un revendedor: la contraseña temporal se genera aquí y se muestra una sola vez. */
 export async function createReseller(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
-  const username = text(fd, "username", 24).toLowerCase();
+  const username = cleanUsername(String(fd.get("username") ?? ""));
   const displayName = text(fd, "displayName", 40);
   const whatsapp = text(fd, "whatsapp", 20).replace(/[^\d]/g, "");
   const email = text(fd, "email", 120).toLowerCase();
 
   if (isReservedUsername(username)) return { error: "Ese usuario no está disponible. Prueba con otro." };
-  if (!/^[a-z0-9._-]{3,24}$/.test(username))
-    return { error: "El usuario debe tener 3 a 24 caracteres: letras, números, punto, guion o guion bajo." };
+  const badUser = usernameError(username);
+  if (badUser) return { error: badUser };
   if (!whatsapp || whatsapp.length < 7 || whatsapp.length > 15)
     return { error: "Escribe el WhatsApp del vendedor con indicativo (ej. 573001234567): queda registrado en su perfil." };
   if (email && !isEmail(email)) return { error: "El correo no parece válido." };
