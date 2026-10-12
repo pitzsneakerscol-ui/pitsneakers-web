@@ -17,6 +17,8 @@ export async function GET() {
       condition: g.variants[0].condition,
       sizes: Array.from(new Set(g.variants.flatMap((v) => v.sizes))),
       image: g.images[0] ?? null,
+      /** Orden de publicación: mientras más alto, más reciente. */
+      order: new Date(g.dateAdded).getTime(),
     };
   });
 

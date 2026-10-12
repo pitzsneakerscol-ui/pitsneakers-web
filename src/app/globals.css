@@ -1204,3 +1204,61 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .rank-row, .rank-bar, .rank-lock-icon { animation: none; }
 }
+
+/* ---------- Buscador "Buscar mi par" ---------- */
+@keyframes srch-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+.srch-overlay {
+  animation: srch-in 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+@keyframes srch-ph-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  15%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+.srch-ph {
+  animation: srch-ph-in 2.4s ease both;
+}
+@keyframes srch-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.srch-skel {
+  background: linear-gradient(90deg, #ebe8e2 25%, #f6f4ef 50%, #ebe8e2 75%);
+  background-size: 200% 100%;
+  animation: srch-shimmer 1.4s linear infinite;
+}
+@keyframes srch-pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.srch-pop,
+.srch-card {
+  animation: srch-pop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+.srch-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.srch-card:hover,
+.srch-card.srch-active {
+  transform: translateY(-3px);
+}
+.srch-card.srch-active {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+.srch-mark {
+  background: rgba(255, 210, 63, 0.55);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .srch-overlay, .srch-ph, .srch-skel, .srch-pop, .srch-card { animation: none; }
+  .srch-card:hover, .srch-card.srch-active { transform: none; }
+}
