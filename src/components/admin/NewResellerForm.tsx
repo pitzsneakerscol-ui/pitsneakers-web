@@ -40,6 +40,11 @@ export default function NewResellerForm() {
             <label htmlFor="nv-email" className={labelCls}>Correo (opcional)</label>
             <input id="nv-email" name="email" type="email" autoComplete="off" placeholder="vendedor@correo.com" className={inputCls} />
           </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="nv-pass" className={labelCls}>Contraseña (la eliges tú)</label>
+            <input id="nv-pass" name="password" type="text" autoComplete="off" minLength={8} maxLength={100} placeholder="Mínimo 8 caracteres — déjala vacía y se genera una" className={inputCls} />
+            <p className="mt-1.5 text-xs text-muted">Se la entregas al vendedor junto con su usuario. Él puede cambiarla en su cuenta.</p>
+          </div>
           <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
             <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Creando…" : "Crear cuenta"}</button>
             {state?.ok && (

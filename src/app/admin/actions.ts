@@ -52,10 +52,12 @@ export async function resetPassword(_prev: ActionState, fd: FormData): Promise<A
   await requireAdmin();
   const id = int(fd, "id");
   if (!id) return { error: "Revendedor inválido." };
-  // Sin caracteres ambiguos (0/O, 1/l/I) para dictarla fácil por WhatsApp.
+  // La puede escribir el dueño; si la deja vacía se genera una sin caracteres ambiguos (0/O, 1/l/I) para dictarla fácil por WhatsApp.
+  const chosen = String(fd.get("password") ?? "");
+  if (chosen && (chosen.length < 8 || chosen.length > 100)) return { error: "La contraseña debe tener al menos 8 caracteres." };
   const alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
   const bytes = randomBytes(10);
-  const temp = Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
+  const temp = chosen || Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
   const db = await getDb();
   const res = await db.execute({
     sql: "UPDATE users SET password_hash = ? WHERE id = ? AND role != 'admin'",
@@ -67,7 +69,9 @@ export async function resetPassword(_prev: ActionState, fd: FormData): Promise<A
   await db.execute({ sql: "DELETE FROM rate_limits WHERE key = ?", args: [`loginfail:${String(who.rows[0].username)}`] });
   return {
     ok: true,
-    message: `Contraseña temporal: ${temp} — cópiala y envíala; solo se muestra ahora. Pídele que la cambie en Cuenta.`,
+    message: chosen
+      ? "Contraseña cambiada a la que escribiste. Envíasela al vendedor; puede cambiarla en Cuenta."
+      : `Contraseña temporal: ${temp} — cópiala y envíala; solo se muestra ahora. Pídele que la cambie en Cuenta.`,
   };
 }
 
@@ -359,7 +363,10 @@ export async function createReseller(_prev: ActionState, fd: FormData): Promise<
     return { error: "Escribe el WhatsApp del vendedor con indicativo (ej. 573001234567): queda registrado en su perfil." };
   if (email && !isEmail(email)) return { error: "El correo no parece válido." };
 
-  const temp = Array.from(randomBytes(10), (b) => TEMP_ALPHABET[b % TEMP_ALPHABET.length]).join("");
+  // La contraseña la puede poner el dueño; si la deja vacía, se genera una.
+  const chosen = String(fd.get("password") ?? "");
+  if (chosen && (chosen.length < 8 || chosen.length > 100)) return { error: "La contraseña debe tener al menos 8 caracteres." };
+  const temp = chosen || Array.from(randomBytes(10), (b) => TEMP_ALPHABET[b % TEMP_ALPHABET.length]).join("");
   const db = await getDb();
   try {
     await db.execute({
@@ -372,7 +379,9 @@ export async function createReseller(_prev: ActionState, fd: FormData): Promise<
   refresh();
   return {
     ok: true,
-    message: `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} — cópialos y envíaselos al vendedor; la contraseña solo se muestra ahora. Que la cambie en Cuenta.`,
+    message: chosen
+      ? `Cuenta creada. Usuario: ${username} · Contraseña: la que escribiste. Envíale los datos al vendedor; puede cambiarla en Cuenta.`
+      : `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} — cópialos y envíaselos al vendedor; la contraseña solo se muestra ahora. Que la cambie en Cuenta.`,
   };
 }
 

@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { resetPassword } from "@/app/admin/actions";
-import { btnGhost, submitWith } from "@/components/reseller/ui";
+import { btnGhost, inputCls, submitWith } from "@/components/reseller/ui";
 
 export default function ResetPassword({ id, username }: { id: number; username: string }) {
   const [state, action, pending] = useActionState(resetPassword, undefined);
@@ -18,6 +18,7 @@ export default function ResetPassword({ id, username }: { id: number; username: 
       className="space-y-3"
     >
       <input type="hidden" name="id" value={id} />
+      <input name="password" type="text" autoComplete="off" minLength={8} maxLength={100} placeholder="Contraseña nueva (opcional: vacía = se genera)" aria-label="Contraseña nueva" className={inputCls} />
       <button type="submit" disabled={pending} className={btnGhost}>
         {pending ? "Generando…" : "Restablecer contraseña"}
       </button>
