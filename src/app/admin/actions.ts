@@ -7,6 +7,8 @@ import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
 import { runSync } from "@/lib/seller-sync";
 import { cleanUsername, usernameError } from "@/lib/username";
+import { waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
+import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS } from "@/lib/admin";
@@ -67,10 +69,16 @@ export async function resetPassword(_prev: ActionState, fd: FormData): Promise<A
   });
   if (res.rowsAffected === 0) return { error: "No se encontró el revendedor." };
   await db.execute({ sql: "DELETE FROM sessions WHERE user_id = ?", args: [id] });
-  const who = await db.execute({ sql: "SELECT username FROM users WHERE id = ?", args: [id] });
-  await db.execute({ sql: "DELETE FROM rate_limits WHERE key = ?", args: [`loginfail:${String(who.rows[0].username)}`] });
+  const who = await db.execute({ sql: "SELECT username, display_name, whatsapp FROM users WHERE id = ?", args: [id] });
+  const uname = String(who.rows[0].username);
+  await db.execute({ sql: "DELETE FROM rate_limits WHERE key = ?", args: [`loginfail:${uname}`] });
+  const waNum = waNumber(String(who.rows[0].whatsapp ?? ""));
+  const wa = waNum
+    ? waLink(waNum, welcomeMessage({ name: String(who.rows[0].display_name || uname), username: uname, password: temp, siteUrl: siteConfig.siteUrl, reset: true }))
+    : undefined;
   return {
     ok: true,
+    wa,
     message: chosen
       ? "Contraseña cambiada a la que escribiste. Envíasela al vendedor; puede cambiarla en Cuenta."
       : `Contraseña temporal: ${temp} — cópiala y envíala; solo se muestra ahora. Pídele que la cambie en Cuenta.`,
@@ -379,8 +387,10 @@ export async function createReseller(_prev: ActionState, fd: FormData): Promise<
     return { error: "Ese usuario ya existe. Prueba con otro." };
   }
   refresh();
+  const wa = waLink(waNumber(whatsapp), welcomeMessage({ name: displayName || username, username, password: temp, siteUrl: siteConfig.siteUrl }));
   return {
     ok: true,
+    wa,
     message: chosen
       ? `Cuenta creada. Usuario: ${username} · Contraseña: la que escribiste. Envíale los datos al vendedor; puede cambiarla en Cuenta.`
       : `Cuenta creada. Usuario: ${username} · Contraseña temporal: ${temp} — cópialos y envíaselos al vendedor; la contraseña solo se muestra ahora. Que la cambie en Cuenta.`,

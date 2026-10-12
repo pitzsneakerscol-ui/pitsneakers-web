@@ -95,5 +95,5 @@ export const isEmail = (v: string) =>
   /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/.test(v) && v.length <= 120;
 
 export type ActionState =
-  | { ok?: boolean; error?: string; message?: string }
+  | { ok?: boolean; error?: string; message?: string; wa?: string }
   | undefined;

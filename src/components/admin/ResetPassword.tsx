@@ -23,6 +23,11 @@ export default function ResetPassword({ id, username }: { id: number; username: 
         {pending ? "Generando…" : "Restablecer contraseña"}
       </button>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/10 px-4 py-3 text-sm text-accent">{state.error}</p>}
+      {state?.ok && state.wa && (
+        <a href={state.wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark">
+          Enviar acceso por WhatsApp
+        </a>
+      )}
       {state?.ok && state.message && (
         <p role="status" className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{state.message}</p>
       )}

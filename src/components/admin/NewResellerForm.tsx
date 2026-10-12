@@ -47,6 +47,11 @@ export default function NewResellerForm() {
           </div>
           <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
             <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Creando…" : "Crear cuenta"}</button>
+            {state?.ok && state.wa && (
+              <a href={state.wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-whatsapp-dark">
+                Enviar acceso por WhatsApp
+              </a>
+            )}
             {state?.ok && (
               <button type="button" onClick={() => setFormKey((k) => k + 1)} className={btnGhost}>Crear otra</button>
             )}
