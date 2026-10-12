@@ -1518,3 +1518,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pl-glow, .pl-dot, .pl-cta, .pl-done, .pl-track { animation: none; }
 }
+
+.pl-logo { animation: pl-float 5s ease-in-out infinite; }
+@keyframes pl-float { 50% { transform: translateY(-8px) rotate(-1.5deg); } }
+@media (prefers-reduced-motion: reduce) { .pl-logo { animation: none; } }

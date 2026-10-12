@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import WaitlistForm from "@/components/WaitlistForm";
 import { prelaunch } from "@/config/prelaunch";
@@ -21,8 +22,9 @@ export default function ProximamentePage() {
       <div className="pl-stripes" aria-hidden="true" />
 
       <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-10">
-        <span className="font-display text-2xl tracking-wide sm:text-3xl">
-          PIT<span className="text-accent">SNEAKERS</span>
+        <span className="flex items-center gap-1 font-display text-2xl tracking-wide sm:text-3xl">
+          <Image src="/logo-pitsneakers.png" alt="" width={96} height={96} className="-ml-2 h-12 w-12" />
+          <span>PIT<span className="text-accent">SNEAKERS</span></span>
         </span>
         <Link href="/revendedores/ingresar" className="rounded-full border border-white/20 px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/80 transition hover:border-white hover:text-white">
           Soy revendedor
@@ -30,6 +32,9 @@ export default function ProximamentePage() {
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-5 pb-10 pt-4 text-center sm:px-8">
+        <div className="pl-logo relative -mb-10 -mt-10 sm:-mb-14 sm:-mt-14">
+          <Image src="/logo-pitsneakers.png" alt="Pitsneakers" width={480} height={480} priority className="relative h-72 w-72 drop-shadow-[0_10px_40px_rgba(200,64,40,0.45)] sm:h-96 sm:w-96" />
+        </div>
         <span className="pl-pill inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.25em] text-accent">
           <span className="pl-dot" aria-hidden="true" /> Muy pronto
         </span>
