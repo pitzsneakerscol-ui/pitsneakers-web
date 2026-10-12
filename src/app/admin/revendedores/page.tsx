@@ -5,6 +5,7 @@ import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import NewResellerForm from "@/components/admin/NewResellerForm";
+import SellerSyncPanel from "@/components/admin/SellerSyncPanel";
 
 export const metadata: Metadata = { title: "Revendedores" };
 
@@ -18,6 +19,8 @@ export default async function ResellersPage() {
       </header>
 
       <NewResellerForm />
+
+      <SellerSyncPanel />
 
       {rows.length === 0 ? (
         <div className={`${cardCls} px-6 py-14 text-center`}>

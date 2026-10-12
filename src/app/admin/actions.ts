@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
 import { hashPassword, isReservedUsername, requireAdmin } from "@/lib/auth";
 import { insertItems } from "@/lib/reseller";
+import { runSync } from "@/lib/seller-sync";
 import { parseSizes, readItem } from "@/lib/item-form";
 import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS } from "@/lib/admin";
@@ -427,5 +428,18 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
   return {
     ok: true,
     message: `${n === 1 ? "Cargamos 1 par" : `Cargamos ${n} pares`} a @${String(who.rows[0].username)}${extra}.`,
+  };
+}
+
+/** Carga en las cuentas de los vendedores los pares del catálogo que tienen su usuario en la columna VENDEDOR. */
+export async function syncSellerCatalog(): Promise<ActionState> {
+  await requireAdmin();
+  const { added, sellers, waiting } = await runSync();
+  refresh();
+  const wait = waiting.length ? ` Esperando cuenta: ${waiting.map((w) => `@${w}`).join(", ")}.` : "";
+  if (added === 0) return { ok: true, message: `No había pares nuevos por cargar.${wait}` };
+  return {
+    ok: true,
+    message: `${added === 1 ? "Se cargó 1 par" : `Se cargaron ${added} pares`} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${wait}`,
   };
 }

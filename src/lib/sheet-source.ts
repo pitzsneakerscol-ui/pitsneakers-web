@@ -139,6 +139,55 @@ export function rowsToProducts(rows: string[][]): Product[] {
   });
 }
 
+/**
+ * Par del catálogo que le pertenece a un vendedor (columna VENDEDOR del CSV). Se guarda aparte del catálogo público
+ * (src/data/assignments.json) para que el nombre del vendedor nunca viaje al navegador de los compradores.
+ */
+export interface SellerAssignment {
+  seller: string;
+  slug: string;
+  name: string;
+  brand: string;
+  colorway: string;
+  sku: string;
+  sizes: string[];
+  price: number;
+  condition: ProductCondition;
+  image: string;
+}
+
+/** Filas con VENDEDOR lleno (usuario del vendedor, con o sin @). El slug es el mismo que el del producto publicado. */
+export function rowsToAssignments(rows: string[][]): SellerAssignment[] {
+  if (rows.length < 2) return [];
+  const headers = rows[0].map((h) => h.trim().toLowerCase());
+  const col = headers.indexOf("vendedor");
+  if (col === -1) return [];
+  const products = rowsToProducts(rows);
+  // rowsToProducts descarta las filas sin nombre o marca: se recorre igual para que coincidan por posición.
+  const nameCol = headers.indexOf("nombre");
+  const brandCol = headers.indexOf("marca");
+  const valid = rows.slice(1).filter((cols) => (cols[nameCol] ?? "").trim() && (cols[brandCol] ?? "").trim());
+  const out: SellerAssignment[] = [];
+  valid.forEach((cols, i) => {
+    const seller = (cols[col] ?? "").trim().replace(/^@+/, "").toLowerCase();
+    const p = products[i];
+    if (!seller || !p) return;
+    out.push({
+      seller,
+      slug: p.slug,
+      name: p.name,
+      brand: p.brand,
+      colorway: p.colorway ?? "",
+      sku: typeof p.id === "string" && !/^d+$/.test(p.id) ? p.id : "",
+      sizes: p.sizes,
+      price: p.price,
+      condition: p.condition,
+      image: p.images[0] ?? "",
+    });
+  });
+  return out;
+}
+
 export async function fetchProductsFromSheet(url: string): Promise<Product[]> {
   const res = await fetch(url, { next: { revalidate: 120 } });
   if (!res.ok) {

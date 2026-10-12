@@ -298,6 +298,15 @@ vivo. Formato del mensaje: `# titular`, `==rojo==`, `**negrita**`,
 Si defines `siteUrl` en `src/config/site.ts`, los botones "Ver el catálogo"
 apuntan a tu página (si no, a tu WhatsApp).
 
+## Pares de un vendedor (columna VENDEDOR)
+
+La última columna del CSV, `VENDEDOR`, dice de quién es un par: escribe su usuario (con o sin @), por ejemplo `@pepito`. Déjala vacía si el par es de Pitsneakers.
+
+- El par se publica en el catálogo como siempre; el nombre del vendedor **no** se muestra al público (se guarda aparte en `src/data/assignments.json`, que solo lee el panel de administrador).
+- En **Admin → Revendedores → Pares con vendedor** el botón **Sincronizar ahora** carga esos pares en la cuenta de cada vendedor (con foto, precio y talla). Si el vendedor todavía no tiene cuenta, el par espera; al crearla con ese mismo usuario y volver a sincronizar, aparece.
+- Sincronizar no duplica: si el par y la talla ya están (o ya se vendieron) en su inventario, se salta.
+- Si editas la columna a mano, corre `npm run fotos -- --catalogo` para regenerar el catálogo.
+
 ## Subir fotos de productos (`npm run fotos`)
 
 Deja las fotos en la carpeta `fotos-nuevas/` y corre:

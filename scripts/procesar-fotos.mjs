@@ -8,6 +8,7 @@
 //   npm run fotos -- --igualar       vuelve a igualar el tamaño de TODAS las fotos que ya están en el catálogo
 //   npm run fotos -- --forzar        procesa de nuevo archivos que ya se habían procesado
 //   npm run fotos -- --sin-recorte "NY Flag"   para esos archivos NO se quita el fondo (prendas blancas sobre blanco: el catálogo ya funde el blanco)
+//   npm run fotos -- --catalogo      regenera el catálogo y los pares con vendedor a partir del CSV (sin tocar fotos)
 //   npm run fotos -- --versionar     renombra las fotos del catálogo con una huella de su contenido (rompe cachés viejos)
 //
 // Cada foto se guarda como SKU.<huella>.webp: si la foto cambia, su dirección cambia, y ningún navegador ni CDN
@@ -28,6 +29,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = path.join(ROOT, "public", "products");
 const CSV = path.join(ROOT, "docs", "inventario-pitsneakers.csv");
 const JSON_OUT = path.join(ROOT, "src", "data", "products.json");
+const ASSIGN_OUT = path.join(ROOT, "src", "data", "assignments.json");
 const INBOX_DEFAULT = path.join(ROOT, "fotos-nuevas");
 const LOG = path.join(ROOT, "fotos-nuevas", ".procesadas.json");
 
@@ -54,6 +56,7 @@ const PROBAR = flag("--probar");
 const IGUALAR = flag("--igualar");
 const FORZAR = flag("--forzar");
 const VERSIONAR = flag("--versionar");
+const CATALOGO = flag("--catalogo");
 const SIN_RECORTE = valor("--sin-recorte")?.toLowerCase();
 const INBOX = valor("--desde") ? path.resolve(valor("--desde")) : INBOX_DEFAULT;
 // En una carpeta compartida (Descargas) solo se miran archivos recientes, para no volver a tocar fotos de antes.
@@ -453,11 +456,14 @@ async function regenerarCatalogo() {
   fs.writeFileSync(path.join(tmp, "sheet-source.ts"), src);
   fs.copyFileSync(path.join(ROOT, "src", "types", "product.ts"), path.join(tmp, "types.ts"));
   const mod = await import(pathToFileURL(path.join(tmp, "sheet-source.ts")).href);
-  const productos = mod.rowsToProducts(mod.parseCSV(fs.readFileSync(CSV, "utf8")));
+  const filas = mod.parseCSV(fs.readFileSync(CSV, "utf8"));
+  const productos = mod.rowsToProducts(filas);
   const previo = fs.readFileSync(JSON_OUT, "utf8");
   const eol = previo.includes("\r\n") ? "\r\n" : "\n";
   const indent = /^\[\s*\n(\s+)\{/.exec(previo.replace(/\r\n/g, "\n"))?.[1] ?? "  ";
   fs.writeFileSync(JSON_OUT, JSON.stringify(productos, null, indent).replace(/\n/g, eol) + eol);
+  // Pares con dueño (columna VENDEDOR): archivo aparte, solo lo lee el panel del administrador.
+  fs.writeFileSync(ASSIGN_OUT, JSON.stringify(mod.rowsToAssignments(filas), null, indent).replace(/\n/g, eol) + eol);
   fs.rmSync(tmp, { recursive: true, force: true });
   return productos;
 }
@@ -489,6 +495,12 @@ async function modoIgualar() {
     if (!PROBAR) fs.writeFileSync(ruta, webp);
   }
   console.log(`\n${PROBAR ? "Se igualarían" : "Igualadas"} ${cambiadas} de ${archivos.length} fotos.`);
+}
+
+/** Regenera products.json y assignments.json a partir del CSV (por ejemplo, después de editar a mano la columna VENDEDOR). */
+async function modoCatalogo() {
+  const productos = await regenerarCatalogo();
+  console.log(`Catálogo actualizado: ${productos.length} productos, ${productos.filter((x) => x.images.length).length} con foto.`);
 }
 
 async function modoVersionar() {
@@ -613,7 +625,7 @@ async function modoProcesar() {
   if (reporte.omitidas) console.log(`\n(${reporte.omitidas} ya procesadas antes, omitidas)`);
 }
 
-(VERSIONAR ? modoVersionar() : IGUALAR ? modoIgualar() : modoProcesar()).catch((e) => {
+(CATALOGO ? modoCatalogo() : VERSIONAR ? modoVersionar() : IGUALAR ? modoIgualar() : modoProcesar()).catch((e) => {
   console.error("Error:", e.message);
   process.exit(1);
 });
