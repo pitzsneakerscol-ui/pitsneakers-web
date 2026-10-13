@@ -227,7 +227,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 4;
+export const TEMPLATE_VERSION = 5;
 
 export interface TemplateData {
   key: string;
@@ -525,6 +525,28 @@ Entra a tu panel: ahí ves tu utilidad con este precio y puedes **aceptarla, con
 [boton: Ver y responder la oferta | {{web}}/revendedores/ofertas]
 
 ¿Dudas? Escríbenos: {{whatsapp}}
+
+**Equipo {{tienda}}**`,
+    builtin: true,
+  },
+  {
+    key: "stock_cargado",
+    name: "📦 Tu stock ya quedó cargado (revendedor)",
+    subject: "Ya quedó cargado tu stock en {{tienda}}",
+    body: `# Tu stock ==ya quedó cargado==
+
+Hola {{nombre}},
+
+Ya cargamos tu stock en {{tienda}}:
+
+> **Par:** {{concepto}}
+> **Esperas recibir:** {{monto}}
+
+Es lo que te queda al venderlo al precio publicado, ya descontada nuestra comisión.
+
+[boton: Ver mi inventario | {{web}}/revendedores/inventario]
+
+Entra a tu panel para poner lo que te costó cada par y ver tu utilidad real. ¿Algo no cuadra? Escríbenos: {{whatsapp}}
 
 **Equipo {{tienda}}**`,
     builtin: true,

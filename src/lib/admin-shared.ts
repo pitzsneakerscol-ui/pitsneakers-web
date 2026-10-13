@@ -1,3 +1,12 @@
+import { siteConfig } from "@/config/site";
+
+/** Lo que recibe el vendedor al vender a ese precio: el precio publicado menos la comisión de Pitsneakers (porcentaje, con un mínimo). */
+export function sellerPayout(price: number): number {
+  if (!(price > 0)) return 0;
+  const commission = Math.max(Math.round((price * siteConfig.commission.percent) / 100), siteConfig.commission.minimum);
+  return Math.max(0, price - commission);
+}
+
 export function fmtDateTime(ms: number): string {
   return new Intl.DateTimeFormat("es-CO", {
     timeZone: "America/Bogota",
@@ -56,21 +65,25 @@ export function inventoryEmail(opts: {
   const url = `${opts.siteUrl.replace(/\/$/, "")}/revendedores/inventario`;
   const n = opts.items.length;
   const shown = opts.items.slice(0, 10);
-  const price = (v: number) => (v > 0 ? ` · $${v.toLocaleString("es-CO")}` : "");
-  const subject = n === 1 ? "Actualizamos tu inventario: +1 par en Pitsneakers" : `Actualizamos tu inventario: +${n} pares en Pitsneakers`;
+  const money = (v: number) => `$${v.toLocaleString("es-CO")}`;
+  const line = (i: { name: string; size: string; price: number }) =>
+    `- **${i.name}**${i.size ? ` · talla ${i.size}` : ""}${i.price > 0 ? ` · precio ${money(i.price)} · esperas recibir **${money(sellerPayout(i.price))}**` : ""}`;
+  const total = opts.items.reduce((s, i) => s + sellerPayout(i.price), 0);
+  const subject = n === 1 ? "Ya quedó cargado tu par en Pitsneakers" : `Ya quedaron cargados tus ${n} pares en Pitsneakers`;
   const body = [
-    "# Tu inventario ==se actualizó==",
+    "# Tu stock ==ya quedó cargado==",
     "",
     `Hola ${opts.name},`,
     "",
-    n === 1 ? "Acabamos de cargar **1 par** en tu inventario de Pitsneakers:" : `Acabamos de cargar **${n} pares** en tu inventario de Pitsneakers:`,
+    n === 1 ? "Ya cargamos **1 par** de tu stock en Pitsneakers:" : `Ya cargamos **${n} pares** de tu stock en Pitsneakers:`,
     "",
-    ...shown.map((i) => `- **${i.name}**${i.size ? ` · talla ${i.size}` : ""}${price(i.price)}`),
-    ...(n > shown.length ? [`- …y ${n - shown.length} más`] : []),
+    ...shown.map(line),
+    ...(n > shown.length ? [`- …y ${n - shown.length} más (los ves todos en tu panel)`] : []),
     "",
+    ...(total > 0 ? [`> **Si se venden ${n === 1 ? "al precio publicado" : "todos al precio publicado"}, recibes:** ${money(total)}`, `> Es el precio menos la comisión de Pitsneakers (${siteConfig.commission.percent}%, mínimo ${money(siteConfig.commission.minimum)} por par).`, ""] : []),
     `[boton: Ver mi inventario | ${url}]`,
     "",
-    "Entra a tu panel para ajustar el costo y el precio esperado de cada par y ver tu utilidad. Si algo no te cuadra, responde a este correo y lo revisamos.",
+    "Entra a tu panel para poner lo que te costó cada par: ahí ves tu utilidad real. Si algo no te cuadra, responde a este correo y lo revisamos.",
     "",
     "**Equipo Pitsneakers**",
   ].join("\n");
