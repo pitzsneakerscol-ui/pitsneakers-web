@@ -922,5 +922,19 @@
     "price": 600000,
     "condition": "nuevo",
     "image": "/products/BLAZER-03.2dcad363.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-travis-scott-air-max-1-wheat-lemon-drop",
+    "name": "Travis Scott Air Max 1 Wheat Lemon Drop",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AM1-04",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1499000,
+    "condition": "nuevo",
+    "image": "/products/AM1-04.1aee5411.webp"
   }
 ]

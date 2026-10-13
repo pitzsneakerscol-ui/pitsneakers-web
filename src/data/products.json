@@ -7684,5 +7684,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:11:00.000Z"
+  },
+  {
+    "id": "AM1-04",
+    "slug": "nike-travis-scott-air-max-1-wheat-lemon-drop",
+    "name": "Travis Scott Air Max 1 Wheat Lemon Drop",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1499000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AM1-04.1aee5411.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:12:00.000Z"
   }
 ]
