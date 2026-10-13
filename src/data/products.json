@@ -7704,5 +7704,31 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:12:00.000Z"
+  },
+  {
+    "id": "AJ4-21",
+    "slug": "jordan-jordan-4-x-j-balvin-amazonas-lemonade",
+    "name": "Jordan 4 x J Balvin Amazonas Lemonade",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 970000,
+    "promo": false,
+    "sizes": [
+      "9",
+      "9.5",
+      "11",
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-21.cc603893.webp",
+      "/products/AJ4-21-2.042cd0f0.webp",
+      "/products/AJ4-21-3.a311759f.webp",
+      "/products/AJ4-21-4.ececc082.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:13:00.000Z"
   }
 ]
