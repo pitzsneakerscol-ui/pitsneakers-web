@@ -7506,8 +7506,8 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-16-2.ae048756.webp",
-      "/products/AJ1-16.22e3968f.webp"
+      "/products/AJ1-16.22e3968f.webp",
+      "/products/AJ1-16-2.ae048756.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -7574,8 +7574,8 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/CROCS-03-2.f255d7db.webp",
-      "/products/CROCS-03.1fd73994.webp"
+      "/products/CROCS-03.1fd73994.webp",
+      "/products/CROCS-03-2.f255d7db.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -7664,5 +7664,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:10:00.000Z"
+  },
+  {
+    "id": "BLAZER-03",
+    "slug": "nike-blazer-x-sacai-magma-orange",
+    "name": "Blazer x Sacai Magma Orange",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/BLAZER-03.2dcad363.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:11:00.000Z"
   }
 ]

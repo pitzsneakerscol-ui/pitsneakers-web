@@ -779,7 +779,7 @@
     ],
     "price": 4320000,
     "condition": "nuevo",
-    "image": "/products/AJ1-16-2.ae048756.webp"
+    "image": "/products/AJ1-16.22e3968f.webp"
   },
   {
     "seller": "santiagoflex",
@@ -826,7 +826,7 @@
     ],
     "price": 550000,
     "condition": "nuevo",
-    "image": "/products/CROCS-03-2.f255d7db.webp"
+    "image": "/products/CROCS-03.1fd73994.webp"
   },
   {
     "seller": "santiagoflex",
@@ -884,5 +884,19 @@
     "price": 700000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-12.ca9f2cc0.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-blazer-x-sacai-magma-orange",
+    "name": "Blazer x Sacai Magma Orange",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "BLAZER-03",
+    "sizes": [
+      "10"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": "/products/BLAZER-03.2dcad363.webp"
   }
 ]
