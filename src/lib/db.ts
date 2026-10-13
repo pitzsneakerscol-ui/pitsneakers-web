@@ -166,10 +166,52 @@ const SCHEMA = [
     welcomed INTEGER NOT NULL DEFAULT 0,
     created_at INTEGER NOT NULL
   )`,
+  `CREATE TABLE IF NOT EXISTS auctions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    starts_at INTEGER NOT NULL,
+    ends_at INTEGER NOT NULL,
+    published INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS auction_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    auction_id INTEGER NOT NULL,
+    position INTEGER NOT NULL DEFAULT 0,
+    name TEXT NOT NULL,
+    brand TEXT NOT NULL DEFAULT '',
+    size TEXT NOT NULL DEFAULT '',
+    condition TEXT NOT NULL DEFAULT 'nuevo',
+    description TEXT NOT NULL DEFAULT '',
+    image TEXT NOT NULL DEFAULT '',
+    start_price INTEGER NOT NULL,
+    min_increment INTEGER NOT NULL DEFAULT 20000,
+    current_bid INTEGER NOT NULL DEFAULT 0,
+    bid_count INTEGER NOT NULL DEFAULT 0,
+    leader_id INTEGER,
+    ends_at INTEGER NOT NULL,
+    winner_notified INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_auction_items ON auction_items(auction_id, position)`,
+  `CREATE TABLE IF NOT EXISTS auction_bids (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,
+    bidder_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_auction_bids ON auction_bids(item_id, created_at)`,
+  `CREATE TABLE IF NOT EXISTS bidder_sessions (
+    token_hash TEXT PRIMARY KEY,
+    waitlist_id INTEGER NOT NULL,
+    expires_at INTEGER NOT NULL
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.
 const ADDED_COLUMNS: Record<string, [string, string][]> = {
+  waitlist: [["announced", "INTEGER NOT NULL DEFAULT 0"]],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],
     ["role", "TEXT NOT NULL DEFAULT 'revendedor'"],

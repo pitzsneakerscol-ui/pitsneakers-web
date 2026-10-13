@@ -71,6 +71,7 @@ export default function ProximamentePage() {
       <footer className="relative z-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-5 py-5 text-xs text-white/60">
         <a href={buildGeneralWhatsAppLink("Hola! Quiero info sobre Pitsneakers")} className="hover:text-white" target="_blank" rel="noreferrer">WhatsApp</a>
         <a href={siteConfig.instagramUrl} className="hover:text-white" target="_blank" rel="noreferrer">Instagram {siteConfig.instagramHandle}</a>
+        <Link href="/subasta" className="font-semibold text-white/80 underline underline-offset-4 hover:text-white">Ya tengo mi pase</Link>
         <span>{siteConfig.city}</span>
       </footer>
     </div>

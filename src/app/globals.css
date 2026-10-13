@@ -1522,3 +1522,6 @@ body {
 .pl-logo { animation: pl-float 5s ease-in-out infinite; }
 @keyframes pl-float { 50% { transform: translateY(-8px) rotate(-1.5deg); } }
 @media (prefers-reduced-motion: reduce) { .pl-logo { animation: none; } }
+
+.au-urgent { animation: pl-pulse 1s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .au-urgent { animation: none; } }

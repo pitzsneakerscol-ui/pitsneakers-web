@@ -350,3 +350,14 @@ Variables de entorno en Vercel (Settings → Environment Variables; después haz
 - `SITE_PREVIEW_KEY=` una clave larga que inventes — te permite ver la página completa tú mismo: entra una vez a `https://pitsneakers.com/?acceso=TU_CLAVE` (queda guardado 30 días en ese navegador).
 
 Siguen abiertos con el candado: el ingreso de vendedores y sus paneles, `/admin`, las APIs (incluida la tarea programada) y las imágenes. Google no indexa nada mientras esté activo (`robots.txt` bloquea todo).
+
+## Subasta exclusiva (solo para inscritos)
+
+Para los inscritos de la lista de espera hay una subasta de pares exclusivos en `/subasta` (siempre abierta aunque el candado esté activo, pero solo se entra con **correo + pase personal**).
+
+1. **Admin → Subasta → 1. Fechas**: título, apertura y cierre (hora de Colombia) y marca **Publicada** cuando quieras que vean los pares.
+2. **2. Pares**: agrega cada par con su foto (SKU del catálogo o enlace https, p. ej. de postimages), talla, precio de salida e incremento mínimo.
+3. **3. Avisar a la lista**: manda el correo con la fecha a los inscritos (de a 40 por clic).
+4. Cuando un par cierre, en la misma pantalla pulsa **Avisar al ganador** (le llega el correo con el paso a WhatsApp para pagar).
+
+Reglas: cada puja supera la anterior por el incremento; si alguien puja en los últimos 2 minutos el par se alarga 2 minutos; al que iba ganando le llega un correo cuando lo superan; los nombres se muestran enmascarados (`pr***@gm***.com`).
