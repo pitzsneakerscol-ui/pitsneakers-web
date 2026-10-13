@@ -7,6 +7,7 @@ export const TEMPLATE_VARS: { key: string; label: string }[] = [
   { key: "nombre", label: "Nombre del destinatario" },
   { key: "monto", label: "Monto (ej. $350.000)" },
   { key: "concepto", label: "Concepto, producto o pedido" },
+  { key: "talla", label: "Talla(s) del par (ej. 9 US)" },
   { key: "fecha_limite", label: "Fecha límite o de vigencia" },
   { key: "tienda", label: "Pitsneakers" },
   { key: "whatsapp", label: "Link de WhatsApp de la tienda" },
@@ -227,7 +228,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 5;
+export const TEMPLATE_VERSION = 6;
 
 export interface TemplateData {
   key: string;
@@ -540,6 +541,7 @@ Hola {{nombre}},
 Ya cargamos tu stock en {{tienda}}:
 
 > **Par:** {{concepto}}
+> **Talla:** {{talla}}
 > **Esperas recibir:** {{monto}}
 
 Es lo que te queda al venderlo al precio publicado, ya descontada nuestra comisión.

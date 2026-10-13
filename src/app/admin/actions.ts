@@ -327,6 +327,7 @@ export async function sendEmails(_prev: ActionState, fd: FormData): Promise<Acti
     ...siteVars(),
     monto: amount ? formatPrice(amount) : "",
     concepto: text(fd, "concepto", 160),
+    talla: text(fd, "talla", 60),
     fecha_limite: text(fd, "fecha_limite", 30),
   };
 

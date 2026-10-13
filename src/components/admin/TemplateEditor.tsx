@@ -9,7 +9,8 @@ import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller
 const SAMPLE = {
   nombre: "Carlos",
   monto: "$350.000",
-  concepto: "Dunk Low Panda talla 9.5",
+  concepto: "Dunk Low Panda",
+  talla: "9.5 US",
   fecha_limite: "15 de octubre",
 };
 

@@ -43,6 +43,7 @@ export default function ComposeForm({
   const [filter, setFilter] = useState("");
   const [monto, setMonto] = useState(initial.monto);
   const [concepto, setConcepto] = useState(initial.concepto);
+  const [talla, setTalla] = useState("");
   const [fecha, setFecha] = useState(initial.fechaLimite);
   const [extra, setExtra] = useState("");
 
@@ -80,6 +81,7 @@ export default function ComposeForm({
     nombre: firstName,
     monto: digits ? formatPrice(Number(digits)) : "",
     concepto,
+    talla,
     fecha_limite: fecha,
   };
   const previewSubject = renderTemplate(subject, vars);
@@ -148,7 +150,7 @@ export default function ComposeForm({
               ))}
             </select>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className={labelCls} htmlFor="cp-monto">Monto</label>
               <input id="cp-monto" name="monto" inputMode="numeric" value={monto} onChange={(e) => setMonto(e.target.value)} placeholder="350000" className={inputCls} />
@@ -156,6 +158,10 @@ export default function ComposeForm({
             <div>
               <label className={labelCls} htmlFor="cp-concepto">Concepto</label>
               <input id="cp-concepto" name="concepto" value={concepto} onChange={(e) => setConcepto(e.target.value)} className={inputCls} />
+            </div>
+            <div>
+              <label className={labelCls} htmlFor="cp-talla">Talla</label>
+              <input id="cp-talla" name="talla" value={talla} onChange={(e) => setTalla(e.target.value)} placeholder="9 US" className={inputCls} />
             </div>
             <div>
               <label className={labelCls} htmlFor="cp-fecha">Fecha límite</label>

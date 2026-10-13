@@ -64,10 +64,18 @@ export function inventoryEmail(opts: {
 }): { subject: string; body: string } {
   const url = `${opts.siteUrl.replace(/\/$/, "")}/revendedores/inventario`;
   const n = opts.items.length;
-  const shown = opts.items.slice(0, 10);
+  // Mismo par y mismo precio en varias tallas = una sola línea con todas las tallas.
+  const groups = new Map<string, { name: string; price: number; sizes: string[] }>();
+  for (const i of opts.items) {
+    const g = groups.get(`${i.name}|${i.price}`) ?? { name: i.name, price: i.price, sizes: [] };
+    if (i.size && !g.sizes.includes(i.size)) g.sizes.push(i.size);
+    groups.set(`${i.name}|${i.price}`, g);
+  }
+  const all = [...groups.values()];
+  const shown = all.slice(0, 10);
   const money = (v: number) => `$${v.toLocaleString("es-CO")}`;
-  const line = (i: { name: string; size: string; price: number }) =>
-    `- **${i.name}**${i.size ? ` · talla ${i.size}` : ""}${i.price > 0 ? ` · precio ${money(i.price)} · esperas recibir **${money(sellerPayout(i.price))}**` : ""}`;
+  const line = (g: { name: string; price: number; sizes: string[] }) =>
+    `- **${g.name}**${g.sizes.length ? ` · ${g.sizes.length > 1 ? "tallas" : "talla"} ${g.sizes.join(", ")}` : ""}${g.price > 0 ? ` · precio ${money(g.price)} · esperas recibir **${money(sellerPayout(g.price))}**${g.sizes.length > 1 ? " por par" : ""}` : ""}`;
   const total = opts.items.reduce((s, i) => s + sellerPayout(i.price), 0);
   const subject = n === 1 ? "Ya quedó cargado tu par en Pitsneakers" : `Ya quedaron cargados tus ${n} pares en Pitsneakers`;
   const body = [
@@ -78,7 +86,7 @@ export function inventoryEmail(opts: {
     n === 1 ? "Ya cargamos **1 par** de tu stock en Pitsneakers:" : `Ya cargamos **${n} pares** de tu stock en Pitsneakers:`,
     "",
     ...shown.map(line),
-    ...(n > shown.length ? [`- …y ${n - shown.length} más (los ves todos en tu panel)`] : []),
+    ...(all.length > shown.length ? [`- …y ${all.length - shown.length} modelos más (los ves todos en tu panel)`] : []),
     "",
     ...(total > 0 ? [`> **Si se venden ${n === 1 ? "al precio publicado" : "todos al precio publicado"}, recibes:** ${money(total)}`, `> Es el precio menos la comisión de Pitsneakers (${siteConfig.commission.percent}%, mínimo ${money(siteConfig.commission.minimum)} por par).`, ""] : []),
     `[boton: Ver mi inventario | ${url}]`,
