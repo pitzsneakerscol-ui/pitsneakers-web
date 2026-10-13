@@ -1,6 +1,30 @@
 [
   {
     "seller": "santiagoflex",
+    "slug": "supreme-duffle-shoulder-bag",
+    "name": "Duffle Shoulder Bag",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "97",
+    "sizes": [],
+    "price": 620000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-DUFFLE-BAG.91281969.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "supreme-waist-bag-ss18",
+    "name": "Waist Bag SS18",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "98",
+    "sizes": [],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-SHOULDER-BAG.57cca0f1.webp"
+  },
+  {
+    "seller": "santiagoflex",
     "slug": "nike-air-force-one-x-supreme",
     "name": "Air Force One x Supreme",
     "brand": "Nike",
