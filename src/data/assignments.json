@@ -21,6 +21,20 @@
   },
   {
     "seller": "santiagoflex",
+    "slug": "nike-vomero-platinum",
+    "name": "Vomero Platinum",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "VOMERO-01",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": "/products/VOMERO-01.12a0d603.webp"
+  },
+  {
+    "seller": "santiagoflex",
     "slug": "nike-nocta-af1-citron",
     "name": "Nocta AF1 Citron",
     "brand": "Nike",
@@ -319,7 +333,7 @@
     ],
     "price": 550000,
     "condition": "nuevo",
-    "image": "/products/AJ1-10.d63f5593.webp"
+    "image": "/products/AJ1-10.30882668.webp"
   },
   {
     "seller": "santiagoflex",
@@ -498,5 +512,362 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-17.d2606bf5.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-fontanka-af1-2",
+    "name": "Fontanka AF1",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-13",
+    "sizes": [
+      "6.5W"
+    ],
+    "price": 300000,
+    "condition": "nuevo",
+    "image": "/products/AF1-11.bf036927.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-grateful-dead-2",
+    "name": "Dunk SB Grateful Dead",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-42",
+    "sizes": [
+      "9"
+    ],
+    "price": 2700000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-34.9cc9c21e.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-rare-air-2",
+    "name": "Jordan 4 Rare Air",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-15",
+    "sizes": [
+      "10",
+      "11"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-07.adfd4f99.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-la-lakers-2",
+    "name": "Jordan 4 LA Lakers",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-16",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 889000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-05.3bdb71df.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-mind-002-grey-2",
+    "name": "Mind 002 Grey",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND002-03",
+    "sizes": [
+      "9"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/MIND002-01.bf7babe0.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-huf-san-francisco-2",
+    "name": "Dunk SB HUF San Francisco",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-43",
+    "sizes": [
+      "8"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-27.4b455382.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-x-bad-bunny-gazelle-benito-2",
+    "name": "Gazelle Benito",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "GAZELLE-04",
+    "sizes": [
+      "5.5",
+      "6"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/GAZELLE-01.85ef0379.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-low-travis-scott-fragment-2",
+    "name": "Jordan 1 Low Travis Scott Fragment",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-13",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 6120000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-06.f826b4e2.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-a-ma-maniere-while-you-were-sleeping",
+    "name": "Jordan 4 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-17",
+    "sizes": [
+      "11"
+    ],
+    "price": 980000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-17.082ec8fe.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-red-cement",
+    "name": "Jordan 4 Red Cement",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-18",
+    "sizes": [
+      "11"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-18.ab3c8970.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-yellow-thunder",
+    "name": "Jordan 4 Yellow Thunder",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-19",
+    "sizes": [
+      "10"
+    ],
+    "price": 1320000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-19.e1d7a079.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-craft",
+    "name": "Jordan 4 Craft",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-20",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 989000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-20.c97634b7.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-3-a-ma-maniere-while-you-were-sleeping",
+    "name": "Jordan 3 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ3-06",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 880000,
+    "condition": "nuevo",
+    "image": "/products/AJ3-06.da4edffe.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-5-reimagined",
+    "name": "Jordan 5 Reimagined",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ5-03",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/AJ5-03.0c3f8a10.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-x-union",
+    "name": "Jordan 1 x Union",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-11",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 720000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-11.d145ecd9.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-union-x-fragment",
+    "name": "Jordan 1 Union x Fragment",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-12",
+    "sizes": [
+      "11"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-12.8ac45e9d.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-low-trophy-room",
+    "name": "Jordan 1 Low Trophy Room",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-14",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1300000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-14.cb94cf89.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-low-mocha",
+    "name": "Jordan 1 Low Mocha",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-15",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-15.db23bebd.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-1-low-travis-scott-reverse-mocha",
+    "name": "Jordan 1 Low Travis Scott Reverse Mocha",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-16",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 4320000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-16-2.ae048756.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "asics-gel-kayano-14-graphite-grey",
+    "name": "Gel Kayano 14 Graphite Grey",
+    "brand": "Asics",
+    "colorway": "",
+    "sku": "ASICS-14",
+    "sizes": [
+      "9"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/ASICS-14.4a36c741.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "crocs-echo-clog-nba-all-star",
+    "name": "Echo Clog NBA All-Star",
+    "brand": "Crocs",
+    "colorway": "",
+    "sku": "CROCS-02",
+    "sizes": [
+      "12"
+    ],
+    "price": 300000,
+    "condition": "nuevo",
+    "image": "/products/CROCS-02.4df9deaa.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "crocs-clog-lightning-mcqueen-dinoco",
+    "name": "Clog Lightning McQueen Dinoco",
+    "brand": "Crocs",
+    "colorway": "",
+    "sku": "CROCS-03",
+    "sizes": [
+      "4",
+      "5",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/CROCS-03-2.f255d7db.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-air-force-1-ghostface-black",
+    "name": "Air Force 1 Ghostface Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-14",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AF1-14.8d93d5f9.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-air-force-1-ghostface-white",
+    "name": "Air Force 1 Ghostface White",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-15",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AF1-15.d8d6e594.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-dunk-sb-supreme-white",
+    "name": "Dunk SB Supreme White",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-44",
+    "sizes": [
+      "8"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-44.662cf111.webp"
   }
 ]

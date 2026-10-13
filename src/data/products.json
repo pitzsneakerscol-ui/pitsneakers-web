@@ -6871,7 +6871,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-10.d63f5593.webp"
+      "/products/AJ1-10.30882668.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -7126,5 +7126,522 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T05:44:00.000Z"
+  },
+  {
+    "id": "AF1-13",
+    "slug": "nike-fontanka-af1-2",
+    "name": "Fontanka AF1",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 300000,
+    "promo": false,
+    "sizes": [
+      "6.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja dañada. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-11.bf036927.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:45:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-42",
+    "slug": "nike-dunk-sb-grateful-dead-2",
+    "name": "Dunk SB Grateful Dead",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2700000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Caja ligeramente dañada. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-34.9cc9c21e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:46:00.000Z"
+  },
+  {
+    "id": "AJ4-15",
+    "slug": "jordan-jordan-4-rare-air-2",
+    "name": "Jordan 4 Rare Air",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "10",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-07.adfd4f99.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:47:00.000Z"
+  },
+  {
+    "id": "AJ4-16",
+    "slug": "jordan-jordan-4-la-lakers-2",
+    "name": "Jordan 4 LA Lakers",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 889000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-05.3bdb71df.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:48:00.000Z"
+  },
+  {
+    "id": "MIND002-03",
+    "slug": "nike-mind-002-grey-2",
+    "name": "Mind 002 Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND002-01.bf7babe0.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:49:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-43",
+    "slug": "nike-dunk-sb-huf-san-francisco-2",
+    "name": "Dunk SB HUF San Francisco",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 700000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-27.4b455382.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:50:00.000Z"
+  },
+  {
+    "id": "GAZELLE-04",
+    "slug": "adidas-x-bad-bunny-gazelle-benito-2",
+    "name": "Gazelle Benito",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "5.5",
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/GAZELLE-01.85ef0379.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:51:00.000Z"
+  },
+  {
+    "id": "AJ1-13",
+    "slug": "jordan-jordan-1-low-travis-scott-fragment-2",
+    "name": "Jordan 1 Low Travis Scott Fragment",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 6120000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-06.f826b4e2.webp",
+      "/products/AJ1-06-2.dfabb78e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:52:00.000Z"
+  },
+  {
+    "id": "AJ4-17",
+    "slug": "jordan-jordan-4-a-ma-maniere-while-you-were-sleeping",
+    "name": "Jordan 4 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 980000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-17.082ec8fe.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:53:00.000Z"
+  },
+  {
+    "id": "AJ4-18",
+    "slug": "jordan-jordan-4-red-cement",
+    "name": "Jordan 4 Red Cement",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-18.ab3c8970.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:54:00.000Z"
+  },
+  {
+    "id": "AJ4-19",
+    "slug": "jordan-jordan-4-yellow-thunder",
+    "name": "Jordan 4 Yellow Thunder",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1320000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-19.e1d7a079.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:55:00.000Z"
+  },
+  {
+    "id": "AJ4-20",
+    "slug": "jordan-jordan-4-craft",
+    "name": "Jordan 4 Craft",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 989000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-20.c97634b7.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:56:00.000Z"
+  },
+  {
+    "id": "AJ3-06",
+    "slug": "jordan-jordan-3-a-ma-maniere-while-you-were-sleeping",
+    "name": "Jordan 3 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 880000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ3-06.da4edffe.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:57:00.000Z"
+  },
+  {
+    "id": "AJ5-03",
+    "slug": "jordan-jordan-5-reimagined",
+    "name": "Jordan 5 Reimagined",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ5-03.0c3f8a10.webp",
+      "/products/AJ5-03-2.56b7d43a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:58:00.000Z"
+  },
+  {
+    "id": "AJ1-11",
+    "slug": "jordan-jordan-1-x-union",
+    "name": "Jordan 1 x Union",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 720000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-11.d145ecd9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T05:59:00.000Z"
+  },
+  {
+    "id": "AJ1-12",
+    "slug": "jordan-jordan-1-union-x-fragment",
+    "name": "Jordan 1 Union x Fragment",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-12.8ac45e9d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:00:00.000Z"
+  },
+  {
+    "id": "AJ1-14",
+    "slug": "jordan-jordan-1-low-trophy-room",
+    "name": "Jordan 1 Low Trophy Room",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1300000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-14.cb94cf89.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:01:00.000Z"
+  },
+  {
+    "id": "AJ1-15",
+    "slug": "jordan-jordan-1-low-mocha",
+    "name": "Jordan 1 Low Mocha",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-15.db23bebd.webp",
+      "/products/AJ1-15-2.58744a5b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:02:00.000Z"
+  },
+  {
+    "id": "AJ1-16",
+    "slug": "jordan-jordan-1-low-travis-scott-reverse-mocha",
+    "name": "Jordan 1 Low Travis Scott Reverse Mocha",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 4320000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-16-2.ae048756.webp",
+      "/products/AJ1-16.22e3968f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:03:00.000Z"
+  },
+  {
+    "id": "ASICS-14",
+    "slug": "asics-gel-kayano-14-graphite-grey",
+    "name": "Gel Kayano 14 Graphite Grey",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-14.4a36c741.webp",
+      "/products/ASICS-14-2.750583b9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:04:00.000Z"
+  },
+  {
+    "id": "CROCS-02",
+    "slug": "crocs-echo-clog-nba-all-star",
+    "name": "Echo Clog NBA All-Star",
+    "brand": "Crocs",
+    "category": "sneakers",
+    "price": 300000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/CROCS-02.4df9deaa.webp",
+      "/products/CROCS-02-2.fcc906d2.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:05:00.000Z"
+  },
+  {
+    "id": "CROCS-03",
+    "slug": "crocs-clog-lightning-mcqueen-dinoco",
+    "name": "Clog Lightning McQueen Dinoco",
+    "brand": "Crocs",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "4",
+      "5",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/CROCS-03-2.f255d7db.webp",
+      "/products/CROCS-03.1fd73994.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:06:00.000Z"
+  },
+  {
+    "id": "AF1-14",
+    "slug": "nike-air-force-1-ghostface-black",
+    "name": "Air Force 1 Ghostface Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-14.8d93d5f9.webp",
+      "/products/AF1-14-2.0fd7cc21.webp",
+      "/products/AF1-14-3.fb2a8ad3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:07:00.000Z"
+  },
+  {
+    "id": "AF1-15",
+    "slug": "nike-air-force-1-ghostface-white",
+    "name": "Air Force 1 Ghostface White",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-15.d8d6e594.webp",
+      "/products/AF1-15-2.7a4cc40a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:08:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-44",
+    "slug": "nike-dunk-sb-supreme-white",
+    "name": "Dunk SB Supreme White",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-44.662cf111.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:09:00.000Z"
   }
 ]
