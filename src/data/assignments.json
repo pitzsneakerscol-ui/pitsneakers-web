@@ -869,5 +869,20 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/SB-DUNK-44.662cf111.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "adidas-x-bad-bunny-bad-bunny-badbo-2",
+    "name": "Bad Bunny Badbo",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-37",
+    "sizes": [
+      "4.5",
+      "5.5"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-12.ca9f2cc0.webp"
   }
 ]
