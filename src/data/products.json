@@ -8571,6 +8571,26 @@
     "dateAdded": "1970-01-01T07:00:00.000Z"
   },
   {
+    "id": "AJ1-29",
+    "slug": "jordan-jordan-1-zoom-psg",
+    "name": "Jordan 1 Zoom PSG",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DB3610-105. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-29.c896effd.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:02:00.000Z"
+  },
+  {
     "id": "YZY350-43",
     "slug": "adidas-yeezy-350-ash-pearl",
     "name": "Yeezy 350 Ash Pearl",
