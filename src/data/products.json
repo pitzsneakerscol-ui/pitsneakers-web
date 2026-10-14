@@ -8032,6 +8032,48 @@
     "dateAdded": "1970-01-01T06:30:00.000Z"
   },
   {
+    "id": "AJ1-19",
+    "slug": "jordan-jordan-1-high-guava-ice",
+    "name": "Jordan 1 High Guava Ice",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-801. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-19.06d666db.webp",
+      "/products/AJ1-19-2.35250eb3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:31:00.000Z"
+  },
+  {
+    "id": "AJ1-20",
+    "slug": "jordan-jordan-1-high-gym-red",
+    "name": "Jordan 1 High Gym Red",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-061. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-20.bc726ebc.webp",
+      "/products/AJ1-20-2.f30a9ad9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:32:00.000Z"
+  },
+  {
     "id": "YZY350-35",
     "slug": "adidas-yeezy-350-citrin",
     "name": "Yeezy 350 Citrin",
@@ -8162,6 +8204,29 @@
     "dateAdded": "1970-01-01T06:45:00.000Z"
   },
   {
+    "id": "AJ1-25",
+    "slug": "jordan-jordan-1-court-purple",
+    "name": "Jordan 1 Court Purple",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7.5",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-500. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-25.7a1fa13c.webp",
+      "/products/AJ1-25-2.f7495a9e.webp",
+      "/products/AJ1-25-3.575bf4f0.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:48:00.000Z"
+  },
+  {
     "id": "YZY500-03",
     "slug": "adidas-yeezy-500-utility-black",
     "name": "Yeezy 500 Utility Black",
@@ -8245,6 +8310,48 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:54:00.000Z"
+  },
+  {
+    "id": "AJ1-26",
+    "slug": "jordan-jordan-1-balvin",
+    "name": "Jordan 1 Balvin",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DC3481-900. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-26.5f7874c1.webp",
+      "/products/AJ1-26-2.2a169c16.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:55:00.000Z"
+  },
+  {
+    "id": "AJ1-27",
+    "slug": "jordan-jordan-1-balvin-2",
+    "name": "Jordan 1 Balvin",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1204000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DC3481-900. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-26.5f7874c1.webp",
+      "/products/AJ1-26-2.2a169c16.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:56:00.000Z"
   },
   {
     "id": "YZY350-40",
@@ -8399,6 +8506,27 @@
     "dateAdded": "1970-01-01T07:07:00.000Z"
   },
   {
+    "id": "AJ1-33",
+    "slug": "jordan-jordan-1-hyper-royal",
+    "name": "Jordan 1 Hyper Royal",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-402. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-33.15595159.webp",
+      "/products/AJ1-33-2.bd14e531.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:11:00.000Z"
+  },
+  {
     "id": "YZY500-07",
     "slug": "adidas-yeezy-500-taupe-light",
     "name": "Yeezy 500 Taupe Light",
@@ -8524,6 +8652,48 @@
     "dateAdded": "1970-01-01T07:17:00.000Z"
   },
   {
+    "id": "AJ1-34",
+    "slug": "jordan-jordan-1-low-black-white",
+    "name": "Jordan 1 Low Black White",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "8W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo AO9944-001. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-34.bb1d49b9.webp",
+      "/products/AJ1-34-2.725fed5b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:18:00.000Z"
+  },
+  {
+    "id": "AJ1-35",
+    "slug": "jordan-jordan-1-high-pollen",
+    "name": "Jordan 1 High Pollen",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-701. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-35.495a35fc.webp",
+      "/products/AJ1-35-2.03a6fb30.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:20:00.000Z"
+  },
+  {
     "id": "YZY350-44",
     "slug": "adidas-yeezy-350-light",
     "name": "Yeezy 350 Light",
@@ -8587,6 +8757,29 @@
     "dateAdded": "1970-01-01T07:23:00.000Z"
   },
   {
+    "id": "AJ1-36",
+    "slug": "jordan-jordan-1-low-og-starfish",
+    "name": "Jordan 1 Low OG Starfish",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "10",
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CZ0790-801. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-36.f68d818b.webp",
+      "/products/AJ1-36-2.0b40fe57.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:24:00.000Z"
+  },
+  {
     "id": "YZY700-15",
     "slug": "adidas-yeezy-700-v2-mauve",
     "name": "Yeezy 700 V2 Mauve",
@@ -8648,6 +8841,27 @@
     "dateAdded": "1970-01-01T07:27:00.000Z"
   },
   {
+    "id": "AJ1-37",
+    "slug": "jordan-jordan-1-low-og-white-grey",
+    "name": "Jordan 1 Low OG White Grey",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CZ0790-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-37.22641aa1.webp",
+      "/products/AJ1-37-2.13c330cb.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:28:00.000Z"
+  },
+  {
     "id": "DUNK-13",
     "slug": "nike-dunk-halloween-2021-2",
     "name": "Dunk Halloween 2021",
@@ -8667,6 +8881,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:29:00.000Z"
+  },
+  {
+    "id": "AJ1-38",
+    "slug": "jordan-jordan-1-low-court-purple",
+    "name": "Jordan 1 Low Court Purple",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1505000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 553558-125. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-38.f6af4ef6.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:31:00.000Z"
   },
   {
     "id": "YZY500-08",
@@ -8709,6 +8943,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:33:00.000Z"
+  },
+  {
+    "id": "AJ1-42",
+    "slug": "jordan-jordan-1-low-dark-teal",
+    "name": "Jordan 1 Low Dark Teal",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 553558-411. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-42.8036e4d3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:37:00.000Z"
   },
   {
     "id": "YZY350-46",
