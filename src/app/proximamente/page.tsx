@@ -73,6 +73,7 @@ export default function ProximamentePage() {
         <a href={siteConfig.instagramUrl} className="hover:text-white" target="_blank" rel="noreferrer">Instagram {siteConfig.instagramHandle}</a>
         <Link href="/subasta" className="font-semibold text-white/80 underline underline-offset-4 hover:text-white">Subasta</Link>
         <Link href="/trivia" className="font-semibold text-white/80 underline underline-offset-4 hover:text-white">Trivia</Link>
+        <Link href="/politicas" className="hover:text-white">Políticas</Link>
         <span>{siteConfig.city}</span>
       </footer>
     </div>

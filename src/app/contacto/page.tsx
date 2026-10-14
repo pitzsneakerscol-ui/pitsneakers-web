@@ -67,7 +67,7 @@ const faqs: FaqItem[] = [
     a: (
       <>
         Elige el par en el catálogo y toca <strong>Consultar por WhatsApp</strong>: el mensaje sale escrito con el
-        producto y la talla. Cerramos la compra por chat, sin carrito ni formularios.
+        producto y la talla, y cerramos la compra por chat. También puedes pagar en línea con <strong>Comprar ahora</strong>.
       </>
     ),
   },
@@ -101,7 +101,12 @@ const faqs: FaqItem[] = [
   },
   {
     q: "¿Tienen pago en línea?",
-    a: "No manejamos carrito ni formularios: todo se negocia por chat, como lo hemos hecho siempre con la comunidad. Precio y condiciones los acuerdas directamente por WhatsApp.",
+    a: (
+      <>
+        Sí: en la página de cada par puedes pulsar <strong>Comprar ahora</strong> y pagar con PSE, Nequi o tarjeta (cuando está habilitado), o cerrar la compra por WhatsApp como siempre. Mira las{" "}
+        <Link href="/politicas" className="font-semibold text-ink underline underline-offset-4">políticas de compra, envíos y devoluciones</Link>.
+      </>
+    ),
   },
   {
     q: "Revendo pares, ¿cómo llevo mi stock?",

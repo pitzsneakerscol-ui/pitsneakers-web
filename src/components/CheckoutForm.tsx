@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { startCheckout } from "@/app/comprar/actions";
 import { formatPrice } from "@/lib/format";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
@@ -61,7 +62,10 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
       <button type="submit" disabled={pending} className={`${btnAccent} w-full !py-3.5 !text-sm`}>
         {pending ? "Llevándote a Wompi…" : `Pagar ${formatPrice(price)} con Wompi`}
       </button>
-      <p className="text-center text-[11px] text-muted">PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). El envío lo coordinamos por WhatsApp después de pagar.</p>
+      <p className="text-center text-[11px] text-muted">
+        PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). El envío lo coordinamos por WhatsApp después de pagar. Al pagar aceptas nuestras{" "}
+        <Link href="/politicas" className="underline underline-offset-2 hover:text-ink">políticas de compra y datos</Link>; tienes 5 días hábiles de retracto.
+      </p>
     </form>
   );
 }

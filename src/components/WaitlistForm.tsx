@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { joinList } from "@/app/proximamente/actions";
 import { submitWith } from "@/components/reseller/ui";
 
@@ -68,7 +69,10 @@ export default function WaitlistForm() {
         <input name="website" tabIndex={-1} autoComplete="off" />
       </div>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/15 px-4 py-3 text-sm text-white">{state.error}</p>}
-      <p className="text-center text-xs text-white/50">Sin spam. Solo tu pase y el aviso de la subasta.</p>
+      <p className="text-center text-xs text-white/50">
+        Sin spam. Solo tu pase y los avisos de subasta y trivia. Al inscribirte aceptas el tratamiento de tus datos según nuestras{" "}
+        <Link href="/politicas#datos" className="underline underline-offset-2 hover:text-white">políticas</Link>.
+      </p>
     </form>
   );
 }

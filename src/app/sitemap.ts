@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { getAllGroups } from "@/lib/products";
 
-const PAGES = ["", "/sneakers", "/streetwear", "/lanzamientos", "/encargos", "/verificacion", "/contacto", "/revendedores"];
+const PAGES = ["", "/sneakers", "/streetwear", "/lanzamientos", "/encargos", "/verificacion", "/contacto", "/politicas", "/revendedores"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.siteUrl.replace(/\/$/, "");
