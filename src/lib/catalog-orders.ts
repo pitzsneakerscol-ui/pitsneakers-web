@@ -2,6 +2,7 @@ import "server-only";
 import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
 import { consumeCredit } from "@/lib/trivia";
+import { markOfferPaid } from "@/lib/buyer-offers";
 
 export type OrderStatus = "pendiente" | "pagado" | "rechazado" | "anulado" | "error";
 
@@ -112,7 +113,10 @@ export async function applyTransaction(tx: { reference: string; id: string; stat
     sql: "UPDATE catalog_orders SET status = ?, wompi_id = ?, payment_method = ?, paid_at = ? WHERE id = ? AND status != 'pagado'",
     args: [next, tx.id, tx.method ?? "", paying ? Date.now() : null, order.id],
   });
-  if (paying) await consumeCredit(order.creditCode, order.reference);
+  if (paying) {
+    await consumeCredit(order.creditCode, order.reference);
+    await markOfferPaid(order.reference);
+  }
   return { order: (await getOrderByRef(tx.reference))!, justPaid: paying };
 }
 

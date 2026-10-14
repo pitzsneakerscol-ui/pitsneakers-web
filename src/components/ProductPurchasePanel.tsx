@@ -7,6 +7,7 @@ import { groupPriceRange } from "@/lib/grouping";
 import { WhatsAppButtonLarge } from "@/components/WhatsAppButton";
 import ScarcityBadge from "@/components/ScarcityBadge";
 import CheckoutForm from "@/components/CheckoutForm";
+import OfferBox from "@/components/cuenta/OfferBox";
 import { shareLink } from "@/lib/native";
 
 interface Option {
@@ -201,6 +202,16 @@ export default function ProductPurchasePanel({
                 />
               </div>
             )}
+            <div className="mb-3">
+              <OfferBox
+                key={`of-${selected?.key ?? "unico"}`}
+                productId={(selected ? selected.variant : options[0].variant).id}
+                size={selected ? selected.size : options[0].size}
+                name={`${group.brand} ${group.name}`}
+                price={selected ? selected.price : options[0].price}
+                slug={group.groupSlug}
+              />
+            </div>
             <WhatsAppButtonLarge
               product={selected ? selected.variant : options[0].variant}
               size={selected ? selected.size : undefined}

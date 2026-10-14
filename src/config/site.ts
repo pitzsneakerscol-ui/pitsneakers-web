@@ -27,6 +27,13 @@ export const siteConfig = {
     fixed: 900,
     iva: 19,
   },
+  // Ofertas de compradores: precio mínimo (% del precio), horas que tienes para responder y horas para pagar una oferta aceptada.
+  offers: {
+    minPercent: 70,
+    replyHours: 72,
+    payHours: 24,
+    maxActive: 5,
+  },
   commission: {
     percent: 10,
     minimum: 50000,

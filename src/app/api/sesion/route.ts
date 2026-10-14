@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/auth";
 import { isDbConfigured } from "@/lib/db";
+import { getBuyer } from "@/lib/buyers";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ export async function GET() {
   const headers = { "Cache-Control": "no-store" };
   if (!isDbConfigured()) return Response.json({ in: false }, { headers });
   const user = await getCurrentUser();
-  if (!user) return Response.json({ in: false }, { headers });
+  if (!user) {
+    const buyer = await getBuyer();
+    return Response.json(buyer ? { in: false, buyer: { name: buyer.name || buyer.email } } : { in: false }, { headers });
+  }
   return Response.json({ in: true, name: user.displayName || user.username, admin: user.isAdmin }, { headers });
 }

@@ -10,6 +10,7 @@ import MobileTabBar from "@/components/MobileTabBar";
 import ChromeGate from "@/components/ChromeGate";
 import ScrollProgress from "@/components/ScrollProgress";
 import NativeBridge from "@/components/NativeBridge";
+import FavSync from "@/components/cuenta/FavSync";
 import { siteConfig } from "@/config/site";
 import { isDbConfigured } from "@/lib/db";
 
@@ -80,6 +81,7 @@ export default async function RootLayout({
         </ChromeGate>
         <main className="flex-1">{children}</main>
         <NativeBridge />
+        <FavSync />
         <ChromeGate locked={locked}>
         <Footer />
         <FloatingSearchButton />

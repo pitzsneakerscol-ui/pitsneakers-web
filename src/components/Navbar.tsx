@@ -10,6 +10,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 interface Session {
   name: string;
   admin: boolean;
+  /** comprador con cuenta (no revendedor) */
+  buyer?: boolean;
 }
 
 function UserIcon() {
@@ -55,6 +57,8 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (alive && d?.in) setSession({ name: String(d.name ?? ""), admin: Boolean(d.admin) });
+        else if (alive && d?.buyer) setSession({ name: String(d.buyer.name ?? ""), admin: false, buyer: true });
+        else if (alive) setSession(null);
       })
       .catch(() => {});
     return () => {
@@ -62,8 +66,8 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
     };
   }, [resellerEnabled, pathname]);
 
-  const accountHref = session ? (session.admin ? "/admin" : "/revendedores/panel") : "/revendedores/ingresar";
-  const accountLabel = session ? "Mi panel" : "Ingresar";
+  const accountHref = session ? (session.admin ? "/admin" : session.buyer ? "/cuenta" : "/revendedores/panel") : "/cuenta/ingresar";
+  const accountLabel = session ? (session.buyer ? "Mi cuenta" : "Mi panel") : "Ingresar";
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -111,7 +115,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
               href={accountHref}
               onClick={() => setOpen(false)}
               className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/10 sm:px-4 sm:text-xs"
-              title={session ? `Sesión de ${session.name}` : "Inicio de sesión para revendedores"}
+              title={session ? `Sesión de ${session.name}` : "Ingresar o crear tu cuenta"}
             >
               <UserIcon />
               {accountLabel}
@@ -197,7 +201,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
             >
               <UserIcon />
-              {session ? `Mi panel · ${session.name}` : "Iniciar sesión (revendedores)"}
+              {session ? `${session.buyer ? "Mi cuenta" : "Mi panel"} · ${session.name}` : "Ingresar o crear cuenta"}
             </Link>
           )}
           <a

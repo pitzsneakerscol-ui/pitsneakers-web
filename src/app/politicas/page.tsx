@@ -104,6 +104,21 @@ const sections: Section[] = [
     ),
   },
   {
+    id: "cuentas",
+    title: "Cuentas, ofertas y colección",
+    body: (
+      <>
+        <UL>
+          <li>Puedes crear una cuenta con tu correo y contraseña o con Google. Con ella guardas tu lista de deseos, ves los pares que has comprado en Pitsneakers y haces ofertas.</li>
+          <li>Para hacer ofertas y ver tus compras anteriores debes <B>confirmar tu correo</B>. Eres responsable de mantener tu contraseña en reserva.</li>
+          <li>Una <B>oferta</B> es una propuesta de precio por un par publicado: no obliga a Pitsneakers a vender. Si la aceptamos, tienes <B>{siteConfig.offers.payHours} horas</B> para pagarla en línea; vencido ese plazo, el par puede venderse a otra persona. Una oferta aceptada y pagada es una compra y se rige por las reglas de compras y devoluciones.</li>
+          <li>El <B>valor aproximado de tu colección</B> es solo una estimación basada en el precio al que Pitsneakers vende hoy ese modelo o en su última venta. No es una tasación ni una oferta de recompra.</li>
+          <li>Puedes pedir que eliminemos tu cuenta escribiéndonos al correo de contacto.</li>
+        </UL>
+      </>
+    ),
+  },
+  {
     id: "vendedores",
     title: "Vendedores y consignación",
     body: (
@@ -131,6 +146,7 @@ const sections: Section[] = [
         <UL>
           <li>Al comprar: nombre, correo, celular, ciudad y dirección de entrega.</li>
           <li>Al inscribirte en la lista de espera, la subasta o la trivia: tu correo y el pase que se te asigna.</li>
+          <li>Si creas una cuenta: nombre, correo, celular y ciudad, tu lista de deseos, tus ofertas y los pares que agregues a tu colección. Si entras con Google, recibimos tu nombre y correo.</li>
           <li>Si eres revendedor: usuario, nombre, correo, WhatsApp y la información de tu inventario y ventas.</li>
         </UL>
         <P><B>Para qué los usamos</B></P>
@@ -140,7 +156,7 @@ const sections: Section[] = [
           <li>Administrar las cuentas de revendedores y las ventas que intermediamos.</li>
           <li>Cumplir obligaciones legales y prevenir fraudes.</li>
         </UL>
-        <P><B>Con quién los compartimos.</B> Solo con proveedores que nos ayudan a operar: Wompi (pagos), Resend (envío de correos), Vercel y Turso (alojamiento y bases de datos), transportadoras (para entregar tu pedido) y WhatsApp (comunicación). Estos proveedores pueden almacenar datos en servidores fuera de Colombia. No vendemos tus datos.</P>
+        <P><B>Con quién los compartimos.</B> Solo con proveedores que nos ayudan a operar: Wompi (pagos), Google (ingreso con Google, si lo usas), Resend (envío de correos), Vercel y Turso (alojamiento y bases de datos), transportadoras (para entregar tu pedido) y WhatsApp (comunicación). Estos proveedores pueden almacenar datos en servidores fuera de Colombia. No vendemos tus datos.</P>
         <P><B>Tus derechos como titular</B></P>
         <UL>
           <li>Conocer, actualizar y rectificar tus datos.</li>

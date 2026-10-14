@@ -284,6 +284,69 @@ const SCHEMA = [
     waitlist_id INTEGER NOT NULL,
     expires_at INTEGER NOT NULL
   )`,
+  // Cuentas de compradores (distintas de las de revendedores).
+  `CREATE TABLE IF NOT EXISTS buyers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+    name TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    city TEXT NOT NULL DEFAULT '',
+    password_hash TEXT NOT NULL DEFAULT '',
+    google_sub TEXT NOT NULL DEFAULT '',
+    verified INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL,
+    last_login INTEGER
+  )`,
+  `CREATE TABLE IF NOT EXISTS buyer_sessions (
+    token_hash TEXT PRIMARY KEY,
+    buyer_id INTEGER NOT NULL,
+    expires_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_buyer_sessions ON buyer_sessions(buyer_id)`,
+  `CREATE TABLE IF NOT EXISTS buyer_tokens (
+    token_hash TEXT PRIMARY KEY,
+    buyer_id INTEGER NOT NULL,
+    kind TEXT NOT NULL,
+    expires_at INTEGER NOT NULL,
+    used_at INTEGER
+  )`,
+  `CREATE TABLE IF NOT EXISTS buyer_favorites (
+    buyer_id INTEGER NOT NULL,
+    slug TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    PRIMARY KEY (buyer_id, slug)
+  )`,
+  `CREATE TABLE IF NOT EXISTS buyer_collection (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    buyer_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    brand TEXT NOT NULL DEFAULT '',
+    size TEXT NOT NULL DEFAULT '',
+    paid INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_buyer_collection ON buyer_collection(buyer_id)`,
+  `CREATE TABLE IF NOT EXISTS buyer_offers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    buyer_id INTEGER NOT NULL,
+    product_id TEXT NOT NULL,
+    product_name TEXT NOT NULL,
+    brand TEXT NOT NULL DEFAULT '',
+    size TEXT NOT NULL DEFAULT '',
+    image TEXT NOT NULL DEFAULT '',
+    list_price INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pendiente',
+    counter_amount INTEGER NOT NULL DEFAULT 0,
+    response_note TEXT NOT NULL DEFAULT '',
+    agreed_amount INTEGER NOT NULL DEFAULT 0,
+    order_ref TEXT NOT NULL DEFAULT '',
+    expires_at INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    responded_at INTEGER
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_buyer_offers ON buyer_offers(buyer_id, status)`,
+  `CREATE INDEX IF NOT EXISTS idx_buyer_offers_status ON buyer_offers(status, created_at)`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.
