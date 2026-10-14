@@ -17,7 +17,7 @@ const env = (name: string): string => (process.env[name] ?? "").trim().replace(/
 
 /** Solo el comienzo de cada llave (pub_test, test_integrity…), para diagnosticar errores sin mostrar nunca el secreto. */
 export function keyKinds(): { publica: string; integridad: string; eventos: string } {
-  const kind = (v: string) => (v.match(/^[a-z]+_[a-z]+(?:_[a-z]+)?/)?.[0] ?? (v ? "formato-desconocido" : "falta"));
+  const kind = (v: string) => (v.match(/^(?:pub|prv)_(?:test|prod)(?=_)|^(?:test|prod)_(?:integrity|events)(?=_)/)?.[0] ?? (v ? "formato-desconocido" : "falta"));
   return { publica: kind(env("WOMPI_PUBLIC_KEY")), integridad: kind(env("WOMPI_INTEGRITY_SECRET")), eventos: kind(env("WOMPI_EVENTS_SECRET")) };
 }
 
