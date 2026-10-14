@@ -1,20 +1,39 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { listAllItems } from "@/lib/admin";
-import { itemLabel, itemTotalCost, realizedProfit } from "@/lib/reseller-shared";
+import { listAllItems, listResellers } from "@/lib/admin";
+import { itemLabel, itemTotalCost, realizedProfit, todayBogota } from "@/lib/reseller-shared";
 import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import Kpi from "@/components/admin/Kpi";
+import SalesGrid from "@/components/admin/SalesGrid";
+import { undoSale } from "@/app/admin/ventas/actions";
+import type { GridReseller, GridStock } from "@/lib/sales-match";
 
 export const metadata: Metadata = { title: "Ventas de la red" };
 
 export default async function AdminSales({
   searchParams,
 }: {
-  searchParams: Promise<{ mes?: string }>;
+  searchParams: Promise<{ mes?: string; rev?: string }>;
 }) {
-  const { mes } = await searchParams;
-  const all = await listAllItems({ status: "vendido", limit: 1000 });
+  const { mes, rev } = await searchParams;
+  const [sold, resellers, active] = await Promise.all([
+    listAllItems({ status: "vendido", limit: 3000 }),
+    listResellers(),
+    listAllItems({ status: "activos", limit: 4000 }),
+  ]);
+  const revId = Number(rev) || 0;
+  const all = revId ? sold.filter((i) => i.ownerId === revId) : sold;
+  const gridResellers: GridReseller[] = resellers.filter((r) => !r.suspended).map((r) => ({ id: r.id, username: r.username, name: r.displayName || r.username }));
+  const gridStock: GridStock[] = active.map((i) => ({ id: i.id, userId: i.ownerId, label: itemLabel(i), size: i.size, expectedPrice: i.expectedPrice, cost: i.cost }));
+  // Resumen por revendedor (sobre todas las ventas).
+  const byReseller = new Map<number, { name: string; n: number; revenue: number; profit: number }>();
+  for (const i of sold) {
+    const cur = byReseller.get(i.ownerId) ?? { name: i.ownerName, n: 0, revenue: 0, profit: 0 };
+    cur.n++; cur.revenue += i.soldPrice ?? 0; cur.profit += realizedProfit(i) ?? 0;
+    byReseller.set(i.ownerId, cur);
+  }
+  const summary = [...byReseller.entries()].sort((a, b) => b[1].revenue - a[1].revenue);
   const months = [...new Set(all.map((i) => (i.soldDate ?? "").slice(0, 7)).filter(Boolean))].sort().reverse();
   const selected = mes && months.includes(mes) ? mes : "";
   const rows = selected ? all.filter((i) => (i.soldDate ?? "").startsWith(selected)) : all;
@@ -28,8 +47,24 @@ export default async function AdminSales({
     <div className="space-y-6">
       <header>
         <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Ventas de la red</h1>
-        <p className="mt-2 text-sm text-muted">Todo lo que han vendido tus revendedores.</p>
+        <p className="mt-2 text-sm text-muted">Registra ventas a nombre de tus revendedores y mira todo lo que han vendido.</p>
       </header>
+
+      <SalesGrid resellers={gridResellers} stock={gridStock} today={todayBogota()} />
+
+      {summary.length > 0 && (
+        <section className={`${cardCls} p-4 sm:p-6`}>
+          <h2 className="font-display text-2xl tracking-wide">Ventas por revendedor</h2>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
+            <Link href={mes ? `/admin/ventas?mes=${mes}` : "/admin/ventas"} className={`rounded-full px-4 py-2 ${!revId ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>Todos</Link>
+            {summary.map(([id, r]) => (
+              <Link key={id} href={`/admin/ventas?rev=${id}${mes ? `&mes=${mes}` : ""}`} className={`rounded-full px-4 py-2 ${revId === id ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>
+                {r.name} · {r.n} · {formatPrice(r.revenue)}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {all.length === 0 ? (
         <div className={`${cardCls} px-6 py-14 text-center`}>
@@ -38,9 +73,9 @@ export default async function AdminSales({
       ) : (
         <>
           <nav aria-label="Filtrar por mes" className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
-            <Link href="/admin/ventas" className={`rounded-full px-4 py-2 ${!selected ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>Todas</Link>
+            <Link href={revId ? `/admin/ventas?rev=${revId}` : "/admin/ventas"} className={`rounded-full px-4 py-2 ${!selected ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>Todas</Link>
             {months.map((m) => (
-              <Link key={m} href={`/admin/ventas?mes=${m}`} className={`rounded-full px-4 py-2 ${selected === m ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>{m}</Link>
+              <Link key={m} href={`/admin/ventas?mes=${m}${revId ? `&rev=${revId}` : ""}`} className={`rounded-full px-4 py-2 ${selected === m ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>{m}</Link>
             ))}
           </nav>
 
@@ -52,7 +87,7 @@ export default async function AdminSales({
           </div>
 
           <div className={`${cardCls} overflow-x-auto p-4 sm:p-6`}>
-            <table className="w-full min-w-[820px] text-left text-sm">
+            <table className="w-full min-w-[900px] text-left text-sm">
               <thead>
                 <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
                   <th className="py-2 pr-3 font-semibold">Fecha</th>
@@ -61,7 +96,8 @@ export default async function AdminSales({
                   <th className="px-3 py-2 text-right font-semibold">Costo</th>
                   <th className="px-3 py-2 text-right font-semibold">Vendido</th>
                   <th className="px-3 py-2 text-right font-semibold">Ganancia</th>
-                  <th className="py-2 pl-3 font-semibold">Canal</th>
+                  <th className="px-3 py-2 font-semibold">Canal</th>
+                  <th className="py-2 pl-3 font-semibold"><span className="sr-only">Deshacer</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -75,7 +111,13 @@ export default async function AdminSales({
                       <td className="px-3 py-2.5 text-right tabular-nums">{formatPrice(itemTotalCost(i))}</td>
                       <td className="px-3 py-2.5 text-right tabular-nums">{formatPrice(i.soldPrice ?? 0)}</td>
                       <td className={`px-3 py-2.5 text-right tabular-nums ${p !== null && p < 0 ? "text-accent" : "text-emerald-700"}`}>{p === null ? "—" : formatPrice(p)}</td>
-                      <td className="py-2.5 pl-3 text-muted">{i.soldChannel || "—"}</td>
+                      <td className="px-3 py-2.5 text-muted">{i.soldChannel || "—"}{i.buyer ? ` · ${i.buyer}` : ""}</td>
+                      <td className="py-2.5 pl-3 text-right">
+                        <form action={undoSale}>
+                          <input type="hidden" name="id" value={i.id} />
+                          <button type="submit" className="text-xs font-semibold uppercase tracking-wide text-muted underline underline-offset-4 hover:text-accent" title="Quita la venta (si venía del inventario, el par vuelve a su stock)">Deshacer</button>
+                        </form>
+                      </td>
                     </tr>
                   );
                 })}
