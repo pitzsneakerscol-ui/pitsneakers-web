@@ -70,11 +70,36 @@ function parseList(value: string): string[] {
     .filter(Boolean);
 }
 
+/** Tallas con cantidad opcional: "9x18,9.5x2,10" → tallas 9, 9.5 y 10; cantidades 18, 2 y 1. */
+function parseSizes(value: string): { sizes: string[]; counts: Record<string, number> } {
+  const sizes: string[] = [];
+  const counts: Record<string, number> = {};
+  for (const token of parseList(value)) {
+    const m = /^(.+?)\s*x\s*(\d+)$/i.exec(token);
+    const size = m ? m[1].trim() : token;
+    const qty = m ? Math.max(1, Number(m[2])) : 1;
+    if (!sizes.includes(size)) sizes.push(size);
+    counts[size] = (counts[size] ?? 0) + qty;
+  }
+  return { sizes, counts };
+}
+
 function parsePrice(value: string): number {
   return Number(value.replace(/[^\d]/g, "")) || 0;
 }
 
-export function rowsToProducts(rows: string[][]): Product[] {
+interface BuiltRow {
+  product: Product;
+  seller: string;
+  counts: Record<string, number>;
+}
+
+function sellerOf(raw: string): string {
+  return raw.trim().replace(/^@+/, "").replace(/\s+/g, " ").toLowerCase();
+}
+
+/** Todas las filas válidas del CSV (con nombre y marca), con su slug único, vendedor y cantidades por talla. */
+function buildRows(rows: string[][]): BuiltRow[] {
   if (rows.length < 2) return [];
 
   const headers = rows[0].map((h) => h.trim().toLowerCase());
@@ -102,6 +127,7 @@ export function rowsToProducts(rows: string[][]): Product[] {
         ? "usado"
         : "nuevo";
       const slugBase = slugify(`${brand}-${name}-${colorway}`);
+      const { sizes, counts } = parseSizes(getCell(cols, "tallas"));
 
       const precioAntes = getCell(cols, "precio_antes");
 
@@ -116,7 +142,7 @@ export function rowsToProducts(rows: string[][]): Product[] {
         price: parsePrice(getCell(cols, "precio")),
         priceBefore: precioAntes ? parsePrice(precioAntes) : undefined,
         promo: parseBoolean(getCell(cols, "promo")),
-        sizes: parseList(getCell(cols, "tallas")),
+        sizes,
         condition,
         description: getCell(cols, "descripcion"),
         images: parseList(getCell(cols, "fotos")),
@@ -126,17 +152,28 @@ export function rowsToProducts(rows: string[][]): Product[] {
         dateAdded: new Date(index * 60000).toISOString(),
       };
 
-      return product;
+      const built: BuiltRow = { product, seller: sellerOf(getCell(cols, "vendedor")), counts };
+      return built;
     })
-    .filter((p): p is Product => p !== null);
+    .filter((p): p is BuiltRow => p !== null);
 
   // Evita choques de URL si dos filas generan el mismo slug.
   const seen = new Map<string, number>();
-  return products.map((p) => {
-    const count = seen.get(p.slug) ?? 0;
-    seen.set(p.slug, count + 1);
-    return count === 0 ? p : { ...p, slug: `${p.slug}-${count + 1}` };
+  return products.map((b) => {
+    const count = seen.get(b.product.slug) ?? 0;
+    seen.set(b.product.slug, count + 1);
+    return count === 0 ? b : { ...b, product: { ...b.product, slug: `${b.product.slug}-${count + 1}` } };
   });
+}
+
+/**
+ * Catálogo público. Un par con vendedor que todavía no tiene foto no se publica (solo queda en el inventario de su vendedor);
+ * apenas se le agrega la foto en el CSV, aparece en el catálogo.
+ */
+export function rowsToProducts(rows: string[][]): Product[] {
+  return buildRows(rows)
+    .filter((b) => !(b.seller && b.product.images.length === 0))
+    .map((b) => b.product);
 }
 
 /**
@@ -151,6 +188,8 @@ export interface SellerAssignment {
   colorway: string;
   sku: string;
   sizes: string[];
+  /** unidades por talla cuando hay más de una (si falta una talla, es 1) */
+  counts?: Record<string, number>;
   price: number;
   condition: ProductCondition;
   image: string;
@@ -158,20 +197,10 @@ export interface SellerAssignment {
 
 /** Filas con VENDEDOR lleno (usuario del vendedor, con o sin @). El slug es el mismo que el del producto publicado. */
 export function rowsToAssignments(rows: string[][]): SellerAssignment[] {
-  if (rows.length < 2) return [];
-  const headers = rows[0].map((h) => h.trim().toLowerCase());
-  const col = headers.indexOf("vendedor");
-  if (col === -1) return [];
-  const products = rowsToProducts(rows);
-  // rowsToProducts descarta las filas sin nombre o marca: se recorre igual para que coincidan por posición.
-  const nameCol = headers.indexOf("nombre");
-  const brandCol = headers.indexOf("marca");
-  const valid = rows.slice(1).filter((cols) => (cols[nameCol] ?? "").trim() && (cols[brandCol] ?? "").trim());
   const out: SellerAssignment[] = [];
-  valid.forEach((cols, i) => {
-    const seller = (cols[col] ?? "").trim().replace(/^@+/, "").replace(/\s+/g, " ").toLowerCase();
-    const p = products[i];
-    if (!seller || !p) return;
+  for (const { product: p, seller, counts } of buildRows(rows)) {
+    if (!seller) continue;
+    const multi = Object.values(counts).some((n) => n > 1);
     out.push({
       seller,
       slug: p.slug,
@@ -180,11 +209,12 @@ export function rowsToAssignments(rows: string[][]): SellerAssignment[] {
       colorway: p.colorway ?? "",
       sku: typeof p.id === "string" && !/^d+$/.test(p.id) ? p.id : "",
       sizes: p.sizes,
+      ...(multi ? { counts } : {}),
       price: p.price,
       condition: p.condition,
       image: p.images[0] ?? "",
     });
-  });
+  }
   return out;
 }
 

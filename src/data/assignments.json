@@ -936,5 +936,1830 @@
     "price": 1499000,
     "condition": "nuevo",
     "image": "/products/AM1-04.1aee5411.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-mid-shattered-backboards",
+    "name": "Jordan 1 Mid Shattered Backboards",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-17",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-air-force-1-g-dragon-w-2",
+    "name": "Air Force 1 G-Dragon W",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-16",
+    "sizes": [
+      "7.5",
+      "8"
+    ],
+    "price": 2150000,
+    "condition": "nuevo",
+    "image": "/products/AF1-07.37ebd272.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-shattered-backboards",
+    "name": "Jordan 1 Low Shattered Backboards",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-18",
+    "sizes": [
+      "7",
+      "7.5",
+      "8"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-syracuse",
+    "name": "Dunk Syracuse",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-08",
+    "sizes": [
+      "12"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-cloud-white",
+    "name": "Yeezy 350 Cloud White",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-24",
+    "sizes": [
+      "9",
+      "9.5"
+    ],
+    "counts": {
+      "9": 18,
+      "9.5": 2
+    },
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-lundmark",
+    "name": "Yeezy 350 Lundmark",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-25",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-cinder",
+    "name": "Yeezy 350 Cinder",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-26",
+    "sizes": [
+      "6",
+      "6.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-cinder-2",
+    "name": "Yeezy 350 Cinder",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-27",
+    "sizes": [
+      "7.5",
+      "8.5",
+      "12"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-cinder-3",
+    "name": "Yeezy 350 Cinder",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-28",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1204000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-black",
+    "name": "Yeezy 350 Black",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-29",
+    "sizes": [
+      "6",
+      "7"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-black-2",
+    "name": "Yeezy 350 Black",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-30",
+    "sizes": [
+      "6.5",
+      "8"
+    ],
+    "price": 1505000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-yecheil",
+    "name": "Yeezy 350 Yecheil",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-31",
+    "sizes": [
+      "9"
+    ],
+    "counts": {
+      "9": 2
+    },
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-zebra",
+    "name": "Yeezy 350 Zebra",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-32",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-zebra-2",
+    "name": "Yeezy 350 Zebra",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-33",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-zebra-3",
+    "name": "Yeezy 350 Zebra",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-34",
+    "sizes": [
+      "12.5"
+    ],
+    "counts": {
+      "12.5": 2
+    },
+    "price": 1419000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-bone-white-2",
+    "name": "Yeezy 500 Bone White",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-02",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": "/products/YZY500-01.81a8d6c9.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v3-alvah",
+    "name": "Yeezy 700 V3 Alvah",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700V3-02",
+    "sizes": [
+      "11"
+    ],
+    "price": 1505000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-high-guava-ice",
+    "name": "Jordan 1 High Guava Ice",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-19",
+    "sizes": [
+      "8"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-high-gym-red",
+    "name": "Jordan 1 High Gym Red",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-20",
+    "sizes": [
+      "8"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-i-5923",
+    "name": "I-5923",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-01",
+    "sizes": [
+      "7"
+    ],
+    "price": 200000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-sobakov",
+    "name": "Sobakov",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-02",
+    "sizes": [
+      "7"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-12-fiba",
+    "name": "Jordan 12 Fiba",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ12-01",
+    "sizes": [
+      "13"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-citrin",
+    "name": "Yeezy 350 Citrin",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-35",
+    "sizes": [
+      "8.5",
+      "11.5"
+    ],
+    "counts": {
+      "8.5": 4,
+      "11.5": 1
+    },
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-pharrell-williams-chanclas-pharrell-negras",
+    "name": "Chanclas Pharrell Negras",
+    "brand": "Adidas x Pharrell Williams",
+    "colorway": "",
+    "sku": "ADI-PW-01",
+    "sizes": [
+      "8"
+    ],
+    "price": 215000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-pharrell-williams-chanclas-pharrell-negras-2",
+    "name": "Chanclas Pharrell Negras",
+    "brand": "Adidas x Pharrell Williams",
+    "colorway": "",
+    "sku": "ADI-PW-02",
+    "sizes": [
+      "9"
+    ],
+    "price": 430000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-11-low-space-jam-2",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ11-02",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": "/products/AJ11-01.82cd35f1.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-11-low-space-jam-3",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ11-03",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": "/products/AJ11-01.82cd35f1.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-zyon",
+    "name": "Yeezy 350 Zyon",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-36",
+    "sizes": [
+      "5.5",
+      "11",
+      "11.5",
+      "12.5"
+    ],
+    "counts": {
+      "11": 2,
+      "5.5": 1,
+      "11.5": 1,
+      "12.5": 1
+    },
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-yeezreel",
+    "name": "Yeezy 350 Yeezreel",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-37",
+    "sizes": [
+      "5.5",
+      "12"
+    ],
+    "counts": {
+      "12": 1,
+      "5.5": 2
+    },
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-tie-dye",
+    "name": "Jordan 1 Tie Dye",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-21",
+    "sizes": [
+      "7W",
+      "7.5W"
+    ],
+    "counts": {
+      "7W": 1,
+      "7.5W": 2
+    },
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-royal-toe",
+    "name": "Jordan 1 Royal Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-22",
+    "sizes": [
+      "7",
+      "9.5",
+      "10",
+      "11"
+    ],
+    "counts": {
+      "7": 2,
+      "10": 3,
+      "11": 2,
+      "9.5": 2
+    },
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-carbon",
+    "name": "Yeezy 350 Carbon",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-38",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-mid-bred-toe",
+    "name": "Jordan 1 Mid Bred Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-23",
+    "sizes": [
+      "7"
+    ],
+    "counts": {
+      "7": 2
+    },
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-mid-multicolor",
+    "name": "Jordan 1 Mid Multicolor",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-24",
+    "sizes": [
+      "7.5W",
+      "8W",
+      "8.5W"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-court-purple",
+    "name": "Jordan 1 Court Purple",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-25",
+    "sizes": [
+      "7.5",
+      "12"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-low-community",
+    "name": "Dunk Low Community",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-09",
+    "sizes": [
+      "8"
+    ],
+    "price": 946000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-low-community-2",
+    "name": "Dunk Low Community",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-10",
+    "sizes": [
+      "10"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-utility-black",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-03",
+    "sizes": [
+      "6",
+      "6.5",
+      "7"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-utility-black-2",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-04",
+    "sizes": [
+      "8",
+      "8.5"
+    ],
+    "counts": {
+      "8": 2,
+      "8.5": 1
+    },
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-utility-black-3",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-05",
+    "sizes": [
+      "12.5"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-bred-2",
+    "name": "Yeezy 350 Bred",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-39",
+    "sizes": [
+      "7",
+      "8",
+      "8.5"
+    ],
+    "counts": {
+      "7": 1,
+      "8": 3,
+      "8.5": 1
+    },
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-20.5a373546.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-balvin",
+    "name": "Jordan 1 Balvin",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-26",
+    "sizes": [
+      "7"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-balvin-2",
+    "name": "Jordan 1 Balvin",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-27",
+    "sizes": [
+      "8"
+    ],
+    "price": 1204000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-natural",
+    "name": "Yeezy 350 Natural",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-40",
+    "sizes": [
+      "7"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-mid-white-red",
+    "name": "Jordan 1 Mid White Red",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-28",
+    "sizes": [
+      "8W"
+    ],
+    "counts": {
+      "8W": 2
+    },
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-ash-blue",
+    "name": "Yeezy 350 Ash Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-41",
+    "sizes": [
+      "5.5",
+      "6"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-ash-blue-2",
+    "name": "Yeezy 350 Ash Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-42",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-orange-pearl",
+    "name": "Dunk Orange Pearl",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-11",
+    "sizes": [
+      "8W"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-zoom-psg",
+    "name": "Jordan 1 Zoom PSG",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-29",
+    "sizes": [
+      "8"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "asics-gel-lyte-3-og",
+    "name": "Gel Lyte 3 OG",
+    "brand": "Asics",
+    "colorway": "",
+    "sku": "ASICS-15",
+    "sizes": [
+      "8"
+    ],
+    "price": 645000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-ash-pearl",
+    "name": "Yeezy 350 Ash Pearl",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-43",
+    "sizes": [
+      "6"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-bright-blue",
+    "name": "Yeezy 700 Bright Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-09",
+    "sizes": [
+      "11.5"
+    ],
+    "price": 1204000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-bright-blue-2",
+    "name": "Yeezy 700 Bright Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-10",
+    "sizes": [
+      "12.5"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-enflame",
+    "name": "Yeezy 500 Enflame",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-06",
+    "sizes": [
+      "8"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-university-blue",
+    "name": "Jordan 1 University Blue",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-30",
+    "sizes": [
+      "8.5",
+      "9.5"
+    ],
+    "counts": {
+      "8.5": 1,
+      "9.5": 4
+    },
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-university-blue-2",
+    "name": "Jordan 1 University Blue",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-31",
+    "sizes": [
+      "11"
+    ],
+    "counts": {
+      "11": 2
+    },
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-shadow-2-0",
+    "name": "Jordan 1 Shadow 2.0",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-32",
+    "sizes": [
+      "7",
+      "7.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-hyper-royal",
+    "name": "Jordan 1 Hyper Royal",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-33",
+    "sizes": [
+      "7"
+    ],
+    "counts": {
+      "7": 3
+    },
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-taupe-light",
+    "name": "Yeezy 500 Taupe Light",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-07",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-mnvn-bright-cyan",
+    "name": "Yeezy 700 MNVN Bright Cyan",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-11",
+    "sizes": [
+      "8"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-cream",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-12",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-cream-2",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-13",
+    "sizes": [
+      "8"
+    ],
+    "price": 1032000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-cream-3",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-14",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1204000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-kobe-grinch-2",
+    "name": "Kobe Grinch",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "KOBE-04",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 3760000,
+    "condition": "nuevo",
+    "image": "/products/KOBE-03.fff01bc8.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-black-white",
+    "name": "Jordan 1 Low Black White",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-34",
+    "sizes": [
+      "8W"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-low-cheetah",
+    "name": "Dunk Low Cheetah",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-12",
+    "sizes": [
+      "7"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-high-pollen",
+    "name": "Jordan 1 High Pollen",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-35",
+    "sizes": [
+      "7"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-light",
+    "name": "Yeezy 350 Light",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-44",
+    "sizes": [
+      "12.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-pure",
+    "name": "Yeezy Slide Pure",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-27",
+    "sizes": [
+      "5"
+    ],
+    "price": 774000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-pure-2",
+    "name": "Yeezy Slide Pure",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-28",
+    "sizes": [
+      "8"
+    ],
+    "price": 774000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-og-starfish",
+    "name": "Jordan 1 Low OG Starfish",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-36",
+    "sizes": [
+      "7",
+      "10",
+      "12"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-mauve",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-15",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-mauve-2",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-16",
+    "sizes": [
+      "8"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-mauve-3",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-17",
+    "sizes": [
+      "8.5",
+      "12.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-og-white-grey",
+    "name": "Jordan 1 Low OG White Grey",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-37",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-halloween-2021-2",
+    "name": "Dunk Halloween 2021",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-13",
+    "sizes": [
+      "7.5",
+      "8"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-02.0bb2feda.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "saucony-food-fight",
+    "name": "Food Fight",
+    "brand": "Saucony",
+    "colorway": "",
+    "sku": "SAUCONY-01",
+    "sizes": [
+      "8"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-court-purple",
+    "name": "Jordan 1 Low Court Purple",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-38",
+    "sizes": [
+      "8"
+    ],
+    "price": 1505000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-500-clay-brown",
+    "name": "Yeezy 500 Clay Brown",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY500-08",
+    "sizes": [
+      "8"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-beluga-rf",
+    "name": "Yeezy 350 Beluga RF",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-45",
+    "sizes": [
+      "13"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-patent-bred-gs",
+    "name": "Jordan 1 Patent Bred GS",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-39",
+    "sizes": [
+      "5Y"
+    ],
+    "price": 774000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-patent-bred-gs-2",
+    "name": "Jordan 1 Patent Bred GS",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-40",
+    "sizes": [
+      "6.5Y",
+      "7Y"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-patent-bred",
+    "name": "Jordan 1 Patent Bred",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-41",
+    "sizes": [
+      "7",
+      "7.5",
+      "9.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "counts": {
+      "7": 2,
+      "10": 1,
+      "11": 2,
+      "7.5": 2,
+      "9.5": 2,
+      "10.5": 1
+    },
+    "price": 1200000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-dark-teal",
+    "name": "Jordan 1 Low Dark Teal",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-42",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-dazzling-blue-2",
+    "name": "Yeezy 350 Dazzling Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-46",
+    "sizes": [
+      "6",
+      "7.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-22.cb12894d.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-dazzling-blue-3",
+    "name": "Yeezy 350 Dazzling Blue",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-47",
+    "sizes": [
+      "12"
+    ],
+    "price": 1505000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-22.cb12894d.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-static",
+    "name": "Yeezy 700 V2 Static",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-18",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1161000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-v2-static-2",
+    "name": "Yeezy 700 V2 Static",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-19",
+    "sizes": [
+      "11.5"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-onyx-3",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-29",
+    "sizes": [
+      "6",
+      "7",
+      "10"
+    ],
+    "price": 645000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-05.c280347b.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-onyx-4",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-30",
+    "sizes": [
+      "12"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-05.c280347b.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-forum-m-m",
+    "name": "Forum M&M",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-03",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-700-wave-runner",
+    "name": "Yeezy 700 Wave Runner",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-20",
+    "sizes": [
+      "8"
+    ],
+    "price": 1720000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "new-balance-new-balance-bodega-990-v5",
+    "name": "New Balance Bodega 990 V5",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-12",
+    "sizes": [
+      "7"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "new-balance-new-balance-aime-leon-dore-990-v3",
+    "name": "New Balance Aime Leon Dore 990 V3",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-13",
+    "sizes": [
+      "7"
+    ],
+    "price": 1720000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "new-balance-new-balance-550-aime-leon-dore",
+    "name": "New Balance 550 Aime Leon Dore",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-14",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "new-balance-new-balance-550-unc",
+    "name": "New Balance 550 UNC",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-15",
+    "sizes": [
+      "7"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-south-park-towelie-2",
+    "name": "South Park Towelie",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-04",
+    "sizes": [
+      "8"
+    ],
+    "price": 860000,
+    "condition": "nuevo",
+    "image": "/products/SOUTHPARK-01.7841df34.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-3-pine-green",
+    "name": "Jordan 3 Pine Green",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ3-07",
+    "sizes": [
+      "12"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-4-red-thunder",
+    "name": "Jordan 4 Red Thunder",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-22",
+    "sizes": [
+      "13"
+    ],
+    "price": 1505000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-sb-blue-fury",
+    "name": "Dunk SB Blue Fury",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-45",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-white",
+    "name": "Forum Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-38",
+    "sizes": [
+      "7.5",
+      "11"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-white-2",
+    "name": "Forum Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-39",
+    "sizes": [
+      "8",
+      "10"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-380-mist",
+    "name": "Yeezy 380 Mist",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY380-01",
+    "sizes": [
+      "8"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-sb-setsubun-2",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-14",
+    "sizes": [
+      "7",
+      "7.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-07.cceb2d9a.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-bad-bunny-campus-bad-bunny-cream",
+    "name": "Campus Bad Bunny Cream",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-40",
+    "sizes": [
+      "11.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-sb-gardenia",
+    "name": "Dunk SB Gardenia",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-46",
+    "sizes": [
+      "12"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-carbon-beluga-2",
+    "name": "Yeezy 350 Carbon Beluga",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-48",
+    "sizes": [
+      "8",
+      "11"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-04.0d8f1d5a.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-onyx-5",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-49",
+    "sizes": [
+      "10"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-09.9aa7670b.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-onyx-6",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-50",
+    "sizes": [
+      "11"
+    ],
+    "price": 1075000,
+    "condition": "nuevo",
+    "image": "/products/YZY350-09.9aa7670b.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-azure-6",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-31",
+    "sizes": [
+      "8"
+    ],
+    "price": 430000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-01.7141ed31.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-low-orange-paisley",
+    "name": "Dunk Low Orange Paisley",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-15",
+    "sizes": [
+      "12W"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-slate-marine-2",
+    "name": "Yeezy Slide Slate Marine",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-32",
+    "sizes": [
+      "6",
+      "8"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-11.4883ab24.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-slide-granite-3",
+    "name": "Yeezy Slide Granite",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-33",
+    "sizes": [
+      "12"
+    ],
+    "price": 645000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-16.9ebe84d0.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-low-usc",
+    "name": "Dunk Low USC",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-16",
+    "sizes": [
+      "8"
+    ],
+    "price": 500000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-bad-bunny-response-bad-bunny-white",
+    "name": "Response Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-41",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-350-hyperspace",
+    "name": "Yeezy 350 Hyperspace",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-51",
+    "sizes": [
+      "8"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-royal-toe-2",
+    "name": "Jordan 1 Royal Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-43",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-4-yellow-thunder-2",
+    "name": "Jordan 4 Yellow Thunder",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-23",
+    "sizes": [
+      "8"
+    ],
+    "price": 1290000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-19.e1d7a079.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-sb-be-true",
+    "name": "Dunk SB Be True",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-47",
+    "sizes": [
+      "8"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-yeezy-foam-runner-desert-sand-kids",
+    "name": "Yeezy Foam Runner Desert Sand Kids",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-FOAM-20",
+    "sizes": [
+      "2Y"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "nike-dunk-sb-powerpuff-girls-blue",
+    "name": "Dunk SB Powerpuff Girls Blue",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-48",
+    "sizes": [
+      "8"
+    ],
+    "price": 1300000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "jordan-jordan-1-low-travis-scott-medium-olive",
+    "name": "Jordan 1 Low Travis Scott Medium Olive",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-44",
+    "sizes": [
+      "8"
+    ],
+    "price": 2700000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]

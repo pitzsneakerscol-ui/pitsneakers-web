@@ -7730,5 +7730,418 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:13:00.000Z"
+  },
+  {
+    "id": "AF1-16",
+    "slug": "nike-air-force-1-g-dragon-w-2",
+    "name": "Air Force 1 G-Dragon W",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 2150000,
+    "promo": false,
+    "sizes": [
+      "7.5",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo AQ3692-001. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-07.37ebd272.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:15:00.000Z"
+  },
+  {
+    "id": "YZY500-02",
+    "slug": "adidas-yeezy-500-bone-white-2",
+    "name": "Yeezy 500 Bone White",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FV3573. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-01.81a8d6c9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:29:00.000Z"
+  },
+  {
+    "id": "AJ11-02",
+    "slug": "jordan-jordan-11-low-space-jam-2",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 919712-041. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ11-01.82cd35f1.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:39:00.000Z"
+  },
+  {
+    "id": "AJ11-03",
+    "slug": "jordan-jordan-11-low-space-jam-3",
+    "name": "Jordan 11 Low Space Jam",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 919712-041. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ11-01.82cd35f1.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:40:00.000Z"
+  },
+  {
+    "id": "YZY350-39",
+    "slug": "adidas-yeezy-350-bred-2",
+    "name": "Yeezy 350 Bred",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "8",
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CP9652. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-20.5a373546.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:54:00.000Z"
+  },
+  {
+    "id": "KOBE-04",
+    "slug": "nike-kobe-grinch-2",
+    "name": "Kobe Grinch",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 3760000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CW2190-300. Comisión incluida en el precio.",
+    "images": [
+      "/products/KOBE-03.fff01bc8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:17:00.000Z"
+  },
+  {
+    "id": "DUNK-13",
+    "slug": "nike-dunk-halloween-2021-2",
+    "name": "Dunk Halloween 2021",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7.5",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DD3357-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-02.0bb2feda.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:29:00.000Z"
+  },
+  {
+    "id": "YZY350-46",
+    "slug": "adidas-yeezy-350-dazzling-blue-2",
+    "name": "Yeezy 350 Dazzling Blue",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6",
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY7164. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-22.cb12894d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:38:00.000Z"
+  },
+  {
+    "id": "YZY350-47",
+    "slug": "adidas-yeezy-350-dazzling-blue-3",
+    "name": "Yeezy 350 Dazzling Blue",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1505000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY7164. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-22.cb12894d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:39:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-29",
+    "slug": "adidas-yeezy-slide-onyx-3",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 645000,
+    "promo": false,
+    "sizes": [
+      "6",
+      "7",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ6448. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-05.c280347b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:42:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-30",
+    "slug": "adidas-yeezy-slide-onyx-4",
+    "name": "Yeezy Slide Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ6448. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-05.c280347b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:43:00.000Z"
+  },
+  {
+    "id": "ADIDAS-04",
+    "slug": "adidas-south-park-towelie-2",
+    "name": "South Park Towelie",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ9177. Comisión incluida en el precio.",
+    "images": [
+      "/products/SOUTHPARK-01.7841df34.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:50:00.000Z"
+  },
+  {
+    "id": "DUNK-14",
+    "slug": "nike-dunk-sb-setsubun-2",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "7.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DQ5009-268. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-07.cceb2d9a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:57:00.000Z"
+  },
+  {
+    "id": "YZY350-48",
+    "slug": "adidas-yeezy-350-carbon-beluga-2",
+    "name": "Yeezy 350 Carbon Beluga",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "8",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ7045. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-04.0d8f1d5a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:00:00.000Z"
+  },
+  {
+    "id": "YZY350-49",
+    "slug": "adidas-yeezy-350-onyx-5",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ4540. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-09.9aa7670b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:01:00.000Z"
+  },
+  {
+    "id": "YZY350-50",
+    "slug": "adidas-yeezy-350-onyx-6",
+    "name": "Yeezy 350 Onyx",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ4540. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-09.9aa7670b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:02:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-31",
+    "slug": "adidas-yeezy-slide-azure-6",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 430000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo ID4133. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-01.7141ed31.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:03:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-32",
+    "slug": "adidas-yeezy-slide-slate-marine-2",
+    "name": "Yeezy Slide Slate Marine",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "6",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo ID2349. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-11.4883ab24.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:05:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-33",
+    "slug": "adidas-yeezy-slide-granite-3",
+    "name": "Yeezy Slide Granite",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 645000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo ID4132. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-16.9ebe84d0.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:06:00.000Z"
+  },
+  {
+    "id": "AJ4-23",
+    "slug": "jordan-jordan-4-yellow-thunder-2",
+    "name": "Jordan 4 Yellow Thunder",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DH6927-017. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-19.e1d7a079.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:11:00.000Z"
   }
 ]
