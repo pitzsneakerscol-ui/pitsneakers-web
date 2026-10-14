@@ -12,6 +12,7 @@ const MailIcon = svg(<><rect x="3" y="5.5" width="18" height="13" rx="2" /><path
 const DocIcon = svg(<><path d="M6 3.5h8l4 4V20.5H6V3.5Z" /><path d="M14 3.5v4h4M9 12h6M9 15.5h6" /></>);
 const GiftIcon = svg(<><rect x="3.5" y="8.5" width="17" height="4" rx="1" /><path d="M5 12.5v7h14v-7M12 8.5v11M12 8.5c-2.5 0-4.5-.8-4.5-2.5S10 4 12 8.5c2-4.5 4.5-3.2 4.5-1.5s-2 2.5-4.5 2.5Z" /></>);
 const GavelIcon = svg(<><path d="m13.5 4.5 6 6M10 8l6 6M6.5 11.5l6 6" /><path d="m9 6.5 3-3 6 6-3 3M4 20.5h9M5.5 13l-2 2 5.5 5.5 2-2" /></>);
+const PlayIcon = svg(<><circle cx="12" cy="12" r="8.5" /><path d="m10 8.5 5.5 3.5-5.5 3.5v-7Z" /></>);
 const ReceiptIcon = svg(<><path d="M5 3.5h14v17l-2.3-1.6-2.3 1.6-2.4-1.6-2.4 1.6-2.3-1.6L5 20.5v-17Z" /><path d="M8.5 8.5h7M8.5 12h7" /></>);
 
 interface Item {
@@ -34,6 +35,7 @@ const MORE: Item[] = [
   { href: "/admin/compradores", label: "Compradores", Icon: UsersIcon },
   { href: "/admin/lista-espera", label: "Lista de espera", Icon: GiftIcon },
   { href: "/admin/subasta", label: "Subasta", Icon: GavelIcon },
+  { href: "/admin/trivia", label: "Trivia", Icon: PlayIcon },
   { href: "/admin/correos", label: "Correos", Icon: MailIcon },
   { href: "/admin/plantillas", label: "Plantillas", Icon: DocIcon },
 ];
@@ -50,6 +52,7 @@ const TITLES: Record<string, string> = {
   compradores: "Compradores",
   "lista-espera": "Lista de espera",
   subasta: "Subasta",
+  trivia: "Trivia en vivo",
   correos: "Correos",
   plantillas: "Plantillas",
 };

@@ -91,6 +91,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   {o.buyerName} · {o.buyerCity} · <a className="underline" href={`mailto:${o.buyerEmail}`}>{o.buyerEmail}</a> ·{" "}
                   <a className="underline" target="_blank" rel="noreferrer" href={`https://wa.me/57${o.buyerPhone.replace(/\D/g, "").slice(-10)}`}>{o.buyerPhone}</a>
                   {o.paymentMethod ? <span className="text-muted"> · {o.paymentMethod}</span> : null}
+                  {o.discount > 0 ? <span className="text-muted"> · crédito {formatPrice(o.discount)} ({o.creditCode})</span> : null}
                 </p>
               </li>
             );

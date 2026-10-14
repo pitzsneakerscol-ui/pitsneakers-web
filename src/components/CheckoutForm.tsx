@@ -48,6 +48,11 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
         <label htmlFor="co-city" className={labelCls}>Ciudad de entrega</label>
         <input id="co-city" name="city" required autoComplete="address-level2" maxLength={60} className={inputCls} />
       </div>
+      <div>
+        <label htmlFor="co-credit" className={labelCls}>Código de crédito (opcional)</label>
+        <input id="co-credit" name="credit" autoComplete="off" autoCapitalize="characters" maxLength={20} placeholder="CRED-XXXXXXX" className={`${inputCls} font-mono tracking-wider`} />
+        <p className="mt-1 text-[11px] text-muted">Si ganaste en la trivia, escribe tu código con el mismo correo con el que juegas.</p>
+      </div>
       {/* Campo trampa para bots: las personas no lo ven. */}
       <div className="hidden" aria-hidden="true">
         <input name="website" tabIndex={-1} autoComplete="off" />

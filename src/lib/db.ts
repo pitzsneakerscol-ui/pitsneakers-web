@@ -224,6 +224,52 @@ const SCHEMA = [
     paid_at INTEGER
   )`,
   `CREATE INDEX IF NOT EXISTS idx_catalog_orders ON catalog_orders(status, created_at)`,
+  `CREATE TABLE IF NOT EXISTS trivia_games (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    starts_at INTEGER NOT NULL,
+    seconds INTEGER NOT NULL DEFAULT 15,
+    gap INTEGER NOT NULL DEFAULT 6,
+    prize INTEGER NOT NULL DEFAULT 10000,
+    max_winners INTEGER NOT NULL DEFAULT 10,
+    min_correct INTEGER NOT NULL DEFAULT 0,
+    published INTEGER NOT NULL DEFAULT 0,
+    finalized INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS trivia_questions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_id INTEGER NOT NULL,
+    position INTEGER NOT NULL DEFAULT 0,
+    text TEXT NOT NULL,
+    options TEXT NOT NULL,
+    correct INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_trivia_questions ON trivia_questions(game_id, position)`,
+  `CREATE TABLE IF NOT EXISTS trivia_answers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
+    waitlist_id INTEGER NOT NULL,
+    choice INTEGER NOT NULL,
+    correct INTEGER NOT NULL,
+    ms INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    UNIQUE(question_id, waitlist_id)
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_trivia_answers ON trivia_answers(game_id, waitlist_id)`,
+  `CREATE TABLE IF NOT EXISTS credit_codes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    amount INTEGER NOT NULL,
+    waitlist_id INTEGER NOT NULL,
+    game_id INTEGER NOT NULL DEFAULT 0,
+    reserved_ref TEXT NOT NULL DEFAULT '',
+    reserved_at INTEGER,
+    used_ref TEXT NOT NULL DEFAULT '',
+    used_at INTEGER,
+    created_at INTEGER NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS bidder_sessions (
     token_hash TEXT PRIMARY KEY,
     waitlist_id INTEGER NOT NULL,
@@ -233,7 +279,14 @@ const SCHEMA = [
 
 // Columnas agregadas después de la primera versión de cada tabla.
 const ADDED_COLUMNS: Record<string, [string, string][]> = {
-  waitlist: [["announced", "INTEGER NOT NULL DEFAULT 0"]],
+  waitlist: [
+    ["announced", "INTEGER NOT NULL DEFAULT 0"],
+    ["trivia_announced", "INTEGER NOT NULL DEFAULT 0"],
+  ],
+  catalog_orders: [
+    ["credit_code", "TEXT NOT NULL DEFAULT ''"],
+    ["discount", "INTEGER NOT NULL DEFAULT 0"],
+  ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],
     ["role", "TEXT NOT NULL DEFAULT 'revendedor'"],

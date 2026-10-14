@@ -7,6 +7,7 @@ import { createOrder } from "@/lib/catalog-orders";
 import { getAllProducts } from "@/lib/products";
 import { isEmail } from "@/lib/reseller-shared";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
+import { checkCredit, reserveCredit } from "@/lib/trivia";
 
 export type CheckoutState = { error?: string } | undefined;
 
@@ -41,6 +42,18 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
     const sizeOk = product.sizes.length === 0 ? size === "Única" || size === "" : product.sizes.includes(size);
     if (!sizeOk) return { error: "Esa talla ya no está disponible. Elige otra." };
 
+    // Crédito (código de premio): descuenta del total, nunca deja el cobro por debajo de $2.000.
+    const creditText = clean(fd, "credit", 20).toUpperCase().replace(/\s+/g, "");
+    let discount = 0;
+    let creditCode = "";
+    if (creditText) {
+      const chk = await checkCredit(creditText, email, "");
+      if (!chk.ok) return { error: chk.error };
+      discount = Math.max(0, Math.min(chk.amount ?? 0, product.price - 2000));
+      if (discount <= 0) return { error: "Este par es muy barato para usar el crédito." };
+      creditCode = creditText;
+    }
+
     const order = await createOrder({
       productId: product.id,
       productName: product.name,
@@ -48,12 +61,15 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       size: size || "Única",
       condition: product.condition,
       image: product.images[0] ?? "",
-      amount: product.price,
+      amount: product.price - discount,
+      creditCode,
+      discount,
       buyerName: name,
       buyerEmail: email,
       buyerPhone: phone,
       buyerCity: city,
     });
+    if (creditCode) await reserveCredit(creditCode, order.reference);
     url = buildCheckoutUrl({ reference: order.reference, amountCop: order.amount, email, name, phone });
   } catch (e) {
     unstable_rethrow(e);

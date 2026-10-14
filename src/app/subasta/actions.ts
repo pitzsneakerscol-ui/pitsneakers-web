@@ -16,6 +16,7 @@ const HOUR = 60 * 60 * 1000;
 
 /** Entrar a la subasta con el correo y el pase de la lista de espera. */
 export async function enterAuction(_prev: PassState, fd: FormData): Promise<PassState> {
+  let dest = "/subasta";
   try {
     if (!isDbConfigured()) return { error: "La subasta aún no está disponible." };
     const email = String(fd.get("email") ?? "").trim().toLowerCase().slice(0, 120);
@@ -28,12 +29,13 @@ export async function enterAuction(_prev: PassState, fd: FormData): Promise<Pass
     const bidder = await verifyPass(email, code);
     if (!bidder) return { error: "No encontramos ese correo con ese pase. Revisa el correo de bienvenida." };
     await createBidderSession(bidder.id);
+    dest = String(fd.get("next") ?? "") === "/trivia" ? "/trivia" : "/subasta";
   } catch (e) {
     unstable_rethrow(e);
     console.error("[subasta] entrar:", e);
     return { error: "No pudimos validar tu pase. Intenta de nuevo en unos minutos." };
   }
-  redirect("/subasta");
+  redirect(dest);
 }
 
 export async function leaveAuction(): Promise<void> {

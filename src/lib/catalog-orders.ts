@@ -1,6 +1,7 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
+import { consumeCredit } from "@/lib/trivia";
 
 export type OrderStatus = "pendiente" | "pagado" | "rechazado" | "anulado" | "error";
 
@@ -13,7 +14,10 @@ export interface CatalogOrder {
   size: string;
   condition: string;
   image: string;
+  /** lo que se cobra (ya con el crédito descontado) */
   amount: number;
+  creditCode: string;
+  discount: number;
   buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
@@ -36,6 +40,8 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   condition: String(r.condition),
   image: String(r.image),
   amount: Number(r.amount),
+  creditCode: String(r.credit_code ?? ""),
+  discount: Number(r.discount ?? 0),
   buyerName: String(r.buyer_name),
   buyerEmail: String(r.buyer_email),
   buyerPhone: String(r.buyer_phone),
@@ -58,9 +64,9 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
     const reference = newReference();
     const r = await db.execute({
       sql: `INSERT OR IGNORE INTO catalog_orders
-            (reference, product_id, product_name, brand, size, condition, image, amount, buyer_name, buyer_email, buyer_phone, buyer_city, created_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, Date.now()],
+            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, buyer_name, buyer_email, buyer_phone, buyer_city, created_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, Date.now()],
     });
     if (r.rowsAffected > 0) return (await getOrderByRef(reference))!;
   }
@@ -103,6 +109,7 @@ export async function applyTransaction(tx: { reference: string; id: string; stat
     sql: "UPDATE catalog_orders SET status = ?, wompi_id = ?, payment_method = ?, paid_at = ? WHERE id = ? AND status != 'pagado'",
     args: [next, tx.id, tx.method ?? "", paying ? Date.now() : null, order.id],
   });
+  if (paying) await consumeCredit(order.creditCode, order.reference);
   return { order: (await getOrderByRef(tx.reference))!, justPaid: paying };
 }
 
