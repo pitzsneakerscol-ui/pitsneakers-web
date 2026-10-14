@@ -7796,6 +7796,26 @@
     "dateAdded": "1970-01-01T06:16:00.000Z"
   },
   {
+    "id": "DUNK-08",
+    "slug": "nike-dunk-syracuse",
+    "name": "Dunk Syracuse",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CU1726-101. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-08.2e985981.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:17:00.000Z"
+  },
+  {
     "id": "YZY350-24",
     "slug": "adidas-yeezy-350-cloud-white",
     "name": "Yeezy 350 Cloud White",
@@ -8117,6 +8137,26 @@
     "dateAdded": "1970-01-01T06:32:00.000Z"
   },
   {
+    "id": "ADIDAS-02",
+    "slug": "adidas-sobakov",
+    "name": "Sobakov",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BB7040. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-02.997c42b3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:34:00.000Z"
+  },
+  {
     "id": "AJ12-01",
     "slug": "jordan-jordan-12-fiba",
     "name": "Jordan 12 Fiba",
@@ -8157,6 +8197,46 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:36:00.000Z"
+  },
+  {
+    "id": "ADI-PW-01",
+    "slug": "adidas-x-pharrell-williams-chanclas-pharrell-negras",
+    "name": "Chanclas Pharrell Negras",
+    "brand": "Adidas x Pharrell Williams",
+    "category": "sneakers",
+    "price": 215000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FX8056. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-PW-01.dfcac22e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:37:00.000Z"
+  },
+  {
+    "id": "ADI-PW-02",
+    "slug": "adidas-x-pharrell-williams-chanclas-pharrell-negras-2",
+    "name": "Chanclas Pharrell Negras",
+    "brand": "Adidas x Pharrell Williams",
+    "category": "sneakers",
+    "price": 430000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FX8056. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-PW-01.dfcac22e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:38:00.000Z"
   },
   {
     "id": "AJ11-02",
@@ -8673,6 +8753,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:02:00.000Z"
+  },
+  {
+    "id": "ASICS-15",
+    "slug": "asics-gel-lyte-3-og",
+    "name": "Gel Lyte 3 OG",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 645000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 17812. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-15.7b824689.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:03:00.000Z"
   },
   {
     "id": "YZY350-43",
@@ -9225,6 +9325,26 @@
     "dateAdded": "1970-01-01T07:29:00.000Z"
   },
   {
+    "id": "SAUCONY-01",
+    "slug": "saucony-food-fight",
+    "name": "Food Fight",
+    "brand": "Saucony",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo S70595-1. Comisión incluida en el precio.",
+    "images": [
+      "/products/SAUCONY-01.f82185d7.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:30:00.000Z"
+  },
+  {
     "id": "AJ1-38",
     "slug": "jordan-jordan-1-low-court-purple",
     "name": "Jordan 1 Low Court Purple",
@@ -9499,6 +9619,26 @@
     "dateAdded": "1970-01-01T07:43:00.000Z"
   },
   {
+    "id": "ADIDAS-03",
+    "slug": "adidas-forum-m-m",
+    "name": "Forum M&M",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY1179. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-03.1f030659.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:44:00.000Z"
+  },
+  {
     "id": "YZY700-20",
     "slug": "adidas-yeezy-700-wave-runner",
     "name": "Yeezy 700 Wave Runner",
@@ -9518,6 +9658,86 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:45:00.000Z"
+  },
+  {
+    "id": "NB-12",
+    "slug": "new-balance-new-balance-bodega-990-v5",
+    "name": "New Balance Bodega 990 V5",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo M990BD3. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-12.27e3ac7f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:46:00.000Z"
+  },
+  {
+    "id": "NB-13",
+    "slug": "new-balance-new-balance-aime-leon-dore-990-v3",
+    "name": "New Balance Aime Leon Dore 990 V3",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 1720000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo M990AL5. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-13.637de46a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:47:00.000Z"
+  },
+  {
+    "id": "NB-14",
+    "slug": "new-balance-new-balance-550-aime-leon-dore",
+    "name": "New Balance 550 Aime Leon Dore",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BB550A3. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-14.271ecdd9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:48:00.000Z"
+  },
+  {
+    "id": "NB-15",
+    "slug": "new-balance-new-balance-550-unc",
+    "name": "New Balance 550 UNC",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BB550HL1. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-15.94cf6fdd.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:49:00.000Z"
   },
   {
     "id": "ADIDAS-04",
@@ -9604,6 +9824,50 @@
     "dateAdded": "1970-01-01T07:53:00.000Z"
   },
   {
+    "id": "ADI-BB-38",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-white",
+    "name": "Forum Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ2153. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-38.513e317c.webp",
+      "/products/ADI-BB-38-2.3a7f6f5a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:54:00.000Z"
+  },
+  {
+    "id": "ADI-BB-39",
+    "slug": "adidas-x-bad-bunny-forum-bad-bunny-white-2",
+    "name": "Forum Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "8",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ2153. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-38.513e317c.webp",
+      "/products/ADI-BB-38-2.3a7f6f5a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:55:00.000Z"
+  },
+  {
     "id": "YZY380-01",
     "slug": "adidas-yeezy-380-mist",
     "name": "Yeezy 380 Mist",
@@ -9647,6 +9911,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:57:00.000Z"
+  },
+  {
+    "id": "ADI-BB-40",
+    "slug": "adidas-x-bad-bunny-campus-bad-bunny-cream",
+    "name": "Campus Bad Bunny Cream",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 950000,
+    "promo": false,
+    "sizes": [
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FZ5823. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-11.acec9b64.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:58:00.000Z"
   },
   {
     "id": "YZY350-48",
@@ -9916,6 +10200,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:13:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-48",
+    "slug": "nike-dunk-sb-powerpuff-girls-blue",
+    "name": "Dunk SB Powerpuff Girls Blue",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1300000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FZ8320-400. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-48.21d080f1.webp",
+      "/products/SB-DUNK-48-2.23a73594.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:14:00.000Z"
   },
   {
     "id": "AJ1-44",
