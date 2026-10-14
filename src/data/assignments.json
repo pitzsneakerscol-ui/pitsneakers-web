@@ -2957,5 +2957,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/ASICS-16.1816c3fb.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "jordan-jordan-1-union-x-fragment-2",
+    "name": "Jordan 1 Union x Fragment",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-45",
+    "sizes": [
+      "10"
+    ],
+    "price": 1400000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-45.8ac45e9d.webp"
   }
 ]
