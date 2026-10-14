@@ -24,6 +24,62 @@
     "image": "/products/SUPREME-SHOULDER-BAG.57cca0f1.webp"
   },
   {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-new-balance-action-bronson",
+    "name": "New Balance Action Bronson",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-07",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 990000,
+    "condition": "nuevo",
+    "image": "/products/NB-07.7149fb78.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-new-balance-tiger-eye",
+    "name": "New Balance Tiger Eye",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-08",
+    "sizes": [
+      "9"
+    ],
+    "price": 830000,
+    "condition": "nuevo",
+    "image": "/products/NB-08.00326e60.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-new-balance-x-kith-daytona",
+    "name": "New Balance x Kith Daytona",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-09",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1200000,
+    "condition": "nuevo",
+    "image": "/products/NB-09.e96866b0.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-joe-freshgoods",
+    "name": "New Balance Joe Freshgoods",
+    "brand": "New Balance x Joe Freshgoods",
+    "colorway": "",
+    "sku": "NB-10",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/NB-10.c70bc1d3.webp"
+  },
+  {
     "seller": "santiagoalbaa",
     "slug": "nike-air-force-one-x-supreme",
     "name": "Air Force One x Supreme",
@@ -70,6 +126,34 @@
     "price": 650000,
     "condition": "nuevo",
     "image": "/products/AF1-12.d3164a72.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "adidas-gazelle-y-3-olive",
+    "name": "Gazelle Y-3 Olive",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "GAZELLE-02",
+    "sizes": [
+      "9"
+    ],
+    "price": 830000,
+    "condition": "nuevo",
+    "image": "/products/GAZELLE-02.30ed339a.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "adidas-nmd-hu-running-dog",
+    "name": "NMD HU Running Dog",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "NMDHU-01",
+    "sizes": [
+      "10"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/NMDHU-01.0b1d40af.webp"
   },
   {
     "seller": "juanlopez319",
@@ -2775,5 +2859,103 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/MIND001-02.841a88ca.webp"
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-x-jjjjound-new-balance-993-x-jjjjound",
+    "name": "New Balance 993 x JJJJound",
+    "brand": "New Balance x JJJJound",
+    "colorway": "",
+    "sku": "NB-16",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 2500000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-x-teddy-santis-new-balance-990v4-teddy-santis-sz-2",
+    "name": "New Balance 990v4 Teddy Santis Sz 2",
+    "brand": "New Balance x Teddy Santis",
+    "colorway": "",
+    "sku": "NB-17",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 790000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-new-balance-1906r-x-action-bronson-medusa",
+    "name": "New Balance 1906R x Action Bronson Medusa",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-18",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-610-x-joe-freshgoods-exclusive",
+    "name": "New Balance 610 x Joe Freshgoods Exclusive",
+    "brand": "New Balance x Joe Freshgoods",
+    "colorway": "",
+    "sku": "NB-19",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-aged-well-joe-freshgoods",
+    "name": "New Balance Aged Well Joe Freshgoods",
+    "brand": "New Balance x Joe Freshgoods",
+    "colorway": "",
+    "sku": "NB-20",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1200000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "asics-asics-gt-2160-earls-collection",
+    "name": "Asics GT-2160 Earls Collection",
+    "brand": "Asics",
+    "colorway": "",
+    "sku": "ASICS-16",
+    "sizes": [
+      "10"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": ""
+  },
+  {
+    "seller": "alejandro.garcia",
+    "slug": "jordan-jordan-1-union-x-fragment-2",
+    "name": "Jordan 1 Union x Fragment",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-45",
+    "sizes": [
+      "10"
+    ],
+    "price": 1400000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]
