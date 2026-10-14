@@ -8117,6 +8117,26 @@
     "dateAdded": "1970-01-01T06:32:00.000Z"
   },
   {
+    "id": "AJ12-01",
+    "slug": "jordan-jordan-12-fiba",
+    "name": "Jordan 12 Fiba",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 130690-107. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ12-01.935610da.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:35:00.000Z"
+  },
+  {
     "id": "YZY350-35",
     "slug": "adidas-yeezy-350-citrin",
     "name": "Yeezy 350 Citrin",
@@ -8359,6 +8379,48 @@
     "dateAdded": "1970-01-01T06:48:00.000Z"
   },
   {
+    "id": "DUNK-09",
+    "slug": "nike-dunk-low-community",
+    "name": "Dunk Low Community",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 946000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CZ9747-900. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-09.90b84b26.webp",
+      "/products/DUNK-09-2.5ec162c5.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:49:00.000Z"
+  },
+  {
+    "id": "DUNK-10",
+    "slug": "nike-dunk-low-community-2",
+    "name": "Dunk Low Community",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CZ9747-900. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-09.90b84b26.webp",
+      "/products/DUNK-09-2.5ec162c5.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:50:00.000Z"
+  },
+  {
     "id": "YZY500-03",
     "slug": "adidas-yeezy-500-utility-black",
     "name": "Yeezy 500 Utility Black",
@@ -8569,6 +8631,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:00:00.000Z"
+  },
+  {
+    "id": "DUNK-11",
+    "slug": "nike-dunk-orange-pearl",
+    "name": "Dunk Orange Pearl",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "8W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DD1503-102. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-11.b24f6f9f.webp",
+      "/products/DUNK-11-2.62c5fa37.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:01:00.000Z"
   },
   {
     "id": "AJ1-29",
@@ -8909,6 +8992,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:18:00.000Z"
+  },
+  {
+    "id": "DUNK-12",
+    "slug": "nike-dunk-low-cheetah",
+    "name": "Dunk Low Cheetah",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DH7913-200. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-12.d17d88e1.webp",
+      "/products/DUNK-12-2.9e17f547.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:19:00.000Z"
   },
   {
     "id": "AJ1-35",
@@ -9436,6 +9540,70 @@
     "dateAdded": "1970-01-01T07:50:00.000Z"
   },
   {
+    "id": "AJ3-07",
+    "slug": "jordan-jordan-3-pine-green",
+    "name": "Jordan 3 Pine Green",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CT8532-030. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ3-07.764d4afd.webp",
+      "/products/AJ3-07-2.a0450972.webp",
+      "/products/AJ3-07-3.a8b5430a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:51:00.000Z"
+  },
+  {
+    "id": "AJ4-22",
+    "slug": "jordan-jordan-4-red-thunder",
+    "name": "Jordan 4 Red Thunder",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1505000,
+    "promo": false,
+    "sizes": [
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CT8527-016. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-22.79974415.webp",
+      "/products/AJ4-22-2.da423346.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:52:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-45",
+    "slug": "nike-dunk-sb-blue-fury",
+    "name": "Dunk SB Blue Fury",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BQ6817-400. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-45.4757180c.webp",
+      "/products/SB-DUNK-45-2.75823ca6.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:53:00.000Z"
+  },
+  {
     "id": "YZY380-01",
     "slug": "adidas-yeezy-380-mist",
     "name": "Yeezy 380 Mist",
@@ -9562,6 +9730,27 @@
     "dateAdded": "1970-01-01T08:03:00.000Z"
   },
   {
+    "id": "DUNK-15",
+    "slug": "nike-dunk-low-orange-paisley",
+    "name": "Dunk Low Orange Paisley",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "12W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DH4401-103. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-15.67cd045e.webp",
+      "/products/DUNK-15-2.9d6857ed.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:04:00.000Z"
+  },
+  {
     "id": "YZY-SLIDE-32",
     "slug": "adidas-yeezy-slide-slate-marine-2",
     "name": "Yeezy Slide Slate Marine",
@@ -9601,6 +9790,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:06:00.000Z"
+  },
+  {
+    "id": "DUNK-16",
+    "slug": "nike-dunk-low-usc",
+    "name": "Dunk Low USC",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 500000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DD1391-701. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-16.79b22c2e.webp",
+      "/products/DUNK-16-2.c32ec65d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:07:00.000Z"
   },
   {
     "id": "YZY350-51",
@@ -9664,6 +9874,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:11:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-47",
+    "slug": "nike-dunk-sb-be-true",
+    "name": "Dunk SB Be True",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 600000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DX5933-900. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-47.a0e7f26f.webp",
+      "/products/SB-DUNK-47-2.038477c8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:12:00.000Z"
   },
   {
     "id": "YZY-FOAM-20",
