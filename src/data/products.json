@@ -8011,6 +8011,27 @@
     "dateAdded": "1970-01-01T06:29:00.000Z"
   },
   {
+    "id": "YZY700V3-02",
+    "slug": "adidas-yeezy-700-v3-alvah",
+    "name": "Yeezy 700 V3 Alvah",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1505000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo H67799. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700V3-02.2d4c6457.webp",
+      "/products/YZY700V3-02-2.79bde5ab.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:30:00.000Z"
+  },
+  {
     "id": "YZY350-35",
     "slug": "adidas-yeezy-350-citrin",
     "name": "Yeezy 350 Citrin",
@@ -8141,6 +8162,69 @@
     "dateAdded": "1970-01-01T06:45:00.000Z"
   },
   {
+    "id": "YZY500-03",
+    "slug": "adidas-yeezy-500-utility-black",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6",
+      "6.5",
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo F36640. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-03.e749a408.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:51:00.000Z"
+  },
+  {
+    "id": "YZY500-04",
+    "slug": "adidas-yeezy-500-utility-black-2",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "8",
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo F36640. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-03.e749a408.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:52:00.000Z"
+  },
+  {
+    "id": "YZY500-05",
+    "slug": "adidas-yeezy-500-utility-black-3",
+    "name": "Yeezy 500 Utility Black",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "12.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo F36640. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-03.e749a408.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:53:00.000Z"
+  },
+  {
     "id": "YZY350-39",
     "slug": "adidas-yeezy-350-bred-2",
     "name": "Yeezy 350 Bred",
@@ -8250,6 +8334,176 @@
     "dateAdded": "1970-01-01T07:04:00.000Z"
   },
   {
+    "id": "YZY700-09",
+    "slug": "adidas-yeezy-700-bright-blue",
+    "name": "Yeezy 700 Bright Blue",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1204000,
+    "promo": false,
+    "sizes": [
+      "11.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ0541. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-09.82d2e471.webp",
+      "/products/YZY700-09-2.e70436e9.webp",
+      "/products/YZY700-09-3.c26a03cb.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:05:00.000Z"
+  },
+  {
+    "id": "YZY700-10",
+    "slug": "adidas-yeezy-700-bright-blue-2",
+    "name": "Yeezy 700 Bright Blue",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "12.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ0541. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-09.82d2e471.webp",
+      "/products/YZY700-09-2.e70436e9.webp",
+      "/products/YZY700-09-3.c26a03cb.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:06:00.000Z"
+  },
+  {
+    "id": "YZY500-06",
+    "slug": "adidas-yeezy-500-enflame",
+    "name": "Yeezy 500 Enflame",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ5541. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-06.a629668e.webp",
+      "/products/YZY500-06-2.84d28d65.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:07:00.000Z"
+  },
+  {
+    "id": "YZY500-07",
+    "slug": "adidas-yeezy-500-taupe-light",
+    "name": "Yeezy 500 Taupe Light",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GX3605. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-07.02c5fd19.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:12:00.000Z"
+  },
+  {
+    "id": "YZY700-11",
+    "slug": "adidas-yeezy-700-mnvn-bright-cyan",
+    "name": "Yeezy 700 MNVN Bright Cyan",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ3079. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-11.682ab204.webp",
+      "/products/YZY700-11-2.e3f54552.webp",
+      "/products/YZY700-11-3.e2355b58.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:13:00.000Z"
+  },
+  {
+    "id": "YZY700-12",
+    "slug": "adidas-yeezy-700-v2-cream",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY7924. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-12.844914f2.webp",
+      "/products/YZY700-12-2.7b04e889.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:14:00.000Z"
+  },
+  {
+    "id": "YZY700-13",
+    "slug": "adidas-yeezy-700-v2-cream-2",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1032000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY7924. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-12.844914f2.webp",
+      "/products/YZY700-12-2.7b04e889.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:15:00.000Z"
+  },
+  {
+    "id": "YZY700-14",
+    "slug": "adidas-yeezy-700-v2-cream-3",
+    "name": "Yeezy 700 V2 Cream",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1204000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY7924. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-12.844914f2.webp",
+      "/products/YZY700-12-2.7b04e889.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:16:00.000Z"
+  },
+  {
     "id": "KOBE-04",
     "slug": "nike-kobe-grinch-2",
     "name": "Kobe Grinch",
@@ -8291,6 +8545,67 @@
     "dateAdded": "1970-01-01T07:21:00.000Z"
   },
   {
+    "id": "YZY700-15",
+    "slug": "adidas-yeezy-700-v2-mauve",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ0724. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-15.2c2f2126.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:25:00.000Z"
+  },
+  {
+    "id": "YZY700-16",
+    "slug": "adidas-yeezy-700-v2-mauve-2",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ0724. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-15.2c2f2126.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:26:00.000Z"
+  },
+  {
+    "id": "YZY700-17",
+    "slug": "adidas-yeezy-700-v2-mauve-3",
+    "name": "Yeezy 700 V2 Mauve",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "12.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GZ0724. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-15.2c2f2126.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:27:00.000Z"
+  },
+  {
     "id": "DUNK-13",
     "slug": "nike-dunk-halloween-2021-2",
     "name": "Dunk Halloween 2021",
@@ -8310,6 +8625,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:29:00.000Z"
+  },
+  {
+    "id": "YZY500-08",
+    "slug": "adidas-yeezy-500-clay-brown",
+    "name": "Yeezy 500 Clay Brown",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GX3606. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY500-08.064a6492.webp",
+      "/products/YZY500-08-2.5146a170.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:32:00.000Z"
   },
   {
     "id": "YZY350-45",
@@ -8414,6 +8750,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:43:00.000Z"
+  },
+  {
+    "id": "YZY700-20",
+    "slug": "adidas-yeezy-700-wave-runner",
+    "name": "Yeezy 700 Wave Runner",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1720000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo B75571. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-20.c19c4812.webp",
+      "/products/YZY700-20-2.76d2147e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:45:00.000Z"
   },
   {
     "id": "ADIDAS-04",
