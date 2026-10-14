@@ -12,13 +12,22 @@ const CHECKOUT_URL = "https://checkout.wompi.co/p/";
 
 const sha256 = (v: string) => createHash("sha256").update(v).digest("hex");
 
+/** Las llaves se pegan a mano en Vercel: se quitan espacios, saltos de línea y comillas que se cuelan al copiar. */
+const env = (name: string): string => (process.env[name] ?? "").trim().replace(/^["']+|["']+$/g, "").trim();
+
+/** Solo el comienzo de cada llave (pub_test, test_integrity…), para diagnosticar errores sin mostrar nunca el secreto. */
+export function keyKinds(): { publica: string; integridad: string; eventos: string } {
+  const kind = (v: string) => (v.match(/^[a-z]+_[a-z]+(?:_[a-z]+)?/)?.[0] ?? (v ? "formato-desconocido" : "falta"));
+  return { publica: kind(env("WOMPI_PUBLIC_KEY")), integridad: kind(env("WOMPI_INTEGRITY_SECRET")), eventos: kind(env("WOMPI_EVENTS_SECRET")) };
+}
+
 export function isWompiConfigured(): boolean {
-  return Boolean(process.env.WOMPI_PUBLIC_KEY && process.env.WOMPI_INTEGRITY_SECRET && process.env.WOMPI_EVENTS_SECRET);
+  return Boolean(env("WOMPI_PUBLIC_KEY") && env("WOMPI_INTEGRITY_SECRET") && env("WOMPI_EVENTS_SECRET"));
 }
 
 /** true cuando las llaves son de pruebas (se avisa en pantalla y en el panel). */
 export function isWompiTest(): boolean {
-  return (process.env.WOMPI_PUBLIC_KEY ?? "").startsWith("pub_test_");
+  return env("WOMPI_PUBLIC_KEY").startsWith("pub_test_");
 }
 
 /** Dirección del pago en Wompi. El monto va en centavos y la firma se calcula aquí, en el servidor. */
@@ -30,9 +39,9 @@ export function buildCheckoutUrl(opts: {
   phone: string;
 }): string {
   const cents = Math.round(opts.amountCop * 100);
-  const secret = process.env.WOMPI_INTEGRITY_SECRET ?? "";
+  const secret = env("WOMPI_INTEGRITY_SECRET");
   const params = new URLSearchParams({
-    "public-key": process.env.WOMPI_PUBLIC_KEY ?? "",
+    "public-key": env("WOMPI_PUBLIC_KEY"),
     currency: "COP",
     "amount-in-cents": String(cents),
     reference: opts.reference,
@@ -72,7 +81,7 @@ const valueAt = (obj: unknown, path: string): string => {
 
 /** Comprueba que el evento lo envió Wompi: SHA256(valores de signature.properties + timestamp + secreto de eventos). */
 export function verifyEvent(event: WompiEvent, headerChecksum: string | null): boolean {
-  const secret = process.env.WOMPI_EVENTS_SECRET ?? "";
+  const secret = env("WOMPI_EVENTS_SECRET");
   const props = event.signature?.properties;
   const received = (headerChecksum || event.signature?.checksum || "").toLowerCase();
   if (!secret || !Array.isArray(props) || props.length === 0 || !received || event.timestamp === undefined) return false;
