@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDb } from "@/lib/db";
-import { ensureWeeklyGame, triviaNow } from "@/lib/trivia";
+import { ensureWeeklyGame, finalizeGame, triviaNow } from "@/lib/trivia";
 import { endsAt, phaseAt } from "@/lib/trivia-shared";
 import { formatWhen, toLocalInput } from "@/lib/auction-shared";
 import { formatPrice } from "@/lib/format";
@@ -24,12 +24,26 @@ export default async function TriviaAdminPage({ searchParams }: { searchParams: 
   let questions: { id: number; text: string; options: string[]; correct: number }[] = [];
   let players = 0;
   let winners: { email: string; code: string; used: boolean }[] = [];
+  let ranking: { email: string; correct: number; ms: number; answered: number }[] = [];
+  const loadWinners = async (gameId: number) => {
+    const w = await db.execute({ sql: "SELECT c.code, c.used_at, w.email FROM credit_codes c JOIN waitlist w ON w.id = c.waitlist_id WHERE c.game_id = ? ORDER BY c.id", args: [gameId] });
+    return w.rows.map((x) => ({ email: String(x.email), code: String(x.code), used: x.used_at !== null }));
+  };
   if (sel) {
     const q = await db.execute({ sql: "SELECT id, text, options, correct FROM trivia_questions WHERE game_id = ? ORDER BY position, id", args: [Number(sel.id)] });
     questions = q.rows.map((x) => ({ id: Number(x.id), text: String(x.text), options: JSON.parse(String(x.options)) as string[], correct: Number(x.correct) }));
     players = Number((await db.execute({ sql: "SELECT COUNT(DISTINCT waitlist_id) AS n FROM trivia_answers WHERE game_id = ?", args: [Number(sel.id)] })).rows[0].n);
-    const w = await db.execute({ sql: "SELECT c.code, c.used_at, w.email FROM credit_codes c JOIN waitlist w ON w.id = c.waitlist_id WHERE c.game_id = ? ORDER BY c.id", args: [Number(sel.id)] });
-    winners = w.rows.map((x) => ({ email: String(x.email), code: String(x.code), used: x.used_at !== null }));
+    // Si el juego ya terminó pero nadie lo cerró (los ganadores se calculan cuando un jugador ve el final), se cierra aquí.
+    if (Number(sel.finalized) === 0 && questions.length > 0 && now >= endsAt({ startsAt: Number(sel.starts_at), seconds: Number(sel.seconds), gap: Number(sel.gap), total: questions.length })) {
+      await finalizeGame(Number(sel.id));
+    }
+    winners = await loadWinners(Number(sel.id));
+    const rk = await db.execute({
+      sql: `SELECT w.email AS email, SUM(a.correct) AS c, SUM(a.ms) AS t, COUNT(*) AS n FROM trivia_answers a JOIN waitlist w ON w.id = a.waitlist_id
+            WHERE a.game_id = ? GROUP BY a.waitlist_id ORDER BY c DESC, t ASC`,
+      args: [Number(sel.id)],
+    });
+    ranking = rk.rows.map((x) => ({ email: String(x.email), correct: Number(x.c), ms: Number(x.t), answered: Number(x.n) }));
   }
   const pendingAnnounce = sel ? Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced != ?", args: [Number(sel.id)] })).rows[0].n) : 0;
 
@@ -121,6 +135,16 @@ export default async function TriviaAdminPage({ searchParams }: { searchParams: 
             </section>
           )}
 
+          {phase === "ended" && winners.length === 0 && (
+            <section className={`${cardCls} p-5 sm:p-6`}>
+              <h2 className="mb-1 font-display text-2xl tracking-wide">Ganadores</h2>
+              <p className="text-sm text-muted">
+                Nadie alcanzó el mínimo de <strong className="text-ink">{Number(sel.min_correct) > 0 ? Number(sel.min_correct) : questions.length} aciertos</strong> de {questions.length}.
+                {ranking.length > 0 ? " Abajo ves cuántos acertó cada jugador." : " Nadie respondió preguntas en este juego."}
+              </p>
+            </section>
+          )}
+
           {winners.length > 0 && (
             <section className={`${cardCls} overflow-x-auto p-5 sm:p-6`}>
               <h2 className="mb-3 font-display text-2xl tracking-wide">Ganadores ({winners.length}) · {formatPrice(Number(sel.prize))} c/u</h2>
@@ -136,6 +160,32 @@ export default async function TriviaAdminPage({ searchParams }: { searchParams: 
                       <td className="px-3 py-2 text-muted">{w.used ? "Usado" : "Sin usar"}</td>
                     </tr>
                   ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+
+          {started && ranking.length > 0 && (
+            <section className={`${cardCls} overflow-x-auto p-5 sm:p-6`}>
+              <h2 className="mb-1 font-display text-2xl tracking-wide">Resultados ({ranking.length} jugadores)</h2>
+              <p className="mb-3 text-sm text-muted">Ordenados por aciertos y, si empatan, por rapidez. Para ganar hacían falta {Number(sel.min_correct) > 0 ? Number(sel.min_correct) : questions.length} aciertos{Number(sel.max_winners) > 0 ? ` (máximo ${Number(sel.max_winners)} ganadores)` : ""}.</p>
+              <table className="w-full min-w-[26rem] text-left text-sm">
+                <thead className="text-[11px] uppercase tracking-wider text-muted">
+                  <tr><th className="py-2 pr-3 font-semibold">#</th><th className="px-3 py-2 font-semibold">Correo</th><th className="px-3 py-2 font-semibold">Aciertos</th><th className="px-3 py-2 font-semibold">Tiempo</th><th className="px-3 py-2 font-semibold">Resultado</th></tr>
+                </thead>
+                <tbody>
+                  {ranking.map((r, i) => {
+                    const won = winners.some((w) => w.email === r.email);
+                    return (
+                      <tr key={r.email} className="border-t border-line">
+                        <td className="py-2 pr-3 text-muted">{i + 1}</td>
+                        <td className="px-3 py-2">{r.email}</td>
+                        <td className="px-3 py-2 tabular-nums">{r.correct}/{questions.length}</td>
+                        <td className="px-3 py-2 tabular-nums text-muted">{(r.ms / 1000).toFixed(1)} s</td>
+                        <td className={`px-3 py-2 ${won ? "font-semibold text-emerald-700" : "text-muted"}`}>{won ? "🏆 Ganó" : phase === "ended" ? "No ganó" : "Jugando"}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </section>
