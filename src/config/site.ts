@@ -14,6 +14,9 @@ export const siteConfig = {
   instagramHandle: "@pitsneakers",
   instagramUrl: "https://instagram.com/pitsneakers",
   city: "Bogotá, Colombia",
+  // Datos de la empresa (se muestran en el pie de página y en las políticas).
+  legalName: "Pitsneakers SAS",
+  nit: "901926970",
   // Link CSV de un Google Sheet publicado con el inventario (ver README).
   // Déjalo vacío ("") para seguir usando src/data/products.json.
   productsSheetUrl: "",

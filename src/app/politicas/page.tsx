@@ -29,7 +29,7 @@ const sections: Section[] = [
     body: (
       <>
         <P>
-          Pitsneakers es una comunidad de reventa de sneakers y streetwear en {siteConfig.city}. Los productos que ves en el catálogo se venden bajo el modelo de <B>consignación</B>: pertenecen a vendedores externos y Pitsneakers los verifica, los publica e intermedia la venta y la entrega.
+          {siteConfig.name} ({siteConfig.legalName}, NIT {siteConfig.nit}) es una comunidad de reventa de sneakers y streetwear en {siteConfig.city}. Los productos que ves en el catálogo se venden bajo el modelo de <B>consignación</B>: pertenecen a vendedores externos y Pitsneakers los verifica, los publica e intermedia la venta y la entrega.
         </P>
         <UL>
           <li>Los precios están en pesos colombianos (COP) e incluyen la comisión de Pitsneakers. No se cobran cargos ocultos: el único valor adicional posible es el envío, que se te informa antes de despachar.</li>
@@ -125,7 +125,7 @@ const sections: Section[] = [
         <P>
           En cumplimiento de la Ley 1581 de 2012 y sus decretos reglamentarios, esta es la política de tratamiento de datos personales de Pitsneakers.
         </P>
-        <P><B>Responsable:</B> Pitsneakers, {siteConfig.city}. <B>Contacto para temas de datos:</B> <a className="font-semibold text-ink underline underline-offset-4" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>.</P>
+        <P><B>Responsable:</B> {siteConfig.legalName}, NIT {siteConfig.nit}, domiciliada en {siteConfig.city}. <B>Contacto para temas de datos:</B> <a className="font-semibold text-ink underline underline-offset-4" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>.</P>
         <P><B>Datos que recolectamos</B></P>
         <UL>
           <li>Al comprar: nombre, correo, celular, ciudad y dirección de entrega.</li>
@@ -212,6 +212,7 @@ export default function PoliticasPage() {
           Políticas de <span className="text-accent">Pitsneakers</span>
         </h1>
         <p className="mt-4 text-muted">Cómo compras, pagas, recibes y cuidamos tus datos. Última actualización: {UPDATED}.</p>
+        <p className="mt-1 text-sm text-muted">{siteConfig.legalName} · NIT {siteConfig.nit} · {siteConfig.city}</p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-14">
