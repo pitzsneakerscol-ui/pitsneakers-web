@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Product, ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
 import { groupPriceRange } from "@/lib/grouping";
@@ -47,8 +47,8 @@ function buildOptions(group: ProductGroup): Option[] {
 export default function ProductPurchasePanel({
   group,
   sticky = false,
-  payEnabled = false,
-  payTest = false,
+  payEnabled: payEnabledProp = false,
+  payTest: payTestProp = false,
 }: {
   group: ProductGroup;
   /** En celular, fija el botón de WhatsApp al borde inferior (página de producto). */
@@ -57,6 +57,22 @@ export default function ProductPurchasePanel({
   payEnabled?: boolean;
   payTest?: boolean;
 }) {
+  // El estado del pago se pregunta al abrir la página: no depende de cuándo se construyó el sitio.
+  const [pay, setPay] = useState({ enabled: payEnabledProp, test: payTestProp });
+  useEffect(() => {
+    let live = true;
+    fetch("/api/pago/estado", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { enabled?: boolean; test?: boolean } | null) => {
+        if (live && d) setPay({ enabled: Boolean(d.enabled), test: Boolean(d.test) });
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, []);
+  const payEnabled = pay.enabled;
+  const payTest = pay.test;
   const options = useMemo(() => buildOptions(group), [group]);
   const multiVariant = group.variants.length > 1;
   const [selectedKey, setSelectedKey] = useState<string | undefined>(
