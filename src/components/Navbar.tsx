@@ -146,8 +146,35 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
       </div>
 
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-ink px-6 py-8 xl:hidden">
+        <div className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink px-6 pb-28 xl:hidden" role="dialog" aria-modal="true" aria-label="Menú principal">
+          {/* Barra propia del menú: logo (lleva al inicio) y botón para cerrar, siempre a la vista. */}
+          <div className="-mx-6 mb-2 flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-6">
+            <Link href="/" onClick={() => setOpen(false)} className="font-display text-xl tracking-wide">
+              PIT<span className="text-accent">SNEAKERS</span>
+            </Link>
+            <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Cerrar menú"
+              className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-2xl leading-none text-white/80 transition hover:bg-white/10 hover:text-white"
+            >
+              ✕
+            </button>
+            </div>
+          </div>
           <nav className="flex flex-1 flex-col gap-1">
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              aria-current={pathname === "/" ? "page" : undefined}
+              className="menu-item flex items-center gap-3 border-b border-white/10 py-4 font-display text-2xl tracking-wide"
+              style={{ "--glow": "#ffffff", "--i": 0 } as React.CSSProperties}
+            >
+              <span aria-hidden="true" className="menu-bar" />
+              <span className="nav-glow">Inicio</span>
+            </Link>
             {links.map((link, i) => (
               <Link
                 key={link.href}
