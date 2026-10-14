@@ -2761,5 +2761,19 @@
     "price": 2700000,
     "condition": "nuevo",
     "image": "/products/AJ1-44.69e78a39.webp"
+  },
+  {
+    "seller": "mmnf",
+    "slug": "nike-mind-001-black-3",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-18",
+    "sizes": [
+      "8"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-02.841a88ca.webp"
   }
 ]

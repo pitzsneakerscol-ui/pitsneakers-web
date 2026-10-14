@@ -10322,5 +10322,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:16:00.000Z"
+  },
+  {
+    "id": "MIND001-18",
+    "slug": "nike-mind-001-black-3",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-02.841a88ca.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:17:00.000Z"
   }
 ]
