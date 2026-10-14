@@ -7732,6 +7732,26 @@
     "dateAdded": "1970-01-01T06:13:00.000Z"
   },
   {
+    "id": "AJ1-17",
+    "slug": "jordan-jordan-1-mid-shattered-backboards",
+    "name": "Jordan 1 Mid Shattered Backboards",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 554724-058. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-17.b9fd8fb9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:14:00.000Z"
+  },
+  {
     "id": "AF1-16",
     "slug": "nike-air-force-1-g-dragon-w-2",
     "name": "Air Force 1 G-Dragon W",
@@ -7751,6 +7771,29 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:15:00.000Z"
+  },
+  {
+    "id": "AJ1-18",
+    "slug": "jordan-jordan-1-low-shattered-backboards",
+    "name": "Jordan 1 Low Shattered Backboards",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "7.5",
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 553558-128. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-18.c704f7d2.webp",
+      "/products/AJ1-18-2.e7a2b8de.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:16:00.000Z"
   },
   {
     "id": "YZY350-24",
@@ -8183,6 +8226,52 @@
     "dateAdded": "1970-01-01T06:42:00.000Z"
   },
   {
+    "id": "AJ1-21",
+    "slug": "jordan-jordan-1-tie-dye",
+    "name": "Jordan 1 Tie Dye",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "promo": false,
+    "sizes": [
+      "7W",
+      "7.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CD0461-100. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-21.f2ec4f07.webp",
+      "/products/AJ1-21-2.da99c190.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:43:00.000Z"
+  },
+  {
+    "id": "AJ1-22",
+    "slug": "jordan-jordan-1-royal-toe",
+    "name": "Jordan 1 Royal Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "9.5",
+      "10",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-041. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-22.4e4f4d8f.webp",
+      "/products/AJ1-22-2.3187bb49.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:44:00.000Z"
+  },
+  {
     "id": "YZY350-38",
     "slug": "adidas-yeezy-350-carbon",
     "name": "Yeezy 350 Carbon",
@@ -8202,6 +8291,49 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T06:45:00.000Z"
+  },
+  {
+    "id": "AJ1-23",
+    "slug": "jordan-jordan-1-mid-bred-toe",
+    "name": "Jordan 1 Mid Bred Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 554724-069. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-23.c3c79f9a.webp",
+      "/products/AJ1-23-2.1b4c885f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:46:00.000Z"
+  },
+  {
+    "id": "AJ1-24",
+    "slug": "jordan-jordan-1-mid-multicolor",
+    "name": "Jordan 1 Mid Multicolor",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "7.5W",
+      "8W",
+      "8.5W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CW1140-100. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-24.3334595c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:47:00.000Z"
   },
   {
     "id": "AJ1-25",
@@ -8374,6 +8506,26 @@
     "dateAdded": "1970-01-01T06:57:00.000Z"
   },
   {
+    "id": "AJ1-28",
+    "slug": "jordan-jordan-1-mid-white-red",
+    "name": "Jordan 1 Mid White Red",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 860000,
+    "promo": false,
+    "sizes": [
+      "8W"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BQ6472-106. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-28.d52ee969.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:58:00.000Z"
+  },
+  {
     "id": "YZY350-41",
     "slug": "adidas-yeezy-350-ash-blue",
     "name": "Yeezy 350 Ash Blue",
@@ -8504,6 +8656,71 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:07:00.000Z"
+  },
+  {
+    "id": "AJ1-30",
+    "slug": "jordan-jordan-1-university-blue",
+    "name": "Jordan 1 University Blue",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-134. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-30.0c9f8aed.webp",
+      "/products/AJ1-30-2.a18d2551.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:08:00.000Z"
+  },
+  {
+    "id": "AJ1-31",
+    "slug": "jordan-jordan-1-university-blue-2",
+    "name": "Jordan 1 University Blue",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1290000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-134. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-30.0c9f8aed.webp",
+      "/products/AJ1-30-2.a18d2551.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:09:00.000Z"
+  },
+  {
+    "id": "AJ1-32",
+    "slug": "jordan-jordan-1-shadow-2-0",
+    "name": "Jordan 1 Shadow 2.0",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-035. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-32.7bdf7d4d.webp",
+      "/products/AJ1-32-2.be505d58.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:10:00.000Z"
   },
   {
     "id": "AJ1-33",
@@ -8945,6 +9162,75 @@
     "dateAdded": "1970-01-01T07:33:00.000Z"
   },
   {
+    "id": "AJ1-39",
+    "slug": "jordan-jordan-1-patent-bred-gs",
+    "name": "Jordan 1 Patent Bred GS",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 774000,
+    "promo": false,
+    "sizes": [
+      "5Y"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 575441-063. Talla infantil. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-41.9b98ddc5.webp",
+      "/products/AJ1-41-2.49ad0700.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:34:00.000Z"
+  },
+  {
+    "id": "AJ1-40",
+    "slug": "jordan-jordan-1-patent-bred-gs-2",
+    "name": "Jordan 1 Patent Bred GS",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6.5Y",
+      "7Y"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 575441-063. Talla infantil. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-41.9b98ddc5.webp",
+      "/products/AJ1-41-2.49ad0700.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:35:00.000Z"
+  },
+  {
+    "id": "AJ1-41",
+    "slug": "jordan-jordan-1-patent-bred",
+    "name": "Jordan 1 Patent Bred",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1200000,
+    "promo": false,
+    "sizes": [
+      "7",
+      "7.5",
+      "9.5",
+      "10",
+      "10.5",
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-063. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-41.9b98ddc5.webp",
+      "/products/AJ1-41-2.49ad0700.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:36:00.000Z"
+  },
+  {
     "id": "AJ1-42",
     "slug": "jordan-jordan-1-low-dark-teal",
     "name": "Jordan 1 Low Dark Teal",
@@ -9318,6 +9604,27 @@
     "dateAdded": "1970-01-01T08:09:00.000Z"
   },
   {
+    "id": "AJ1-43",
+    "slug": "jordan-jordan-1-royal-toe-2",
+    "name": "Jordan 1 Royal Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 555088-041. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-22.4e4f4d8f.webp",
+      "/products/AJ1-22-2.3187bb49.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:10:00.000Z"
+  },
+  {
     "id": "AJ4-23",
     "slug": "jordan-jordan-4-yellow-thunder-2",
     "name": "Jordan 4 Yellow Thunder",
@@ -9357,5 +9664,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:13:00.000Z"
+  },
+  {
+    "id": "AJ1-44",
+    "slug": "jordan-jordan-1-low-travis-scott-medium-olive",
+    "name": "Jordan 1 Low Travis Scott Medium Olive",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 2700000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DM7866-200. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-44.69e78a39.webp",
+      "/products/AJ1-44-2.f91a006e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:15:00.000Z"
   }
 ]
