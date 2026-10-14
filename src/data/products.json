@@ -8077,6 +8077,27 @@
     "dateAdded": "1970-01-01T06:42:00.000Z"
   },
   {
+    "id": "YZY350-38",
+    "slug": "adidas-yeezy-350-carbon",
+    "name": "Yeezy 350 Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FZ5000. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-38.52dc9b60.webp",
+      "/products/YZY350-38-2.ee082792.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:45:00.000Z"
+  },
+  {
     "id": "YZY350-39",
     "slug": "adidas-yeezy-350-bred-2",
     "name": "Yeezy 350 Bred",
@@ -8183,6 +8204,27 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T07:29:00.000Z"
+  },
+  {
+    "id": "YZY350-45",
+    "slug": "adidas-yeezy-350-beluga-rf",
+    "name": "Yeezy 350 Beluga RF",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "13"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GW1229. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-45.5c859501.webp",
+      "/products/YZY350-45-2.0d8ea6ac.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:33:00.000Z"
   },
   {
     "id": "YZY350-46",
