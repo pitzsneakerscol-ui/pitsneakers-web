@@ -6,7 +6,7 @@ import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import Kpi from "@/components/admin/Kpi";
 import SalesGrid from "@/components/admin/SalesGrid";
-import { undoSale } from "@/app/admin/ventas/actions";
+import SalesTable from "@/components/admin/SalesTable";
 import type { GridReseller, GridStock } from "@/lib/sales-match";
 
 export const metadata: Metadata = { title: "Ventas de la red" };
@@ -87,42 +87,10 @@ export default async function AdminSales({
           </div>
 
           <div className={`${cardCls} overflow-x-auto p-4 sm:p-6`}>
-            <table className="w-full min-w-[900px] text-left text-sm">
-              <thead>
-                <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
-                  <th className="py-2 pr-3 font-semibold">Fecha</th>
-                  <th className="px-3 py-2 font-semibold">Par</th>
-                  <th className="px-3 py-2 font-semibold">Revendedor</th>
-                  <th className="px-3 py-2 text-right font-semibold">Costo</th>
-                  <th className="px-3 py-2 text-right font-semibold">Vendido</th>
-                  <th className="px-3 py-2 text-right font-semibold">Ganancia</th>
-                  <th className="px-3 py-2 font-semibold">Canal</th>
-                  <th className="py-2 pl-3 font-semibold"><span className="sr-only">Deshacer</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((i) => {
-                  const p = realizedProfit(i);
-                  return (
-                    <tr key={i.id} className="border-b border-line/70">
-                      <td className="py-2.5 pr-3">{i.soldDate}</td>
-                      <td className="px-3 py-2.5">{itemLabel(i)} <span className="text-muted">· talla {i.size}</span></td>
-                      <td className="px-3 py-2.5"><Link href={`/admin/revendedores/${i.ownerId}`} className="hover:underline">{i.ownerName}</Link></td>
-                      <td className="px-3 py-2.5 text-right tabular-nums">{formatPrice(itemTotalCost(i))}</td>
-                      <td className="px-3 py-2.5 text-right tabular-nums">{formatPrice(i.soldPrice ?? 0)}</td>
-                      <td className={`px-3 py-2.5 text-right tabular-nums ${p !== null && p < 0 ? "text-accent" : "text-emerald-700"}`}>{p === null ? "—" : formatPrice(p)}</td>
-                      <td className="px-3 py-2.5 text-muted">{i.soldChannel || "—"}{i.buyer ? ` · ${i.buyer}` : ""}</td>
-                      <td className="py-2.5 pl-3 text-right">
-                        <form action={undoSale}>
-                          <input type="hidden" name="id" value={i.id} />
-                          <button type="submit" className="text-xs font-semibold uppercase tracking-wide text-muted underline underline-offset-4 hover:text-accent" title="Quita la venta (si venía del inventario, el par vuelve a su stock)">Deshacer</button>
-                        </form>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <SalesTable
+              key={`${revId}-${selected}-${rows.map((i) => i.id).join(",")}`}
+              rows={rows.map((i) => ({ id: i.id, ownerId: i.ownerId, ownerName: i.ownerName, label: itemLabel(i), size: i.size, renamable: i.source === "Registrado por Pitsneakers", date: i.soldDate ?? "", price: i.soldPrice ?? 0, cost: i.cost, extraCost: i.extraCost, fees: i.saleFees, channel: i.soldChannel, buyer: i.buyer }))}
+            />
           </div>
         </>
       )}

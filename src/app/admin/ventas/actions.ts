@@ -122,6 +122,55 @@ export async function saveSales(rows: SaleRowIn[]): Promise<SaleResult[]> {
   return results;
 }
 
+export interface SaleEdit {
+  id: number;
+  field: "date" | "price" | "cost" | "fees" | "buyer" | "channel" | "size" | "name";
+  value: string;
+}
+
+/** Edita un dato de una venta ya registrada (se guarda al salir de la celda). */
+export async function updateSale(edit: SaleEdit): Promise<{ ok: boolean; error?: string; value?: string }> {
+  await requireAdmin();
+  const id = Number(edit.id) || 0;
+  if (!id) return { ok: false, error: "Venta no válida." };
+  const db = await getDb();
+  const cur = await db.execute({ sql: "SELECT source FROM items WHERE id = ? AND status = 'vendido'", args: [id] });
+  if (!cur.rows[0]) return { ok: false, error: "Esa venta ya no existe." };
+  const raw = String(edit.value ?? "");
+  let column = "";
+  let arg: string | number = "";
+  switch (edit.field) {
+    case "date": {
+      const d = parseDate(raw, todayBogota());
+      if (!isValidDate(d)) return { ok: false, error: "Fecha no válida (25/10/2026)." };
+      column = "sold_date"; arg = d; break;
+    }
+    case "price": {
+      const n = digits(raw);
+      if (n <= 0) return { ok: false, error: "Escribe el precio de venta." };
+      column = "sold_price"; arg = n; break;
+    }
+    case "cost": column = "cost"; arg = digits(raw); break;
+    case "fees": column = "sale_fees"; arg = digits(raw); break;
+    case "buyer": column = "buyer"; arg = raw.trim().slice(0, 80); break;
+    case "channel":
+      if (raw !== "" && !(SALE_CHANNELS as readonly string[]).includes(raw)) return { ok: false, error: "Canal no válido." };
+      column = "sold_channel"; arg = raw; break;
+    case "size": column = "size"; arg = raw.trim().slice(0, 20); break;
+    case "name": {
+      // Solo los pares creados aquí se pueden renombrar; los del inventario conservan el nombre del catálogo.
+      if (String(cur.rows[0].source) !== SOURCE) return { ok: false, error: "Este par viene del inventario: no se renombra." };
+      const n = raw.replace(/\s+/g, " ").trim().slice(0, 120);
+      if (!n) return { ok: false, error: "Escribe el nombre del par." };
+      column = "name"; arg = n; break;
+    }
+    default: return { ok: false, error: "Campo no válido." };
+  }
+  await db.execute({ sql: `UPDATE items SET ${column} = ? WHERE id = ?`, args: [arg, id] });
+  revalidatePath("/admin", "layout");
+  return { ok: true, value: String(arg) };
+}
+
 /** Deshace una venta: si la creó el administrador se borra; si salía del inventario del vendedor, el par vuelve a su stock. */
 export async function undoSale(fd: FormData): Promise<void> {
   await requireAdmin();
