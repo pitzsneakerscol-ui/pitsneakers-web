@@ -23,8 +23,8 @@ export const siteConfig = {
   // Lo que cobra Wompi por procesar un pago en línea (tarifa % + valor fijo, más IVA sobre eso). Verifica tu tarifa real en el panel de Wompi.
   // Se suma como "costo de pago en línea" al total cuando el cliente paga con Comprar ahora.
   onlineFee: {
-    percent: 2.65,
-    fixed: 700,
+    percent: 2.99,
+    fixed: 900,
     iva: 19,
   },
   commission: {
