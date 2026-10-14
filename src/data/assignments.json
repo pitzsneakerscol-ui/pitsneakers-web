@@ -170,6 +170,20 @@
     "image": "/products/XBAPE80-01.56ec55aa.webp"
   },
   {
+    "seller": "alejandro.garcia",
+    "slug": "adidas-x-kith-gazelle-x-ronnie-fieg",
+    "name": "Gazelle x Ronnie Fieg",
+    "brand": "Adidas x Kith",
+    "colorway": "",
+    "sku": "GAZELLE-03",
+    "sizes": [
+      "9"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/GAZELLE-03.1d4ffa2a.webp"
+  },
+  {
     "seller": "juanlopez319",
     "slug": "nike-mind-001-solar-red",
     "name": "Mind 001 Solar Red",
@@ -2876,8 +2890,8 @@
   },
   {
     "seller": "alejandro.garcia",
-    "slug": "new-balance-x-teddy-santis-new-balance-990v4-teddy-santis-sz-2",
-    "name": "New Balance 990v4 Teddy Santis Sz 2",
+    "slug": "new-balance-x-teddy-santis-new-balance-990v4-teddy-santis-season-2",
+    "name": "New Balance 990v4 Teddy Santis Season 2",
     "brand": "New Balance x Teddy Santis",
     "colorway": "",
     "sku": "NB-17",
