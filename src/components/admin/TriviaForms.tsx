@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { addQuestion, announceTrivia, saveGame } from "@/app/admin/trivia/actions";
+import { addQuestion, announceTrivia, launchNow, saveGame } from "@/app/admin/trivia/actions";
 import { btnAccent, btnPrimary, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 function Notice({ state }: { state: { ok?: boolean; error?: string; message?: string } | undefined }) {
@@ -52,6 +52,35 @@ export function GameForm({ g }: { g: { id?: number; title: string; starts: strin
       </label>
       <Notice state={state} />
       <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Guardando…" : g.id ? "Guardar cambios" : "Crear juego"}</button>
+    </form>
+  );
+}
+
+/** Lanzar una trivia ya: título, en cuántos minutos empieza, cuántas preguntas y segundos por pregunta. Las preguntas salen del banco. */
+export function LaunchNowForm() {
+  const [state, action, pending] = useActionState(launchNow, undefined);
+  return (
+    <form onSubmit={submitWith(action)} className="space-y-4">
+      <div>
+        <label htmlFor="ln-title" className={labelCls}>Título</label>
+        <input id="ln-title" name="title" defaultValue="Trivia relámpago" maxLength={80} className={inputCls} />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div>
+          <label htmlFor="ln-min" className={labelCls}>Empieza en (minutos)</label>
+          <input id="ln-min" name="minutes" inputMode="numeric" defaultValue={5} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor="ln-count" className={labelCls}>Preguntas</label>
+          <input id="ln-count" name="count" inputMode="numeric" defaultValue={10} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor="ln-sec" className={labelCls}>Segundos por pregunta</label>
+          <input id="ln-sec" name="seconds" inputMode="numeric" defaultValue={15} className={inputCls} />
+        </div>
+      </div>
+      <Notice state={state} />
+      <button type="submit" disabled={pending} className={btnAccent}>{pending ? "Creando…" : "⚡ Lanzar trivia"}</button>
     </form>
   );
 }

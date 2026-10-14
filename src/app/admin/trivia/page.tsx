@@ -8,7 +8,7 @@ import { formatPrice } from "@/lib/format";
 import { isEmailConfigured } from "@/lib/email";
 import { siteConfig } from "@/config/site";
 import { btnGhost, cardCls } from "@/components/reseller/ui";
-import { AnnounceTriviaForm, GameForm, QuestionForm } from "@/components/admin/TriviaForms";
+import { AnnounceTriviaForm, GameForm, LaunchNowForm, QuestionForm } from "@/components/admin/TriviaForms";
 import { deleteGame, deleteQuestion } from "@/app/admin/trivia/actions";
 
 export const metadata: Metadata = { title: "Trivia" };
@@ -63,6 +63,12 @@ export default async function TriviaAdminPage({ searchParams }: { searchParams: 
         </div>
         <Link href="/admin/trivia?nuevo=1" className={btnGhost}>+ Nuevo juego</Link>
       </header>
+
+      <section className={`${cardCls} p-5 sm:p-6`}>
+        <h2 className="mb-1 font-display text-2xl tracking-wide">⚡ Lanzar una trivia ahora</h2>
+        <p className="mb-4 text-sm text-muted">Crea un juego que empieza en unos minutos con preguntas al azar del banco (premio y reglas como la trivia semanal). Después, entra al juego y pulsa “Avisar a la lista”.</p>
+        <LaunchNowForm />
+      </section>
 
       {games.length > 1 && (
         <nav aria-label="Juegos" className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">

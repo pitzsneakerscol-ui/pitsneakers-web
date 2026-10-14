@@ -1,11 +1,13 @@
 "use server";
 
+import { redirect, unstable_rethrow } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { fromLocalInput } from "@/lib/auction-shared";
 import { triviaAnnounceEmail } from "@/lib/trivia-emails";
+import { createQuickGame } from "@/lib/trivia";
 import type { ActionState } from "@/lib/reseller-shared";
 
 const text = (fd: FormData, key: string, max: number): string => {
@@ -118,4 +120,23 @@ export async function announceTrivia(_prev: ActionState, fd: FormData): Promise<
   const left = Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced != ?", args: [id] })).rows[0].n);
   refresh();
   return { ok: failed === 0, message: `Enviados: ${sent}${failed ? ` · fallidos: ${failed}` : ""}.${left > 0 ? ` Faltan ${left}: pulsa de nuevo.` : " Ya están todos avisados."}`, ...(failed ? { error: "Algunos correos fallaron; vuelve a intentar." } : {}) };
+}
+
+/** Lanza una trivia que empieza en unos minutos, con preguntas del banco. Después puedes avisar a la lista desde el mismo juego. */
+export async function launchNow(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const title = text(fd, "title", 80) || "Trivia relámpago";
+  const inMinutes = num(fd, "minutes", 1, 240, 5);
+  const count = num(fd, "count", 3, 30, 10);
+  const seconds = num(fd, "seconds", 5, 60, 15);
+  let id: number;
+  try {
+    id = await createQuickGame({ title, inMinutes, count, seconds });
+  } catch (e) {
+    unstable_rethrow(e);
+    console.error("[trivia] lanzar ahora:", e);
+    return { error: "No se pudo crear el juego (¿ya hay otro que empieza a esa misma hora?). Intenta de nuevo." };
+  }
+  refresh();
+  redirect(`/admin/trivia?juego=${id}`);
 }

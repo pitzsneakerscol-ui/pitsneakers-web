@@ -80,14 +80,23 @@ export async function ensureWeeklyGame(): Promise<void> {
       args: [W.title, start, W.seconds, W.gap, W.prize, W.maxWinners, W.minCorrect, now],
     });
     if (ins.rowsAffected === 0) return;
-    const gameId = Number(ins.lastInsertRowid);
+    await fillFromBank(Number(ins.lastInsertRowid), W.questions);
+  } catch (e) {
+    console.error("[trivia] no se pudo crear la trivia semanal:", e);
+  }
+}
+
+/** Pone en un juego preguntas del banco que no se hayan usado hace poco (si el banco se agota, reutiliza las más viejas). */
+async function fillFromBank(gameId: number, count: number): Promise<void> {
+  const db = await getDb();
+  {
     const used = await db.execute("SELECT bank_key FROM trivia_questions WHERE bank_key != '' ORDER BY id DESC LIMIT 400");
     const recency = [...new Set(used.rows.map((r) => String(r.bank_key)))]; // más recientes primero
     const bank = TRIVIA_BANK.map((q) => ({ q, key: hashKey(q[0]) }));
     const fresh = bank.filter((b) => !recency.includes(b.key));
     // Si el banco se agota, se reutilizan primero las preguntas que se usaron hace más tiempo.
     const oldFirst = bank.filter((b) => recency.includes(b.key)).sort((a, b) => recency.indexOf(b.key) - recency.indexOf(a.key));
-    const picked = [...shuffled(fresh), ...oldFirst].slice(0, W.questions);
+    const picked = [...shuffled(fresh), ...oldFirst].slice(0, count);
     let position = 0;
     for (const { q, key } of shuffled(picked)) {
       const options = shuffled([q[1], ...q[2]]);
@@ -96,9 +105,21 @@ export async function ensureWeeklyGame(): Promise<void> {
         args: [gameId, position++, q[0], JSON.stringify(options), options.indexOf(q[1]), key],
       });
     }
-  } catch (e) {
-    console.error("[trivia] no se pudo crear la trivia semanal:", e);
   }
+}
+
+/** Crea un juego que empieza en unos minutos, con preguntas del banco. Para lanzar una trivia "ahora" sin esperar al jueves. */
+export async function createQuickGame(opts: { title: string; inMinutes: number; count: number; seconds: number }): Promise<number> {
+  const db = await getDb();
+  const now = Date.now();
+  const count = Math.max(3, Math.min(30, Math.round(opts.count)));
+  const ins = await db.execute({
+    sql: "INSERT INTO trivia_games (title, starts_at, seconds, gap, prize, max_winners, min_correct, published, created_at) VALUES (?,?,?,?,?,?,?,1,?)",
+    args: [opts.title, now + Math.max(1, opts.inMinutes) * 60_000, opts.seconds, W.gap, W.prize, W.maxWinners, Math.min(W.minCorrect, count), now],
+  });
+  const gameId = Number(ins.lastInsertRowid);
+  await fillFromBank(gameId, count);
+  return gameId;
 }
 
 /** El juego que ven los jugadores: el próximo o el que está en curso; si no hay, el último que terminó. */
