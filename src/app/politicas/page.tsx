@@ -32,7 +32,7 @@ const sections: Section[] = [
           {siteConfig.name} ({siteConfig.legalName}, NIT {siteConfig.nit}) es una comunidad de reventa de sneakers y streetwear en {siteConfig.city}. Los productos que ves en el catálogo se venden bajo el modelo de <B>consignación</B>: pertenecen a vendedores externos y Pitsneakers los verifica, los publica e intermedia la venta y la entrega.
         </P>
         <UL>
-          <li>Los precios están en pesos colombianos (COP) e incluyen la comisión de Pitsneakers. No se cobran cargos ocultos: el único valor adicional posible es el envío, que se te informa antes de despachar.</li>
+          <li>Los precios están en pesos colombianos (COP) e incluyen la comisión de Pitsneakers. No hay cargos ocultos: los únicos valores adicionales posibles son el envío y, si pagas en línea, el costo de procesamiento del pago, y ambos se te informan antes de pagar.</li>
           <li>Las fotos corresponden al modelo. Cada publicación indica la talla, el estado (nuevo o usado) y los detalles relevantes en la descripción.</li>
           <li>La disponibilidad de cada par se confirma por nuestro equipo. Como cada par es único o de pocas unidades, puede venderse por otro canal en el mismo momento: si esto ocurre después de tu pago, te devolvemos el 100% del dinero.</li>
           <li>Puedes comprar por WhatsApp o pagando en línea desde la página del par, cuando esté habilitado el botón <B>Comprar ahora</B>.</li>
@@ -49,6 +49,7 @@ const sections: Section[] = [
           Los pagos en línea se procesan a través de <B>Wompi</B> (Bancolombia) con PSE, Nequi o tarjeta débito y crédito. Pitsneakers <B>no recibe ni almacena</B> los datos de tu tarjeta ni de tu cuenta bancaria: se ingresan directamente en Wompi.
         </P>
         <UL>
+          <li>Los pagos en línea incluyen un <B>costo de procesamiento</B> (lo que cobra la pasarela por PSE, Nequi o tarjeta). Se muestra con su valor exacto antes de pagar, dentro del total. Si prefieres no pagarlo, puedes acordar otro medio de pago por WhatsApp.</li>
           <li>Tu pedido queda confirmado cuando Wompi aprueba el pago. Te llega un comprobante al correo con la referencia del pedido (formato PITS-XXXXXXX).</li>
           <li>Si tu pago es rechazado o queda pendiente no se hace ningún cobro hasta que el banco lo apruebe.</li>
           <li>También puedes acordar otros medios de pago por WhatsApp directamente con nuestro equipo.</li>

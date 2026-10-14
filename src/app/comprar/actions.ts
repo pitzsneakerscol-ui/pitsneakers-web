@@ -8,6 +8,7 @@ import { getAllProducts } from "@/lib/products";
 import { isEmail } from "@/lib/reseller-shared";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { checkCredit, reserveCredit } from "@/lib/trivia";
+import { processingFee } from "@/lib/fees";
 
 export type CheckoutState = { error?: string } | undefined;
 
@@ -54,6 +55,10 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       creditCode = creditText;
     }
 
+    // Costo de pago en línea: se calcula sobre lo que realmente se paga (ya con el crédito descontado).
+    const base = product.price - discount;
+    const fee = processingFee(base);
+
     const order = await createOrder({
       productId: product.id,
       productName: product.name,
@@ -61,9 +66,10 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       size: size || "Única",
       condition: product.condition,
       image: product.images[0] ?? "",
-      amount: product.price - discount,
+      amount: base + fee,
       creditCode,
       discount,
+      fee,
       buyerName: name,
       buyerEmail: email,
       buyerPhone: phone,

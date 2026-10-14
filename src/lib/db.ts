@@ -296,6 +296,7 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
   catalog_orders: [
     ["credit_code", "TEXT NOT NULL DEFAULT ''"],
     ["discount", "INTEGER NOT NULL DEFAULT 0"],
+    ["fee", "INTEGER NOT NULL DEFAULT 0"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

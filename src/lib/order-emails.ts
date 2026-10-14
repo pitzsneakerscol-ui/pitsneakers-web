@@ -16,7 +16,7 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
       `Hola ${o.buyerName.split(" ")[0]}, ya tenemos tu pago por ${line(o)}.`,
       "",
       `> **Pedido:** ${o.reference}`,
-      `> **Total pagado:** ${formatPrice(o.amount)}`,
+      `> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`,
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
       "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",

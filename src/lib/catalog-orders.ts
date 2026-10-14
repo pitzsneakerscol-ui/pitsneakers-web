@@ -18,6 +18,8 @@ export interface CatalogOrder {
   amount: number;
   creditCode: string;
   discount: number;
+  /** costo de pago en línea incluido en el total cobrado */
+  fee: number;
   buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
@@ -42,6 +44,7 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   amount: Number(r.amount),
   creditCode: String(r.credit_code ?? ""),
   discount: Number(r.discount ?? 0),
+  fee: Number(r.fee ?? 0),
   buyerName: String(r.buyer_name),
   buyerEmail: String(r.buyer_email),
   buyerPhone: String(r.buyer_phone),
@@ -64,9 +67,9 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
     const reference = newReference();
     const r = await db.execute({
       sql: `INSERT OR IGNORE INTO catalog_orders
-            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, buyer_name, buyer_email, buyer_phone, buyer_city, created_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, Date.now()],
+            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, buyer_name, buyer_email, buyer_phone, buyer_city, created_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, Date.now()],
     });
     if (r.rowsAffected > 0) return (await getOrderByRef(reference))!;
   }

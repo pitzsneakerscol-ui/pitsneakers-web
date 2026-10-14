@@ -20,6 +20,13 @@ export const siteConfig = {
   // Link CSV de un Google Sheet publicado con el inventario (ver README).
   // Déjalo vacío ("") para seguir usando src/data/products.json.
   productsSheetUrl: "",
+  // Lo que cobra Wompi por procesar un pago en línea (tarifa % + valor fijo, más IVA sobre eso). Verifica tu tarifa real en el panel de Wompi.
+  // Se suma como "costo de pago en línea" al total cuando el cliente paga con Comprar ahora.
+  onlineFee: {
+    percent: 2.65,
+    fixed: 700,
+    iva: 19,
+  },
   commission: {
     percent: 10,
     minimum: 50000,
