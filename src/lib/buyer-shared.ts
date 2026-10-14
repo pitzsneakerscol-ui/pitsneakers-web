@@ -6,4 +6,4 @@ export function safeNext(v: string): string {
 import { siteConfig } from "@/config/site";
 
 /** Precio mínimo que se acepta como oferta para un par (el % de siteConfig.offers, redondeado hacia arriba a $1.000). */
-export const minOffer = (price: number): number => Math.ceil((price * siteConfig.offers.minPercent) / 100 / 1000) * 1000;
+export const minOffer = (price: number, pct: number = siteConfig.offers.minPercent): number => Math.ceil((price * pct) / 100 / 1000) * 1000;

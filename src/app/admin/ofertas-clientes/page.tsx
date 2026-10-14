@@ -29,7 +29,7 @@ export default async function OfertasClientesPage({ searchParams }: { searchPara
       <header>
         <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Ofertas de compradores</h1>
         <p className="mt-2 text-sm text-muted">
-          Lo que los compradores ofrecen desde su cuenta. Si aceptas, ellos pagan al precio acordado desde su cuenta (tienen 24 h). {buyers.count} cuentas creadas, {buyers.verified} con correo verificado.
+          Lo que los compradores ofrecen desde su cuenta. Si aceptas, ellos pagan al precio acordado desde su cuenta (24 a 72 h según su liga). Las ofertas con ⭐ son de ligas altas y salen primero. {buyers.count} cuentas creadas, {buyers.verified} con correo verificado.
         </p>
       </header>
 
@@ -58,10 +58,10 @@ export default async function OfertasClientesPage({ searchParams }: { searchPara
               <li key={o.id} className={`${cardCls} p-4 sm:p-5`}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="font-semibold">{o.brand ? `${o.brand} ` : ""}{o.productName}</p>
+                    <p className="font-semibold">{o.priority ? "⭐ " : ""}{o.brand ? `${o.brand} ` : ""}{o.productName}</p>
                     <p className="text-xs text-muted">
                       {o.size && o.size !== "Única" ? `Talla ${o.size} · ` : ""}
-                      {o.buyerName || "Sin nombre"} · {o.buyerEmail}{o.buyerPhone ? ` · ${o.buyerPhone}` : ""} · {ago(o.createdAt)}
+                      {o.buyerName || "Sin nombre"}{o.league ? ` (liga ${o.league})` : ""} · {o.buyerEmail}{o.buyerPhone ? ` · ${o.buyerPhone}` : ""} · {ago(o.createdAt)}
                     </p>
                   </div>
                   <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider ${st.cls}`}>{st.label}</span>

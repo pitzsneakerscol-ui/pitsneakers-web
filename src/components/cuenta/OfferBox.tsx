@@ -7,14 +7,13 @@ import { formatPrice } from "@/lib/format";
 import { minOffer } from "@/lib/buyer-shared";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
-type Me = { in: boolean; enabled: boolean; verified?: boolean } | null;
+type Me = { in: boolean; enabled: boolean; verified?: boolean; minOfferPct?: number; payHours?: number; league?: string } | null;
 
 /** "Hacer una oferta" en la ficha del par: pide cuenta (y correo verificado) y manda el valor al dueño. */
 export default function OfferBox({ productId, size, name, price, slug }: { productId: string; size: string; name: string; price: number; slug: string }) {
   const [me, setMe] = useState<Me>(null);
   const [open, setOpen] = useState(false);
   const [state, action, pending] = useActionState(makeOffer, undefined);
-  const min = minOffer(price);
 
   useEffect(() => {
     let live = true;
@@ -30,6 +29,8 @@ export default function OfferBox({ productId, size, name, price, slug }: { produ
   }, []);
 
   if (!me?.enabled || price <= 0) return null;
+  const min = minOffer(price, me.minOfferPct);
+  const payHours = me.payHours ?? 24;
 
   if (!me.in) {
     return (
@@ -74,7 +75,7 @@ export default function OfferBox({ productId, size, name, price, slug }: { produ
       <div>
         <label htmlFor="of-amount" className={labelCls}>Tu oferta (COP)</label>
         <input id="of-amount" name="amount" inputMode="numeric" required placeholder={String(min)} className={inputCls} />
-        <p className="mt-1.5 text-xs text-muted">Mínimo {formatPrice(min)}. Si la aceptamos, tienes 24 horas para pagarla desde tu cuenta; si no, te respondemos con una contraoferta.</p>
+        <p className="mt-1.5 text-xs text-muted">Mínimo {formatPrice(min)}. Si la aceptamos, tienes {payHours} horas para pagarla desde tu cuenta{me.league && me.league !== "Bronce" ? ` (beneficio de tu liga ${me.league})` : ""}; si no, te respondemos con una contraoferta.</p>
       </div>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent">{state.error}</p>}
       <button type="submit" disabled={pending} className={`${btnAccent} w-full`}>

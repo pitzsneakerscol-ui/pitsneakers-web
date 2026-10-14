@@ -7,7 +7,8 @@ import { cardCls } from "@/components/reseller/ui";
 import { AddPairForm } from "@/components/cuenta/CuentaForms";
 import Thumb from "@/components/cuenta/Thumb";
 import LeagueCard from "@/components/cuenta/LeagueCard";
-import { fmtPoints } from "@/lib/leagues";
+import { fmtPoints, leagueFor } from "@/lib/leagues";
+import PerksCard from "@/components/cuenta/PerksCard";
 import { removePair } from "../actions";
 
 const BASIS: Record<ValueBasis, string> = {
@@ -105,6 +106,8 @@ export default async function ColeccionPage({ searchParams }: { searchParams: Pr
           })}
         </ul>
       )}
+
+      <PerksCard active={leagueFor(col.verifiedPoints).current} shown={col.league.current} verifiedPoints={col.verifiedPoints} />
 
       <p className="text-xs text-muted">
         El valor es una estimación: usamos el precio al que Pitsneakers vende hoy ese modelo (o su última venta). No es una tasación ni una promesa de recompra.

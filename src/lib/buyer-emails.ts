@@ -49,13 +49,13 @@ export function buyerResetEmail(opts: { name: string; url: string }): { subject:
 /** Aviso al equipo: llegó una oferta nueva. */
 export function offerToTeamEmail(o: BuyerOffer): { subject: string; body: string } {
   return {
-    subject: `🏷️ Oferta nueva: ${formatPrice(o.amount)} por ${o.productName}`,
+    subject: `${o.priority ? "⭐ " : ""}🏷️ Oferta nueva: ${formatPrice(o.amount)} por ${o.productName}`,
     body: [
       `# Oferta de ==${formatPrice(o.amount)}==`,
       "",
       `${pair(o)} · precio publicado ${formatPrice(o.listPrice)}`,
       "",
-      `> **Comprador:** ${o.buyerName || "—"} (${o.buyerEmail})`,
+      `> **Comprador:** ${o.buyerName || "—"} (${o.buyerEmail})${o.league ? ` · liga ${o.league}${o.priority ? " (respuesta prioritaria)" : ""}` : ""}`,
       `> **Oferta:** ${formatPrice(o.amount)} (${Math.round((o.amount / o.listPrice) * 100)}% del precio)`,
       `> **Responder antes de:** ${new Date(o.expiresAt).toLocaleString("es-CO", { timeZone: "America/Bogota" })}`,
       "",
@@ -72,7 +72,7 @@ export function offerAcceptedEmail(o: BuyerOffer): { subject: string; body: stri
       "",
       `Hola ${first(o.buyerName)}, aceptamos tu oferta de ${formatPrice(o.agreedAmount || o.amount)} por ${pair(o)}.`,
       "",
-      `Tienes **${hours(siteConfig.offers.payHours)}** para pagarla. Después de ese plazo el par vuelve a quedar disponible para otros.`,
+      `Tienes **${hours(o.payHours)}** para pagarla. Después de ese plazo el par vuelve a quedar disponible para otros.`,
       "",
       `[boton: Pagar mi oferta | ${site()}/cuenta/ofertas]`,
       "",

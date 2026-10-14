@@ -4,6 +4,8 @@ import { getBuyer } from "@/lib/buyers";
 import { listBuyerOffers, type BuyerOfferStatus } from "@/lib/buyer-offers";
 import { formatPrice } from "@/lib/format";
 import { processingFee } from "@/lib/fees";
+import { feeAfterPerk } from "@/lib/leagues";
+import { getPerks } from "@/lib/perks";
 import { cardCls } from "@/components/reseller/ui";
 import { PayOfferForm } from "@/components/cuenta/CuentaForms";
 import Thumb from "@/components/cuenta/Thumb";
@@ -24,7 +26,7 @@ const when = (ts: number) => new Date(ts).toLocaleString("es-CO", { timeZone: "A
 export default async function OfertasPage() {
   const buyer = await getBuyer();
   if (!buyer) redirect("/cuenta/ingresar");
-  const offers = await listBuyerOffers(buyer.id);
+  const [offers, { perks }] = await Promise.all([listBuyerOffers(buyer.id), getPerks(buyer)]);
 
   if (offers.length === 0) {
     return (
@@ -40,7 +42,7 @@ export default async function OfertasPage() {
     <ul className="space-y-3">
       {offers.map((o) => {
         const st = STATUS[o.status];
-        const total = o.agreedAmount + processingFee(o.agreedAmount);
+        const total = o.agreedAmount + feeAfterPerk(processingFee(o.agreedAmount), perks.feeDiscountPct);
         return (
           <li key={o.id} className={`${cardCls} p-4 sm:p-5`}>
             <div className="flex gap-4">
@@ -81,7 +83,7 @@ export default async function OfertasPage() {
             {o.status === "aceptada" && (
               <div className="mt-4 border-t border-line pt-4">
                 <p className="text-sm">
-                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong> · Pagas <strong>{formatPrice(total)}</strong> con el costo del pago en línea. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
+                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong> · Pagas <strong>{formatPrice(total)}</strong>{perks.feeDiscountPct >= 100 ? " (tu liga cubre el costo del pago en línea)" : " con el costo del pago en línea"}. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
                 </p>
                 <PayOfferForm id={o.id} name={buyer.name} phone={buyer.phone} city={buyer.city} label={`Pagar ${formatPrice(total)} con Wompi`} />
               </div>

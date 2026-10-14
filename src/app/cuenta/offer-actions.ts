@@ -14,6 +14,8 @@ import { createOrder } from "@/lib/catalog-orders";
 import { processingFee } from "@/lib/fees";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { rejectOffer } from "@/lib/buyer-offers";
+import { getPerks } from "@/lib/perks";
+import { feeAfterPerk } from "@/lib/leagues";
 
 export type OfferState = { error?: string; ok?: boolean; message?: string } | undefined;
 
@@ -38,7 +40,8 @@ export async function makeOffer(_prev: OfferState, fd: FormData): Promise<OfferS
     const sizeOk = product.sizes.length === 0 ? size === "Única" || size === "" : product.sizes.includes(size);
     if (!sizeOk) return { error: "Esa talla ya no está disponible. Elige otra." };
 
-    const res = await createBuyerOffer(buyer, product, size || "Única", amount);
+    const { league, perks } = await getPerks(buyer);
+    const res = await createBuyerOffer(buyer, product, size || "Única", amount, { minOfferPct: perks.minOfferPct, payHours: perks.payHours, priority: perks.priority, leagueLabel: league.label });
     if (!res.ok) return { error: res.error };
     const team = offerToTeamEmail(res.offer);
     await sendEmail({ to: siteConfig.contactEmail, subject: team.subject, body: team.body, replyTo: buyer.email }).catch(() => undefined);
@@ -105,7 +108,8 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
     if (!product || !sizeOk) return { error: "Este par ya no está disponible. Escríbenos por WhatsApp y lo resolvemos." };
 
     const base = offer.agreedAmount;
-    const fee = processingFee(base);
+    const { perks } = await getPerks(buyer);
+    const fee = feeAfterPerk(processingFee(base), perks.feeDiscountPct);
     const order = await createOrder({
       productId: product.id,
       productName: product.name,

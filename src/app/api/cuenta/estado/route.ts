@@ -1,5 +1,6 @@
 import { isDbConfigured } from "@/lib/db";
 import { getBuyer } from "@/lib/buyers";
+import { getPerks } from "@/lib/perks";
 
 export const dynamic = "force-dynamic";
 
@@ -9,5 +10,6 @@ export async function GET() {
   if (!isDbConfigured()) return Response.json({ in: false, enabled: false }, { headers });
   const b = await getBuyer();
   if (!b) return Response.json({ in: false, enabled: true }, { headers });
-  return Response.json({ in: true, enabled: true, verified: b.verified, name: b.name }, { headers });
+  const { league, perks } = await getPerks(b);
+  return Response.json({ in: true, enabled: true, verified: b.verified, name: b.name, league: league.label, minOfferPct: perks.minOfferPct, feeDiscountPct: perks.feeDiscountPct, payHours: perks.payHours }, { headers });
 }

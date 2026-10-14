@@ -9,6 +9,9 @@ import { isEmail } from "@/lib/reseller-shared";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { checkCredit, reserveCredit } from "@/lib/trivia";
 import { processingFee } from "@/lib/fees";
+import { getBuyer } from "@/lib/buyers";
+import { getPerks } from "@/lib/perks";
+import { feeAfterPerk } from "@/lib/leagues";
 
 export type CheckoutState = { error?: string } | undefined;
 
@@ -57,7 +60,9 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
 
     // Costo de pago en línea: se calcula sobre lo que realmente se paga (ya con el crédito descontado).
     const base = product.price - discount;
-    const fee = processingFee(base);
+    // Beneficio de liga: si hay un comprador con sesión y su liga cubre parte del costo, se descuenta.
+    const { perks } = await getPerks(await getBuyer());
+    const fee = feeAfterPerk(processingFee(base), perks.feeDiscountPct);
 
     const order = await createOrder({
       productId: product.id,

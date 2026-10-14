@@ -111,8 +111,9 @@ const sections: Section[] = [
         <UL>
           <li>Puedes crear una cuenta con tu correo y contraseña o con Google. Con ella guardas tu lista de deseos, ves los pares que has comprado en Pitsneakers y haces ofertas.</li>
           <li>Para hacer ofertas y ver tus compras anteriores debes <B>confirmar tu correo</B>. Eres responsable de mantener tu contraseña en reserva.</li>
-          <li>Una <B>oferta</B> es una propuesta de precio por un par publicado: no obliga a Pitsneakers a vender. Si la aceptamos, tienes <B>{siteConfig.offers.payHours} horas</B> para pagarla en línea; vencido ese plazo, el par puede venderse a otra persona. Una oferta aceptada y pagada es una compra y se rige por las reglas de compras y devoluciones.</li>
+          <li>Una <B>oferta</B> es una propuesta de precio por un par publicado: no obliga a Pitsneakers a vender. Si la aceptamos, tienes entre <B>{siteConfig.offers.payHours} y 72 horas</B> (según tu liga) para pagarla en línea; vencido ese plazo, el par puede venderse a otra persona. Una oferta aceptada y pagada es una compra y se rige por las reglas de compras y devoluciones.</li>
           <li>El <B>valor aproximado de tu colección</B> es solo una estimación basada en el precio al que Pitsneakers vende hoy ese modelo o en su última venta. No es una tasación ni una oferta de recompra.</li>
+          <li><B>Ligas y beneficios.</B> Según los pares que hayas comprado en Pitsneakers, tu cuenta sube de liga (Bronce, Plata, Oro, Platino y Diamante) y obtiene beneficios como ofertas desde un porcentaje menor del precio, más tiempo para pagar una oferta aceptada, respuesta prioritaria y descuentos en el costo del pago en línea. Los pares agregados a mano suman puntos para la liga, pero no activan beneficios. Pitsneakers puede modificar, limitar o retirar los beneficios en cualquier momento y los revisa ante usos indebidos.</li>
           <li>Puedes pedir que eliminemos tu cuenta escribiéndonos al correo de contacto.</li>
         </UL>
       </>

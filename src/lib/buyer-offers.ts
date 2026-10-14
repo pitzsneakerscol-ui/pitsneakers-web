@@ -24,6 +24,11 @@ export interface BuyerOffer {
   agreedAmount: number;
   responseNote: string;
   orderRef: string;
+  /** horas que tiene para pagar si se acepta (según su liga al ofertar) */
+  payHours: number;
+  /** oferta de un comprador de liga alta: se responde primero */
+  priority: boolean;
+  league: string;
   status: BuyerOfferStatus;
   expiresAt: number;
   createdAt: number;
@@ -56,6 +61,9 @@ function toOffer(r: Record<string, unknown>, now: number): BuyerOffer {
     agreedAmount: Number(r.agreed_amount),
     responseNote: String(r.response_note),
     orderRef: String(r.order_ref),
+    payHours: Number(r.pay_hours ?? 24),
+    priority: Number(r.priority ?? 0) === 1,
+    league: String(r.league ?? ""),
     status,
     expiresAt: Number(r.expires_at),
     createdAt: Number(r.created_at),
@@ -74,7 +82,8 @@ export async function listAllBuyerOffers(filter: "todas" | "pendiente" | "abiert
   const db = await getDb();
   const r = await db.execute(`${SELECT} ORDER BY o.created_at DESC LIMIT 300`);
   const now = Date.now();
-  const all = r.rows.map((x) => toOffer(x, now));
+  // Las ofertas de ligas altas sin responder van primero.
+  const all = r.rows.map((x) => toOffer(x, now)).sort((a, b) => Number(b.status === "pendiente" && b.priority) - Number(a.status === "pendiente" && a.priority));
   if (filter === "pendiente") return all.filter((o) => o.status === "pendiente");
   if (filter === "abiertas") return all.filter((o) => ["pendiente", "contraoferta", "aceptada"].includes(o.status));
   return all;
@@ -94,12 +103,19 @@ export async function pendingOfferCount(): Promise<number> {
 
 export type OfferResult = { ok: true; offer: BuyerOffer } | { ok: false; error: string };
 
-export async function createBuyerOffer(buyer: Buyer, product: Product, size: string, amount: number): Promise<OfferResult> {
+export interface OfferPerk {
+  minOfferPct: number;
+  payHours: number;
+  priority: boolean;
+  leagueLabel: string;
+}
+
+export async function createBuyerOffer(buyer: Buyer, product: Product, size: string, amount: number, perk: OfferPerk): Promise<OfferResult> {
   const price = product.price;
   if (!(price > 0)) return { ok: false, error: "Este par no tiene precio publicado." };
   if (!Number.isInteger(amount) || amount <= 0) return { ok: false, error: "Escribe un valor válido." };
   if (amount >= price) return { ok: false, error: "Tu oferta debe ser menor al precio. Si lo quieres a ese precio, usa Comprar ahora." };
-  const min = minOffer(price);
+  const min = minOffer(price, perk.minOfferPct);
   if (amount < min) return { ok: false, error: `La oferta mínima para este par es ${new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(min)}.` };
 
   const db = await getDb();
@@ -112,9 +128,9 @@ export async function createBuyerOffer(buyer: Buyer, product: Product, size: str
   if (open.rows.some((x) => String(x.product_id) === product.id && String(x.size) === size)) return { ok: false, error: "Ya tienes una oferta abierta por este par y talla. Retírala si quieres cambiar el valor." };
 
   const ins = await db.execute({
-    sql: `INSERT INTO buyer_offers (buyer_id, product_id, product_name, brand, size, image, list_price, amount, expires_at, created_at)
-          VALUES (?,?,?,?,?,?,?,?,?,?)`,
-    args: [buyer.id, product.id, product.name, product.brand, size, product.images[0] ?? "", price, amount, now + siteConfig.offers.replyHours * HOUR, now],
+    sql: `INSERT INTO buyer_offers (buyer_id, product_id, product_name, brand, size, image, list_price, amount, expires_at, created_at, pay_hours, priority, league)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    args: [buyer.id, product.id, product.name, product.brand, size, product.images[0] ?? "", price, amount, now + siteConfig.offers.replyHours * HOUR, now, perk.payHours, perk.priority ? 1 : 0, perk.leagueLabel],
   });
   return { ok: true, offer: (await getBuyerOffer(Number(ins.lastInsertRowid)))! };
 }
@@ -134,7 +150,7 @@ async function transition(id: number, from: BuyerOfferStatus[], set: string, arg
 export async function acceptOffer(id: number): Promise<boolean> {
   const o = await getBuyerOffer(id);
   if (!o) return false;
-  return transition(id, ["pendiente"], "status = 'aceptada', agreed_amount = amount, expires_at = ?", [Date.now() + siteConfig.offers.payHours * HOUR]);
+  return transition(id, ["pendiente"], "status = 'aceptada', agreed_amount = amount, expires_at = ?", [Date.now() + o.payHours * HOUR]);
 }
 
 export async function rejectOffer(id: number, note: string): Promise<boolean> {
@@ -149,7 +165,7 @@ export async function counterOffer(id: number, amount: number, note: string): Pr
 export async function acceptCounter(buyerId: number, id: number): Promise<boolean> {
   const o = await getBuyerOffer(id);
   if (!o || o.buyerId !== buyerId || o.counterAmount <= 0) return false;
-  return transition(id, ["contraoferta"], "status = 'aceptada', agreed_amount = counter_amount, expires_at = ?", [Date.now() + siteConfig.offers.payHours * HOUR]);
+  return transition(id, ["contraoferta"], "status = 'aceptada', agreed_amount = counter_amount, expires_at = ?", [Date.now() + o.payHours * HOUR]);
 }
 
 export async function withdrawOffer(buyerId: number, id: number): Promise<boolean> {

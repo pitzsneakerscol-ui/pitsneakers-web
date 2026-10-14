@@ -33,6 +33,8 @@ export interface Collection {
   paid: number;
   value: number;
   points: number;
+  /** puntos solo de lo comprado en Pitsneakers: con estos se activan los beneficios */
+  verifiedPoints: number;
   league: LeagueStatus;
   /** el par de mayor valor */
   best: CollectionItem | null;
@@ -122,5 +124,5 @@ export async function buildCollection(buyer: Buyer): Promise<Collection> {
   items.sort((a, b) => b.date - a.date);
   const points = items.reduce((s, i) => s + i.points, 0);
   const best = items.reduce<CollectionItem | null>((a, b) => (!a || b.value > a.value ? b : a), null);
-  return { items, paid: items.reduce((s, i) => s + i.paid, 0), value: items.reduce((s, i) => s + i.value, 0), points, league: leagueFor(points), best };
+  return { items, paid: items.reduce((s, i) => s + i.paid, 0), value: items.reduce((s, i) => s + i.value, 0), points, verifiedPoints: items.filter((i) => i.manualId === null).reduce((s, i) => s + i.points, 0), league: leagueFor(points), best };
 }

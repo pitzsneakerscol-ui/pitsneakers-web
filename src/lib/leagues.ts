@@ -70,3 +70,39 @@ export function leagueFor(points: number): LeagueStatus {
 
 /** Puntos con un decimal como máximo ("12" o "12,5"). */
 export const fmtPoints = (p: number): string => (Number.isInteger(p) ? String(p) : p.toFixed(1).replace(".", ","));
+
+/* ---------- Beneficios por liga ---------- */
+
+export interface Perks {
+  /** la oferta mínima que se acepta, como % del precio del par */
+  minOfferPct: number;
+  /** horas para pagar una oferta aceptada */
+  payHours: number;
+  /** % del costo del pago en línea que cubre Pitsneakers (100 = lo cubrimos todo) */
+  feeDiscountPct: number;
+  /** sus ofertas salen primero en tu panel, marcadas con estrella */
+  priority: boolean;
+}
+
+// Los beneficios que cuestan dinero (costo del pago en línea) solo cuentan con puntos de compras verificadas en Pitsneakers.
+export const PERKS: Record<League["key"], Perks> = {
+  bronce: { minOfferPct: 70, payHours: 24, feeDiscountPct: 0, priority: false },
+  plata: { minOfferPct: 70, payHours: 36, feeDiscountPct: 0, priority: false },
+  oro: { minOfferPct: 67, payHours: 48, feeDiscountPct: 0, priority: true },
+  platino: { minOfferPct: 65, payHours: 72, feeDiscountPct: 50, priority: true },
+  diamante: { minOfferPct: 60, payHours: 72, feeDiscountPct: 100, priority: true },
+};
+
+/** Costo del pago en línea ya con el descuento de la liga (se redondea hacia arriba a $100). */
+export const feeAfterPerk = (fee: number, discountPct: number): number =>
+  discountPct <= 0 ? fee : Math.max(0, Math.ceil((fee * (1 - discountPct / 100)) / 100) * 100);
+
+/** Lista legible de lo que da una liga (para mostrarla en la cuenta). */
+export function perkLines(key: League["key"]): string[] {
+  const p = PERKS[key];
+  const lines = [`Ofertas desde el ${p.minOfferPct}% del precio`, `${p.payHours} horas para pagar una oferta aceptada`];
+  if (p.priority) lines.push("Tus ofertas se responden primero ⭐");
+  if (p.feeDiscountPct >= 100) lines.push("Costo del pago en línea cubierto por nosotros");
+  else if (p.feeDiscountPct > 0) lines.push(`${p.feeDiscountPct}% menos en el costo del pago en línea`);
+  return lines;
+}

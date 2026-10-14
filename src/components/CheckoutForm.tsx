@@ -1,17 +1,33 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { startCheckout } from "@/app/comprar/actions";
 import { formatPrice } from "@/lib/format";
 import { processingFee } from "@/lib/fees";
+import { feeAfterPerk } from "@/lib/leagues";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 /** "Comprar ahora": pide los datos y manda a pagar en Wompi (PSE, Nequi, tarjeta). El envío se coordina por WhatsApp después del pago. */
 export default function CheckoutForm({ productId, size, name, price, test }: { productId: string; size: string; name: string; price: number; test: boolean }) {
   const [open, setOpen] = useState(false);
   const [state, action, pending] = useActionState(startCheckout, undefined);
-  const fee = processingFee(price);
+  // Beneficio de liga: si hay un comprador con sesión cuya liga cubre parte del costo, se descuenta.
+  const [perk, setPerk] = useState<{ pct: number; league: string }>({ pct: 0, league: "" });
+  useEffect(() => {
+    if (!open) return;
+    let live = true;
+    fetch("/api/cuenta/estado", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { in?: boolean; feeDiscountPct?: number; league?: string } | null) => {
+        if (live && d?.in && d.feeDiscountPct) setPerk({ pct: d.feeDiscountPct, league: d.league ?? "" });
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [open]);
+  const fee = feeAfterPerk(processingFee(price), perk.pct);
 
   if (!open) {
     return (
@@ -63,7 +79,7 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
       {/* Resumen del cobro: el par, el costo de procesar el pago en línea y el total. */}
       <dl className="space-y-1 rounded-xl bg-paper px-4 py-3 text-sm">
         <div className="flex justify-between"><dt className="text-muted">Par</dt><dd className="tabular-nums">{formatPrice(price)}</dd></div>
-        <div className="flex justify-between"><dt className="text-muted">Costo del pago en línea</dt><dd className="tabular-nums">{formatPrice(fee)}</dd></div>
+        <div className="flex justify-between"><dt className="text-muted">Costo del pago en línea{perk.pct > 0 ? ` · beneficio liga ${perk.league}` : ""}</dt><dd className="tabular-nums">{fee === 0 ? "Cubierto" : formatPrice(fee)}</dd></div>
         <div className="flex justify-between border-t border-line pt-1 font-semibold"><dt>Total a pagar</dt><dd className="tabular-nums">{formatPrice(price + fee)}</dd></div>
       </dl>
       <p className="text-[11px] text-muted">Es lo que cobra la pasarela por procesar PSE, Nequi o tarjeta. Si prefieres no pagarlo, escríbenos por WhatsApp y acordamos otro medio de pago. Si usas un código de crédito, el costo se recalcula sobre el valor ya descontado.</p>
