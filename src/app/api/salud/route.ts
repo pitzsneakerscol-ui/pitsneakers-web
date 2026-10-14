@@ -1,5 +1,6 @@
 import { getDb, isDbConfigured } from "@/lib/db";
 import { isEmailConfigured } from "@/lib/email";
+import { googleStatus } from "@/lib/google-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function GET() {
   try {
     const db = await getDb();
     await db.execute("SELECT 1");
-    return Response.json({ db: "ok", correo: isEmailConfigured() ? "configurado" : "sin-configurar" }, { headers });
+    return Response.json({ db: "ok", correo: isEmailConfigured() ? "configurado" : "sin-configurar", google: googleStatus() }, { headers });
   } catch (e) {
     console.error("[salud] error de base de datos:", e);
     // Pistas sin datos sensibles: cómo empieza la URL (solo el esquema) y si traía espacios o comillas.

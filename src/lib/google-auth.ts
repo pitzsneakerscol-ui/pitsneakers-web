@@ -6,6 +6,14 @@ const clientSecret = () => (process.env.GOOGLE_CLIENT_SECRET ?? "").trim();
 
 export const isGoogleConfigured = (): boolean => Boolean(clientId() && clientSecret());
 
+/** Para el chequeo de salud: dice qué falta, sin mostrar valores. */
+export function googleStatus(): string {
+  if (!clientId() && !clientSecret()) return "faltan-las-dos";
+  if (!clientId()) return "falta-GOOGLE_CLIENT_ID";
+  if (!clientSecret()) return "falta-GOOGLE_CLIENT_SECRET";
+  return "configurado";
+}
+
 export function googleAuthUrl(redirectUri: string, state: string): string {
   const q = new URLSearchParams({
     client_id: clientId(),
