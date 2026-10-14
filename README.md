@@ -361,3 +361,15 @@ Para los inscritos de la lista de espera hay una subasta de pares exclusivos en 
 4. Cuando un par cierre, en la misma pantalla pulsa **Avisar al ganador** (le llega el correo con el paso a WhatsApp para pagar).
 
 Reglas: cada puja supera la anterior por el incremento; si alguien puja en los últimos 2 minutos el par se alarga 2 minutos; al que iba ganando le llega un correo cuando lo superan; los nombres se muestran enmascarados (`pr***@gm***.com`).
+
+## Pagos en línea con Wompi
+
+El botón **Comprar ahora** aparece en la página de cada par cuando están las tres variables de Wompi en Vercel (si faltan, la página funciona como siempre, solo con WhatsApp):
+
+- `WOMPI_PUBLIC_KEY` — llave pública (`pub_test_…` en pruebas, `pub_prod_…` en producción)
+- `WOMPI_INTEGRITY_SECRET` — secreto de integridad (`test_integrity_…` / `prod_integrity_…`)
+- `WOMPI_EVENTS_SECRET` — secreto de eventos (`test_events_…` / `prod_events_…`)
+
+En el panel de Wompi → Desarrolladores configura la **URL de eventos**: `https://pitsneakers.com/api/wompi/eventos`.
+
+Flujo: el cliente elige talla → deja nombre, correo, celular y ciudad → paga en Wompi (PSE, Nequi, tarjeta) → Wompi avisa a la URL de eventos → el pedido queda **Pagado** en **Admin → Pedidos web** y salen dos correos (comprobante al cliente y aviso a info@). El precio siempre se toma del catálogo en el servidor, y los eventos se validan con la firma de Wompi. El envío se coordina por WhatsApp; el stock lo confirma el equipo (si ya no hay, se devuelve el pago desde el panel de Wompi).

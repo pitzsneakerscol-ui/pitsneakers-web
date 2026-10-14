@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // Paneles privados y rutas internas: no deben aparecer en Google.
-        disallow: ["/admin", "/subasta", "/revendedores/panel", "/revendedores/inventario", "/revendedores/ventas", "/revendedores/ranking", "/revendedores/cuenta", "/api/"],
+        disallow: ["/admin", "/subasta", "/pago", "/revendedores/panel", "/revendedores/inventario", "/revendedores/ventas", "/revendedores/ranking", "/revendedores/cuenta", "/api/"],
       },
     ],
     sitemap: siteConfig.siteUrl ? `${siteConfig.siteUrl}/sitemap.xml` : undefined,

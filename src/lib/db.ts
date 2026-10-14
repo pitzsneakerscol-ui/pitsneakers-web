@@ -202,6 +202,28 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_auction_bids ON auction_bids(item_id, created_at)`,
+  `CREATE TABLE IF NOT EXISTS catalog_orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reference TEXT NOT NULL UNIQUE,
+    product_id TEXT NOT NULL,
+    product_name TEXT NOT NULL,
+    brand TEXT NOT NULL DEFAULT '',
+    size TEXT NOT NULL DEFAULT '',
+    condition TEXT NOT NULL DEFAULT 'nuevo',
+    image TEXT NOT NULL DEFAULT '',
+    amount INTEGER NOT NULL,
+    buyer_name TEXT NOT NULL,
+    buyer_email TEXT NOT NULL,
+    buyer_phone TEXT NOT NULL,
+    buyer_city TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendiente',
+    wompi_id TEXT NOT NULL DEFAULT '',
+    payment_method TEXT NOT NULL DEFAULT '',
+    emailed INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL,
+    paid_at INTEGER
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_catalog_orders ON catalog_orders(status, created_at)`,
   `CREATE TABLE IF NOT EXISTS bidder_sessions (
     token_hash TEXT PRIMARY KEY,
     waitlist_id INTEGER NOT NULL,

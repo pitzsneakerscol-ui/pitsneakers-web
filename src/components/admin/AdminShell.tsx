@@ -27,6 +27,7 @@ const MAIN: Item[] = [
   { href: "/admin/consultas", label: "Consultas", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/admin/pedidos", label: "Pedidos web", Icon: ReceiptIcon },
   { href: "/admin/ofertas", label: "Ofertas", Icon: TagIcon },
   { href: "/admin/ventas", label: "Ventas", Icon: ChartIcon },
   { href: "/admin/pagos", label: "Pagos", Icon: WalletIcon },
@@ -44,6 +45,7 @@ const TITLES: Record<string, string> = {
   ventas: "Ventas",
   consultas: "Consultas de mercado",
   ofertas: "Ofertas",
+  pedidos: "Pedidos web",
   pagos: "Pagos",
   compradores: "Compradores",
   "lista-espera": "Lista de espera",

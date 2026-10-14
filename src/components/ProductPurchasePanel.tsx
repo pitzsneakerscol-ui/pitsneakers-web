@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/format";
 import { groupPriceRange } from "@/lib/grouping";
 import { WhatsAppButtonLarge } from "@/components/WhatsAppButton";
 import ScarcityBadge from "@/components/ScarcityBadge";
+import CheckoutForm from "@/components/CheckoutForm";
 
 interface Option {
   key: string;
@@ -46,10 +47,15 @@ function buildOptions(group: ProductGroup): Option[] {
 export default function ProductPurchasePanel({
   group,
   sticky = false,
+  payEnabled = false,
+  payTest = false,
 }: {
   group: ProductGroup;
   /** En celular, fija el botón de WhatsApp al borde inferior (página de producto). */
   sticky?: boolean;
+  /** Pago en línea (Wompi) disponible: se muestra "Comprar ahora". */
+  payEnabled?: boolean;
+  payTest?: boolean;
 }) {
   const options = useMemo(() => buildOptions(group), [group]);
   const multiVariant = group.variants.length > 1;
@@ -156,9 +162,21 @@ export default function ProductPurchasePanel({
         </div>
       </div>
 
-      <div className={`mt-8 ${sticky ? "hidden lg:block" : ""}`}>
+      <div className={`mt-8 ${sticky && !payEnabled ? "hidden lg:block" : ""}`}>
         {!multiVariant || selected ? (
           <>
+            {payEnabled && (
+              <div className="mb-3">
+                <CheckoutForm
+                  key={selected?.key ?? "unico"}
+                  productId={(selected ? selected.variant : options[0].variant).id}
+                  size={selected ? selected.size : options[0].size}
+                  name={`${group.brand} ${group.name}`}
+                  price={selected ? selected.price : options[0].price}
+                  test={payTest}
+                />
+              </div>
+            )}
             <WhatsAppButtonLarge
               product={selected ? selected.variant : options[0].variant}
               size={selected ? selected.size : undefined}

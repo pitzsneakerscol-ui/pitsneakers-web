@@ -9,6 +9,8 @@ import ProductGallery from "@/components/ProductGallery";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
 import ProductGrid from "@/components/ProductGrid";
 import SectionHeading from "@/components/SectionHeading";
+import { isDbConfigured } from "@/lib/db";
+import { isWompiConfigured, isWompiTest } from "@/lib/wompi";
 
 export async function generateStaticParams() {
   const groups = await getAllGroups();
@@ -51,7 +53,7 @@ export default async function ProductPage({
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         <ProductGallery group={group} />
-        <ProductPurchasePanel group={group} sticky />
+        <ProductPurchasePanel group={group} sticky payEnabled={isDbConfigured() && isWompiConfigured()} payTest={isWompiTest()} />
       </div>
 
       {related.length > 0 && (
