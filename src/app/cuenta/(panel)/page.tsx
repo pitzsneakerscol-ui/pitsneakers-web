@@ -6,6 +6,8 @@ import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import { AddPairForm } from "@/components/cuenta/CuentaForms";
 import Thumb from "@/components/cuenta/Thumb";
+import LeagueCard from "@/components/cuenta/LeagueCard";
+import { fmtPoints } from "@/lib/leagues";
 import { removePair } from "../actions";
 
 const BASIS: Record<ValueBasis, string> = {
@@ -27,6 +29,14 @@ export default async function ColeccionPage({ searchParams }: { searchParams: Pr
       {nuevo === "1" && (
         <p role="status" className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-sm text-emerald-900">
           ¡Cuenta creada! Revisa tu correo para confirmarlo; después de confirmarlo aparecerán aquí tus compras en Pitsneakers.
+        </p>
+      )}
+
+      <LeagueCard status={col.league} pairs={col.items.length} />
+
+      {col.best && col.items.length > 1 && (
+        <p className="text-sm text-muted">
+          Tu mejor par: <strong className="text-ink">{col.best.name}</strong>{col.best.size ? ` talla ${col.best.size}` : ""} · {formatPrice(col.best.value)} aprox. ({col.best.rarity.label})
         </p>
       )}
 
@@ -66,6 +76,11 @@ export default async function ColeccionPage({ searchParams }: { searchParams: Pr
               <li key={i.key} className={`${cardCls} flex gap-4 p-4`}>
                 <Thumb image={i.image} brand={i.brand} name={i.name} className="h-24 w-24" />
                 <div className="min-w-0 flex-1">
+                  <p className="mb-1">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ring-1 ${i.rarity.cls}`}>
+                      {i.rarity.label} · +{fmtPoints(i.points)}
+                    </span>
+                  </p>
                   <p className="truncate font-semibold">
                     {i.slug ? <Link href={`/producto/${i.slug}`} className="hover:text-accent">{i.name}</Link> : i.name}
                   </p>

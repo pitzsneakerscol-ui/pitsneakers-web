@@ -3,6 +3,7 @@ import { getDb } from "@/lib/db";
 import { getAllGroups } from "@/lib/products";
 import { listManualPairs, type Buyer } from "@/lib/buyers";
 import type { Product } from "@/types/product";
+import { MANUAL_WEIGHT, leagueFor, rarityOf, type LeagueStatus, type Rarity } from "@/lib/leagues";
 
 export type ValueBasis = "catalogo" | "venta" | "compra";
 
@@ -22,12 +23,19 @@ export interface CollectionItem {
   manualId: number | null;
   /** enlace a la ficha si el modelo sigue publicado */
   slug: string | null;
+  /** rareza según su valor aproximado, y los puntos que suma a la liga */
+  rarity: Rarity;
+  points: number;
 }
 
 export interface Collection {
   items: CollectionItem[];
   paid: number;
   value: number;
+  points: number;
+  league: LeagueStatus;
+  /** el par de mayor valor */
+  best: CollectionItem | null;
 }
 
 const norm = (s: string) =>
@@ -103,12 +111,16 @@ export async function buildCollection(buyer: Buyer): Promise<Collection> {
       date: Number(r.paid_at ?? r.created_at),
       manualId: null,
       slug: e.slug,
+      rarity: rarityOf(e.value),
+      points: rarityOf(e.value).points,
     });
   }
   for (const m of manual) {
     const e = estimate(m.name, null, m.size, m.paid);
-    items.push({ key: `m${m.id}`, name: m.name, brand: m.brand, size: m.size, image: e.image, paid: m.paid, value: e.value, basis: e.basis, date: m.createdAt, manualId: m.id, slug: e.slug });
+    items.push({ key: `m${m.id}`, name: m.name, brand: m.brand, size: m.size, image: e.image, paid: m.paid, value: e.value, basis: e.basis, date: m.createdAt, manualId: m.id, slug: e.slug, rarity: rarityOf(e.value), points: rarityOf(e.value).points * MANUAL_WEIGHT });
   }
   items.sort((a, b) => b.date - a.date);
-  return { items, paid: items.reduce((s, i) => s + i.paid, 0), value: items.reduce((s, i) => s + i.value, 0) };
+  const points = items.reduce((s, i) => s + i.points, 0);
+  const best = items.reduce<CollectionItem | null>((a, b) => (!a || b.value > a.value ? b : a), null);
+  return { items, paid: items.reduce((s, i) => s + i.paid, 0), value: items.reduce((s, i) => s + i.value, 0), points, league: leagueFor(points), best };
 }
