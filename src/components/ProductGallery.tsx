@@ -47,7 +47,7 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
         {count > 1 && (
           <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center gap-1.5 sm:hidden" aria-hidden="true">
             {Array.from({ length: count }).map((_, index) => (
-              <span key={index} className={`h-1.5 rounded-full transition-all ${active === index ? "w-5 bg-ink" : "w-1.5 bg-ink/30"}`} />
+              <span key={index} className={`h-1.5 rounded-full transition-all ${active === index ? "w-5 bg-[#0a0a0a]" : "w-1.5 bg-black/30"}`} />
             ))}
           </div>
         )}

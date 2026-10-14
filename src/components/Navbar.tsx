@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface Session {
   name: string;
@@ -116,6 +117,7 @@ export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: 
               {accountLabel}
             </Link>
           )}
+          <ThemeToggle />
           <a
             href={buildGeneralWhatsAppLink(
               "Hola! Quiero más información sobre Pitsneakers"

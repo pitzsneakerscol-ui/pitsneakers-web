@@ -1525,3 +1525,38 @@ body {
 
 .au-urgent { animation: pl-pulse 1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .au-urgent { animation: none; } }
+
+/* ---------- Modo noche del sitio público (html.site-dark, lo activa el botón de la barra) ---------- */
+html.site-dark {
+  --color-ink: #f2efe9;
+  --color-paper: #0b0b0d;
+  --color-paper-raised: #141417;
+  --color-line: #2a2a30;
+  --color-muted: #a09da8;
+  --color-accent: #ee5a38;
+  color-scheme: dark;
+}
+/* Barra, portada y pie ya eran oscuros: se quedan oscuros aunque la "tinta" ahora sea clara. */
+html.site-dark .bg-ink:not(.theme-dark *) { background-color: #050507; }
+/* Botones tinta-sobre-blanco: pasan a claro con texto oscuro. */
+html.site-dark button.bg-ink:not(.theme-dark *),
+html.site-dark a.bg-ink:not(.theme-dark *) { background-color: #f2efe9; color: #0a0a0a; }
+html.site-dark button.bg-ink:not(.theme-dark *):hover,
+html.site-dark a.bg-ink:not(.theme-dark *):hover { background-color: #ffffff; }
+/* Chips y botones blancos (fotos): siguen blancos con texto oscuro. */
+html.site-dark .bg-white:not(.theme-dark *),
+html.site-dark .bg-white\/90:not(.theme-dark *),
+html.site-dark .bg-white\/95:not(.theme-dark *) { color: #0a0a0a; }
+html.site-dark .bg-white.hover\:bg-ink:hover:not(.theme-dark *) { background-color: #0a0a0a; color: #ffffff; }
+/* Fondos claros de tarjetas de producto: las fotos son de fondo claro, se dejan así. */
+html.site-dark .bg-\[\#ebe8e2\]:not(.theme-dark *) { color: #0a0a0a; }
+html.site-dark ::selection { background: rgba(238, 90, 56, 0.35); }
+
+/* Botón de modo noche: luna de día, sol de noche. */
+.theme-toggle .tt-sun { display: none; }
+html.site-dark .theme-toggle .tt-sun { display: block; }
+html.site-dark .theme-toggle .tt-moon { display: none; }
+html.site-dark .bg-ink\/95:not(.theme-dark *) { background-color: rgba(5, 5, 7, 0.95); }
+html.site-dark .bg-ink\/90:not(.theme-dark *) { background-color: rgba(5, 5, 7, 0.9); }
+html.site-dark .bg-ink\/85:not(.theme-dark *) { background-color: rgba(5, 5, 7, 0.85); }
+html.site-dark .bg-ink\/60:not(.theme-dark *) { background-color: rgba(0, 0, 0, 0.7); }

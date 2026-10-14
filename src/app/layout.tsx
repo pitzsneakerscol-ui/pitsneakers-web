@@ -59,8 +59,13 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
+      suppressHydrationWarning
       className={`${inter.variable} ${anton.variable} h-full antialiased`}
     >
+      <head>
+        {/* Aplica el modo noche guardado antes de pintar la página (evita el destello blanco). */}
+        <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('pits-theme')==='dark')document.documentElement.classList.add('site-dark')}catch(e){}" }} />
+      </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ChromeGate locked={locked}>
         <ScrollProgress />
