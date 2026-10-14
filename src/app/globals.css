@@ -1552,6 +1552,10 @@ html.site-dark .bg-white.hover\:bg-ink:hover:not(.theme-dark *) { background-col
 html.site-dark .bg-\[\#ebe8e2\]:not(.theme-dark *) { color: #0a0a0a; }
 html.site-dark ::selection { background: rgba(238, 90, 56, 0.35); }
 
+/* Dentro de la app móvil: respeta la zona segura (muesca / barra de estado) y no resalta el toque. */
+html.native-app body { padding-top: env(safe-area-inset-top); -webkit-tap-highlight-color: transparent; }
+html.native-app { overscroll-behavior-y: none; }
+
 /* Botón de modo noche: luna de día, sol de noche. */
 .theme-toggle .tt-sun { display: none; }
 html.site-dark .theme-toggle .tt-sun { display: block; }

@@ -7,7 +7,7 @@ import type { NextRequest } from "next/server";
  * Para ver la página completa tú mismo: entra una vez a  https://tu-sitio/?acceso=CLAVE  (CLAVE = SITE_PREVIEW_KEY).
  */
 const OPEN =
-  /^\/(proximamente|subasta|trivia|pago|politicas|admin|api|_next)(\/|$)|^\/revendedores\/(ingresar|recuperar|restablecer|panel|inventario|ventas|ranking|cuenta|avisos|consultas|ofertas|exportar|plantilla)(\/|$)|^\/(robots\.txt|sitemap\.xml|favicon\.ico)$|\.(png|jpe?g|webp|avif|gif|svg|ico|woff2?|css|js|map|txt|xml|mp4|webm)$/i;
+  /^\/(proximamente|subasta|trivia|pago|politicas|admin|api|_next)(\/|$)|^\/revendedores\/(ingresar|recuperar|restablecer|panel|inventario|ventas|ranking|cuenta|avisos|consultas|ofertas|exportar|plantilla)(\/|$)|^\/(robots\.txt|sitemap\.xml|favicon\.ico)$|\.(png|jpe?g|webp|avif|gif|svg|ico|woff2?|css|js|map|txt|xml|webmanifest|mp4|webm)$/i;
 
 const COOKIE = "pits_acceso";
 

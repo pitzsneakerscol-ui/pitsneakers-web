@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { answerQuestion } from "@/app/trivia/actions";
 import { formatPrice } from "@/lib/format";
+import { haptic } from "@/lib/native";
 import type { TriviaState } from "@/lib/trivia-shared";
 
 const LETTERS = ["A", "B", "C", "D"];
@@ -59,6 +60,7 @@ export default function TriviaPlayer({ initial }: { initial: TriviaState }) {
     if (!st.question || picked !== null) return;
     setPicked(i);
     setErr(null);
+    haptic("light");
     const r = await answerQuestion(st.question.id, i);
     if (!r.ok) {
       setPicked(null);

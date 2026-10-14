@@ -259,6 +259,14 @@ const SCHEMA = [
   )`,
   `CREATE INDEX IF NOT EXISTS idx_trivia_answers ON trivia_answers(game_id, waitlist_id)`,
   `CREATE UNIQUE INDEX IF NOT EXISTS idx_trivia_start ON trivia_games(starts_at)`,
+  `CREATE TABLE IF NOT EXISTS devices (
+    token TEXT PRIMARY KEY,
+    platform TEXT NOT NULL DEFAULT 'android',
+    user_id INTEGER,
+    waitlist_id INTEGER,
+    created_at INTEGER NOT NULL,
+    last_seen INTEGER NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS credit_codes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,

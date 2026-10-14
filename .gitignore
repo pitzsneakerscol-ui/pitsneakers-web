@@ -46,3 +46,16 @@ next-env.d.ts
 # fotos por procesar (el comando `npm run fotos` las lee de aquí)
 /fotos-nuevas/*
 !/fotos-nuevas/.gitkeep
+
+# App móvil (Capacitor): dependencias y artefactos de compilación
+/mobile/node_modules
+/mobile/android/.gradle
+/mobile/android/build
+/mobile/android/app/build
+/mobile/android/local.properties
+/mobile/android/app/google-services.json
+/mobile/ios/App/Pods
+/mobile/ios/App/build
+/mobile/ios/App/App/GoogleService-Info.plist
+*.keystore
+*.jks

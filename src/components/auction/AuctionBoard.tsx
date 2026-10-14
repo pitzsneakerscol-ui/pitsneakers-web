@@ -5,6 +5,7 @@ import Image from "next/image";
 import { bid } from "@/app/subasta/actions";
 import { itemStatus, minNextBid, type AuctionItemView, type LiveItem } from "@/lib/auction-shared";
 import { formatPrice } from "@/lib/format";
+import { haptic } from "@/lib/native";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 function countdown(ms: number): string {
@@ -39,7 +40,10 @@ function BidBox({ item, disabled, onLive }: { item: AuctionItemView; disabled: b
       const r = await bid(item.id, amount);
       setPending(false);
       if (r?.item) onLive(r.item);
-      if (r?.ok) setValue("");
+      if (r?.ok) {
+        setValue("");
+        haptic("success");
+      }
       setMsg({ ok: !!r?.ok, text: r?.ok ? (r.message ?? "¡Puja registrada!") : (r?.error ?? "No se pudo pujar.") });
     });
   }

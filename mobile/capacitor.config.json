@@ -1,0 +1,31 @@
+{
+  "appId": "com.pitsneakers.app",
+  "appName": "Pitsneakers",
+  "webDir": "www",
+  "server": {
+    "url": "https://pitsneakers.com",
+    "cleartext": false,
+    "allowNavigation": ["pitsneakers.com", "*.pitsneakers.com", "checkout.wompi.co", "*.wompi.co", "*.wompi.com"]
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "backgroundColor": "#0a0a0a"
+  },
+  "android": {
+    "backgroundColor": "#0a0a0a"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "backgroundColor": "#0a0a0a",
+      "showSpinner": false
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#0a0a0a"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}

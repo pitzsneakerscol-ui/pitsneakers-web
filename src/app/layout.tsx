@@ -9,6 +9,7 @@ import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
 import ChromeGate from "@/components/ChromeGate";
 import ScrollProgress from "@/components/ScrollProgress";
+import NativeBridge from "@/components/NativeBridge";
 import { siteConfig } from "@/config/site";
 import { isDbConfigured } from "@/lib/db";
 
@@ -78,6 +79,7 @@ export default async function RootLayout({
         <Navbar resellerEnabled={isDbConfigured()} />
         </ChromeGate>
         <main className="flex-1">{children}</main>
+        <NativeBridge />
         <ChromeGate locked={locked}>
         <Footer />
         <FloatingSearchButton />

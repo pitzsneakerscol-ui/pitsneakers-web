@@ -7,6 +7,7 @@ import { groupPriceRange } from "@/lib/grouping";
 import { WhatsAppButtonLarge } from "@/components/WhatsAppButton";
 import ScarcityBadge from "@/components/ScarcityBadge";
 import CheckoutForm from "@/components/CheckoutForm";
+import { shareLink } from "@/lib/native";
 
 interface Option {
   key: string;
@@ -106,6 +107,13 @@ export default function ProductPurchasePanel({
       )}
 
       <ScarcityBadge group={group} className="mt-3" />
+      <button
+        type="button"
+        onClick={() => void shareLink({ title: `${group.brand} ${group.name}`, text: `Mira este par en Pitsneakers: ${group.brand} ${group.name}`, url: `${window.location.origin}/producto/${group.groupSlug}` })}
+        className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted transition hover:border-ink hover:text-ink"
+      >
+        Compartir
+      </button>
 
       <div className="mt-4 flex items-center gap-3">
         {activePromo && (
