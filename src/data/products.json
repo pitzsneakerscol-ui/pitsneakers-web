@@ -10342,5 +10342,125 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:17:00.000Z"
+  },
+  {
+    "id": "NB-16",
+    "slug": "new-balance-x-jjjjound-new-balance-993-x-jjjjound",
+    "name": "New Balance 993 x JJJJound",
+    "brand": "New Balance x JJJJound",
+    "category": "sneakers",
+    "price": 2500000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-16.95b127ed.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:18:00.000Z"
+  },
+  {
+    "id": "NB-17",
+    "slug": "new-balance-x-teddy-santis-new-balance-990v4-teddy-santis-season-2",
+    "name": "New Balance 990v4 Teddy Santis Season 2",
+    "brand": "New Balance x Teddy Santis",
+    "category": "sneakers",
+    "price": 790000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-17.4448afec.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:19:00.000Z"
+  },
+  {
+    "id": "NB-18",
+    "slug": "new-balance-new-balance-1906r-x-action-bronson-medusa",
+    "name": "New Balance 1906R x Action Bronson Medusa",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-18.5416340a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:20:00.000Z"
+  },
+  {
+    "id": "NB-19",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-610-x-joe-freshgoods-exclusive",
+    "name": "New Balance 610 x Joe Freshgoods Exclusive",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 700000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-19.20a9d915.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:21:00.000Z"
+  },
+  {
+    "id": "NB-20",
+    "slug": "new-balance-x-joe-freshgoods-new-balance-aged-well-joe-freshgoods",
+    "name": "New Balance Aged Well Joe Freshgoods",
+    "brand": "New Balance x Joe Freshgoods",
+    "category": "sneakers",
+    "price": 1200000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-20.5f266f52.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:22:00.000Z"
+  },
+  {
+    "id": "ASICS-16",
+    "slug": "asics-asics-gt-2160-earls-collection",
+    "name": "Asics GT-2160 Earls Collection",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-16.1816c3fb.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:23:00.000Z"
   }
 ]
