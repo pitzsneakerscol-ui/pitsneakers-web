@@ -1,6 +1,7 @@
 import { isDbConfigured } from "@/lib/db";
 import { runSync } from "@/lib/seller-sync";
 import { notifyInventory } from "@/lib/seller-notify";
+import { ensureWeeklyGame } from "@/lib/trivia";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -18,6 +19,7 @@ export async function GET(request: Request) {
   }
   if (!isDbConfigured()) return Response.json({ ok: false, error: "Base de datos sin configurar." }, { status: 503 });
 
+  await ensureWeeklyGame();
   const { added, sellers, waiting, notices } = await runSync();
   let sent = 0;
   let noEmail = 0;

@@ -5,6 +5,8 @@ import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { maskEmail } from "@/lib/auction-shared";
 import { phaseAt, endsAt, openAt, type GameTiming, type TriviaGameView, type TriviaQuestionView, type TriviaResult, type TriviaState } from "@/lib/trivia-shared";
 import { creditWinnerEmail } from "@/lib/trivia-emails";
+import { weeklyTrivia as W } from "@/config/trivia";
+import { TRIVIA_BANK } from "@/data/trivia-bank";
 
 /** Hora del servidor (las páginas no pueden llamar Date.now() directamente al renderizar). */
 export const triviaNow = (): number => Date.now();
@@ -26,8 +28,82 @@ async function questionCount(gameId: number): Promise<number> {
   return Number(r.rows[0].n);
 }
 
+/* ---------- Trivia semanal automática ---------- */
+
+const BOGOTA = "America/Bogota";
+const dayInfo = (ms: number): { date: string; weekday: number } => {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: BOGOTA, year: "numeric", month: "2-digit", day: "2-digit", weekday: "short" }).formatToParts(new Date(ms)).map((p) => [p.type, p.value]));
+  const wd = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(String(parts.weekday));
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, weekday: wd };
+};
+
+/** Próximo jueves a las 11:00 (hora de Colombia) cuyo juego todavía no ha terminado. */
+export function nextWeeklyStart(now: number): number {
+  const duration = (W.seconds + W.gap) * W.questions * 1000;
+  for (let k = 0; k <= 8; k++) {
+    const { date, weekday } = dayInfo(now + k * 86_400_000);
+    if (weekday !== W.weekday) continue;
+    const start = Date.parse(`${date}T${String(W.hour).padStart(2, "0")}:${String(W.minute).padStart(2, "0")}:00-05:00`);
+    if (start + duration > now) return start;
+  }
+  return now + 7 * 86_400_000;
+}
+
+const hashKey = (s: string): string => {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+};
+
+function shuffled<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let lastEnsure = 0;
+
+/** Crea sola la trivia del próximo jueves (con preguntas del banco que no se hayan usado hace poco). Se llama al abrir la trivia, el panel y la tarea diaria. */
+export async function ensureWeeklyGame(): Promise<void> {
+  if (process.env.TRIVIA_AUTO === "0") return;
+  const now = Date.now();
+  if (now - lastEnsure < 60_000) return;
+  lastEnsure = now;
+  try {
+    const db = await getDb();
+    const start = nextWeeklyStart(now);
+    const ins = await db.execute({
+      sql: "INSERT OR IGNORE INTO trivia_games (title, starts_at, seconds, gap, prize, max_winners, min_correct, published, created_at) VALUES (?,?,?,?,?,?,?,1,?)",
+      args: [W.title, start, W.seconds, W.gap, W.prize, W.maxWinners, W.minCorrect, now],
+    });
+    if (ins.rowsAffected === 0) return;
+    const gameId = Number(ins.lastInsertRowid);
+    const used = await db.execute("SELECT bank_key FROM trivia_questions WHERE bank_key != '' ORDER BY id DESC LIMIT 400");
+    const recency = [...new Set(used.rows.map((r) => String(r.bank_key)))]; // más recientes primero
+    const bank = TRIVIA_BANK.map((q) => ({ q, key: hashKey(q[0]) }));
+    const fresh = bank.filter((b) => !recency.includes(b.key));
+    // Si el banco se agota, se reutilizan primero las preguntas que se usaron hace más tiempo.
+    const oldFirst = bank.filter((b) => recency.includes(b.key)).sort((a, b) => recency.indexOf(b.key) - recency.indexOf(a.key));
+    const picked = [...shuffled(fresh), ...oldFirst].slice(0, W.questions);
+    let position = 0;
+    for (const { q, key } of shuffled(picked)) {
+      const options = shuffled([q[1], ...q[2]]);
+      await db.execute({
+        sql: "INSERT INTO trivia_questions (game_id, position, text, options, correct, bank_key) VALUES (?,?,?,?,?,?)",
+        args: [gameId, position++, q[0], JSON.stringify(options), options.indexOf(q[1]), key],
+      });
+    }
+  } catch (e) {
+    console.error("[trivia] no se pudo crear la trivia semanal:", e);
+  }
+}
+
 /** El juego que ven los jugadores: el próximo o el que está en curso; si no hay, el último que terminó. */
 export async function getActiveGame(): Promise<(TriviaGameView & { minCorrect: number; finalized: boolean }) | null> {
+  await ensureWeeklyGame();
   const db = await getDb();
   const r = await db.execute("SELECT * FROM trivia_games WHERE published = 1 ORDER BY starts_at");
   if (r.rows.length === 0) return null;

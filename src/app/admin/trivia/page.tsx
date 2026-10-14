@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDb } from "@/lib/db";
-import { triviaNow } from "@/lib/trivia";
+import { ensureWeeklyGame, triviaNow } from "@/lib/trivia";
 import { endsAt, phaseAt } from "@/lib/trivia-shared";
 import { formatWhen, toLocalInput } from "@/lib/auction-shared";
 import { formatPrice } from "@/lib/format";
@@ -15,6 +15,7 @@ export const metadata: Metadata = { title: "Trivia" };
 
 export default async function TriviaAdminPage({ searchParams }: { searchParams: Promise<{ juego?: string; nuevo?: string }> }) {
   const { juego, nuevo } = await searchParams;
+  await ensureWeeklyGame();
   const db = await getDb();
   const games = (await db.execute("SELECT g.*, (SELECT COUNT(*) FROM trivia_questions q WHERE q.game_id = g.id) AS nq FROM trivia_games g ORDER BY g.starts_at DESC")).rows;
   const sel = nuevo ? null : games.find((g) => String(g.id) === juego) ?? games[0] ?? null;
@@ -30,7 +31,7 @@ export default async function TriviaAdminPage({ searchParams }: { searchParams: 
     const w = await db.execute({ sql: "SELECT c.code, c.used_at, w.email FROM credit_codes c JOIN waitlist w ON w.id = c.waitlist_id WHERE c.game_id = ? ORDER BY c.id", args: [Number(sel.id)] });
     winners = w.rows.map((x) => ({ email: String(x.email), code: String(x.code), used: x.used_at !== null }));
   }
-  const pendingAnnounce = Number((await db.execute("SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced = 0")).rows[0].n);
+  const pendingAnnounce = sel ? Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced != ?", args: [Number(sel.id)] })).rows[0].n) : 0;
 
   const timing = sel ? { startsAt: Number(sel.starts_at), seconds: Number(sel.seconds), gap: Number(sel.gap), total: questions.length } : null;
   const phase = timing && questions.length ? phaseAt(timing, now).phase : null;

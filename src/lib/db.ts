@@ -258,6 +258,7 @@ const SCHEMA = [
     UNIQUE(question_id, waitlist_id)
   )`,
   `CREATE INDEX IF NOT EXISTS idx_trivia_answers ON trivia_answers(game_id, waitlist_id)`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS idx_trivia_start ON trivia_games(starts_at)`,
   `CREATE TABLE IF NOT EXISTS credit_codes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,
@@ -283,6 +284,7 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["announced", "INTEGER NOT NULL DEFAULT 0"],
     ["trivia_announced", "INTEGER NOT NULL DEFAULT 0"],
   ],
+  trivia_questions: [["bank_key", "TEXT NOT NULL DEFAULT ''"]],
   catalog_orders: [
     ["credit_code", "TEXT NOT NULL DEFAULT ''"],
     ["discount", "INTEGER NOT NULL DEFAULT 0"],

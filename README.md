@@ -373,3 +373,11 @@ El botón **Comprar ahora** aparece en la página de cada par cuando están las 
 En el panel de Wompi → Desarrolladores configura la **URL de eventos**: `https://pitsneakers.com/api/wompi/eventos`.
 
 Flujo: el cliente elige talla → deja nombre, correo, celular y ciudad → paga en Wompi (PSE, Nequi, tarjeta) → Wompi avisa a la URL de eventos → el pedido queda **Pagado** en **Admin → Pedidos web** y salen dos correos (comprobante al cliente y aviso a info@). El precio siempre se toma del catálogo en el servidor, y los eventos se validan con la firma de Wompi. El envío se coordina por WhatsApp; el stock lo confirma el equipo (si ya no hay, se devuelve el pago desde el panel de Wompi).
+
+## Trivia semanal automática
+
+Cada **jueves a las 11:00 a. m. (hora de Colombia)** hay trivia en vivo en `/trivia` (solo con pase de la lista de espera). La página crea sola el juego de la semana con 10 preguntas del banco `src/data/trivia-bank.ts` (no repite hasta agotar el banco). Quien acierte al menos 8 y sea de los 10 más rápidos gana **$10.000 de crédito**, que descuenta en **Comprar ahora** (código personal que le llega por correo).
+
+- Ajustes (día, hora, cantidad de preguntas, tiempos, premio, tope de ganadores, aciertos mínimos): `src/config/trivia.ts`.
+- Para sumar preguntas, agrégalas al banco; para pausar la trivia automática, pon `TRIVIA_AUTO=0` en Vercel.
+- En **Admin → Trivia** puedes ver/editar el juego de la semana, crear juegos extra, avisar a la lista por correo y ver los ganadores y sus códigos.

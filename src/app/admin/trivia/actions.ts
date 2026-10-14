@@ -107,15 +107,15 @@ export async function announceTrivia(_prev: ActionState, fd: FormData): Promise<
   const questions = Number(n.rows[0].n);
   if (questions === 0) return { error: "Agrega preguntas antes de avisar." };
   const { subject, body } = triviaAnnounceEmail({ title: String(row.title), startsAt: Number(row.starts_at), prize: Number(row.prize), questions });
-  const pending = await db.execute("SELECT id, email FROM waitlist WHERE trivia_announced = 0 ORDER BY id LIMIT 40");
+  const pending = await db.execute({ sql: "SELECT id, email FROM waitlist WHERE trivia_announced != ? ORDER BY id LIMIT 40", args: [id] });
   if (pending.rows.length === 0) return { ok: true, message: "Todos los inscritos ya fueron avisados." };
   let sent = 0, failed = 0;
   for (const r of pending.rows) {
     const res = await sendEmail({ to: String(r.email), subject, body });
-    if (res.ok) { sent++; await db.execute({ sql: "UPDATE waitlist SET trivia_announced = 1 WHERE id = ?", args: [Number(r.id)] }); } else failed++;
+    if (res.ok) { sent++; await db.execute({ sql: "UPDATE waitlist SET trivia_announced = ? WHERE id = ?", args: [id, Number(r.id)] }); } else failed++;
     await new Promise((resolve) => setTimeout(resolve, 600));
   }
-  const left = Number((await db.execute("SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced = 0")).rows[0].n);
+  const left = Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE trivia_announced != ?", args: [id] })).rows[0].n);
   refresh();
   return { ok: failed === 0, message: `Enviados: ${sent}${failed ? ` · fallidos: ${failed}` : ""}.${left > 0 ? ` Faltan ${left}: pulsa de nuevo.` : " Ya están todos avisados."}`, ...(failed ? { error: "Algunos correos fallaron; vuelve a intentar." } : {}) };
 }
