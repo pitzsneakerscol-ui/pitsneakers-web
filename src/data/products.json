@@ -8137,6 +8137,26 @@
     "dateAdded": "1970-01-01T06:32:00.000Z"
   },
   {
+    "id": "ADIDAS-01",
+    "slug": "adidas-i-5923",
+    "name": "I-5923",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 200000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo I-5923. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-01.bc8ff5f8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T06:33:00.000Z"
+  },
+  {
     "id": "ADIDAS-02",
     "slug": "adidas-sobakov",
     "name": "Sobakov",
@@ -9933,6 +9953,26 @@
     "dateAdded": "1970-01-01T07:58:00.000Z"
   },
   {
+    "id": "SB-DUNK-46",
+    "slug": "nike-dunk-sb-gardenia",
+    "name": "Dunk SB Gardenia",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1075000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DQ5130-400. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-46.89ba93e5.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T07:59:00.000Z"
+  },
+  {
     "id": "YZY350-48",
     "slug": "adidas-yeezy-350-carbon-beluga-2",
     "name": "Yeezy 350 Carbon Beluga",
@@ -10095,6 +10135,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:07:00.000Z"
+  },
+  {
+    "id": "ADI-BB-41",
+    "slug": "adidas-x-bad-bunny-response-bad-bunny-white",
+    "name": "Response Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo GY0102. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-41.10d4e89a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:08:00.000Z"
   },
   {
     "id": "YZY350-51",
