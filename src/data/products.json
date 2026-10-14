@@ -2014,7 +2014,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
     "images": [
-      "/products/SUPREME-DUFFLE-BAG.91281969.webp"
+      "/products/SUPREME-DUFFLE-BAG.787eb1eb.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -2052,7 +2052,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Rareza muy alta (🔥🔥🔥). Comisión incluida en el precio.",
     "images": [
-      "/products/SUPREME-BACKPACK.ec8301b2.webp"
+      "/products/SUPREME-BACKPACK.535b7b27.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -6482,8 +6482,8 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-06.f826b4e2.webp",
-      "/products/AJ1-06-2.dfabb78e.webp"
+      "/products/AJ1-06.25a37fea.webp",
+      "/products/AJ1-06-2.16afc795.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -7283,8 +7283,8 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-06.f826b4e2.webp",
-      "/products/AJ1-06-2.dfabb78e.webp"
+      "/products/AJ1-06.25a37fea.webp",
+      "/products/AJ1-06-2.16afc795.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -9358,7 +9358,7 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Código de estilo S70595-1. Comisión incluida en el precio.",
     "images": [
-      "/products/SAUCONY-01.f82185d7.webp"
+      "/products/SAUCONY-01.a6817107.webp"
     ],
     "featured": false,
     "isNew": false,
@@ -10302,5 +10302,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:15:00.000Z"
+  },
+  {
+    "id": "SLMN-06",
+    "slug": "salomon-salomon-xt-4-ferxxocalipsis-2",
+    "name": "Salomon XT-4 Ferxxocalipsis",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1450000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SLMN-05.def82178.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:16:00.000Z"
   }
 ]
