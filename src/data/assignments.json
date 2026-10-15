@@ -3099,5 +3099,19 @@
     "price": 1650000,
     "condition": "nuevo",
     "image": "/products/SB-DUNK-50.c954cf3d.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-response-bad-bunny-boston-day",
+    "name": "Response Bad Bunny Boston Day",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-44",
+    "sizes": [
+      "10"
+    ],
+    "price": 9450000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-44.314b42a9.webp"
   }
 ]

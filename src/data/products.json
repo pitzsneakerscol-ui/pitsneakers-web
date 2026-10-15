@@ -10641,5 +10641,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:32:00.000Z"
+  },
+  {
+    "id": "ADI-BB-44",
+    "slug": "adidas-x-bad-bunny-response-bad-bunny-boston-day",
+    "name": "Response Bad Bunny Boston Day",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 9450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-44.314b42a9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:33:00.000Z"
   }
 ]
