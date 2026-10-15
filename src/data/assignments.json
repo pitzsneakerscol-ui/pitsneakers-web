@@ -3127,5 +3127,19 @@
     "price": 450000,
     "condition": "usado",
     "image": "/products/ADIDAS-06.7841df34.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "jordan-jordan-1-reimagined-unc",
+    "name": "Jordan 1 Reimagined UNC",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-46",
+    "sizes": [
+      "10"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-46.7f1b31d4.webp"
   }
 ]

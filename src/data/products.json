@@ -10681,5 +10681,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:34:00.000Z"
+  },
+  {
+    "id": "AJ1-46",
+    "slug": "jordan-jordan-1-reimagined-unc",
+    "name": "Jordan 1 Reimagined UNC",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-46.7f1b31d4.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:35:00.000Z"
   }
 ]
