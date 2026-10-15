@@ -3141,5 +3141,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/AJ1-46.7f1b31d4.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "jordan-jordan-1-low-travis-scott-fragment-2-0-military-blue",
+    "name": "Jordan 1 Low Travis Scott Fragment 2.0 Military Blue",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-47",
+    "sizes": [
+      "10"
+    ],
+    "price": 3650000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-47.0ee699e5.webp"
   }
 ]
