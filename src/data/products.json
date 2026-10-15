@@ -10926,8 +10926,8 @@
   },
   {
     "id": "SUPREME-VANSON-01",
-    "slug": "supreme-vanson-leathers-skull-beanie",
-    "name": "Vanson Leathers Skull Beanie",
+    "slug": "supreme-vanson-leathers-skull-beanie-pink",
+    "name": "Vanson Leathers Skull Beanie Pink",
     "brand": "Supreme",
     "category": "streetwear",
     "subcategory": "accesorio",
@@ -10942,5 +10942,24 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:47:00.000Z"
+  },
+  {
+    "id": "SUPREME-VANSON-02",
+    "slug": "supreme-vanson-leathers-skull-beanie-black",
+    "name": "Vanson Leathers Skull Beanie Black",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "subcategory": "accesorio",
+    "price": 350000,
+    "promo": false,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [
+      "/products/SUPREME-VANSON-02.1743fcdd.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:48:00.000Z"
   }
 ]

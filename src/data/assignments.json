@@ -3314,8 +3314,8 @@
   },
   {
     "seller": "sergio.alejandro12",
-    "slug": "supreme-vanson-leathers-skull-beanie",
-    "name": "Vanson Leathers Skull Beanie",
+    "slug": "supreme-vanson-leathers-skull-beanie-pink",
+    "name": "Vanson Leathers Skull Beanie Pink",
     "brand": "Supreme",
     "colorway": "",
     "sku": "SUPREME-VANSON-01",
@@ -3323,6 +3323,19 @@
     "price": 350000,
     "condition": "nuevo",
     "image": "/products/SUPREME-VANSON-01.4e20b913.webp",
+    "kind": "accesorio"
+  },
+  {
+    "seller": "sergio.alejandro12",
+    "slug": "supreme-vanson-leathers-skull-beanie-black",
+    "name": "Vanson Leathers Skull Beanie Black",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "SUPREME-VANSON-02",
+    "sizes": [],
+    "price": 350000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-VANSON-02.1743fcdd.webp",
     "kind": "accesorio"
   }
 ]
