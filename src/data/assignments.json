@@ -3057,5 +3057,19 @@
     "price": 900000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-42.d2606bf5.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-bad-bunny-leo-messi-2",
+    "name": "Bad Bunny Leo Messi",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-43",
+    "sizes": [
+      "10"
+    ],
+    "price": 1500000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-43.dfb0545c.webp"
   }
 ]

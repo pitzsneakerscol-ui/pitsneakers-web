@@ -10582,5 +10582,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:29:00.000Z"
+  },
+  {
+    "id": "ADI-BB-43",
+    "slug": "adidas-x-bad-bunny-bad-bunny-leo-messi-2",
+    "name": "Bad Bunny Leo Messi",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1500000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-BB-43.dfb0545c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:30:00.000Z"
   }
 ]
