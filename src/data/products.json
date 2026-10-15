@@ -10502,5 +10502,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:25:00.000Z"
+  },
+  {
+    "id": "ADI-SL72-04",
+    "slug": "adidas-x-bad-bunny-sl72-off-white",
+    "name": "SL72 Off White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI-SL72-04.cc98ef74.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:26:00.000Z"
   }
 ]
