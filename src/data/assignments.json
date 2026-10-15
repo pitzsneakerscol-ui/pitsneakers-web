@@ -2987,5 +2987,33 @@
     "price": 600000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-05.f2bdc3a1.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-sl72-off-white",
+    "name": "SL72 Off White",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-SL72-04",
+    "sizes": [
+      "10"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/ADI-SL72-04.cc98ef74.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-sl72-blue",
+    "name": "SL72 Blue",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-SL72-05",
+    "sizes": [
+      "10"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/ADI-SL72-05.00339cdb.webp"
   }
 ]
