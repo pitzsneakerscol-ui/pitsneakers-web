@@ -4355,7 +4355,6 @@
     "sizes": [
       "9",
       "9.5",
-      "10",
       "10.5"
     ],
     "condition": "nuevo",
@@ -10569,7 +10568,7 @@
     "name": "Bad Bunny Cabo Rojo",
     "brand": "Adidas x Bad Bunny",
     "category": "sneakers",
-    "price": 900000,
+    "price": 800000,
     "promo": false,
     "sizes": [
       "10"
