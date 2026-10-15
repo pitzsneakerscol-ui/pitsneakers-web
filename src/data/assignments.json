@@ -3015,5 +3015,19 @@
     "price": 1000000,
     "condition": "nuevo",
     "image": "/products/ADI-SL72-05.00339cdb.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-sl72-maroon",
+    "name": "SL72 Maroon",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-SL72-06",
+    "sizes": [
+      "10"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/ADI-SL72-06.73a496ee.webp"
   }
 ]
