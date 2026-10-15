@@ -26,6 +26,7 @@ type Sort = "relevancia" | "menor" | "mayor";
 
 const DIACRITICS_REGEX = new RegExp("[\\u0300-\\u036f]", "g");
 const RECENT_KEY = "pit-recent-searches";
+const FAB_HINTS = ["Buscar mi par", "Jordan 4 Black Cat", "Dunk Low Panda", "Yeezy Slide", "Travis Scott", "Adidas Campus", "Nike Mind 001", "Mi talla: 9"];
 const HINTS = ["Jordan 4 Military Black", "Dunk Low Panda", "Yeezy Slide", "Travis Scott", "Adidas Campus", "Nike Mind 001", "Supreme", "talla 9"];
 
 function normalize(text: string): string {
@@ -192,6 +193,8 @@ export default function FloatingSearchButton() {
   const [sort, setSort] = useState<Sort>("relevancia");
   const [active, setActive] = useState(0);
   const [hint, setHint] = useState(0);
+  const [fab, setFab] = useState(0);
+  const [compact, setCompact] = useState(false);
   const [lap, setLap] = useState(0);
   const [recent, setRecent] = useState<string[]>([]);
   const [products, setProducts] = useState<SearchResult[] | null>(null);
@@ -269,6 +272,29 @@ export default function FloatingSearchButton() {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
+
+  // Botón flotante: rota los ejemplos (se detiene si la pestaña está oculta o el buscador está abierto).
+  useEffect(() => {
+    if (open) return;
+    const id = setInterval(() => {
+      if (!document.hidden) setFab((n) => (n + 1) % FAB_HINTS.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [open]);
+
+  // Se encoge a un círculo al bajar por la página y vuelve a su tamaño al subir (o al pasar el mouse por encima).
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 240) setCompact(false);
+      else if (y > last + 6) setCompact(true);
+      else if (y < last - 6) setCompact(false);
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Placeholder animado: rota ejemplos mientras el buscador está vacío.
   useEffect(() => {
@@ -368,11 +394,19 @@ export default function FloatingSearchButton() {
         type="button"
         onClick={openSearch}
         aria-label="Buscar tu par"
-        className="fixed bottom-6 right-6 z-40 hidden h-14 items-center gap-2 rounded-full bg-ink px-5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink/90 lg:flex"
+        className={`srch-fab fixed bottom-6 right-6 z-40 hidden h-14 items-center rounded-full bg-ink text-sm font-semibold text-white shadow-lg lg:flex ${compact ? "srch-fab-compact" : ""}`}
       >
-        <SearchIcon />
-        <span className="hidden sm:inline">Buscar mi par</span>
-        <kbd className="hidden rounded border border-white/25 px-1.5 py-0.5 text-[10px] font-medium text-white/60 xl:inline">Ctrl K</kbd>
+        <span className="srch-fab-icon flex h-14 w-14 shrink-0 items-center justify-center">
+          <SearchIcon />
+        </span>
+        <span className="srch-fab-label">
+          <span className="srch-fab-stack" aria-hidden="true">
+            {FAB_HINTS.map((h, i) => (
+              <span key={h} className={i === fab ? "on" : (i + 1) % FAB_HINTS.length === fab ? "past" : ""}>{h}</span>
+            ))}
+          </span>
+          <kbd className="hidden rounded border border-white/25 px-1.5 py-0.5 text-[10px] font-medium text-white/60 xl:inline">Ctrl K</kbd>
+        </span>
       </button>
 
       {open && (

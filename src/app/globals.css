@@ -1221,6 +1221,78 @@ body {
 .srch-ph {
   animation: srch-ph-in 2.4s ease both;
 }
+
+/* Botón flotante de búsqueda: muestra ejemplos que rotan, late de vez en cuando y se encoge a un círculo al bajar por la página. */
+.srch-fab {
+  transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.25s ease, background-color 0.2s ease;
+}
+.srch-fab:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.55);
+}
+.srch-fab:active {
+  transform: scale(0.97);
+}
+.srch-fab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: srch-fab-pulse 4.5s ease-out infinite;
+}
+@keyframes srch-fab-pulse {
+  0%, 70% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 0%, transparent); }
+  75% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 65%, transparent); }
+  100% { box-shadow: 0 0 0 16px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+}
+.srch-fab-icon {
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+.srch-fab:hover .srch-fab-icon {
+  transform: rotate(-14deg) scale(1.12);
+}
+.srch-fab-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 24rem;
+  padding-right: 1.25rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s ease, opacity 0.3s ease;
+}
+.srch-fab-compact .srch-fab-label {
+  max-width: 0;
+  padding-right: 0;
+  opacity: 0;
+}
+.srch-fab-compact:hover .srch-fab-label,
+.srch-fab-compact:focus-visible .srch-fab-label {
+  max-width: 24rem;
+  padding-right: 1.25rem;
+  opacity: 1;
+}
+.srch-fab-stack {
+  display: inline-grid;
+}
+.srch-fab-stack > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+.srch-fab-stack > span.on {
+  opacity: 1;
+  transform: none;
+}
+.srch-fab-stack > span.past {
+  transform: translateY(-10px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .srch-fab, .srch-fab-label, .srch-fab-stack > span, .srch-fab-icon { transition: none; }
+  .srch-fab::after { animation: none; }
+}
 @keyframes srch-shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
