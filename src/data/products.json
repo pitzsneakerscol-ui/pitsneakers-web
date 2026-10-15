@@ -10902,5 +10902,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:45:00.000Z"
+  },
+  {
+    "id": "SUPREME-SITH-01",
+    "slug": "supreme-sith-logo-tee-black",
+    "name": "Sith Logo Tee Black",
+    "brand": "Supreme",
+    "category": "streetwear",
+    "subcategory": "ropa",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "M"
+    ],
+    "condition": "nuevo",
+    "description": "Comisión incluida en el precio.",
+    "images": [
+      "/products/SUPREME-SITH-01.ccdbac9e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:46:00.000Z"
   }
 ]

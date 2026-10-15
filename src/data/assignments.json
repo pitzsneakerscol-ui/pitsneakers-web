@@ -3296,5 +3296,20 @@
     "condition": "nuevo",
     "image": "/products/SUPREME-PRAYER-01.082b420f.webp",
     "kind": "ropa"
+  },
+  {
+    "seller": "sergio.alejandro12",
+    "slug": "supreme-sith-logo-tee-black",
+    "name": "Sith Logo Tee Black",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "SUPREME-SITH-01",
+    "sizes": [
+      "M"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-SITH-01.ccdbac9e.webp",
+    "kind": "ropa"
   }
 ]
