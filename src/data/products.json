@@ -10841,5 +10841,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:42:00.000Z"
+  },
+  {
+    "id": "NB-21",
+    "slug": "new-balance-new-balance-1906r-sugar-rose",
+    "name": "New Balance 1906R Sugar Rose",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 1250000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-21.c879c375.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:43:00.000Z"
   }
 ]

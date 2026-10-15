@@ -3253,5 +3253,19 @@
     "price": 900000,
     "condition": "nuevo",
     "image": "/products/AF1-17.1cdc1785.webp"
+  },
+  {
+    "seller": "juancruz0095@icloud.com",
+    "slug": "new-balance-new-balance-1906r-sugar-rose",
+    "name": "New Balance 1906R Sugar Rose",
+    "brand": "New Balance",
+    "colorway": "",
+    "sku": "NB-21",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1250000,
+    "condition": "nuevo",
+    "image": "/products/NB-21.c879c375.webp"
   }
 ]
