@@ -116,6 +116,20 @@
     "image": "/products/VOMERO-01.12a0d603.webp"
   },
   {
+    "seller": "nikkotours",
+    "slug": "nike-dunk-sb-yuto-h-sparragus",
+    "name": "Dunk SB Yuto H Sparragus",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-33",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-33.0451190d.webp"
+  },
+  {
     "seller": "santiagoalbaa",
     "slug": "nike-nocta-af1-citron",
     "name": "Nocta AF1 Citron",
