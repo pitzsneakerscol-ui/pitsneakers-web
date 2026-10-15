@@ -3155,5 +3155,19 @@
     "price": 3650000,
     "condition": "nuevo",
     "image": "/products/AJ1-47.0ee699e5.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "salomon-salomon-xt-4-ferxxocalipsis-3",
+    "name": "Salomon XT-4 Ferxxocalipsis",
+    "brand": "Salomon",
+    "colorway": "",
+    "sku": "SLMN-07",
+    "sizes": [
+      "10"
+    ],
+    "price": 1200000,
+    "condition": "nuevo",
+    "image": "/products/SLMN-07.def82178.webp"
   }
 ]
