@@ -3071,5 +3071,19 @@
     "price": 1500000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-43.dfb0545c.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "nike-sb-dunk-low-the-wizard-of-oz",
+    "name": "SB Dunk Low The Wizard of Oz",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-49",
+    "sizes": [
+      "10"
+    ],
+    "price": 1050000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-49.720f6d33.webp"
   }
 ]
