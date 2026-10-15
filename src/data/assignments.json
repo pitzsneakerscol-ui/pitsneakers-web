@@ -130,6 +130,20 @@
     "image": "/products/AF1-12.d3164a72.webp"
   },
   {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-bad-bunny-san-juan",
+    "name": "Bad Bunny San Juan",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-24",
+    "sizes": [
+      "10"
+    ],
+    "price": 1500000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-24.b7e17adb.webp"
+  },
+  {
     "seller": "alejandro.garcia",
     "slug": "adidas-gazelle-y-3-olive",
     "name": "Gazelle Y-3 Olive",
