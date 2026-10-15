@@ -56,8 +56,11 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
 
   const rows: SyncRow[] = [];
   for (const [seller, list] of bySeller) {
+    // El dueño puede escribir en VENDEDOR el usuario del vendedor o el correo de su cuenta.
     const u = await db.execute({
-      sql: "SELECT id, display_name FROM users WHERE username = ? AND role != 'admin'",
+      sql: seller.includes("@")
+        ? "SELECT id, display_name FROM users WHERE LOWER(email) = ? AND role != 'admin'"
+        : "SELECT id, display_name FROM users WHERE username = ? AND role != 'admin'",
       args: [seller],
     });
     const userId = u.rows[0] ? Number(u.rows[0].id) : null;
@@ -82,8 +85,8 @@ export interface SyncNotice {
 }
 
 /** Carga en la cuenta de `userId` lo que le falta de sus pares asignados. Devuelve lo cargado. */
-async function loadFor(userId: number, seller: string): Promise<{ name: string; size: string; price: number }[]> {
-  const mine = assignments.filter((a) => a.seller === seller);
+async function loadFor(userId: number, keys: string[]): Promise<{ name: string; size: string; price: number }[]> {
+  const mine = assignments.filter((a) => keys.includes(a.seller));
   if (mine.length === 0) return [];
   const have = await haveCounts(userId);
   const today = todayBogota();
@@ -129,7 +132,7 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
       continue;
     }
     if (!row.pending.length) continue;
-    const items = await loadFor(row.userId, row.seller);
+    const items = await loadFor(row.userId, [row.seller]);
     if (!items.length) continue;
     sellers++;
     added += items.length;
@@ -143,7 +146,11 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
  * Se llama sola cuando el vendedor entra a su panel, así que sus pares aparecen sin que el dueño tenga que pulsar nada.
  */
 export async function syncUser(userId: number, username: string): Promise<number> {
-  const items = await loadFor(userId, username.trim().toLowerCase());
+  // Sus pares pueden estar asignados por usuario o por el correo de su cuenta.
+  const db = await getDb();
+  const me = await db.execute({ sql: "SELECT email FROM users WHERE id = ?", args: [userId] });
+  const email = me.rows[0] ? String(me.rows[0].email ?? "").trim().toLowerCase() : "";
+  const items = await loadFor(userId, email ? [username.trim().toLowerCase(), email] : [username.trim().toLowerCase()]);
   if (items.length > 0) {
     const names = [...new Set(items.map((i) => i.name))];
     await createNotification(userId, {

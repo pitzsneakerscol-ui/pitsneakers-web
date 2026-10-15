@@ -25,9 +25,9 @@ export default async function SellerSyncPanel() {
               <div className="min-w-0">
                 <p className="font-semibold text-ink">
                   {r.userId !== null ? (
-                    <Link href={`/admin/revendedores/${r.userId}`} className="hover:underline">@{r.seller}</Link>
+                    <Link href={`/admin/revendedores/${r.userId}`} className="hover:underline">{r.seller.includes("@") ? "" : "@"}{r.seller}</Link>
                   ) : (
-                    <>@{r.seller}</>
+                    <>{r.seller.includes("@") ? "" : "@"}{r.seller}</>
                   )}
                   {r.displayName && r.displayName !== r.seller && <span className="ml-2 font-normal text-muted">{r.displayName}</span>}
                 </p>
