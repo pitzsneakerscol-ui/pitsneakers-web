@@ -2973,5 +2973,19 @@
     "price": 1400000,
     "condition": "nuevo",
     "image": "/products/AJ1-45.8ac45e9d.webp"
+  },
+  {
+    "seller": "bzsimon",
+    "slug": "adidas-adistar-xlg-2-0-solar-orange",
+    "name": "Adistar XLG 2.0 Solar Orange",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-05",
+    "sizes": [
+      "9"
+    ],
+    "price": 600000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-05.f2bdc3a1.webp"
   }
 ]
