@@ -10783,6 +10783,26 @@
     "dateAdded": "1970-01-01T08:39:00.000Z"
   },
   {
+    "id": "YZY350-52",
+    "slug": "adidas-yeezy-350-mono-ice",
+    "name": "Yeezy 350 Mono Ice",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1050000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY350-52.2459c72f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:40:00.000Z"
+  },
+  {
     "id": "AJ3-08",
     "slug": "jordan-jordan-3-retro-family-affair",
     "name": "Jordan 3 Retro Family Affair",
