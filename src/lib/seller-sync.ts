@@ -4,7 +4,7 @@ import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
 import { insertItems } from "@/lib/reseller";
-import { todayBogota } from "@/lib/reseller-shared";
+import { kindsPhrase, todayBogota, type ItemKind } from "@/lib/reseller-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
 
 const assignments = assignmentsJson as SellerAssignment[];
@@ -81,16 +81,16 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
 export interface SyncNotice {
   userId: number;
   username: string;
-  items: { name: string; size: string; price: number }[];
+  items: { name: string; size: string; price: number; kind: ItemKind }[];
 }
 
 /** Carga en la cuenta de `userId` lo que le falta de sus pares asignados. Devuelve lo cargado. */
-async function loadFor(userId: number, keys: string[]): Promise<{ name: string; size: string; price: number }[]> {
+async function loadFor(userId: number, keys: string[]): Promise<{ name: string; size: string; price: number; kind: ItemKind }[]> {
   const mine = assignments.filter((a) => keys.includes(a.seller));
   if (mine.length === 0) return [];
   const have = await haveCounts(userId);
   const today = todayBogota();
-  const loaded: { name: string; size: string; price: number }[] = [];
+  const loaded: { name: string; size: string; price: number; kind: ItemKind }[] = [];
   for (const a of mine) {
     const missing = missingSizes(a, have);
     if (missing.length === 0) continue;
@@ -114,7 +114,7 @@ async function loadFor(userId: number, keys: string[]): Promise<{ name: string; 
       },
       missing
     );
-    for (const size of missing) loaded.push({ name: a.name, size, price: a.price });
+    for (const size of missing) loaded.push({ name: a.name, size, price: a.price, kind: a.kind ?? "tenis" });
   }
   return loaded;
 }
@@ -155,7 +155,7 @@ export async function syncUser(userId: number, username: string): Promise<number
     const names = [...new Set(items.map((i) => i.name))];
     await createNotification(userId, {
       kind: "inventario",
-      title: items.length === 1 ? "Se cargó 1 par en tu inventario" : `Se cargaron ${items.length} pares en tu inventario`,
+      title: `${items.length === 1 ? "Se cargó" : "Se cargaron"} ${kindsPhrase(items)} en tu inventario`,
       body: names.slice(0, 3).join(", ") + (names.length > 3 ? ` y ${names.length - 3} más` : ""),
       href: "/revendedores/inventario",
     });

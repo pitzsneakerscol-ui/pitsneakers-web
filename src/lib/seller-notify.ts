@@ -4,6 +4,7 @@ import { createNotification } from "@/lib/notifications";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { inventoryEmail } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
+import { kindsPhrase, type ItemKind } from "@/lib/reseller-shared";
 
 export type NotifyResult = "sent" | "no-email" | "off" | "fail";
 
@@ -13,14 +14,14 @@ export type NotifyResult = "sent" | "no-email" | "off" | "fail";
  */
 export async function notifyInventory(
   userId: number,
-  items: { name: string; size: string; price: number }[]
+  items: { name: string; size: string; price: number; kind?: ItemKind }[]
 ): Promise<NotifyResult> {
   if (items.length === 0) return "off";
   // Aviso dentro del panel (la campana), aunque no tenga correo.
   const names = [...new Set(items.map((i) => i.name))];
   await createNotification(userId, {
     kind: "inventario",
-    title: items.length === 1 ? "Se cargó 1 par en tu inventario" : `Se cargaron ${items.length} pares en tu inventario`,
+    title: `${items.length === 1 ? "Se cargó" : "Se cargaron"} ${kindsPhrase(items)} en tu inventario`,
     body: names.slice(0, 3).join(", ") + (names.length > 3 ? ` y ${names.length - 3} más` : ""),
     href: "/revendedores/inventario",
   });

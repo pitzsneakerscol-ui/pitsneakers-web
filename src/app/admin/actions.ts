@@ -15,7 +15,7 @@ import { cleanUsername, usernameError } from "@/lib/username";
 import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
-import { isEmail, isValidDate, todayBogota, type ActionState } from "@/lib/reseller-shared";
+import { isEmail, isValidDate, kindsPhrase, todayBogota, type ActionState } from "@/lib/reseller-shared";
 import { PAYMENT_METHODS, listTemplates } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, missingVars, renderTemplate, siteVars, type Vars } from "@/lib/email-templates";
@@ -466,7 +466,7 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
   const n = toAdd.length ? await insertItems(userId, data, toAdd) : 0;
   refresh();
   const extra = skipped ? ` (${skipped} ya estaba${skipped === 1 ? "" : "n"} en su stock y no se duplicó)` : "";
-  const mail = n > 0 ? await notifyInventory(userId, toAdd.map((size) => ({ name: data.name, size, price: data.expectedPrice }))) : "off";
+  const mail = n > 0 ? await notifyInventory(userId, toAdd.map((size) => ({ name: data.name, size, price: data.expectedPrice, kind: data.kind }))) : "off";
   const aviso =
     n === 0
       ? ""
@@ -479,7 +479,7 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
             : "";
   return {
     ok: true,
-    message: `${n === 1 ? "Cargamos 1 artículo" : `Cargamos ${n} artículos`} a @${String(who.rows[0].username)}${extra}.${aviso}`,
+    message: `Cargamos ${kindsPhrase(Array.from({ length: n }, () => ({ kind: data.kind })))} a @${String(who.rows[0].username)}${extra}.${aviso}`,
   };
 }
 
@@ -507,7 +507,7 @@ export async function syncSellerCatalog(): Promise<ActionState> {
     (failed ? ` No pudimos enviar ${failed} aviso${failed === 1 ? "" : "s"}.` : "");
   return {
     ok: true,
-    message: `${added === 1 ? "Se cargó 1 par" : `Se cargaron ${added} pares`} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${aviso}${wait}`,
+    message: `${added === 1 ? "Se cargó" : "Se cargaron"} ${kindsPhrase(notices.flatMap((x) => x.items))} en ${sellers === 1 ? "1 cuenta" : `${sellers} cuentas`}.${aviso}${wait}`,
   };
 }
 
