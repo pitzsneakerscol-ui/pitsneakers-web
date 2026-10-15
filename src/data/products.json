@@ -10861,5 +10861,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:43:00.000Z"
+  },
+  {
+    "id": "AMPLUS-01",
+    "slug": "nike-air-max-plus-light-smoke-grey",
+    "name": "Air Max Plus Light Smoke Grey",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 605000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AMPLUS-01.4c895be8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:44:00.000Z"
   }
 ]

@@ -3267,5 +3267,19 @@
     "price": 1250000,
     "condition": "nuevo",
     "image": "/products/NB-21.c879c375.webp"
+  },
+  {
+    "seller": "juancruz0095@icloud.com",
+    "slug": "nike-air-max-plus-light-smoke-grey",
+    "name": "Air Max Plus Light Smoke Grey",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AMPLUS-01",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 605000,
+    "condition": "nuevo",
+    "image": "/products/AMPLUS-01.4c895be8.webp"
   }
 ]
