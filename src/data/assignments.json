@@ -3281,5 +3281,20 @@
     "price": 605000,
     "condition": "nuevo",
     "image": "/products/AMPLUS-01.4c895be8.webp"
+  },
+  {
+    "seller": "sergio.alejandro12",
+    "slug": "supreme-prayer-card-box-logo-tee-white",
+    "name": "Prayer Card Box Logo Tee White",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "SUPREME-PRAYER-01",
+    "sizes": [
+      "L"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-PRAYER-01.082b420f.webp",
+    "kind": "ropa"
   }
 ]
