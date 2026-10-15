@@ -5,6 +5,7 @@ import { formatPrice } from "@/lib/format";
 import { burstConfetti } from "@/lib/confetti";
 import type { CatalogEntry } from "@/components/reseller/ItemFields";
 import type { ItemKind } from "@/lib/reseller-shared";
+import { commissionRule, priceForReceives, sellerBreakdown } from "@/lib/payout";
 import PairPreview from "@/components/reseller/PairPreview";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
@@ -150,6 +151,9 @@ export default function AddWizard({
   const totalPairs = sizeList.reduce((n, [, q]) => n + q, 0);
   const unitCost = digits(cost) + digits(extra);
   const exp = digits(expected);
+  // Lo que el vendedor recibe de verdad: precio - comisión - envío; y su utilidad = eso - lo que le costó.
+  const bd = sellerBreakdown(exp, kind);
+  const net = exp > 0 ? bd.receives - unitCost : 0;
 
   useEffect(() => {
     if (success) burstConfetti(successHost.current, 40);
@@ -323,6 +327,7 @@ export default function AddWizard({
                   </button>
                 ))}
               </div>
+              <p className="rounded-lg bg-paper px-3 py-2 text-xs text-muted">💰 {commissionRule(kind)}</p>
               <div className="relative">
                 <label htmlFor="aw-name" className="sr-only">Artículo / modelo</label>
                 <input
@@ -498,10 +503,10 @@ export default function AddWizard({
                     key={p}
                     type="button"
                     disabled={unitCost === 0}
-                    onClick={() => setExpected(String(Math.round((unitCost * (1 + p / 100)) / 1000) * 1000))}
+                    onClick={() => setExpected(String(Math.round(priceForReceives(unitCost * (1 + p / 100), kind) / 1000) * 1000))}
                     className={`${chipCls} disabled:opacity-40`}
                   >
-                    +{p}% sobre el costo
+                    Ganar +{p}% (neto)
                   </button>
                 ))}
                 {linked && (
@@ -510,7 +515,25 @@ export default function AddWizard({
                   </button>
                 )}
               </Money>
-              <p className="text-xs text-muted">La utilidad se calcula con el costo total ({formatPrice(unitCost)}) y se aplica a cada {K.unit}.</p>
+              <div className="rounded-xl border border-line bg-paper-raised p-4" aria-live="polite">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Lo que recibes por cada {K.unit}</p>
+                {exp > 0 ? (
+                  <dl className="mt-2 space-y-1.5 text-sm">
+                    <div className="flex justify-between"><dt className="text-muted">Precio al que se vende</dt><dd className="tabular-nums">{formatPrice(bd.price)}</dd></div>
+                    <div className="flex justify-between"><dt className="text-muted">− {bd.commissionLabel}</dt><dd className="tabular-nums text-accent">−{formatPrice(bd.commission)}</dd></div>
+                    {bd.shipping > 0 && <div className="flex justify-between"><dt className="text-muted">− Envío (aprox.)</dt><dd className="tabular-nums text-accent">−{formatPrice(bd.shipping)}</dd></div>}
+                    <div className="flex justify-between border-t border-line pt-1.5 font-semibold"><dt>Recibes</dt><dd className="font-display text-xl tabular-nums tracking-wide">{formatPrice(bd.receives)}</dd></div>
+                    <div className="flex justify-between"><dt className="text-muted">− Lo que te costó ({formatPrice(unitCost)})</dt><dd className="tabular-nums text-accent">−{formatPrice(unitCost)}</dd></div>
+                    <div className="flex justify-between border-t border-line pt-1.5 font-semibold">
+                      <dt>Tu utilidad</dt>
+                      <dd className={`font-display text-xl tabular-nums tracking-wide ${net >= 0 ? "text-emerald-600" : "text-accent"}`}>{net < 0 ? "−" : "+"}{formatPrice(Math.abs(net))}</dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p className="mt-1 text-sm text-muted">Escribe el precio al que esperas vender y verás aquí cuánto te llega. {commissionRule(kind)}</p>
+                )}
+                {exp > 0 && bd.receives < unitCost && <p className="mt-2 rounded-lg bg-accent/10 px-3 py-2 text-xs text-accent">Con ese precio pierdes plata después de la comisión. Sube el precio o revisa el costo.</p>}
+              </div>
             </div>
 
             {/* Paso 4: detalles */}
@@ -547,7 +570,7 @@ export default function AddWizard({
                   Tallas {sizesValue || "—"} · Inversión <strong className="text-white">{formatPrice(unitCost * totalPairs)}</strong>
                   {exp > 0 && (
                     <>
-                      {" · "}Utilidad esperada <strong className={exp - unitCost >= 0 ? "text-emerald-400" : "text-accent"}>{formatPrice((exp - unitCost) * totalPairs)}</strong>
+                      {" · "}Recibes <strong className="text-white">{formatPrice(bd.receives * totalPairs)}</strong> · Utilidad <strong className={net >= 0 ? "text-emerald-400" : "text-accent"}>{formatPrice(net * totalPairs)}</strong>
                     </>
                   )}
                 </p>
@@ -586,6 +609,7 @@ export default function AddWizard({
             sizes={sizeList.map(([size, qty]) => ({ size, qty }))}
             cost={unitCost}
             expected={exp}
+            receives={bd.receives}
           />
         </div>
       </div>

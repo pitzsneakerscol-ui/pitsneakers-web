@@ -84,9 +84,10 @@ const faqs: FaqItem[] = [
     q: "¿Puedo vender mi par con ustedes?",
     a: (
       <>
-        Sí. Lo recibimos, lo verificamos, lo publicamos y intermediamos la venta. Cobramos una comisión del{" "}
-        {siteConfig.commission.percent}% (mínimo ${siteConfig.commission.minimum.toLocaleString("es-CO")} COP) y el
-        vendedor recibe el resto una vez confirmada la entrega.
+        Sí. Lo recibimos, lo verificamos, lo publicamos y intermediamos la venta. En pares cobramos una comisión de $
+        {siteConfig.commission.tenis.fixed.toLocaleString("es-CO")} fijos más el envío (aprox. $
+        {siteConfig.commission.tenis.shipping.toLocaleString("es-CO")}); en ropa y accesorios, el{" "}
+        {siteConfig.commission.ropa.percent}% del valor. El vendedor recibe el resto una vez confirmada la entrega.
       </>
     ),
   },

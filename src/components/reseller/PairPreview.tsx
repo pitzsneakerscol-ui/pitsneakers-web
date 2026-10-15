@@ -23,6 +23,7 @@ export default function PairPreview({
   sizes,
   cost,
   expected,
+  receives,
 }: {
   name: string;
   brand: string;
@@ -32,13 +33,15 @@ export default function PairPreview({
   sizes: PreviewSize[];
   cost: number; // costo total por par (compra + extras)
   expected: number;
+  /** lo que recibe el vendedor después de comisión y envío (si no se pasa, se usa el precio esperado) */
+  receives?: number;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const celebrated = useRef(false);
 
   const pairs = sizes.reduce((s, x) => s + x.qty, 0);
   const hasPrice = expected > 0;
-  const profit = hasPrice ? expected - cost : 0;
+  const profit = hasPrice ? (receives ?? expected) - cost : 0;
   const margin = hasPrice ? (profit / expected) * 100 : 0;
   const mood = !hasPrice ? "💭" : profit < 0 ? "😬" : margin >= 30 ? "🔥" : margin >= 15 ? "😎" : "🙂";
 
@@ -138,7 +141,7 @@ export default function PairPreview({
                 )}
               </p>
               <p className="text-[11px] text-white/60">
-                {hasPrice ? `Margen ${margin.toFixed(0)}%` : "Pon tu precio esperado"}
+                {hasPrice ? `Margen ${margin.toFixed(0)}% · ya con comisión y envío` : "Pon tu precio esperado"}
                 {hasPrice && pairs > 1 && (
                   <>
                     {" · "}

@@ -1,3 +1,4 @@
+import { sellerBreakdown } from "@/lib/payout";
 export type ItemStatus = "stock" | "reservado" | "vendido";
 export type ItemCondition = "nuevo" | "usado";
 /** Qué clase de artículo es: tenis, ropa o accesorio (gorras, morrales, cinturones…). */
@@ -89,10 +90,10 @@ export function daysBetween(from: string, to: string): number {
 export const itemTotalCost = (i: Pick<Item, "cost" | "extraCost">) =>
   i.cost + i.extraCost;
 
-/** Utilidad esperada si se vende al precio esperado (null si no hay precio). */
+/** Utilidad esperada si se vende al precio esperado, ya descontando la comisión y el envío (null si no hay precio). */
 export function expectedProfit(i: Item): number | null {
   if (i.expectedPrice <= 0) return null;
-  return i.expectedPrice - itemTotalCost(i);
+  return sellerBreakdown(i.expectedPrice, i.kind).receives - itemTotalCost(i);
 }
 
 /** Utilidad real de un par vendido. */

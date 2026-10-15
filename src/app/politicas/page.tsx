@@ -126,7 +126,8 @@ const sections: Section[] = [
       <>
         <UL>
           <li>El vendedor entrega el producto a Pitsneakers, que lo revisa, lo publica y negocia la venta con el comprador.</li>
-          <li>La comisión por intermediar la venta es del <B>{siteConfig.commission.percent}%</B> del valor de venta, con un mínimo de <B>{cop(siteConfig.commission.minimum)}</B> por par.</li>
+          <li>En <B>pares</B>, la comisión por intermediar la venta es de <B>{cop(siteConfig.commission.tenis.fixed)}</B> fijos por par, y se descuenta además el costo aproximado del envío (<B>{cop(siteConfig.commission.tenis.shipping)}</B>).</li>
+          <li>En <B>ropa y accesorios</B>, la comisión es del <B>{siteConfig.commission.ropa.percent}%</B> del valor de venta.</li>
           <li>El vendedor recibe el valor de la venta menos la comisión <B>una vez confirmada la entrega</B> al comprador.</li>
           <li>El vendedor garantiza que el producto es original y que tiene derecho a venderlo. Si se detecta un producto falso o información engañosa, no se publica o se retira, y la cuenta puede suspenderse.</li>
           <li>Los revendedores que usan el panel son responsables de mantener su contraseña en reserva y de la veracidad de los datos que registran.</li>

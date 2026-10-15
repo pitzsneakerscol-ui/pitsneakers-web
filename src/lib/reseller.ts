@@ -1,6 +1,7 @@
 import "server-only";
 import type { InValue, Row } from "@libsql/client";
 import { getDb } from "@/lib/db";
+import { sellerBreakdown } from "@/lib/payout";
 import {
   STALE_DAYS,
   daysBetween,
@@ -241,6 +242,8 @@ export function computeStats(items: Item[], today: string): Stats {
   const invested = open.reduce((s, i) => s + itemTotalCost(i), 0);
   const expectedValue = priced.reduce((s, i) => s + i.expectedPrice, 0);
   const pricedCost = priced.reduce((s, i) => s + itemTotalCost(i), 0);
+  // Lo que realmente recibiría: precio menos comisión y envío.
+  const expectedNet = priced.reduce((s, i) => s + sellerBreakdown(i.expectedPrice, i.kind).receives, 0);
 
   const revenueAll = sold.reduce((s, i) => s + (i.soldPrice ?? 0), 0);
   const profitAll = sold.reduce((s, i) => s + (realizedProfit(i) ?? 0), 0);
@@ -287,8 +290,8 @@ export function computeStats(items: Item[], today: string): Stats {
     soldCount: sold.length,
     invested,
     expectedValue,
-    expectedProfit: expectedValue - pricedCost,
-    expectedMargin: expectedValue > 0 ? ((expectedValue - pricedCost) / expectedValue) * 100 : null,
+    expectedProfit: expectedNet - pricedCost,
+    expectedMargin: expectedValue > 0 ? ((expectedNet - pricedCost) / expectedValue) * 100 : null,
     unpricedCount: open.length - priced.length,
     revenueAll,
     profitAll,

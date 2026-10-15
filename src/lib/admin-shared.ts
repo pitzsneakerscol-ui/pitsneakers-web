@@ -1,11 +1,9 @@
-import { siteConfig } from "@/config/site";
+import { commissionRule, sellerBreakdown } from "@/lib/payout";
 import { kindHeading, kindNoun, kindsIn, kindsPhrase, type ItemKind } from "@/lib/reseller-shared";
 
-/** Lo que recibe el vendedor al vender a ese precio: el precio publicado menos la comisión de Pitsneakers (porcentaje, con un mínimo). */
-export function sellerPayout(price: number): number {
-  if (!(price > 0)) return 0;
-  const commission = Math.max(Math.round((price * siteConfig.commission.percent) / 100), siteConfig.commission.minimum);
-  return Math.max(0, price - commission);
+/** Lo que recibe el vendedor al vender a ese precio: el precio publicado menos la comisión y el envío aproximado (según sea par, ropa o accesorio). */
+export function sellerPayout(price: number, kind: ItemKind = "tenis"): number {
+  return sellerBreakdown(price, kind).receives;
 }
 
 export function fmtDateTime(ms: number): string {
@@ -67,7 +65,7 @@ export function inventoryEmail(opts: {
   const n = opts.items.length;
   // Mismo artículo y mismo precio en varias tallas = una sola línea con todas las tallas.
   const money = (v: number) => `$${v.toLocaleString("es-CO")}`;
-  const total = opts.items.reduce((s, i) => s + sellerPayout(i.price), 0);
+  const total = opts.items.reduce((s, i) => s + sellerPayout(i.price, i.kind), 0);
   // Qué se cargó: pares, prendas o accesorios (o una mezcla). El correo lo dice y separa las líneas por tipo.
   const kinds = kindsIn(opts.items);
   const phrase = kindsPhrase(opts.items);
@@ -79,8 +77,8 @@ export function inventoryEmail(opts: {
         ? `Ya quedaron cargados tus ${n} artículos en Pitsneakers`
         : `Ya quedaron ${feminine ? "cargadas" : "cargados"} tus ${phrase} en Pitsneakers`;
   const perUnit = kinds.length === 1 && kinds[0] === "tenis" ? "por par" : "por unidad";
-  const lineFor = (g: { name: string; price: number; sizes: string[] }) =>
-    `- **${g.name}**${g.sizes.length ? ` · ${g.sizes.length > 1 ? "tallas" : "talla"} ${g.sizes.join(", ")}` : ""}${g.price > 0 ? ` · precio ${money(g.price)} · esperas recibir **${money(sellerPayout(g.price))}**${g.sizes.length > 1 ? ` ${perUnit}` : ""}` : ""}`;
+  const lineFor = (g: { name: string; price: number; sizes: string[] }, k: ItemKind) =>
+    `- **${g.name}**${g.sizes.length ? ` · ${g.sizes.length > 1 ? "tallas" : "talla"} ${g.sizes.join(", ")}` : ""}${g.price > 0 ? ` · precio ${money(g.price)} · esperas recibir **${money(sellerPayout(g.price, k))}**${g.sizes.length > 1 ? ` ${perUnit}` : ""}` : ""}`;
   const sections: string[] = [];
   for (const k of kinds) {
     const g2 = new Map<string, { name: string; price: number; sizes: string[] }>();
@@ -91,7 +89,7 @@ export function inventoryEmail(opts: {
     }
     const list = [...g2.values()];
     if (kinds.length > 1) sections.push(`**${kindHeading(k)}**`, "");
-    sections.push(...list.slice(0, 10).map(lineFor));
+    sections.push(...list.slice(0, 10).map((g) => lineFor(g, k)));
     if (list.length > 10) sections.push(`- …y ${list.length - 10} modelos más (los ves todos en tu panel)`);
     sections.push("");
   }
@@ -103,7 +101,7 @@ export function inventoryEmail(opts: {
     `Ya cargamos **${phrase}** de tu stock en Pitsneakers:`,
     "",
     ...sections,
-    ...(total > 0 ? [`> **Si se venden ${n === 1 ? "al precio publicado" : "todos al precio publicado"}, recibes:** ${money(total)}`, `> Es el precio menos la comisión de Pitsneakers (${siteConfig.commission.percent}%, mínimo ${money(siteConfig.commission.minimum)} por ${kinds.length === 1 && kinds[0] === "tenis" ? "par" : "unidad"}).`, ""] : []),
+    ...(total > 0 ? [`> **Si se venden ${n === 1 ? "al precio publicado" : "todos al precio publicado"}, recibes:** ${money(total)}`, ...kinds.map((k) => `> ${commissionRule(k)}`), ""] : []),
     `[boton: Ver mi inventario | ${url}]`,
     "",
     "Entra a tu panel para poner lo que te costó cada artículo: ahí ves tu utilidad real. Si algo no te cuadra, responde a este correo y lo revisamos.",

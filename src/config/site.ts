@@ -34,9 +34,10 @@ export const siteConfig = {
     payHours: 24,
     maxActive: 5,
   },
+  // Lo que se le descuenta al vendedor. Pares: comisión fija + envío aproximado. Ropa y accesorios: un porcentaje.
   commission: {
-    percent: 10,
-    minimum: 50000,
+    tenis: { fixed: 50000, shipping: 20000 },
+    ropa: { percent: 15, shipping: 0 },
   },
   stats: {
     whatsappMembers: "6,000+",

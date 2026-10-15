@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import { formatPercent, parseKind, type Item, type ItemKind } from "@/lib/reseller-shared";
+import { commissionRule, sellerBreakdown } from "@/lib/payout";
 import { inputCls, labelCls } from "@/components/reseller/ui";
 
 export interface CatalogEntry {
@@ -60,7 +61,8 @@ export default function ItemFields({
   }, [catalog, name, open]);
 
   const total = digits(cost) + digits(extra);
-  const profit = digits(expected) > 0 ? digits(expected) - total : null;
+  const bd = sellerBreakdown(digits(expected), kind);
+  const profit = digits(expected) > 0 ? bd.receives - total : null;
   const margin = profit !== null && digits(expected) > 0 ? (profit / digits(expected)) * 100 : null;
 
   function pick(c: CatalogEntry) {
@@ -213,10 +215,10 @@ export default function ItemFields({
       <div className="flex items-end">
         <div className="w-full rounded-lg bg-paper px-4 py-2.5 text-sm">
           {profit === null ? (
-            <span className="text-muted">Escribe el precio esperado para ver tu utilidad.</span>
+            <span className="text-muted">Escribe el precio esperado para ver cuánto recibes. {commissionRule(kind)}</span>
           ) : (
             <span>
-              Utilidad esperada:{" "}
+              Recibes <strong>{formatPrice(bd.receives)}</strong> (comisión −{formatPrice(bd.commission)}{bd.shipping > 0 ? `, envío −${formatPrice(bd.shipping)}` : ""}) · Utilidad:{" "}
               <strong className={profit >= 0 ? "text-emerald-700" : "text-accent"}>{formatPrice(profit)}</strong>
               {margin !== null && <span className="text-muted"> · margen {formatPercent(margin)}</span>}
             </span>
