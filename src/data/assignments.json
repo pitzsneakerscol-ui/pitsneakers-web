@@ -3211,5 +3211,19 @@
     "price": 1300000,
     "condition": "nuevo",
     "image": "/products/AJ11-04.75a48cb9.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "adidas-yeezy-350-mono-ice",
+    "name": "Yeezy 350 Mono Ice",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY350-52",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1050000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]
