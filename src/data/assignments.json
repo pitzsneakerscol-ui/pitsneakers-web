@@ -3085,5 +3085,19 @@
     "price": 1050000,
     "condition": "nuevo",
     "image": "/products/SB-DUNK-49.720f6d33.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "nike-dunk-sb-verdy-visty-2",
+    "name": "Dunk SB Verdy Visty",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-50",
+    "sizes": [
+      "10"
+    ],
+    "price": 1650000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-50.c954cf3d.webp"
   }
 ]
