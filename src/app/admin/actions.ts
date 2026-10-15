@@ -439,8 +439,8 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
   const parsed = readItem(fd);
   if ("error" in parsed) return { error: parsed.error };
   const sizes = parseSizes(text(fd, "sizes", 300));
-  if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2)." };
-  if (sizes.length > 60) return { error: "Máximo 60 pares por registro." };
+  if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2; o Única si no tiene)." };
+  if (sizes.length > 60) return { error: "Máximo 60 unidades por registro." };
   const data = { ...parsed.data, source: parsed.data.source || "Cargado por Pitsneakers" };
 
   // Si el par ya está en su stock con esa talla (mismo producto del catálogo), no se duplica.
@@ -479,7 +479,7 @@ export async function adminAddItems(_prev: ActionState, fd: FormData): Promise<A
             : "";
   return {
     ok: true,
-    message: `${n === 1 ? "Cargamos 1 par" : `Cargamos ${n} pares`} a @${String(who.rows[0].username)}${extra}.${aviso}`,
+    message: `${n === 1 ? "Cargamos 1 artículo" : `Cargamos ${n} artículos`} a @${String(who.rows[0].username)}${extra}.${aviso}`,
   };
 }
 

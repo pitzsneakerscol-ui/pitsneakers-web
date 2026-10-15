@@ -4,6 +4,7 @@ import { Fragment, useMemo, useState } from "react";
 import { deleteItem, setStatus } from "@/app/revendedores/actions";
 import { formatPrice } from "@/lib/format";
 import {
+  KIND_LABEL,
   STALE_DAYS,
   daysInStock,
   expectedProfit,
@@ -144,7 +145,7 @@ export default function InventoryTable({
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead>
             <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
-              <th className="py-2 pr-3 font-semibold">Par</th>
+              <th className="py-2 pr-3 font-semibold">Artículo</th>
               <th className="px-3 py-2 font-semibold">Talla</th>
               <th className="px-3 py-2 text-right font-semibold">Costo</th>
               <th className="px-3 py-2 text-right font-semibold">Esperado</th>
@@ -176,7 +177,7 @@ export default function InventoryTable({
                         <div className="min-w-0">
                           <p className="truncate font-medium">{i.name}</p>
                           <p className="truncate text-xs text-muted">
-                            {[i.brand, i.colorway, i.condition === "usado" ? "Usado" : ""].filter(Boolean).join(" · ")}
+                            {[i.kind !== "tenis" ? KIND_LABEL[i.kind] : "", i.brand, i.colorway, i.condition === "usado" ? "Usado" : ""].filter(Boolean).join(" · ")}
                           </p>
                           {cat && (
                             <p className="text-[11px] text-muted">Tienda: {formatPrice(cat.price)}</p>

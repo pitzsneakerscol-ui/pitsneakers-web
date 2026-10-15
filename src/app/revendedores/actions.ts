@@ -237,11 +237,11 @@ export async function addItems(
   const parsed = readItem(fd);
   if ("error" in parsed) return { error: parsed.error };
   const sizes = parseSizes(text(fd, "sizes", 300));
-  if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2)." };
-  if (sizes.length > 60) return { error: "Máximo 60 pares por registro." };
+  if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2; o Única si no tiene)." };
+  if (sizes.length > 60) return { error: "Máximo 60 unidades por registro." };
   const n = await insertItems(user.id, parsed.data, sizes);
   refresh();
-  return { ok: true, message: n === 1 ? "Agregamos 1 par al inventario." : `Agregamos ${n} pares al inventario.` };
+  return { ok: true, message: n === 1 ? "Agregamos 1 artículo al inventario." : `Agregamos ${n} artículos al inventario.` };
 }
 
 export async function updateItem(

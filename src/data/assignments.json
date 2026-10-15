@@ -9,7 +9,8 @@
     "sizes": [],
     "price": 620000,
     "condition": "nuevo",
-    "image": "/products/SUPREME-DUFFLE-BAG.787eb1eb.webp"
+    "image": "/products/SUPREME-DUFFLE-BAG.787eb1eb.webp",
+    "kind": "accesorio"
   },
   {
     "seller": "santiagoalbaa",
@@ -21,7 +22,8 @@
     "sizes": [],
     "price": 550000,
     "condition": "nuevo",
-    "image": "/products/SUPREME-SHOULDER-BAG.57cca0f1.webp"
+    "image": "/products/SUPREME-SHOULDER-BAG.57cca0f1.webp",
+    "kind": "accesorio"
   },
   {
     "seller": "alejandro.garcia",

@@ -13,8 +13,8 @@ export default function AddItemsPanel({
   startOpen = false,
   submit = addItems,
   hidden,
-  title = "Agregar pares",
-  subtitle = "Te guiamos en 4 pasos: qué par, talla, cuánto y detalles.",
+  title = "Agregar artículos",
+  subtitle = "Tenis, ropa o accesorios: te guiamos en 4 pasos (qué es, talla, cuánto y detalles).",
 }: {
   catalog: CatalogEntry[];
   today: string;
@@ -41,7 +41,7 @@ export default function AddItemsPanel({
           <p className="mt-1 text-sm text-muted">{subtitle}</p>
         </div>
         <button type="button" onClick={() => setOpen((o) => !o)} className={btnGhost} aria-expanded={open}>
-          {open ? "Cerrar" : "+ Nuevo par"}
+          {open ? "Cerrar" : "+ Nuevo artículo"}
         </button>
       </div>
 

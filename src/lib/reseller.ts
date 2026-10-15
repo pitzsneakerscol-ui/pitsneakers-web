@@ -8,9 +8,11 @@ import {
   expectedProfit,
   isValidDate,
   itemTotalCost,
+  parseKind,
   realizedProfit,
   type Item,
   type ItemCondition,
+  type ItemKind,
   type ItemStatus,
 } from "@/lib/reseller-shared";
 
@@ -23,6 +25,7 @@ function rowToItem(r: Row): Item {
     sku: String(r.sku),
     size: String(r.size),
     condition: r.condition === "usado" ? "usado" : "nuevo",
+    kind: parseKind(r.kind),
     cost: Number(r.cost),
     extraCost: Number(r.extra_cost),
     expectedPrice: Number(r.expected_price),
@@ -58,6 +61,7 @@ export interface NewItemData {
   colorway: string;
   sku: string;
   condition: ItemCondition;
+  kind: ItemKind;
   cost: number;
   extraCost: number;
   expectedPrice: number;
@@ -81,8 +85,8 @@ export async function insertItems(
       sql: `INSERT INTO items
         (user_id, brand, name, colorway, sku, size, condition, cost, extra_cost,
          expected_price, status, purchase_date, source, notes, image_url,
-         catalog_slug, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'stock', ?, ?, ?, ?, ?, ?)`,
+         catalog_slug, kind, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'stock', ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         userId,
         data.brand,
@@ -99,6 +103,7 @@ export async function insertItems(
         data.notes,
         data.imageUrl,
         data.catalogSlug,
+        data.kind,
         now + i,
       ] as InValue[],
     })),
@@ -116,7 +121,7 @@ export async function updateItem(
   const res = await db.execute({
     sql: `UPDATE items SET brand=?, name=?, colorway=?, sku=?, size=?, condition=?,
           cost=?, extra_cost=?, expected_price=?, purchase_date=?, source=?,
-          notes=?, image_url=?, catalog_slug=?
+          notes=?, image_url=?, catalog_slug=?, kind=?
           WHERE id=? AND user_id=?`,
     args: [
       d.brand,
@@ -133,6 +138,7 @@ export async function updateItem(
       d.notes,
       d.imageUrl,
       d.catalogSlug,
+      d.kind,
       id,
       userId,
     ],
@@ -495,6 +501,7 @@ export function parseInventoryCsv(text: string, today: string): ImportResult {
       notes: get(r, "notes").slice(0, 500),
       imageUrl: "",
       catalogSlug: "",
+      kind: "tenis",
     });
   }
   return result;

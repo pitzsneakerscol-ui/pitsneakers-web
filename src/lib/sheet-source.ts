@@ -193,6 +193,8 @@ export interface SellerAssignment {
   price: number;
   condition: ProductCondition;
   image: string;
+  /** solo si no son tenis (ropa o accesorio) */
+  kind?: "ropa" | "accesorio";
 }
 
 /** Filas con VENDEDOR lleno (usuario del vendedor, con o sin @). El slug es el mismo que el del producto publicado. */
@@ -213,6 +215,7 @@ export function rowsToAssignments(rows: string[][]): SellerAssignment[] {
       price: p.price,
       condition: p.condition,
       image: p.images[0] ?? "",
+      ...(p.category === "streetwear" ? { kind: p.subcategory === "accesorio" ? ("accesorio" as const) : ("ropa" as const) } : {}),
     });
   }
   return out;

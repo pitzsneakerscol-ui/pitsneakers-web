@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-import { formatPercent, type Item } from "@/lib/reseller-shared";
+import { formatPercent, parseKind, type Item, type ItemKind } from "@/lib/reseller-shared";
 import { inputCls, labelCls } from "@/components/reseller/ui";
 
 export interface CatalogEntry {
@@ -13,6 +13,7 @@ export interface CatalogEntry {
   colorway: string;
   image: string;
   price: number;
+  kind: ItemKind;
 }
 
 const DIACRITICS = new RegExp("[\\u0300-\\u036f]", "g");
@@ -43,6 +44,7 @@ export default function ItemFields({
     item && item.expectedPrice ? String(item.expectedPrice) : ""
   );
   const [open, setOpen] = useState(false);
+  const [kind, setKind] = useState<ItemKind>(item?.kind ?? "tenis");
 
   const linked = useMemo(() => catalog.find((c) => c.slug === slug), [catalog, slug]);
 
@@ -67,6 +69,7 @@ export default function ItemFields({
     setColorway(c.colorway);
     setImageUrl(c.image);
     setSlug(c.slug);
+    setKind(c.kind);
     setOpen(false);
   }
 
@@ -74,9 +77,18 @@ export default function ItemFields({
     <div className="grid gap-4 sm:grid-cols-2">
       <input type="hidden" name="catalogSlug" value={slug} />
 
+      <div className="sm:col-span-2">
+        <label className={labelCls} htmlFor={`kind-${item?.id ?? "new"}`}>Tipo de artículo</label>
+        <select id={`kind-${item?.id ?? "new"}`} name="kind" value={kind} onChange={(e) => setKind(parseKind(e.target.value))} className={inputCls}>
+          <option value="tenis">Tenis</option>
+          <option value="ropa">Ropa (camisetas, hoodies, pantalones…)</option>
+          <option value="accesorio">Accesorio (gorras, morrales, cinturones…)</option>
+        </select>
+      </div>
+
       <div className="relative sm:col-span-2">
         <label htmlFor={`name-${item?.id ?? "new"}`} className={labelCls}>
-          Par / modelo *
+          Artículo / modelo *
         </label>
         <input
           id={`name-${item?.id ?? "new"}`}
@@ -92,7 +104,7 @@ export default function ItemFields({
           }}
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 120)}
-          placeholder="Escribe para buscar en el catálogo de Pitsneakers…"
+          placeholder={kind === "tenis" ? "Escribe para buscar en el catálogo de Pitsneakers…" : "Ej: Hoodie Essentials, Gorra NY… (o busca en el catálogo)"}
           className={inputCls}
         />
         {matches.length > 0 && (
@@ -147,7 +159,7 @@ export default function ItemFields({
           </p>
         ) : (
           <p className="mt-2 text-xs text-muted">
-            Si el par está en el catálogo, elígelo para traer marca, foto y precio de referencia. Si no, escríbelo libremente.
+            Si el artículo está en el catálogo, elígelo para traer marca, foto y precio de referencia. Si no, escríbelo libremente.
           </p>
         )}
       </div>
@@ -176,8 +188,8 @@ export default function ItemFields({
       {mode === "add" ? (
         <div className="sm:col-span-2">
           <label className={labelCls} htmlFor="sizes-new">Talla(s) *</label>
-          <input id="sizes-new" name="sizes" required maxLength={300} placeholder="9, 9.5, 10x2  (crea un par por talla; x2 = dos pares)" className={inputCls} />
-          <p className="mt-1.5 text-xs text-muted">El costo y el precio se aplican a cada par.</p>
+          <input id="sizes-new" name="sizes" required maxLength={300} placeholder={kind === "tenis" ? "9, 9.5, 10x2  (crea un par por talla; x2 = dos pares)" : kind === "ropa" ? "S, M, L, XL x2  (x2 = dos unidades)" : "Única  (o S/M, L/XL; x3 = tres unidades)"} className={inputCls} />
+          <p className="mt-1.5 text-xs text-muted">El costo y el precio se aplican a cada unidad.</p>
         </div>
       ) : (
         <div>

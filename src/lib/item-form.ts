@@ -1,4 +1,4 @@
-import { isValidDate, todayBogota } from "@/lib/reseller-shared";
+import { isValidDate, parseKind, todayBogota } from "@/lib/reseller-shared";
 import type { NewItemData } from "@/lib/reseller";
 
 /** Lectura y validación del formulario de "agregar par", compartida por el panel del revendedor y el del administrador. */
@@ -20,10 +20,10 @@ export function readItem(
   fd: FormData
 ): { data: NewItemData } | { error: string } {
   const name = text(fd, "name", 120);
-  if (!name) return { error: "Escribe el nombre del par." };
+  if (!name) return { error: "Escribe el nombre del artículo." };
 
   const cost = money(fd, "cost");
-  if (cost === null) return { error: "Indica cuánto pagaste por el par (puede ser 0)." };
+  if (cost === null) return { error: "Indica cuánto pagaste por el artículo (puede ser 0)." };
   const extraCost = money(fd, "extraCost") ?? 0;
   const expectedPrice = money(fd, "expectedPrice") ?? 0;
 
@@ -45,6 +45,7 @@ export function readItem(
       colorway: text(fd, "colorway", 80),
       sku: text(fd, "sku", 40),
       condition: fd.get("condition") === "usado" ? "usado" : "nuevo",
+      kind: parseKind(fd.get("kind")),
       cost,
       extraCost,
       expectedPrice,

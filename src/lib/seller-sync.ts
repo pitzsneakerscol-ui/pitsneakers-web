@@ -99,6 +99,7 @@ async function loadFor(userId: number, seller: string): Promise<{ name: string; 
         colorway: a.colorway,
         sku: a.sku,
         condition: a.condition,
+        kind: a.kind ?? "tenis",
         cost: 0,
         extraCost: 0,
         expectedPrice: a.price,

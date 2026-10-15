@@ -1,5 +1,9 @@
 export type ItemStatus = "stock" | "reservado" | "vendido";
 export type ItemCondition = "nuevo" | "usado";
+/** Qué clase de artículo es: tenis, ropa o accesorio (gorras, morrales, cinturones…). */
+export type ItemKind = "tenis" | "ropa" | "accesorio";
+export const KIND_LABEL: Record<ItemKind, string> = { tenis: "Tenis", ropa: "Ropa", accesorio: "Accesorio" };
+export const parseKind = (v: unknown): ItemKind => (v === "ropa" || v === "accesorio" ? v : "tenis");
 
 export interface Item {
   id: number;
@@ -9,6 +13,7 @@ export interface Item {
   sku: string;
   size: string;
   condition: ItemCondition;
+  kind: ItemKind;
   cost: number;
   extraCost: number;
   expectedPrice: number;

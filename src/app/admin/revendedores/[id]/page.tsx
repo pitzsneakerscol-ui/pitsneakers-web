@@ -92,8 +92,8 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
         today={today}
         submit={adminAddItems}
         hidden={{ userId: r.id }}
-        title={`Cargar pares a ${name}`}
-        subtitle="Busca el par en el catálogo y se carga de una vez en su inventario, con foto y con su número de WhatsApp."
+        title={`Cargar artículos a ${name}`}
+        subtitle="Busca el artículo en el catálogo y se carga de una vez en su inventario, con foto y con su número de WhatsApp."
       />
 
       <section className={`${cardCls} overflow-x-auto p-4 sm:p-6`}>

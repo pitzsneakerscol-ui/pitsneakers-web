@@ -368,6 +368,7 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["last_login", "INTEGER"],
   ],
   email_templates: [["tpl_version", "INTEGER NOT NULL DEFAULT 0"]],
+  items: [["kind", "TEXT NOT NULL DEFAULT 'tenis'"]],
   buyer_offers: [
     ["pay_hours", "INTEGER NOT NULL DEFAULT 24"],
     ["priority", "INTEGER NOT NULL DEFAULT 0"],

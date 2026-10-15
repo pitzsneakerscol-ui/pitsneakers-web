@@ -1,7 +1,7 @@
 import "server-only";
 import type { Row } from "@libsql/client";
 import { getDb } from "@/lib/db";
-import { todayBogota, type Item } from "@/lib/reseller-shared";
+import { parseKind, todayBogota, type Item } from "@/lib/reseller-shared";
 import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, type TemplateData } from "@/lib/email-templates";
 
 /* ---------- Tipos ---------- */
@@ -164,6 +164,7 @@ export async function listAllItems(filters: {
     sku: String(r.sku),
     size: String(r.size),
     condition: r.condition === "usado" ? "usado" : "nuevo",
+    kind: parseKind(r.kind),
     cost: n(r.cost),
     extraCost: n(r.extra_cost),
     expectedPrice: n(r.expected_price),
