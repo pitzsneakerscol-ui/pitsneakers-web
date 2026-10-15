@@ -3197,5 +3197,19 @@
     "price": 450000,
     "condition": "nuevo",
     "image": "/products/SAMBA-06.52ef28c3.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "jordan-jordan-11-rare-air",
+    "name": "Jordan 11 Rare Air",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ11-04",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1300000,
+    "condition": "nuevo",
+    "image": "/products/AJ11-04.75a48cb9.webp"
   }
 ]
