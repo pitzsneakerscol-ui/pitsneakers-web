@@ -10741,5 +10741,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:37:00.000Z"
+  },
+  {
+    "id": "SAMBA-06",
+    "slug": "adidas-samba-song-for-the-mute",
+    "name": "Samba Song for the Mute",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SAMBA-06.52ef28c3.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:38:00.000Z"
   }
 ]

@@ -3169,5 +3169,19 @@
     "price": 1200000,
     "condition": "nuevo",
     "image": "/products/SLMN-07.def82178.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-samba-song-for-the-mute",
+    "name": "Samba Song for the Mute",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "SAMBA-06",
+    "sizes": [
+      "11"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/SAMBA-06.52ef28c3.webp"
   }
 ]
