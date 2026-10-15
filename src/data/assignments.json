@@ -3029,5 +3029,19 @@
     "price": 1000000,
     "condition": "nuevo",
     "image": "/products/ADI-SL72-06.73a496ee.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-x-bad-bunny-bad-bunny-cabo-rojo-4",
+    "name": "Bad Bunny Cabo Rojo",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-42",
+    "sizes": [
+      "10"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-42.d2606bf5.webp"
   }
 ]
