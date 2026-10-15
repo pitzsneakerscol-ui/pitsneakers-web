@@ -3113,5 +3113,19 @@
     "price": 9450000,
     "condition": "nuevo",
     "image": "/products/ADI-BB-44.314b42a9.webp"
+  },
+  {
+    "seller": "nikkotours",
+    "slug": "adidas-south-park-towelie-3",
+    "name": "South Park Towelie",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-06",
+    "sizes": [
+      "10"
+    ],
+    "price": 450000,
+    "condition": "usado",
+    "image": "/products/ADIDAS-06.7841df34.webp"
   }
 ]

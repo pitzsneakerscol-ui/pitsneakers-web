@@ -10661,5 +10661,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:33:00.000Z"
+  },
+  {
+    "id": "ADIDAS-06",
+    "slug": "adidas-south-park-towelie-3",
+    "name": "South Park Towelie",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "usado",
+    "description": "Usado 9/10 con caja. Código de estilo GZ9177. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-06.7841df34.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:34:00.000Z"
   }
 ]
