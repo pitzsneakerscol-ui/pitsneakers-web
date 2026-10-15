@@ -10821,5 +10821,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:41:00.000Z"
+  },
+  {
+    "id": "AF1-17",
+    "slug": "nike-air-force-1-valentines-day-black",
+    "name": "Air Force 1 Valentines Day Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-17.1cdc1785.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:42:00.000Z"
   }
 ]

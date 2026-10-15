@@ -3239,5 +3239,19 @@
     "price": 1050000,
     "condition": "nuevo",
     "image": "/products/AJ3-08.eadf7c05.webp"
+  },
+  {
+    "seller": "juancruz0095@icloud.com",
+    "slug": "nike-air-force-1-valentines-day-black",
+    "name": "Air Force 1 Valentines Day Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-17",
+    "sizes": [
+      "8"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": "/products/AF1-17.1cdc1785.webp"
   }
 ]
