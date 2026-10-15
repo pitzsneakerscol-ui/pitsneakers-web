@@ -3311,5 +3311,18 @@
     "condition": "nuevo",
     "image": "/products/SUPREME-SITH-01.ccdbac9e.webp",
     "kind": "ropa"
+  },
+  {
+    "seller": "sergio.alejandro12",
+    "slug": "supreme-vanson-leathers-skull-beanie",
+    "name": "Vanson Leathers Skull Beanie",
+    "brand": "Supreme",
+    "colorway": "",
+    "sku": "SUPREME-VANSON-01",
+    "sizes": [],
+    "price": 350000,
+    "condition": "nuevo",
+    "image": "/products/SUPREME-VANSON-01.4e20b913.webp",
+    "kind": "accesorio"
   }
 ]
