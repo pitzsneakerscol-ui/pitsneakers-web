@@ -3337,5 +3337,19 @@
     "condition": "nuevo",
     "image": "/products/SUPREME-VANSON-02.1743fcdd.webp",
     "kind": "accesorio"
+  },
+  {
+    "seller": "cval",
+    "slug": "adidas-jellyfish-crystal-sand-virginia",
+    "name": "Jellyfish Crystal Sand Virginia",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-07",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 1265000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]
