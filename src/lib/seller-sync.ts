@@ -36,6 +36,62 @@ async function haveCounts(userId: number): Promise<Map<string, number>> {
   return new Map(items.rows.map((r) => [`${String(r.catalog_slug)}|${String(r.size)}`, Number(r.n)]));
 }
 
+const normName = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+const normSize = (s: string) => s.trim().toLowerCase().replace(",", ".");
+
+/** Mismo artículo: nombre igual, o todas las palabras del más corto están en el más largo (mínimo dos palabras). */
+function sameName(a: string, b: string): boolean {
+  const x = normName(a);
+  const y = normName(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const [short, long] = x.length <= y.length ? [x, y] : [y, x];
+  const words = short.split(" ");
+  if (words.length < 2) return false;
+  const set = new Set(long.split(" "));
+  return words.every((w) => set.has(w));
+}
+
+/**
+ * Evita cargar dos veces lo que el vendedor ya metió a mano: si en su inventario hay un artículo SIN enlace al catálogo con el mismo
+ * nombre y la misma talla, cuenta como ya cargado (y con apply=true se enlaza al catálogo, trayendo la foto si no tenía).
+ * Devuelve los conteos por "slug|talla" incluyendo esos emparejados.
+ */
+async function reconcile(userId: number, list: SellerAssignment[], apply: boolean): Promise<Map<string, number>> {
+  const have = await haveCounts(userId);
+  const db = await getDb();
+  const free = (
+    await db.execute({ sql: "SELECT id, name, brand, size, image_url FROM items WHERE user_id = ? AND catalog_slug = ''", args: [userId] })
+  ).rows.map((r) => ({ id: Number(r.id), name: String(r.name), brand: String(r.brand), size: normSize(String(r.size)), image: String(r.image_url) }));
+  const used = new Set<number>();
+  for (const a of list) {
+    for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
+      const wanted = a.counts?.[size] ?? 1;
+      let already = have.get(`${a.slug}|${size}`) ?? 0;
+      while (already < wanted) {
+        const hit = free.find((f) => !used.has(f.id) && f.size === normSize(size) && (sameName(f.name, a.name) || sameName(`${f.brand} ${f.name}`, `${a.brand} ${a.name}`)));
+        if (!hit) break;
+        used.add(hit.id);
+        already++;
+        have.set(`${a.slug}|${size}`, already);
+        if (apply) {
+          await db.execute({
+            sql: "UPDATE items SET catalog_slug = ?, image_url = CASE WHEN image_url = '' THEN ? ELSE image_url END WHERE id = ? AND user_id = ?",
+            args: [a.slug, a.image, hit.id, userId],
+          });
+        }
+      }
+    }
+  }
+  return have;
+}
+
 /** Tallas que faltan de un par: una entrada por unidad (un par con cantidad 3 en la talla 9 puede devolver "9" tres veces). */
 function missingSizes(a: SellerAssignment, have: Map<string, number>): string[] {
   const out: string[] = [];
@@ -64,7 +120,7 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
       args: [seller],
     });
     const userId = u.rows[0] ? Number(u.rows[0].id) : null;
-    const have = userId !== null ? await haveCounts(userId) : new Map<string, number>();
+    const have = userId !== null ? await reconcile(userId, list, false) : new Map<string, number>();
     const pending: SyncPair[] = [];
     let loaded = 0;
     for (const a of list) {
@@ -88,7 +144,7 @@ export interface SyncNotice {
 async function loadFor(userId: number, keys: string[]): Promise<{ name: string; size: string; price: number; kind: ItemKind }[]> {
   const mine = assignments.filter((a) => keys.includes(a.seller));
   if (mine.length === 0) return [];
-  const have = await haveCounts(userId);
+  const have = await reconcile(userId, mine, true);
   const today = todayBogota();
   const loaded: { name: string; size: string; price: number; kind: ItemKind }[] = [];
   for (const a of mine) {
