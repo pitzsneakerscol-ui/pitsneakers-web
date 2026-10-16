@@ -30,6 +30,7 @@ export default async function SellerSyncPanel() {
                     <>{r.seller.includes("@") ? "" : "@"}{r.seller}</>
                   )}
                   {r.displayName && r.displayName !== r.seller && <span className="ml-2 font-normal text-muted">{r.displayName}</span>}
+                  {r.matchedAs && <span className="ml-2 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-sky-800" title="La cuenta no tiene exactamente este usuario, pero es la única que se le parece.">cuenta @{r.matchedAs}</span>}
                 </p>
                 <p className="text-xs text-muted">
                   {r.pending.length ? `${r.pending.length} por cargar: ${r.pending.slice(0, 3).map((p) => `${p.name}${p.size ? ` (${p.size})` : ""}`).join(", ")}${r.pending.length > 3 ? "…" : ""}` : "Todo cargado"}

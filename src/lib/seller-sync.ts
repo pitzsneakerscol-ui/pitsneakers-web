@@ -24,6 +24,8 @@ export interface SyncRow {
   pending: SyncPair[];
   /** pares que ya tiene cargados */
   loaded: number;
+  /** si la cuenta se encontró por parecido (otro usuario, sin puntos, etc.), el usuario real de la cuenta */
+  matchedAs?: string;
 }
 
 /** Cuántas unidades de cada par/talla tiene ya cargadas el vendedor (cualquier estado, incluido "vendido", para no volver a cargar lo que ya vendió). */
@@ -103,12 +105,22 @@ function missingSizes(a: SellerAssignment, have: Map<string, number>): string[] 
   return out;
 }
 
+/** Solo letras y números, en minúsculas y sin tildes: "drrip.814", "Drrip_814" y "drrip 814" quedan iguales. */
+const loose = (s: string) => normName(s).replace(/ /g, "");
+
 /** Qué le falta a cada vendedor: compara los pares con VENDEDOR del catálogo contra lo que ya está en su inventario. */
 export async function getSyncPlan(): Promise<SyncRow[]> {
   if (assignments.length === 0) return [];
   const db = await getDb();
   const bySeller = new Map<string, SellerAssignment[]>();
   for (const a of assignments) bySeller.set(a.seller, [...(bySeller.get(a.seller) ?? []), a]);
+
+  // Todas las cuentas de vendedores, para encontrar por parecido las que no coinciden exacto con el usuario del catálogo.
+  const accounts = (await db.execute("SELECT id, username, display_name FROM users WHERE role != 'admin'")).rows.map((r) => ({
+    id: Number(r.id),
+    username: String(r.username),
+    display: String(r.display_name ?? ""),
+  }));
 
   const rows: SyncRow[] = [];
   for (const [seller, list] of bySeller) {
@@ -119,7 +131,19 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
         : "SELECT id, display_name FROM users WHERE username = ? AND role != 'admin'",
       args: [seller],
     });
-    const userId = u.rows[0] ? Number(u.rows[0].id) : null;
+    let userId = u.rows[0] ? Number(u.rows[0].id) : null;
+    let matchedAs: string | undefined;
+    let displayName = u.rows[0] ? String(u.rows[0].display_name || seller) : "";
+    if (userId === null && !seller.includes("@")) {
+      // Sin coincidencia exacta: se busca una única cuenta cuyo usuario (o nombre) sea el mismo ignorando puntos, guiones, espacios y mayúsculas.
+      const key = loose(seller);
+      const found = key ? accounts.filter((a) => loose(a.username) === key || loose(a.display) === key) : [];
+      if (found.length === 1) {
+        userId = found[0].id;
+        matchedAs = found[0].username;
+        displayName = found[0].display || found[0].username;
+      }
+    }
     const have = userId !== null ? await reconcile(userId, list, false) : new Map<string, number>();
     const pending: SyncPair[] = [];
     let loaded = 0;
@@ -129,7 +153,7 @@ export async function getSyncPlan(): Promise<SyncRow[]> {
       const wanted = (a.sizes.length ? [...new Set(a.sizes)] : [""]).reduce((s, size) => s + (a.counts?.[size] ?? 1), 0);
       loaded += wanted - missing.length;
     }
-    rows.push({ seller, userId, displayName: u.rows[0] ? String(u.rows[0].display_name || seller) : "", pending, loaded });
+    rows.push({ seller, userId, displayName, pending, loaded, matchedAs });
   }
   return rows.sort((x, y) => y.pending.length - x.pending.length || x.seller.localeCompare(y.seller));
 }
@@ -204,9 +228,18 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
 export async function syncUser(userId: number, username: string): Promise<number> {
   // Sus pares pueden estar asignados por usuario o por el correo de su cuenta.
   const db = await getDb();
-  const me = await db.execute({ sql: "SELECT email FROM users WHERE id = ?", args: [userId] });
+  const me = await db.execute({ sql: "SELECT email, display_name FROM users WHERE id = ?", args: [userId] });
   const email = me.rows[0] ? String(me.rows[0].email ?? "").trim().toLowerCase() : "";
-  const items = await loadFor(userId, email ? [username.trim().toLowerCase(), email] : [username.trim().toLowerCase()]);
+  const display = me.rows[0] ? String(me.rows[0].display_name ?? "") : "";
+  const keys = new Set<string>([username.trim().toLowerCase()]);
+  if (email) keys.add(email);
+  // Pares asignados con un usuario parecido (otro formato del mismo usuario o su nombre).
+  for (const a of assignments) {
+    if (a.seller.includes("@")) continue;
+    const k = loose(a.seller);
+    if (k && (k === loose(username) || (display && k === loose(display)))) keys.add(a.seller);
+  }
+  const items = await loadFor(userId, [...keys]);
   if (items.length > 0) {
     const names = [...new Set(items.map((i) => i.name))];
     await createNotification(userId, {
