@@ -3379,5 +3379,19 @@
     "price": 430000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-09.f2bdc3a1.webp"
+  },
+  {
+    "seller": "sngf98@gmail.com",
+    "slug": "jordan-jordan-3-retro-family-affair-2",
+    "name": "Jordan 3 Retro Family Affair",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ3-09",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/AJ3-09.eadf7c05.webp"
   }
 ]
