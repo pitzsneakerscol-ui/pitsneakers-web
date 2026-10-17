@@ -3522,5 +3522,19 @@
     "price": 500000,
     "condition": "nuevo",
     "image": "/products/AJ1-48.a011d0a0.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "adidas-superstar-ii-black-patent-leather",
+    "name": "Superstar II Black Patent Leather",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "SUPERSTAR-01",
+    "sizes": [
+      "10"
+    ],
+    "price": 520000,
+    "condition": "nuevo",
+    "image": "/products/SUPERSTAR-01.be3719cf.webp"
   }
 ]
