@@ -11023,5 +11023,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:51:00.000Z"
+  },
+  {
+    "id": "ADIDAS-09",
+    "slug": "adidas-adistar-xlg-2-0-solar-orange-2",
+    "name": "Adistar XLG 2.0 Solar Orange",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 430000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-09.f2bdc3a1.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:52:00.000Z"
   }
 ]
