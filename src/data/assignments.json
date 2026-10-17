@@ -3564,5 +3564,19 @@
     "price": 2200000,
     "condition": "nuevo",
     "image": "/products/AJ1-49.773e74ea.webp"
+  },
+  {
+    "seller": "sneakerdealer730",
+    "slug": "jordan-jordan-3-solefly-2",
+    "name": "Jordan 3 SoleFly",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ3-10",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1513000,
+    "condition": "nuevo",
+    "image": "/products/AJ3-10.081df6c3.webp"
   }
 ]
