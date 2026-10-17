@@ -3480,5 +3480,19 @@
     "price": 500000,
     "condition": "nuevo",
     "image": "/products/DUNK-18.eaea1434.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "adidas-samba-lt-preloved-yellow-green",
+    "name": "Samba LT Preloved Yellow Green",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "SAMBA-08",
+    "sizes": [
+      "10"
+    ],
+    "price": 480000,
+    "condition": "nuevo",
+    "image": "/products/SAMBA-08.adedd2e8.webp"
   }
 ]
