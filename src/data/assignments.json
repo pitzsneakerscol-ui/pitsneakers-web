@@ -3550,5 +3550,19 @@
     "price": 450000,
     "condition": "nuevo",
     "image": "/products/AF1-18.4e6736f4.webp"
+  },
+  {
+    "seller": "santiboy0009@gmail.com",
+    "slug": "jordan-jordan-1-retro-high-virgil-abloh-archive-alaska",
+    "name": "Jordan 1 Retro High Virgil Abloh Archive Alaska",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-49",
+    "sizes": [
+      "9"
+    ],
+    "price": 2200000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-49.1cd98c96.webp"
   }
 ]
