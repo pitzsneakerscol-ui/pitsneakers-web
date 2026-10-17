@@ -3578,5 +3578,19 @@
     "price": 1513000,
     "condition": "nuevo",
     "image": ""
+  },
+  {
+    "seller": "sneakerdealer730",
+    "slug": "jordan-jordan-1-low-paris",
+    "name": "Jordan 1 Low Paris",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-50",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 789000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]

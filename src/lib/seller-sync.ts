@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import assignmentsJson from "@/data/assignments.json";
+import productsJson from "@/data/products.json";
 import { getDb } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
@@ -117,7 +118,12 @@ const loose = (s: string) => normName(s).replace(/ /g, "");
  */
 export async function notifyCheaper(userId: number, keys: string[]): Promise<number> {
   const mine = assignments.filter((a) => keys.includes(a.seller));
-  const others = assignments.filter((a) => !keys.includes(a.seller));
+  // Con quién se compara: los demás vendedores y también los pares del catálogo público que no tienen vendedor asignado.
+  const assignedSlugs = new Set(assignments.map((a) => a.slug));
+  const publicFree = (productsJson as { slug: string; name: string; brand: string; price: number; sizes: string[] }[])
+    .filter((p) => !assignedSlugs.has(p.slug))
+    .map((p) => ({ name: p.name, brand: p.brand, price: p.price, sizes: p.sizes }));
+  const others: { name: string; brand: string; price: number; sizes: string[] }[] = [...assignments.filter((a) => !keys.includes(a.seller)), ...publicFree];
   if (mine.length === 0 || others.length === 0) return 0;
   const db = await getDb();
   let created = 0;
