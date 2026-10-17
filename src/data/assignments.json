@@ -3619,5 +3619,19 @@
     "price": 1020000,
     "condition": "nuevo",
     "image": "/products/ONITSUKA-01.d610e684.webp"
+  },
+  {
+    "seller": "criscorredor222@gmail.com",
+    "slug": "adidas-x-pharrell-williams-jellyfish-blue",
+    "name": "Jellyfish Blue",
+    "brand": "Adidas x Pharrell Williams",
+    "colorway": "",
+    "sku": "ADI-PW-03",
+    "sizes": [
+      "9"
+    ],
+    "price": 3000000,
+    "condition": "nuevo",
+    "image": "/products/ADI-PW-03.b196e678.webp"
   }
 ]
