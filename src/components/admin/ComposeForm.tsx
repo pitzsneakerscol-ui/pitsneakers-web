@@ -11,6 +11,8 @@ export interface Contact {
   token: string; // "c:12" | "r:5"
   name: string;
   email: string;
+  /** revendedor que todavía no tiene artículos en su inventario */
+  noStock?: boolean;
 }
 
 export interface ComposeInitial {
@@ -69,7 +71,7 @@ export default function ComposeForm({
   // Cuántos correos distintos se enviarán (los grupos y las selecciones individuales se unen).
   const emails = new Set<string>();
   for (const c of all) {
-    if (selected.has(c.token) || (selected.has("g:resellers") && c.token.startsWith("r:")) || (selected.has("g:customers") && c.token.startsWith("c:")))
+    if (selected.has(c.token) || (selected.has("g:resellers") && c.token.startsWith("r:")) || (selected.has("g:sinstock") && c.noStock) || (selected.has("g:customers") && c.token.startsWith("c:")))
       emails.add(c.email.toLowerCase());
   }
   extra.split(/[,;\s]+/).filter((e) => /.+@.+\..+/.test(e)).forEach((e) => emails.add(e.toLowerCase()));
@@ -132,6 +134,7 @@ export default function ComposeForm({
             <input id="cp-filter" value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Buscar por nombre o correo…" className={inputCls} />
           </div>
           {group("Revendedores", resellers, "g:resellers")}
+          {group("Revendedores sin stock (todavía no cargan nada)", resellers.filter((r) => r.noStock), "g:sinstock")}
           {group("Compradores", customers, "g:customers")}
           <div>
             <label className={labelCls} htmlFor="cp-extra">Otros correos (separados por coma)</label>

@@ -64,7 +64,7 @@ async function registerInner(
   const confirm = String(fd.get("confirm") ?? "");
 
   if (isReservedUsername(username)) return { error: "Ese usuario no está disponible. Prueba con otro." };
-  if (email && !isEmail(email)) return { error: "El correo no parece válido." };
+  if (!email || !isEmail(email)) return { error: "Escribe un correo válido: lo necesitamos para avisarte de tus pares y ofertas, y para recuperar tu contraseña." };
   const badUser = usernameError(username);
   if (badUser) return { error: badUser };
   if (password.length < 8 || password.length > 100)
@@ -78,6 +78,9 @@ async function registerInner(
     return { error: "Demasiados registros desde esta conexión. Intenta más tarde." };
 
   const db = await getDb();
+  // Un correo, una cuenta: así los avisos y los pares que se asignan por correo llegan a la persona correcta.
+  const dup = await db.execute({ sql: "SELECT 1 FROM users WHERE LOWER(email) = ? LIMIT 1", args: [email] });
+  if (dup.rows.length > 0) return { error: "Ese correo ya tiene una cuenta. Inicia sesión o recupera tu contraseña." };
   const passwordHash = await hashPassword(password);
   let userId: number;
   try {

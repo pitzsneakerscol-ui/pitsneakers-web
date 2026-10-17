@@ -68,9 +68,9 @@ export default function AuthForms({ startOnLogin = false }: { startOnLogin?: boo
             </div>
           </div>
           <div>
-            <label htmlFor="r-email" className={labelCls}>Correo (opcional)</label>
-            <input id="r-email" name="email" type="email" autoComplete="email" maxLength={120} placeholder="tu@correo.com" className={inputCls} />
-            <p className="mt-1.5 text-xs text-muted">Para avisos de Pitsneakers sobre tu cuenta.</p>
+            <label htmlFor="r-email" className={labelCls}>Correo *</label>
+            <input id="r-email" name="email" type="email" required autoComplete="email" maxLength={120} placeholder="tu@correo.com" className={inputCls} />
+            <p className="mt-1.5 text-xs text-muted">Obligatorio: ahí te avisamos de tus pares y ofertas, y es con lo que recuperas tu contraseña.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>

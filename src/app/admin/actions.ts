@@ -296,6 +296,13 @@ export async function sendEmails(_prev: ActionState, fd: FormData): Promise<Acti
     if (tok === "g:resellers") {
       const r = await db.execute("SELECT COALESCE(NULLIF(display_name, ''), username) AS name, email FROM users WHERE role != 'admin' AND suspended = 0 AND email != ''");
       r.rows.forEach((x) => add(String(x.name), String(x.email)));
+    } else if (tok === "g:sinstock") {
+      // Cuentas de revendedor sin ningún artículo (ni en stock ni vendidos).
+      const r = await db.execute(
+        `SELECT COALESCE(NULLIF(u.display_name, ''), u.username) AS name, u.email AS email FROM users u
+         WHERE u.role != 'admin' AND u.suspended = 0 AND u.email != '' AND NOT EXISTS (SELECT 1 FROM items i WHERE i.user_id = u.id)`
+      );
+      r.rows.forEach((x) => add(String(x.name), String(x.email)));
     } else if (tok === "g:customers") {
       const r = await db.execute("SELECT name, email FROM customers WHERE email != ''");
       r.rows.forEach((x) => add(String(x.name), String(x.email)));

@@ -228,7 +228,9 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 6;
+export const TEMPLATE_VERSION = 7;
+
+const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 
 export interface TemplateData {
   key: string;
@@ -483,6 +485,32 @@ Ya tienes tu panel de revendedor en {{tienda}}. Desde ahí llevas el control rea
 [boton: Ir a mi panel | {{web}}]
 
 Cualquier duda, escríbenos: {{whatsapp}}
+
+**Equipo {{tienda}}**`,
+    builtin: true,
+  },
+  {
+    key: "sube_tu_stock",
+    name: "📦 Sube tu stock (revendedor sin artículos)",
+    subject: "📦 {{nombre}}, sube tu stock a {{tienda}}",
+    body: `# ==Sube tu stock== y empieza a vender
+
+Hola {{nombre}},
+
+Ya tienes tu cuenta de revendedor en {{tienda}}, pero todavía no has cargado ningún artículo. En unos minutos lo dejas listo:
+
+- Entra a **Inventario → Agregar artículos**
+- Elige si es **tenis, ropa o accesorio**
+- Busca el modelo: si está en nuestro catálogo, se llenan solas la marca y la foto. Toca tu talla y sigue
+- Escribe **cuánto pagaste** y **cuánto esperas cobrar**: ves en vivo **cuánto te llega** y cuál es tu utilidad
+
+> **Así se calcula lo que recibes.** En pares, la comisión es de ${cop(siteConfig.commission.tenis.fixed)} fijos más un envío aproximado de ${cop(siteConfig.commission.tenis.shipping)}. En ropa y accesorios, el ${siteConfig.commission.ropa.percent}% del precio. Todo se descuenta de lo que cobras.
+
+**¿Quieres que lo publiquemos en la página?** Cuando cargues tus artículos, escríbenos por WhatsApp con la foto, la talla y el precio, y lo subimos al catálogo con tu nombre de vendedor.
+
+[boton: Subir mi stock | {{web}}/revendedores/inventario]
+
+Si prefieres cargar muchos de una vez, puedes importarlos desde Excel (CSV) en el mismo panel. Y si algo no te cuadra, escríbenos: {{whatsapp}}
 
 **Equipo {{tienda}}**`,
     builtin: true,

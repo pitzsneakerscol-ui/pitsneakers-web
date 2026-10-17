@@ -23,7 +23,7 @@ export default async function MailPage({
 
   const resellerContacts: Contact[] = resellers
     .filter((r) => r.email && !r.suspended)
-    .map((r) => ({ token: `r:${r.id}`, name: r.displayName || r.username, email: r.email }));
+    .map((r) => ({ token: `r:${r.id}`, name: r.displayName || r.username, email: r.email, noStock: r.stockCount === 0 && r.soldCount === 0 }));
   const customerContacts: Contact[] = customers
     .filter((c) => c.email)
     .map((c) => ({ token: `c:${c.id}`, name: c.name, email: c.email }));
