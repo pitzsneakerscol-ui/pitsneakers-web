@@ -3407,5 +3407,19 @@
     "price": 520000,
     "condition": "nuevo",
     "image": "/products/DUNK-17.3c05fc67.webp"
+  },
+  {
+    "seller": "juanjoseh26",
+    "slug": "nike-mind-001-geode-teal-3",
+    "name": "Mind 001 Geode Teal",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-19",
+    "sizes": [
+      "10"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]
