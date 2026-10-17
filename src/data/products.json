@@ -11327,5 +11327,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:08:00.000Z"
+  },
+  {
+    "id": "ONITSUKA-01",
+    "slug": "onitsuka-tiger-gsm-sd-beige",
+    "name": "GSM SD Beige",
+    "brand": "Onitsuka Tiger",
+    "category": "sneakers",
+    "price": 1020000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ONITSUKA-01.d610e684.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:09:00.000Z"
   }
 ]
