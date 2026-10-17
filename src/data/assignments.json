@@ -3393,5 +3393,19 @@
     "price": 700000,
     "condition": "nuevo",
     "image": "/products/AJ3-09.eadf7c05.webp"
+  },
+  {
+    "seller": "andresgiraldo777",
+    "slug": "nike-dunk-low-panda",
+    "name": "Dunk Low Panda",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-17",
+    "sizes": [
+      "9"
+    ],
+    "price": 520000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-17.3c05fc67.webp"
   }
 ]

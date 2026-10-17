@@ -11063,5 +11063,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:53:00.000Z"
+  },
+  {
+    "id": "DUNK-17",
+    "slug": "nike-dunk-low-panda",
+    "name": "Dunk Low Panda",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 520000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-17.3c05fc67.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:54:00.000Z"
   }
 ]
