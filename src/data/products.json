@@ -11187,5 +11187,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:00:00.000Z"
+  },
+  {
+    "id": "ADIDAS-10",
+    "slug": "adidas-anthony-edwards-2-white",
+    "name": "Anthony Edwards 2 White",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 500000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-10.1e40c22b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:01:00.000Z"
   }
 ]

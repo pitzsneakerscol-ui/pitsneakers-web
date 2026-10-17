@@ -3494,5 +3494,19 @@
     "price": 480000,
     "condition": "nuevo",
     "image": "/products/SAMBA-08.adedd2e8.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "adidas-anthony-edwards-2-white",
+    "name": "Anthony Edwards 2 White",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-10",
+    "sizes": [
+      "8"
+    ],
+    "price": 500000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-10.1e40c22b.webp"
   }
 ]
