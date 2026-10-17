@@ -3438,5 +3438,19 @@
     "price": 270000,
     "condition": "nuevo",
     "image": "/products/HOKA-01.00a503b7.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "adidas-samba-lt-semi-blue-burst",
+    "name": "Samba LT Semi Blue Burst",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "SAMBA-07",
+    "sizes": [
+      "10"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/SAMBA-07.b2c1a585.webp"
   }
 ]

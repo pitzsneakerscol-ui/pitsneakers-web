@@ -11106,5 +11106,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:56:00.000Z"
+  },
+  {
+    "id": "SAMBA-07",
+    "slug": "adidas-samba-lt-semi-blue-burst",
+    "name": "Samba LT Semi Blue Burst",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SAMBA-07.b2c1a585.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:57:00.000Z"
   }
 ]
