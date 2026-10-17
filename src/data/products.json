@@ -11207,5 +11207,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:01:00.000Z"
+  },
+  {
+    "id": "AJ1-48",
+    "slug": "jordan-jordan-1-retro-high-court-purple-w",
+    "name": "Jordan 1 Retro High Court Purple W",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 500000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla de mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-48.a011d0a0.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:02:00.000Z"
   }
 ]

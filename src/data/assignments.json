@@ -3508,5 +3508,19 @@
     "price": 500000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-10.1e40c22b.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "jordan-jordan-1-retro-high-court-purple-w",
+    "name": "Jordan 1 Retro High Court Purple W",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-48",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 500000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-48.a011d0a0.webp"
   }
 ]
