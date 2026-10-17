@@ -3421,5 +3421,22 @@
     "price": 750000,
     "condition": "nuevo",
     "image": ""
+  },
+  {
+    "seller": "ankicks210@gmail.com",
+    "slug": "hoka-stinson-evo-gore-tex-black-silver",
+    "name": "Stinson Evo GORE-TEX Black Silver",
+    "brand": "Hoka",
+    "colorway": "",
+    "sku": "HOKA-01",
+    "sizes": [
+      "8.5",
+      "9",
+      "9.5",
+      "10"
+    ],
+    "price": 270000,
+    "condition": "nuevo",
+    "image": "/products/HOKA-01.00a503b7.webp"
   }
 ]

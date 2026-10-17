@@ -11083,5 +11083,28 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:54:00.000Z"
+  },
+  {
+    "id": "HOKA-01",
+    "slug": "hoka-stinson-evo-gore-tex-black-silver",
+    "name": "Stinson Evo GORE-TEX Black Silver",
+    "brand": "Hoka",
+    "category": "sneakers",
+    "price": 270000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "9",
+      "9.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/HOKA-01.00a503b7.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:56:00.000Z"
   }
 ]
