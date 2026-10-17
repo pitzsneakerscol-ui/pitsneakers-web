@@ -3466,5 +3466,19 @@
     "price": 350000,
     "condition": "nuevo",
     "image": "/products/TOTAL90-01.6238804c.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "nike-dunk-low-dragon-red",
+    "name": "Dunk Low Dragon Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-18",
+    "sizes": [
+      "10"
+    ],
+    "price": 500000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-18.eaea1434.webp"
   }
 ]
