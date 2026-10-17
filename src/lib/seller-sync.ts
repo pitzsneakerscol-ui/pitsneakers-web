@@ -3,6 +3,8 @@ import { cache } from "react";
 import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { isEmailConfigured, sendEmail } from "@/lib/email";
+import { siteConfig } from "@/config/site";
 import { insertItems } from "@/lib/reseller";
 import { kindsPhrase, todayBogota, type ItemKind } from "@/lib/reseller-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
@@ -108,6 +110,59 @@ function missingSizes(a: SellerAssignment, have: Map<string, number>): string[] 
 /** Solo letras y números, en minúsculas y sin tildes: "drrip.814", "Drrip_814" y "drrip 814" quedan iguales. */
 const loose = (s: string) => normName(s).replace(/ /g, "");
 
+/**
+ * Avisa a un vendedor cuando otro vendedor tiene el mismo par (mismo nombre y talla) más barato en el catálogo.
+ * No dice quién es. Se avisa una sola vez por par, talla y precio (si el otro baja más el precio, se avisa de nuevo).
+ * Devuelve cuántos avisos nuevos creó.
+ */
+export async function notifyCheaper(userId: number, keys: string[]): Promise<number> {
+  const mine = assignments.filter((a) => keys.includes(a.seller));
+  const others = assignments.filter((a) => !keys.includes(a.seller));
+  if (mine.length === 0 || others.length === 0) return 0;
+  const db = await getDb();
+  let created = 0;
+  const lines: string[] = [];
+  for (const a of mine) {
+    for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
+      const cheaper = others
+        .filter((b) => b.price > 0 && b.price < a.price && (b.sizes.length ? b.sizes.map(normSize).includes(normSize(size)) : size === "") && (sameName(b.name, a.name) || sameName(`${b.brand} ${b.name}`, `${a.brand} ${a.name}`)))
+        .sort((x, y) => x.price - y.price)[0];
+      if (!cheaper) continue;
+      const title = `Hay uno más económico: ${a.name}${size ? ` talla ${size}` : ""}`;
+      const body = `Otro vendedor tiene el mismo par en $${cheaper.price.toLocaleString("es-CO")} y el tuyo está en $${a.price.toLocaleString("es-CO")}. Si quieres venderlo más rápido, revisa tu precio.`;
+      const dup = await db.execute({ sql: "SELECT 1 FROM notifications WHERE user_id = ? AND title = ? AND body = ? LIMIT 1", args: [userId, title.slice(0, 120), body.slice(0, 400)] });
+      if (dup.rows.length > 0) continue;
+      await createNotification(userId, { kind: "info", title, body, href: "/revendedores/inventario" });
+      lines.push(`- **${a.name}${size ? ` · talla ${size}` : ""}**: el tuyo $${a.price.toLocaleString("es-CO")} · el más económico $${cheaper.price.toLocaleString("es-CO")}`);
+      created++;
+    }
+  }
+  if (created > 0 && isEmailConfigured()) {
+    const u = await db.execute({ sql: "SELECT display_name, username, email FROM users WHERE id = ?", args: [userId] });
+    const to = u.rows[0] ? String(u.rows[0].email ?? "") : "";
+    if (to) {
+      const name = String(u.rows[0].display_name || u.rows[0].username);
+      const body = [
+        "# Hay un par igual al tuyo ==más económico==",
+        "",
+        `Hola ${name},`,
+        "",
+        "En Pitsneakers hay otro vendedor con el mismo par (misma talla) a un precio menor que el tuyo:",
+        "",
+        ...lines,
+        "",
+        "Si quieres venderlo más rápido, revisa tu precio en el panel. Si el tuyo es distinto (estado, caja, extras), no hay problema: solo queríamos que lo supieras.",
+        "",
+        `[boton: Ver mi inventario | ${siteConfig.siteUrl.replace(/\/$/, "")}/revendedores/inventario]`,
+        "",
+        "**Equipo Pitsneakers**",
+      ].join("\n");
+      await sendEmail({ to, subject: created === 1 ? "Hay un par igual al tuyo más económico" : `Hay ${created} pares iguales a los tuyos más económicos`, body }).catch(() => undefined);
+    }
+  }
+  return created;
+}
+
 /** Qué le falta a cada vendedor: compara los pares con VENDEDOR del catálogo contra lo que ya está en su inventario. */
 export async function getSyncPlan(): Promise<SyncRow[]> {
   if (assignments.length === 0) return [];
@@ -211,6 +266,7 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
       if (row.pending.length) waiting.push(row.seller);
       continue;
     }
+    await notifyCheaper(row.userId, [row.seller]).catch(() => 0);
     if (!row.pending.length) continue;
     const items = await loadFor(row.userId, [row.seller]);
     if (!items.length) continue;
@@ -239,6 +295,7 @@ export async function syncUser(userId: number, username: string): Promise<number
     const k = loose(a.seller);
     if (k && (k === loose(username) || (display && k === loose(display)))) keys.add(a.seller);
   }
+  await notifyCheaper(userId, [...keys]).catch(() => 0);
   const items = await loadFor(userId, [...keys]);
   if (items.length > 0) {
     const names = [...new Set(items.map((i) => i.name))];
