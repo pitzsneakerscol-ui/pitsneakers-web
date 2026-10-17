@@ -11288,25 +11288,5 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:05:00.000Z"
-  },
-  {
-    "id": "AJ3-10",
-    "slug": "jordan-jordan-3-solefly-2",
-    "name": "Jordan 3 SoleFly",
-    "brand": "Jordan",
-    "category": "sneakers",
-    "price": 1513000,
-    "promo": false,
-    "sizes": [
-      "8.5"
-    ],
-    "condition": "nuevo",
-    "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [
-      "/products/AJ3-10.081df6c3.webp"
-    ],
-    "featured": false,
-    "isNew": false,
-    "dateAdded": "1970-01-01T09:06:00.000Z"
   }
 ]
