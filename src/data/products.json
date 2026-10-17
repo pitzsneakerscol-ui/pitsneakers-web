@@ -11126,5 +11126,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:57:00.000Z"
+  },
+  {
+    "id": "TOTAL90-01",
+    "slug": "nike-total-90-iii-white-gym-red",
+    "name": "Total 90 III White Gym Red",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 350000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/TOTAL90-01.6238804c.webp",
+      "/products/TOTAL90-01-2.a4eb8d09.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:58:00.000Z"
   }
 ]

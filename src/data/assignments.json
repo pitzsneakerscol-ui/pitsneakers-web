@@ -3452,5 +3452,19 @@
     "price": 450000,
     "condition": "nuevo",
     "image": "/products/SAMBA-07.b2c1a585.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "nike-total-90-iii-white-gym-red",
+    "name": "Total 90 III White Gym Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "TOTAL90-01",
+    "sizes": [
+      "10"
+    ],
+    "price": 350000,
+    "condition": "nuevo",
+    "image": "/products/TOTAL90-01.6238804c.webp"
   }
 ]
