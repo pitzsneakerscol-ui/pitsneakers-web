@@ -11003,5 +11003,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:50:00.000Z"
+  },
+  {
+    "id": "NB-22",
+    "slug": "new-balance-new-balance-1906r-pink-taffy",
+    "name": "New Balance 1906R Pink Taffy",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-22.b0d8edd8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T08:51:00.000Z"
   }
 ]
