@@ -124,16 +124,22 @@ export async function notifyCheaper(userId: number, keys: string[]): Promise<num
   const lines: string[] = [];
   for (const a of mine) {
     for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
-      const cheaper = others
-        .filter((b) => b.price > 0 && b.price < a.price && (b.sizes.length ? b.sizes.map(normSize).includes(normSize(size)) : size === "") && (sameName(b.name, a.name) || sameName(`${b.brand} ${b.name}`, `${a.brand} ${a.name}`)))
-        .sort((x, y) => x.price - y.price)[0];
-      if (!cheaper) continue;
-      const title = `Hay uno más económico: ${a.name}${size ? ` talla ${size}` : ""}`;
-      const body = `Otro vendedor tiene el mismo par en $${cheaper.price.toLocaleString("es-CO")} y el tuyo está en $${a.price.toLocaleString("es-CO")}. Si quieres venderlo más rápido, revisa tu precio.`;
+      // Todos los demás vendedores con el mismo par y la misma talla.
+      const peers = others.filter(
+        (b) => b.price > 0 && (b.sizes.length ? b.sizes.map(normSize).includes(normSize(size)) : size === "") && (sameName(b.name, a.name) || sameName(`${b.brand} ${b.name}`, `${a.brand} ${a.name}`))
+      );
+      const cheaper = peers.filter((b) => b.price < a.price).sort((x, y) => x.price - y.price);
+      if (cheaper.length === 0) continue;
+      const rank = cheaper.length + 1; // puesto por precio: 1 = el más económico
+      const total = peers.length + 1;
+      const money = (v: number) => `$${v.toLocaleString("es-CO")}`;
+      const label = `${a.name}${size ? ` talla ${size}` : ""}`;
+      const title = `Tu ${label} va en el puesto ${rank} de ${total} por precio`;
+      const body = `Hay ${cheaper.length === 1 ? "uno más económico" : `${cheaper.length} más económicos`} en el mercado (desde ${money(cheaper[0].price)}; el tuyo está en ${money(a.price)}). No es ningún problema y tu par sigue disponible, pero si quieres venderlo más rápido, tenlo en cuenta.`;
       const dup = await db.execute({ sql: "SELECT 1 FROM notifications WHERE user_id = ? AND title = ? AND body = ? LIMIT 1", args: [userId, title.slice(0, 120), body.slice(0, 400)] });
       if (dup.rows.length > 0) continue;
       await createNotification(userId, { kind: "info", title, body, href: "/revendedores/inventario" });
-      lines.push(`- **${a.name}${size ? ` · talla ${size}` : ""}**: el tuyo $${a.price.toLocaleString("es-CO")} · el más económico $${cheaper.price.toLocaleString("es-CO")}`);
+      lines.push(`- **${a.name}${size ? ` · talla ${size}` : ""}**: puesto ${rank} de ${total} · el tuyo ${money(a.price)} · el más económico ${money(cheaper[0].price)}`);
       created++;
     }
   }
@@ -142,22 +148,22 @@ export async function notifyCheaper(userId: number, keys: string[]): Promise<num
     const to = u.rows[0] ? String(u.rows[0].email ?? "") : "";
     if (to) {
       const name = String(u.rows[0].display_name || u.rows[0].username);
-      const body = [
-        "# Hay un par igual al tuyo ==más económico==",
+      const mail = [
+        "# Así va el ==precio== de tu par",
         "",
         `Hola ${name},`,
         "",
-        "En Pitsneakers hay otro vendedor con el mismo par (misma talla) a un precio menor que el tuyo:",
+        created === 1 ? "Comparando con los demás vendedores de Pitsneakers, tu par va así en precio:" : "Comparando con los demás vendedores de Pitsneakers, tus pares van así en precio:",
         "",
         ...lines,
         "",
-        "Si quieres venderlo más rápido, revisa tu precio en el panel. Si el tuyo es distinto (estado, caja, extras), no hay problema: solo queríamos que lo supieras.",
+        "Que haya uno más económico en el mercado no es ningún problema: tu par sigue disponible y puede venderse. Solo queremos que lo tengas en cuenta por si quieres venderlo más rápido: puedes ajustar tu precio desde tu panel.",
         "",
         `[boton: Ver mi inventario | ${siteConfig.siteUrl.replace(/\/$/, "")}/revendedores/inventario]`,
         "",
         "**Equipo Pitsneakers**",
       ].join("\n");
-      await sendEmail({ to, subject: created === 1 ? "Hay un par igual al tuyo más económico" : `Hay ${created} pares iguales a los tuyos más económicos`, body }).catch(() => undefined);
+      await sendEmail({ to, subject: created === 1 ? "Tu par va en el puesto " + lines[0].match(/puesto (\d+)/)?.[1] + " por precio" : "Así va el precio de tus pares", body: mail }).catch(() => undefined);
     }
   }
   return created;
