@@ -3351,5 +3351,19 @@
     "price": 1265000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-07.b2e7b51a.webp"
+  },
+  {
+    "seller": "flow2209",
+    "slug": "adidas-jellyfish-crystal-sand",
+    "name": "Jellyfish Crystal Sand",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-08",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1450000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-08.b2e7b51a.webp"
   }
 ]
