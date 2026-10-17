@@ -3633,5 +3633,19 @@
     "price": 3000000,
     "condition": "nuevo",
     "image": "/products/ADI-PW-03.b196e678.webp"
+  },
+  {
+    "seller": "juanbuitrago1994@outlook.com",
+    "slug": "salomon-acs-nexxt-x-feid-the-green-star-black",
+    "name": "ACS Nexxt x Feid The Green Star Black",
+    "brand": "Salomon",
+    "colorway": "",
+    "sku": "SLMN-08",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 960000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]
