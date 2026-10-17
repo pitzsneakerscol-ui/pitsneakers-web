@@ -11247,5 +11247,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:03:00.000Z"
+  },
+  {
+    "id": "AF1-18",
+    "slug": "nike-air-force-1-07-lx-emb",
+    "name": "Air Force 1 07 LX EMB",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-18.4e6736f4.webp",
+      "/products/AF1-18-2.28d67b33.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:04:00.000Z"
   }
 ]

@@ -3536,5 +3536,19 @@
     "price": 520000,
     "condition": "nuevo",
     "image": "/products/SUPERSTAR-01.be3719cf.webp"
+  },
+  {
+    "seller": "pepopaisa_@hotmail.es",
+    "slug": "nike-air-force-1-07-lx-emb",
+    "name": "Air Force 1 07 LX EMB",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-18",
+    "sizes": [
+      "10"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/AF1-18.4e6736f4.webp"
   }
 ]
