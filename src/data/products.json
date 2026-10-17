@@ -11308,5 +11308,24 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:07:00.000Z"
+  },
+  {
+    "id": "POKEMON-01",
+    "slug": "pokemon-presstishuffle-15-cartas",
+    "name": "PresstiShuffle 15 cartas",
+    "brand": "Pokémon",
+    "category": "streetwear",
+    "subcategory": "accesorio",
+    "price": 90000,
+    "promo": false,
+    "sizes": [],
+    "condition": "nuevo",
+    "description": "Sobre sellado de 15 cartas Pokémon. Comisión incluida en el precio.",
+    "images": [
+      "/products/POKEMON-01.b1b0052b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:08:00.000Z"
   }
 ]

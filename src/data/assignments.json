@@ -3592,5 +3592,18 @@
     "price": 789000,
     "condition": "nuevo",
     "image": "/products/AJ1-50.0834c6f6.webp"
+  },
+  {
+    "seller": "alfonsopalaciofederico@gmail.com",
+    "slug": "pokemon-presstishuffle-15-cartas",
+    "name": "PresstiShuffle 15 cartas",
+    "brand": "Pokémon",
+    "colorway": "",
+    "sku": "POKEMON-01",
+    "sizes": [],
+    "price": 90000,
+    "condition": "nuevo",
+    "image": "/products/POKEMON-01.b1b0052b.webp",
+    "kind": "accesorio"
   }
 ]
