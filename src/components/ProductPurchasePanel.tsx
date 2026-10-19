@@ -9,6 +9,7 @@ import ScarcityBadge from "@/components/ScarcityBadge";
 import CheckoutForm from "@/components/CheckoutForm";
 import OfferBox from "@/components/cuenta/OfferBox";
 import { shareLink } from "@/lib/native";
+import SizeHelp from "@/components/SizeHelp";
 
 interface Option {
   key: string;
@@ -162,6 +163,7 @@ export default function ProductPurchasePanel({
               }`
             : " — selecciona una opción"}
         </p>
+        <SizeHelp brand={group.brand} name={group.name} sizes={options.map((o) => o.size)} />
         <div className="mt-3 flex flex-wrap gap-2">
           {options.map((o) => (
             <button
