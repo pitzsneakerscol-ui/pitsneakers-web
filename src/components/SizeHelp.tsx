@@ -21,33 +21,6 @@ function toMen(size: string): number | null {
   return m[2] ? n - 1.5 : n;
 }
 
-interface Tip {
-  title: string;
-  text: string;
-}
-
-/** Orientación general por marca/modelo; no es una garantía de ajuste. */
-function tipFor(brand: string, name: string): Tip {
-  const b = `${brand} ${name}`.toLowerCase();
-  if (/yeezy|slide/.test(b))
-    return { title: "Yeezy / Slides", text: "Calzan holgados y abiertos: si estás entre dos tallas, pide la mayor." };
-  if (/salomon/.test(b))
-    return { title: "Salomon", text: "Calzan ajustados y estrechos. Si tienes pie ancho o usas medias gruesas, pide media talla más." };
-  if (/asics|onitsuka|gel/.test(b))
-    return { title: "Asics / Onitsuka Tiger", text: "Hormas algo estrechas. Si tienes pie ancho, pide media talla más." };
-  if (/adidas|samba|gazelle|campus|superstar|adistar|sl ?72|handball|spezial/.test(b))
-    return { title: "Adidas", text: "Calzan a tu talla pero son algo estrechos (Samba, Gazelle, Campus). Con pie ancho, sube media talla." };
-  if (/new balance|\bnb\b|990|550|2002|9060/.test(b))
-    return { title: "New Balance", text: "Calzan a tu talla habitual. Con pie ancho, sube media talla." };
-  if (/jordan/.test(b))
-    return { title: "Jordan", text: "Calzan a tu talla de Nike. Los Jordan 4 y 11 son un poco más ajustados: con pie ancho, sube media talla." };
-  if (/air force|af1/.test(b))
-    return { title: "Air Force 1", text: "Suelen quedar algo grandes: muchos piden media talla menos. Con pie ancho, tu talla habitual." };
-  if (/dunk|sb|nike|mind|vomero|blazer|travis/.test(b))
-    return { title: "Nike / Dunk", text: "Calzan a tu talla habitual. Si estás entre dos tallas, pide la mayor." };
-  return { title: "Calce general", text: "Si estás entre dos tallas, pide la mayor. Confirma con nosotros si tienes dudas." };
-}
-
 export default function SizeHelp({
   brand,
   name,
@@ -81,7 +54,6 @@ export default function SizeHelp({
     return set;
   }, [sizes]);
 
-  const tip = tipFor(brand, name);
   const footCm = parseFloat(foot.replace(",", "."));
   const valid = Number.isFinite(footCm) && footCm >= 20 && footCm <= 35;
   // Se deja ~0,5 cm de holgura delante del dedo más largo.
@@ -166,14 +138,8 @@ export default function SizeHelp({
               )}
             </div>
 
-            <div className="mt-4 rounded-xl border border-line bg-paper-raised p-4">
-              <p className="text-sm font-semibold">2. Consejo para este par · {tip.title}</p>
-              <p className="mt-1 text-sm text-muted">{tip.text}</p>
-              <p className="mt-2 text-[11px] text-muted">Orientación general: cada modelo puede variar un poco.</p>
-            </div>
-
             <div className="mt-4">
-              <p className="text-sm font-semibold">3. Equivalencias</p>
+              <p className="text-sm font-semibold">2. Equivalencias</p>
               <p className="mt-1 text-xs text-muted">
                 Las tallas con W son de mujer: equivalen a la talla de hombre + 1,5. Resaltadas, las que hay en este par.
               </p>
