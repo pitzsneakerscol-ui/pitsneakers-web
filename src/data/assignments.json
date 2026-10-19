@@ -3647,5 +3647,19 @@
     "price": 960000,
     "condition": "nuevo",
     "image": "/products/SLMN-08.520fb44f.webp"
+  },
+  {
+    "seller": "laura.ramirez",
+    "slug": "jordan-jordan-4-a-ma-maniere-while-you-were-sleeping-2",
+    "name": "Jordan 4 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-24",
+    "sizes": [
+      "6"
+    ],
+    "price": 850000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-17.082ec8fe.webp"
   }
 ]
