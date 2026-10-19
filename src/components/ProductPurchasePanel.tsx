@@ -52,7 +52,14 @@ function buildOptions(group: ProductGroup): Option[] {
     });
   });
 
-  return options.sort((a, b) => a.price - b.price);
+  // Si una misma talla (y estado) la venden varios, se muestra solo la opción más barata.
+  const cheapest = new Map<string, Option>();
+  for (const o of options) {
+    const k = `${o.size}|${o.condition}`;
+    const prev = cheapest.get(k);
+    if (!prev || o.price < prev.price) cheapest.set(k, o);
+  }
+  return [...cheapest.values()].sort((a, b) => a.price - b.price);
 }
 
 export default function ProductPurchasePanel({
@@ -90,7 +97,9 @@ export default function ProductPurchasePanel({
     options.length === 1 ? options[0].key : undefined
   );
   const selected = options.find((o) => o.key === selectedKey);
-  const { min, max } = groupPriceRange(group);
+  const prices = options.map((o) => o.price);
+  const min = prices.length ? Math.min(...prices) : groupPriceRange(group).min;
+  const max = prices.length ? Math.max(...prices) : groupPriceRange(group).max;
   const activeVariant = selected ? selected.variant : !multiVariant ? options[0]?.variant : undefined;
   const activePromo =
     activeVariant?.promo && activeVariant.priceBefore && activeVariant.priceBefore > activeVariant.price
