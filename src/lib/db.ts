@@ -347,6 +347,19 @@ const SCHEMA = [
   )`,
   `CREATE INDEX IF NOT EXISTS idx_buyer_offers ON buyer_offers(buyer_id, status)`,
   `CREATE INDEX IF NOT EXISTS idx_buyer_offers_status ON buyer_offers(status, created_at)`,
+  `CREATE TABLE IF NOT EXISTS reviews (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL DEFAULT '',
+    rating INTEGER NOT NULL,
+    text TEXT NOT NULL,
+    product TEXT NOT NULL DEFAULT '',
+    photo TEXT NOT NULL DEFAULT '',
+    photo_type TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status, created_at)`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.

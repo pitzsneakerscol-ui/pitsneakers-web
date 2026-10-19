@@ -37,6 +37,7 @@ const MORE: Item[] = [
   { href: "/admin/lista-espera", label: "Lista de espera", Icon: GiftIcon },
   { href: "/admin/subasta", label: "Subasta", Icon: GavelIcon },
   { href: "/admin/trivia", label: "Trivia", Icon: PlayIcon },
+  { href: "/admin/resenas", label: "Reseñas", Icon: ChatIcon },
   { href: "/admin/correos", label: "Correos", Icon: MailIcon },
   { href: "/admin/plantillas", label: "Plantillas", Icon: DocIcon },
 ];
@@ -57,6 +58,7 @@ const TITLES: Record<string, string> = {
   trivia: "Trivia en vivo",
   correos: "Correos",
   plantillas: "Plantillas",
+  resenas: "Reseñas de clientes",
 };
 
 function Badge({ n }: { n: number }) {
@@ -69,7 +71,7 @@ function Badge({ n }: { n: number }) {
 }
 
 /** Panel del dueño: mismo estilo oscuro del panel de revendedores (barra lateral en computador, barra de tareas en celular). */
-export default function AdminShell({ pending, children }: { pending: number; children: React.ReactNode }) {
+export default function AdminShell({ pending, reviewsPending = 0, children }: { pending: number; reviewsPending?: number; children: React.ReactNode }) {
   const pathname = usePathname();
   const [more, setMore] = useState(false);
   const active = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname === href || pathname.startsWith(`${href}/`));
@@ -92,6 +94,7 @@ export default function AdminShell({ pending, children }: { pending: number; chi
       <it.Icon className="h-5 w-5 shrink-0" />
       {it.label}
       {it.href === "/admin/consultas" && <Badge n={pending} />}
+      {it.href === "/admin/resenas" && <Badge n={reviewsPending} />}
     </Link>
   );
 

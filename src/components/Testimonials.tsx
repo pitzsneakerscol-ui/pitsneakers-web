@@ -2,8 +2,8 @@ import { getAllTestimonials } from "@/lib/testimonials";
 import SectionHeading from "@/components/SectionHeading";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
-export default function Testimonials({ limit }: { limit?: number }) {
-  const testimonials = getAllTestimonials();
+export default async function Testimonials({ limit }: { limit?: number }) {
+  const testimonials = await getAllTestimonials();
   const items = typeof limit === "number" ? testimonials.slice(0, limit) : testimonials;
 
   if (items.length === 0) return null;

@@ -88,6 +88,7 @@ export default function TestimonialsCarousel({
                   src={testimonial.photo}
                   alt={`Foto de ${testimonial.name}${testimonial.product ? ` con ${testimonial.product}` : ""}`}
                   fill
+                  unoptimized={testimonial.photo.startsWith("/api/")}
                   sizes="(max-width: 640px) 78vw, 288px"
                   className="object-cover transition duration-500 hover:scale-[1.03]"
                 />
@@ -120,7 +121,7 @@ export default function TestimonialsCarousel({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-[4/5] min-h-0 w-full flex-1 bg-[#ebe8e2]">
-              <Image src={zoom.photo} alt={`Foto de ${zoom.name}`} fill sizes="448px" className="object-contain" />
+              <Image src={zoom.photo} alt={`Foto de ${zoom.name}`} fill unoptimized={zoom.photo.startsWith("/api/")} sizes="448px" className="object-contain" />
             </div>
             <figcaption className="p-4 text-sm">
               <Stars rating={zoom.rating} />
