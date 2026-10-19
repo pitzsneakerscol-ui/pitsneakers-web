@@ -3689,5 +3689,19 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/MIND001-02.841a88ca.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-x-j-balvin-amazonas-lemonade-2",
+    "name": "Jordan 4 x J Balvin Amazonas Lemonade",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-25",
+    "sizes": [
+      "9"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-21.cc603893.webp"
   }
 ]
