@@ -15,7 +15,13 @@ interface Option {
   size: string;
   condition: Product["condition"];
   price: number;
+  /** Esta talla está en rebaja (precio "antes" mayor al actual). */
+  sale: boolean;
   variant: Product;
+}
+
+function onSale(variant: Product): boolean {
+  return Boolean(variant.promo && variant.priceBefore && variant.priceBefore > variant.price);
 }
 
 function buildOptions(group: ProductGroup): Option[] {
@@ -28,6 +34,7 @@ function buildOptions(group: ProductGroup): Option[] {
         size: "Única",
         condition: variant.condition,
         price: variant.price,
+        sale: onSale(variant),
         variant,
       });
       return;
@@ -38,6 +45,7 @@ function buildOptions(group: ProductGroup): Option[] {
         size,
         condition: variant.condition,
         price: variant.price,
+        sale: onSale(variant),
         variant,
       });
     });
@@ -163,24 +171,42 @@ export default function ProductPurchasePanel({
                 setSelectedKey((current) => (current === o.key ? undefined : o.key))
               }
               className={`rounded-md border px-3 py-2.5 text-sm font-medium transition ${
+                o.sale ? "size-sale " : ""
+              }${
                 selectedKey === o.key
                   ? "border-ink bg-ink text-white"
-                  : "border-line bg-paper-raised text-ink hover:border-ink"
+                  : o.sale
+                    ? "border-accent bg-paper-raised text-ink"
+                    : "border-line bg-paper-raised text-ink hover:border-ink"
               }`}
             >
               {multiVariant ? (
                 <span className="flex flex-col items-start leading-tight">
-                  <span>Talla {o.size}</span>
+                  <span className="flex items-center gap-1.5">
+                    Talla {o.size}
+                    {o.sale && (
+                      <span className="rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+                        Sale
+                      </span>
+                    )}
+                  </span>
                   <span
                     className={`text-[10px] uppercase tracking-wide ${
-                      selectedKey === o.key ? "text-white/70" : "text-muted"
+                      selectedKey === o.key ? "text-white/70" : o.sale ? "font-semibold text-accent" : "text-muted"
                     }`}
                   >
                     {o.condition} · {formatPrice(o.price)}
                   </span>
                 </span>
               ) : (
-                o.size
+                <span className="flex items-center gap-1.5">
+                  {o.size}
+                  {o.sale && (
+                    <span className="rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+                      Sale
+                    </span>
+                  )}
+                </span>
               )}
             </button>
           ))}
