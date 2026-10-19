@@ -3681,7 +3681,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 770000,
-    "promo": false,
+    "priceBefore": 960000,
+    "promo": true,
     "sizes": [
       "7",
       "7.5",
@@ -3747,7 +3748,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 600000,
-    "promo": false,
+    "priceBefore": 710000,
+    "promo": true,
     "sizes": [
       "8.5"
     ],
@@ -3848,7 +3850,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 650000,
-    "promo": false,
+    "priceBefore": 780000,
+    "promo": true,
     "sizes": [
       "11"
     ],
@@ -6717,7 +6720,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 700000,
-    "promo": false,
+    "priceBefore": 830000,
+    "promo": true,
     "sizes": [
       "8"
     ],
@@ -6737,7 +6741,8 @@
     "brand": "Adidas",
     "category": "sneakers",
     "price": 700000,
-    "promo": false,
+    "priceBefore": 860000,
+    "promo": true,
     "sizes": [
       "4",
       "5",
@@ -6759,7 +6764,8 @@
     "brand": "Adidas",
     "category": "sneakers",
     "price": 600000,
-    "promo": false,
+    "priceBefore": 730000,
+    "promo": true,
     "sizes": [
       "6"
     ],
@@ -6779,7 +6785,8 @@
     "brand": "Adidas",
     "category": "sneakers",
     "price": 400000,
-    "promo": false,
+    "priceBefore": 480000,
+    "promo": true,
     "sizes": [
       "5"
     ],
@@ -6799,7 +6806,8 @@
     "brand": "Adidas",
     "category": "sneakers",
     "price": 420000,
-    "promo": false,
+    "priceBefore": 520000,
+    "promo": true,
     "sizes": [
       "8"
     ],
@@ -6819,7 +6827,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 550000,
-    "promo": false,
+    "priceBefore": 690000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -6839,7 +6848,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 580000,
-    "promo": false,
+    "priceBefore": 720000,
+    "promo": true,
     "sizes": [
       "8.5",
       "9",
@@ -6862,7 +6872,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 550000,
-    "promo": false,
+    "priceBefore": 650000,
+    "promo": true,
     "sizes": [
       "8.5"
     ],
@@ -6882,7 +6893,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 870000,
-    "promo": false,
+    "priceBefore": 1090000,
+    "promo": true,
     "sizes": [
       "11"
     ],
@@ -6902,7 +6914,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1300000,
-    "promo": false,
+    "priceBefore": 1530000,
+    "promo": true,
     "sizes": [
       "9",
       "11"
@@ -6923,7 +6936,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 2000000,
-    "promo": false,
+    "priceBefore": 2380000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -6943,7 +6957,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 550000,
-    "promo": false,
+    "priceBefore": 660000,
+    "promo": true,
     "sizes": [
       "5W",
       "6W",
@@ -6968,7 +6983,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1220000,
-    "promo": false,
+    "priceBefore": 1490000,
+    "promo": true,
     "sizes": [
       "7.5"
     ],
@@ -6988,7 +7004,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 2100000,
-    "promo": false,
+    "priceBefore": 2560000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7008,7 +7025,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1800000,
-    "promo": false,
+    "priceBefore": 2140000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -7028,7 +7046,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 678000,
-    "promo": false,
+    "priceBefore": 820000,
+    "promo": true,
     "sizes": [
       "11"
     ],
@@ -7048,7 +7067,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 420000,
-    "promo": false,
+    "priceBefore": 500000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7068,7 +7088,8 @@
     "brand": "Asics",
     "category": "sneakers",
     "price": 420000,
-    "promo": false,
+    "priceBefore": 520000,
+    "promo": true,
     "sizes": [
       "8.5",
       "9"
@@ -7089,7 +7110,8 @@
     "brand": "New Balance x Joe Freshgoods",
     "category": "sneakers",
     "price": 1450000,
-    "promo": false,
+    "priceBefore": 1730000,
+    "promo": true,
     "sizes": [
       "10"
     ],
@@ -7109,7 +7131,8 @@
     "brand": "Adidas x Bad Bunny",
     "category": "sneakers",
     "price": 700000,
-    "promo": false,
+    "priceBefore": 840000,
+    "promo": true,
     "sizes": [
       "9.5",
       "10",
@@ -7132,7 +7155,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 300000,
-    "promo": false,
+    "priceBefore": 370000,
+    "promo": true,
     "sizes": [
       "6.5W"
     ],
@@ -7152,7 +7176,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 2700000,
-    "promo": false,
+    "priceBefore": 3380000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -7172,7 +7197,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 900000,
-    "promo": false,
+    "priceBefore": 1070000,
+    "promo": true,
     "sizes": [
       "10",
       "11"
@@ -7193,7 +7219,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 889000,
-    "promo": false,
+    "priceBefore": 1100000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7213,7 +7240,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 800000,
-    "promo": false,
+    "priceBefore": 980000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -7233,7 +7261,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 700000,
-    "promo": false,
+    "priceBefore": 860000,
+    "promo": true,
     "sizes": [
       "8"
     ],
@@ -7253,7 +7282,8 @@
     "brand": "Adidas x Bad Bunny",
     "category": "sneakers",
     "price": 450000,
-    "promo": false,
+    "priceBefore": 550000,
+    "promo": true,
     "sizes": [
       "5.5",
       "6"
@@ -7274,7 +7304,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 6120000,
-    "promo": false,
+    "priceBefore": 7560000,
+    "promo": true,
     "sizes": [
       "8.5"
     ],
@@ -7295,7 +7326,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 980000,
-    "promo": false,
+    "priceBefore": 1200000,
+    "promo": true,
     "sizes": [
       "12.5W"
     ],
@@ -7315,7 +7347,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 1000000,
-    "promo": false,
+    "priceBefore": 1220000,
+    "promo": true,
     "sizes": [
       "11"
     ],
@@ -7335,7 +7368,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 1320000,
-    "promo": false,
+    "priceBefore": 1570000,
+    "promo": true,
     "sizes": [
       "10"
     ],
@@ -7355,7 +7389,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 989000,
-    "promo": false,
+    "priceBefore": 1160000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7375,7 +7410,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 880000,
-    "promo": false,
+    "priceBefore": 1090000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7395,7 +7431,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 1000000,
-    "promo": false,
+    "priceBefore": 1230000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7416,7 +7453,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 720000,
-    "promo": false,
+    "priceBefore": 870000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7436,7 +7474,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 1100000,
-    "promo": false,
+    "priceBefore": 1340000,
+    "promo": true,
     "sizes": [
       "11"
     ],
@@ -7456,7 +7495,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 1300000,
-    "promo": false,
+    "priceBefore": 1530000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7476,7 +7516,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 600000,
-    "promo": false,
+    "priceBefore": 720000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7497,7 +7538,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 4320000,
-    "promo": false,
+    "priceBefore": 5270000,
+    "promo": true,
     "sizes": [
       "9.5"
     ],
@@ -7518,7 +7560,8 @@
     "brand": "Asics",
     "category": "sneakers",
     "price": 750000,
-    "promo": false,
+    "priceBefore": 900000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -7539,7 +7582,8 @@
     "brand": "Crocs",
     "category": "sneakers",
     "price": 300000,
-    "promo": false,
+    "priceBefore": 370000,
+    "promo": true,
     "sizes": [
       "12"
     ],
@@ -7560,7 +7604,8 @@
     "brand": "Crocs",
     "category": "sneakers",
     "price": 550000,
-    "promo": false,
+    "priceBefore": 680000,
+    "promo": true,
     "sizes": [
       "4",
       "5",
@@ -7586,7 +7631,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1100000,
-    "promo": false,
+    "priceBefore": 1290000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7608,7 +7654,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1100000,
-    "promo": false,
+    "priceBefore": 1310000,
+    "promo": true,
     "sizes": [
       "10.5"
     ],
@@ -7629,7 +7676,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 950000,
-    "promo": false,
+    "priceBefore": 1140000,
+    "promo": true,
     "sizes": [
       "8"
     ],
@@ -7649,7 +7697,8 @@
     "brand": "Adidas x Bad Bunny",
     "category": "sneakers",
     "price": 700000,
-    "promo": false,
+    "priceBefore": 830000,
+    "promo": true,
     "sizes": [
       "4.5",
       "5.5"
@@ -7670,7 +7719,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 600000,
-    "promo": false,
+    "priceBefore": 740000,
+    "promo": true,
     "sizes": [
       "10"
     ],
@@ -7690,7 +7740,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 1499000,
-    "promo": false,
+    "priceBefore": 1780000,
+    "promo": true,
     "sizes": [
       "8.5"
     ],
@@ -11435,7 +11486,8 @@
     "brand": "Nike",
     "category": "sneakers",
     "price": 550000,
-    "promo": false,
+    "priceBefore": 650000,
+    "promo": true,
     "sizes": [
       "9"
     ],
@@ -11455,7 +11507,8 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 800000,
-    "promo": false,
+    "priceBefore": 950000,
+    "promo": true,
     "sizes": [
       "9"
     ],
