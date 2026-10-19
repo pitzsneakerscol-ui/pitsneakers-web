@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 
 /**
  * Panel de revendedores y de administración: ahí no se muestran la barra de anuncios, el menú ni el pie del sitio público.
- * Tampoco en la página "Próximamente" ni en el ingreso/recuperación de vendedores (los únicos accesos abiertos con el candado del sitio).
+ * Tampoco en la página "Próximamente" ni en la de reseñas (/resena) ni en el ingreso/recuperación de vendedores (los únicos accesos abiertos con el candado del sitio).
  */
-const PANEL = /^\/(revendedores\/(panel|inventario|ventas|ranking|cuenta|avisos|consultas|ofertas)|admin|proximamente|subasta|trivia)(\/|$)/;
+const PANEL = /^\/(revendedores\/(panel|inventario|ventas|ranking|cuenta|avisos|consultas|ofertas)|admin|proximamente|subasta|trivia|resena)(\/|$)/;
 const AUTH = /^\/(revendedores\/(ingresar|recuperar|restablecer)|politicas)(\/|$)/;
 
 export default function ChromeGate({ children, locked = false }: { children: React.ReactNode; locked?: boolean }) {
