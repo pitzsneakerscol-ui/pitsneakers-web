@@ -21,6 +21,23 @@ function groupKey(product: Product): string {
   )}`;
 }
 
+/** Las fotos se nombran con un hash de su contenido (SKU.hash.webp): si dos pares comparten la misma foto
+ * bajo SKUs distintos, el hash coincide y se muestra una sola vez. */
+function imageKey(url: string): string {
+  const m = url.match(/\.([0-9a-f]{8})\.[a-z0-9]+$/i);
+  return m ? m[1] : url;
+}
+
+function uniqueImages(urls: string[]): string[] {
+  const seen = new Set<string>();
+  return urls.filter((u) => {
+    const k = imageKey(u);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
 export function groupProducts(products: Product[]): ProductGroup[] {
   const map = new Map<string, ProductGroup>();
 
@@ -58,7 +75,7 @@ export function groupProducts(products: Product[]): ProductGroup[] {
 
   const groups = Array.from(map.values()).map((group) => ({
     ...group,
-    images: Array.from(new Set(group.variants.flatMap((v) => v.images))),
+    images: uniqueImages(group.variants.flatMap((v) => v.images)),
   }));
 
   // Evita choques de URL si dos grupos distintos generan el mismo slug.
