@@ -499,6 +499,7 @@ body {
 .rv-quote {
   position: absolute;
   right: 1rem;
+  top: 0.5rem;
   font-family: var(--font-display, serif);
   font-size: 5rem;
   line-height: 1;

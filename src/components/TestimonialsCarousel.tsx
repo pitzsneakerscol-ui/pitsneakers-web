@@ -114,32 +114,34 @@ export default function TestimonialsCarousel({ testimonials }: { testimonials: T
             style={{ animationDelay: `${Math.min(i, 6) * 90}ms` }}
             className={`rv-card ${seen ? "rv-in" : ""} group relative flex w-[78vw] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-lg border border-line bg-paper-raised sm:w-72`}
           >
-            {testimonial.photo && (
-              <button
-                type="button"
-                onClick={() => {
-                  pause(PAUSE_MS);
-                  setZoom(testimonial);
-                }}
-                aria-label={`Ampliar la foto de la reseña de ${testimonial.name}`}
-                className="relative block aspect-[4/5] w-full overflow-hidden bg-[#ebe8e2]"
-              >
-                <Image
-                  src={testimonial.photo}
-                  alt={`Foto de ${testimonial.name}${testimonial.product ? ` con ${testimonial.product}` : ""}`}
-                  fill
-                  unoptimized={testimonial.photo.startsWith("/api/")}
-                  sizes="(max-width: 640px) 78vw, 288px"
-                  className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                />
-                <span className="absolute bottom-2 right-2 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white opacity-0 backdrop-blur transition group-hover:opacity-100">
-                  Ver foto
-                </span>
-              </button>
-            )}
             <div className="p-6 pb-0">
               <span className="rv-quote" aria-hidden="true">“</span>
-              <Stars rating={testimonial.rating} />
+              <div className="flex items-center gap-3">
+                {testimonial.photo && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      pause(PAUSE_MS);
+                      setZoom(testimonial);
+                    }}
+                    aria-label={`Ampliar la foto de la reseña de ${testimonial.name}`}
+                    className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-line bg-[#ebe8e2] transition hover:border-accent"
+                  >
+                    <Image
+                      src={testimonial.photo}
+                      alt={`Foto de ${testimonial.name}${testimonial.product ? ` con ${testimonial.product}` : ""}`}
+                      fill
+                      unoptimized={testimonial.photo.startsWith("/api/")}
+                      sizes="64px"
+                      className="object-cover transition duration-500 hover:scale-110"
+                    />
+                  </button>
+                )}
+                <div>
+                  <Stars rating={testimonial.rating} />
+                  {testimonial.photo && <p className="mt-1 text-[10px] uppercase tracking-wider text-muted">Toca la foto para verla</p>}
+                </div>
+              </div>
               <blockquote className="mt-3 text-sm leading-relaxed text-ink">“{testimonial.text}”</blockquote>
             </div>
             <figcaption className="flex items-center gap-3 p-6 pt-6 text-xs text-muted">
