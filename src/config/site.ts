@@ -47,9 +47,9 @@ export const siteConfig = {
   promo: {
     // Poné en false para ocultar la sección de promo sin borrar nada.
     enabled: true,
-    title: "Promo de lanzamiento",
-    subtitle: "Precios especiales por tiempo limitado en pares seleccionados.",
-    // Fecha y hora exacta en que termina la promo (zona horaria Colombia, -05:00).
-    endsAt: "2026-09-15T23:59:00-05:00",
+    title: "Sale de apertura",
+    subtitle: "Pares y prendas seleccionados con precio especial por la apertura de la página.",
+    // Fecha y hora exacta en que termina (zona horaria Colombia, -05:00). Vacío = sin fecha de cierre ni cuenta regresiva.
+    endsAt: "",
   },
 };

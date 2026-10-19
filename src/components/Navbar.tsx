@@ -41,10 +41,13 @@ const baseLinks: NavLink[] = [
   { href: "/contacto", label: "Contacto", glow: "#4cc9f0" },
 ];
 
-export default function Navbar({ resellerEnabled = false }: { resellerEnabled?: boolean }) {
-  const links: NavLink[] = resellerEnabled
-    ? [...baseLinks, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]
+export default function Navbar({ resellerEnabled = false, saleEnabled = false }: { resellerEnabled?: boolean; saleEnabled?: boolean }) {
+  const withSale: NavLink[] = saleEnabled
+    ? [{ href: "/sale", label: "Sale", glow: "#ff3b30" }, ...baseLinks]
     : baseLinks;
+  const links: NavLink[] = resellerEnabled
+    ? [...withSale, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]
+    : withSale;
   const [open, setOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const pathname = usePathname();

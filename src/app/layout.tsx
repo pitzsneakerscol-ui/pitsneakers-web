@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { getAllGroups } from "@/lib/products";
+import { groupPromo } from "@/lib/grouping";
+import { promoLive } from "@/lib/sale";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
 import ChromeGate from "@/components/ChromeGate";
@@ -57,6 +59,7 @@ export default async function RootLayout({
   const groups = await getAllGroups();
   const locked = process.env.SITE_LOCKED === "1";
   const latest = groups.find((g) => g.images.length > 0);
+  const saleLive = promoLive() && groups.some((g) => groupPromo(g) !== null);
 
   return (
     <html
@@ -75,9 +78,9 @@ export default async function RootLayout({
           latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
           members={siteConfig.stats.whatsappMembers}
           communityUrl={siteConfig.whatsappCommunityUrl}
-          promo={siteConfig.promo.enabled ? { title: siteConfig.promo.title, endsAt: siteConfig.promo.endsAt } : undefined}
+          promo={saleLive && siteConfig.promo.endsAt ? { title: siteConfig.promo.title, endsAt: siteConfig.promo.endsAt } : undefined}
         />
-        <Navbar resellerEnabled={isDbConfigured()} />
+        <Navbar resellerEnabled={isDbConfigured()} saleEnabled={saleLive} />
         </ChromeGate>
         <main className="flex-1">{children}</main>
         <NativeBridge />
