@@ -3675,5 +3675,19 @@
     "price": 820000,
     "condition": "nuevo",
     "image": "/products/SLMN-08.520fb44f.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "nike-mind-001-black-4",
+    "name": "Mind 001 Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-20",
+    "sizes": [
+      "9"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-02.841a88ca.webp"
   }
 ]
