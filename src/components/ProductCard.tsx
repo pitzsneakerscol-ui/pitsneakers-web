@@ -3,7 +3,6 @@ import { ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
 import { groupPriceRange, groupConditions, groupPromo } from "@/lib/grouping";
 import ProductMedia from "@/components/ProductMedia";
-import { WhatsAppButtonSmall } from "@/components/WhatsAppButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import QuickViewButton from "@/components/QuickView";
 
@@ -12,7 +11,6 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
   const conditions = groupConditions(group);
   const hasUsado = conditions.includes("usado");
   const hasNuevo = conditions.includes("nuevo");
-  const cheapestVariant = group.variants.reduce((a, b) => (a.price <= b.price ? a : b));
   const multiVariant = group.variants.length > 1;
   const promo = groupPromo(group);
 
@@ -75,7 +73,6 @@ export default function ProductCard({ group }: { group: ProductGroup }) {
             {multiVariant ? `Desde ${formatPrice(min)}` : formatPrice(min)}
           </p>
         )}
-        <WhatsAppButtonSmall product={cheapestVariant} />
       </div>
     </div>
   );
