@@ -3661,5 +3661,19 @@
     "price": 850000,
     "condition": "nuevo",
     "image": "/products/AJ4-17.082ec8fe.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "salomon-acs-nexxt-x-feid-the-green-star-black-2",
+    "name": "ACS Nexxt x Feid The Green Star Black",
+    "brand": "Salomon",
+    "colorway": "",
+    "sku": "SLMN-09",
+    "sizes": [
+      "9"
+    ],
+    "price": 820000,
+    "condition": "nuevo",
+    "image": "/products/SLMN-08.520fb44f.webp"
   }
 ]
