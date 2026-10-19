@@ -55,7 +55,7 @@ function ChatIcon({ className }: IconProps) {
 
 // El panel de dueño y el de revendedores tienen su propia navegación.
 // (La página pública /revendedores sí lleva barra; sus paneles internos no.)
-const HIDDEN_PREFIXES = ["/admin", "/revendedores/"];
+const HIDDEN_PREFIXES = ["/admin", "/revendedores/", "/resena"];
 
 export default function MobileTabBar({ sellEnabled = false }: { sellEnabled?: boolean }) {
   const pathname = usePathname();
