@@ -7304,8 +7304,7 @@
     "brand": "Jordan",
     "category": "sneakers",
     "price": 6120000,
-    "priceBefore": 7560000,
-    "promo": true,
+    "promo": false,
     "sizes": [
       "8.5"
     ],
