@@ -1,10 +1,22 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import PlayMascot from "@/components/PlayMascot";
+import { getAllProducts } from "@/lib/products";
 
 const HEADLINE = ["SNEAKERS", "Y", "STREETWEAR,", "VERIFICADOS", "PAR", "A", "PAR."];
 
-export default function Hero() {
+/** Pares de sneakers publicados (cada talla cuenta como un par), redondeados hacia abajo a la centena: "más de 700". */
+async function pairsLabel(): Promise<string> {
+  const products = await getAllProducts();
+  const pairs = products
+    .filter((p) => p.category === "sneakers")
+    .reduce((n, p) => n + Math.max(1, p.sizes.length), 0);
+  const floor = Math.floor(pairs / 100) * 100;
+  return floor >= 100 ? `más de ${floor.toLocaleString("es-CO")}` : "cientos de";
+}
+
+export default async function Hero() {
+  const pairs = await pairsLabel();
   return (
     <section className="relative overflow-hidden bg-ink text-white">
       <div
@@ -41,9 +53,10 @@ export default function Hero() {
             className="fade-up mt-4 max-w-xl text-sm text-white/70 sm:mt-6 sm:text-lg"
             style={{ "--delay": "700ms" } as React.CSSProperties}
           >
-            Cada producto pasa por revisión física y autenticación antes de
-            llegar a ti. Consulta el catálogo y cierra tu compra directo por
-            WhatsApp, como siempre lo has hecho con nosotros.
+            Evolucionamos: de comunidad a la{" "}
+            <strong className="font-semibold text-white">primera plataforma y marketplace de sneakers de Colombia</strong>.{" "}
+            <strong className="font-semibold text-white">{pairs.charAt(0).toUpperCase() + pairs.slice(1)} pares</strong> publicados y un referente en el país. Cada
+            producto pasa por revisión física y autenticación antes de llegar a ti, y cierras tu compra directo por WhatsApp.
           </p>
           <div
             className="fade-up mt-6 flex gap-3 sm:mt-10"
