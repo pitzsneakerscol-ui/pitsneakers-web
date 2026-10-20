@@ -59,7 +59,7 @@ function buildOptions(group: ProductGroup): Option[] {
     const prev = cheapest.get(k);
     if (!prev || o.price < prev.price) cheapest.set(k, o);
   }
-  return [...cheapest.values()].sort((a, b) => a.price - b.price);
+  return [...cheapest.values()].sort((a, b) => a.price - b.price || parseFloat(a.size) - parseFloat(b.size) || 0);
 }
 
 export default function ProductPurchasePanel({
