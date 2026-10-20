@@ -518,6 +518,21 @@ body {
   .rv-card:hover { transform: none; }
 }
 
+/* Reseña de una persona conocida (VIP): borde dorado e insignia con el brillo del logo */
+.rv-vip {
+  border-color: #ffd23f;
+  box-shadow: 0 0 0 1px color-mix(in srgb, #ffd23f 40%, transparent), 0 10px 28px -16px #ffd23f;
+}
+.vip-badge {
+  background-image: linear-gradient(100deg, #ffd23f 0%, #ffd23f 38%, #fff6c8 50%, #ffd23f 62%, #ffd23f 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  animation: nav-shimmer 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vip-badge { animation: none; background-position: 0 0; }
+}
+
 /* Contador: cada cambio de dígito "late" */
 @keyframes tick-pop {
   0% {

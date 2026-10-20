@@ -364,6 +364,7 @@ const SCHEMA = [
 
 // Columnas agregadas después de la primera versión de cada tabla.
 const ADDED_COLUMNS: Record<string, [string, string][]> = {
+  reviews: [["vip", "INTEGER NOT NULL DEFAULT 0"]],
   waitlist: [
     ["announced", "INTEGER NOT NULL DEFAULT 0"],
     ["trivia_announced", "INTEGER NOT NULL DEFAULT 0"],

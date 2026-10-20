@@ -61,6 +61,7 @@ export default async function ResenasPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-semibold">{r.name}</span>
+                  {r.vip && <span className="rounded-full bg-[#ffd23f] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black">★ VIP</span>}
                   <span className="text-accent" aria-label={`${r.rating} de 5 estrellas`}>{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
@@ -80,6 +81,7 @@ export default async function ResenasPage() {
                   {r.status !== "approved" && <ConfirmForm action={moderateReview} fields={{ id: r.id, action: "aprobar" }} label="Aprobar y publicar" className={btnPrimary} />}
                   {r.status === "approved" && <ConfirmForm action={moderateReview} fields={{ id: r.id, action: "pendiente" }} label="Despublicar" className={btnGhost} />}
                   {r.status === "pending" && <ConfirmForm action={moderateReview} fields={{ id: r.id, action: "rechazar" }} label="Rechazar" className={btnGhost} />}
+                  <ConfirmForm action={moderateReview} fields={{ id: r.id, action: r.vip ? "quitar-vip" : "vip" }} label={r.vip ? "Quitar VIP" : "Marcar VIP"} className={btnGhost} />
                   <ConfirmForm action={moderateReview} fields={{ id: r.id, action: "borrar" }} label="Borrar" confirm="¿Borrar esta reseña para siempre?" className={btnGhost} />
                 </div>
               </div>

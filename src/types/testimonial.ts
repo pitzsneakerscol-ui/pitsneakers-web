@@ -6,5 +6,7 @@ export interface Testimonial {
   product?: string;
   /** Foto de la reseña (ruta en /public, por ejemplo /resenas/camilo.webp). */
   photo?: string;
+  /** Persona conocida: la tarjeta lleva la insignia VIP. */
+  vip?: boolean;
   date: string;
 }

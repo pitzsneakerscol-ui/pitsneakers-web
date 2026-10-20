@@ -12,6 +12,7 @@ export interface ReviewRow {
   text: string;
   product: string;
   hasPhoto: boolean;
+  vip: boolean;
   status: ReviewStatus;
   createdAt: number;
 }
@@ -19,7 +20,7 @@ export interface ReviewRow {
 /** Foto máxima ya reducida por el navegador (unos 150-400 KB); el servidor la limita por seguridad. */
 export const MAX_PHOTO_BYTES = 700_000;
 
-const COLS = "id, name, email, rating, text, product, photo_type, status, created_at, CASE WHEN photo != '' THEN 1 ELSE 0 END AS has_photo";
+const COLS = "id, name, email, rating, text, product, photo_type, status, vip, created_at, CASE WHEN photo != '' THEN 1 ELSE 0 END AS has_photo";
 
 function toRow(r: Record<string, unknown>): ReviewRow {
   return {
@@ -30,6 +31,7 @@ function toRow(r: Record<string, unknown>): ReviewRow {
     text: String(r.text),
     product: String(r.product),
     hasPhoto: Number(r.has_photo) === 1,
+    vip: Number(r.vip) === 1,
     status: String(r.status) as ReviewStatus,
     createdAt: Number(r.created_at),
   };
@@ -69,6 +71,11 @@ export async function setReviewStatus(id: number, status: ReviewStatus): Promise
   await db.execute({ sql: "UPDATE reviews SET status = ? WHERE id = ?", args: [status, id] });
 }
 
+export async function setReviewVip(id: number, vip: boolean): Promise<void> {
+  const db = await getDb();
+  await db.execute({ sql: "UPDATE reviews SET vip = ? WHERE id = ?", args: [vip ? 1 : 0, id] });
+}
+
 export async function deleteReview(id: number): Promise<void> {
   const db = await getDb();
   await db.execute({ sql: "DELETE FROM reviews WHERE id = ?", args: [id] });
@@ -89,6 +96,7 @@ export async function approvedTestimonials(): Promise<Testimonial[]> {
         text: row.text,
         ...(row.product ? { product: row.product } : {}),
         ...(row.hasPhoto ? { photo: `/api/resenas/${row.id}/foto` } : {}),
+        ...(row.vip ? { vip: true } : {}),
         date: new Date(row.createdAt).toISOString().slice(0, 10),
       };
     });

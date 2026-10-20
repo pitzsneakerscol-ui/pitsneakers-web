@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { deleteReview, setReviewStatus } from "@/lib/reviews";
+import { deleteReview, setReviewStatus, setReviewVip } from "@/lib/reviews";
 
 /** Aprueba (se publica), rechaza (se oculta) o borra una reseña. */
 export async function moderateReview(fd: FormData): Promise<void> {
@@ -14,6 +14,8 @@ export async function moderateReview(fd: FormData): Promise<void> {
   if (action === "aprobar") await setReviewStatus(id, "approved");
   else if (action === "rechazar") await setReviewStatus(id, "rejected");
   else if (action === "pendiente") await setReviewStatus(id, "pending");
+  else if (action === "vip") await setReviewVip(id, true);
+  else if (action === "quitar-vip") await setReviewVip(id, false);
   else if (action === "borrar") await deleteReview(id);
   else return;
 

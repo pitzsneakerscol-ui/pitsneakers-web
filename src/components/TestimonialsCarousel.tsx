@@ -32,6 +32,14 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
+function VipBadge({ className = "" }: { className?: string }) {
+  return (
+    <span className={`vip-badge inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black ${className}`}>
+      <span aria-hidden="true">★</span> VIP
+    </span>
+  );
+}
+
 export default function TestimonialsCarousel({ testimonials }: { testimonials: Testimonial[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [wrapRef, seen] = useInView<HTMLDivElement>(0.15);
@@ -112,7 +120,7 @@ export default function TestimonialsCarousel({ testimonials }: { testimonials: T
             key={testimonial.id}
             data-card
             style={{ animationDelay: `${Math.min(i, 6) * 90}ms` }}
-            className={`rv-card ${seen ? "rv-in" : ""} group relative flex w-[78vw] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-lg border border-line bg-paper-raised sm:w-72`}
+            className={`rv-card ${seen ? "rv-in" : ""} ${testimonial.vip ? "rv-vip" : ""} group relative flex w-[78vw] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-lg border border-line bg-paper-raised sm:w-72`}
           >
             <div className="p-6 pb-0">
               <span className="rv-quote" aria-hidden="true">“</span>
@@ -149,7 +157,10 @@ export default function TestimonialsCarousel({ testimonials }: { testimonials: T
                 {testimonial.name.trim().charAt(0).toUpperCase()}
               </span>
               <span className="min-w-0">
-                <span className="block truncate font-medium text-ink">{testimonial.name}</span>
+                <span className="flex items-center gap-1.5 font-medium text-ink">
+                  <span className="truncate">{testimonial.name}</span>
+                  {testimonial.vip && <VipBadge />}
+                </span>
                 {testimonial.product && <span className="block truncate">{testimonial.product}</span>}
               </span>
             </figcaption>
@@ -174,6 +185,7 @@ export default function TestimonialsCarousel({ testimonials }: { testimonials: T
               <p className="mt-2 leading-relaxed">“{zoom.text}”</p>
               <p className="mt-2 text-xs text-muted">
                 <span className="font-medium text-ink">{zoom.name}</span>
+                {zoom.vip && <VipBadge className="ml-1.5" />}
                 {zoom.product && <> · {zoom.product}</>}
               </p>
               <button
