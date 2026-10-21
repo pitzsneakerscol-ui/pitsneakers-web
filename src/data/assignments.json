@@ -3902,5 +3902,19 @@
     "price": 1950000,
     "condition": "nuevo",
     "image": "/products/AJ1-05.561259a2.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-lunar-new-year",
+    "name": "Dunk Low Lunar New Year",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-20",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-20.d73644f6.webp"
   }
 ]

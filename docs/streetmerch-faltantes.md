@@ -9,7 +9,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 05. [x] Nike · Air Max Ecstasy x Supreme — código IM7412-001 — tallas 11, 10, 9 — $1.100.000
 06. [x] Adidas · Jellyfish Sandy — código KH6729 — tallas 9 — $1.450.000
 07. [x] Jordan · Jordan 1 Low Shy Pink — código IQ7604-100 — tallas 10.5 — $1.950.000
-08. [ ] Nike · Dunk Low Lunar New Year — código FD4623-131 — tallas 8.5 — $750.000
+08. [x] Nike · Dunk Low Lunar New Year — código FD4623-131 — tallas 8.5 — $750.000
 09. [ ] Nike · Dunk Low Cyberdunk — código FZ3781-060 — tallas 8 — $750.000
 10. [ ] Jordan · Jumpman x Chase B — código IH7971-001 — tallas 10.5, 9 — $1.199.000
 11. [ ] Adidas · Samba x Bape — código KJ8852 — tallas 10.5 — $999.999
