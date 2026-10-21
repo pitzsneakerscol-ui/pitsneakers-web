@@ -3801,5 +3801,19 @@
     "price": 700000,
     "condition": "nuevo",
     "image": "/products/ADI2000-01.943dc124.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-og-chicago",
+    "name": "Jordan 1 Low OG Chicago",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-51",
+    "sizes": [
+      "11"
+    ],
+    "price": 850000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-51.c060029e.webp"
   }
 ]

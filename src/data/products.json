@@ -11690,5 +11690,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:23:00.000Z"
+  },
+  {
+    "id": "AJ1-51",
+    "slug": "jordan-jordan-1-low-og-chicago",
+    "name": "Jordan 1 Low OG Chicago",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo HQ6998-600. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-51.c060029e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:24:00.000Z"
   }
 ]
