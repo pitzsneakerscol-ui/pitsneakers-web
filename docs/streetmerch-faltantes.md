@@ -12,7 +12,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 08. [x] Nike · Dunk Low Lunar New Year — código FD4623-131 — tallas 8.5 — $750.000
 09. [x] Nike · Dunk Low Cyberdunk — código FZ3781-060 — tallas 8 — $750.000
 10. [x] Jordan · Jumpman x Chase B — código IH7971-001 — tallas 10.5, 9 — $1.199.000
-11. [ ] Adidas · Samba x Bape — código KJ8852 — tallas 10.5 — $999.999
+11. [x] Adidas · Samba x Bape — código KJ8852 — tallas 10.5 — $999.999
 12. [ ] Jordan · Jordan 1 High UNC — código DZ5485-400 — tallas 10.5 — $950.000
 13. [ ] Jordan · Jordan 1 High Black Toe Reimagined — código DZ5485-106 — tallas 10.5 — $950.000
 14. [ ] Nike · Air Force 1 Slam Jam — código DX5590-001 — tallas 10.5 — $1.150.000

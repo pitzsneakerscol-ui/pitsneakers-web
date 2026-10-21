@@ -11897,5 +11897,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:33:00.000Z"
+  },
+  {
+    "id": "SAMBABAPE-01",
+    "slug": "adidas-x-bape-samba-x-bape",
+    "name": "Samba x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 999999,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo KJ8852. Comisión incluida en el precio.",
+    "images": [
+      "/products/SAMBABAPE-01.4e0e7986.webp",
+      "/products/SAMBABAPE-01-2.95ec2edc.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:34:00.000Z"
   }
 ]

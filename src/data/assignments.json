@@ -3945,5 +3945,19 @@
     "price": 1199000,
     "condition": "nuevo",
     "image": "/products/JUMPMAN-01.7826a41c.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-x-bape-samba-x-bape",
+    "name": "Samba x Bape",
+    "brand": "Adidas x Bape",
+    "colorway": "",
+    "sku": "SAMBABAPE-01",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 999999,
+    "condition": "nuevo",
+    "image": "/products/SAMBABAPE-01.4e0e7986.webp"
   }
 ]
