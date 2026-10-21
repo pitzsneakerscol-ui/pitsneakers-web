@@ -4,7 +4,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 
 01. [x] Jordan · Jordan 1 Low OG Chicago — código HQ6998-600 — tallas 11 — $850.000
 02. [x] Nike · Air Force 1 SB x Yuto — código IO8439-100 — tallas 9 — $780.000
-03. [ ] Nike · Air Force 1 Terror Squad — código II4391-100 — tallas 10 — $950.000
+03. [x] Nike · Air Force 1 Terror Squad — código II4391-100 — tallas 10 — $950.000
 04. [ ] Nike · Air Max Ecstasy x Supreme — código IM7412-600 — tallas 9.5, 8.5 — $1.100.000
 05. [ ] Nike · Air Max Ecstasy x Supreme — código IM7412-001 — tallas 11, 10, 9 — $1.100.000
 06. [ ] Adidas · Jellyfish Sandy — código KH6729 — tallas 9 — $1.450.000

@@ -3829,5 +3829,19 @@
     "price": 780000,
     "condition": "nuevo",
     "image": "/products/AF1-19.b942444c.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-force-1-terror-squad",
+    "name": "Air Force 1 Terror Squad",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-20",
+    "sizes": [
+      "10"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/AF1-20.b5ac5eb5.webp"
   }
 ]
