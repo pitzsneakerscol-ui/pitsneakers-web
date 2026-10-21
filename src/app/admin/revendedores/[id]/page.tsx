@@ -66,6 +66,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
             <Link href={`/admin/correos?rev=${r.id}`} className={btnGhost}>Enviar correo</Link>
           )}
           <Link href={`/admin/pagos?nuevo=r:${r.id}`} className={btnGhost}>Registrar pago</Link>
+          <a href={`/admin/revendedores/${r.id}/exportar`} className={btnGhost}>Descargar inventario (CSV)</a>
           <ConfirmForm
             action={setSuspended}
             fields={{ id: r.id, suspend: r.suspended ? "0" : "1" }}
