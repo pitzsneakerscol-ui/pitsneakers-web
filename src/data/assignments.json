@@ -3916,5 +3916,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/DUNK-20.d73644f6.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-cyberdunk",
+    "name": "Dunk Low Cyberdunk",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-21",
+    "sizes": [
+      "8"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-21.6daec3e4.webp"
   }
 ]
