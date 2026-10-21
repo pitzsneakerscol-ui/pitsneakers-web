@@ -11710,5 +11710,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:24:00.000Z"
+  },
+  {
+    "id": "AF1-19",
+    "slug": "nike-air-force-1-sb-x-yuto",
+    "name": "Air Force 1 SB x Yuto",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 780000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IO8439-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-19.b942444c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:25:00.000Z"
   }
 ]

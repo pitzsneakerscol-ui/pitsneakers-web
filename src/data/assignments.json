@@ -3815,5 +3815,19 @@
     "price": 850000,
     "condition": "nuevo",
     "image": "/products/AJ1-51.c060029e.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-force-1-sb-x-yuto",
+    "name": "Air Force 1 SB x Yuto",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-19",
+    "sizes": [
+      "9"
+    ],
+    "price": 780000,
+    "condition": "nuevo",
+    "image": "/products/AF1-19.b942444c.webp"
   }
 ]
