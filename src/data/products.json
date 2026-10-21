@@ -11549,5 +11549,146 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:16:00.000Z"
+  },
+  {
+    "id": "YZY-SLIDE-34",
+    "slug": "adidas-yeezy-slide-azure-7",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 450000,
+    "promo": false,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo ID4133. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-SLIDE-01.7141ed31.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:17:00.000Z"
+  },
+  {
+    "id": "YZY700-21",
+    "slug": "adidas-yeezy-700-v2-static-3",
+    "name": "Yeezy 700 V2 Static",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1150000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo EF2829. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY700-18.ffe1404d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:18:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-21",
+    "slug": "adidas-yeezy-foam-rnr-carbon-4",
+    "name": "Yeezy Foam RNR Carbon",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 580000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IG5349. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-FOAM-04.eedb0fb8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:19:00.000Z"
+  },
+  {
+    "id": "ASICS-17",
+    "slug": "asics-x-hidden-ny-gel-ds-trainer-x-hidden-2",
+    "name": "Gel-DS Trainer x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "category": "sneakers",
+    "price": 1150000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 1203A974-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-12.613175b8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:20:00.000Z"
+  },
+  {
+    "id": "DUNK-19",
+    "slug": "nike-dunk-sb-setsubun-3",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DQ5009-268. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-07.cceb2d9a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:21:00.000Z"
+  },
+  {
+    "id": "FORUMBAPE-02",
+    "slug": "adidas-x-bape-forum-x-bape-2",
+    "name": "Forum x Bape",
+    "brand": "Adidas x Bape",
+    "category": "sneakers",
+    "price": 950000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo ID4771. Comisión incluida en el precio.",
+    "images": [
+      "/products/FORUMBAPE-01.0d4e43b4.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:22:00.000Z"
+  },
+  {
+    "id": "ADI2000-02",
+    "slug": "adidas-adi2000-yu-gi-oh-blue-eyes-2",
+    "name": "Adi2000 Yu-Gi-Oh Blue Eyes",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 700000,
+    "promo": false,
+    "sizes": [
+      "11",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo H06442. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADI2000-01.943dc124.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:23:00.000Z"
   }
 ]

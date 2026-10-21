@@ -3702,5 +3702,104 @@
     "price": 800000,
     "condition": "nuevo",
     "image": "/products/AJ4-21.cc603893.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-yeezy-slide-azure-7",
+    "name": "Yeezy Slide Azure",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-SLIDE-34",
+    "sizes": [
+      "4"
+    ],
+    "price": 450000,
+    "condition": "nuevo",
+    "image": "/products/YZY-SLIDE-01.7141ed31.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-yeezy-700-v2-static-3",
+    "name": "Yeezy 700 V2 Static",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY700-21",
+    "sizes": [
+      "11"
+    ],
+    "price": 1150000,
+    "condition": "nuevo",
+    "image": "/products/YZY700-18.ffe1404d.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-yeezy-foam-rnr-carbon-4",
+    "name": "Yeezy Foam RNR Carbon",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-FOAM-21",
+    "sizes": [
+      "12"
+    ],
+    "price": 580000,
+    "condition": "nuevo",
+    "image": "/products/YZY-FOAM-04.eedb0fb8.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "asics-x-hidden-ny-gel-ds-trainer-x-hidden-2",
+    "name": "Gel-DS Trainer x Hidden",
+    "brand": "Asics x Hidden.NY",
+    "colorway": "",
+    "sku": "ASICS-17",
+    "sizes": [
+      "9"
+    ],
+    "price": 1150000,
+    "condition": "nuevo",
+    "image": "/products/ASICS-12.613175b8.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-sb-setsubun-3",
+    "name": "Dunk SB Setsubun",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-19",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 850000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-07.cceb2d9a.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-x-bape-forum-x-bape-2",
+    "name": "Forum x Bape",
+    "brand": "Adidas x Bape",
+    "colorway": "",
+    "sku": "FORUMBAPE-02",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/FORUMBAPE-01.0d4e43b4.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-adi2000-yu-gi-oh-blue-eyes-2",
+    "name": "Adi2000 Yu-Gi-Oh Blue Eyes",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADI2000-02",
+    "sizes": [
+      "11",
+      "10"
+    ],
+    "price": 700000,
+    "condition": "nuevo",
+    "image": "/products/ADI2000-01.943dc124.webp"
   }
 ]
