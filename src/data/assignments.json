@@ -3930,5 +3930,20 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/DUNK-21.6daec3e4.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jumpman-x-chase-b",
+    "name": "Jumpman x Chase B",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "JUMPMAN-01",
+    "sizes": [
+      "10.5",
+      "9"
+    ],
+    "price": 1199000,
+    "condition": "nuevo",
+    "image": "/products/JUMPMAN-01.7826a41c.webp"
   }
 ]

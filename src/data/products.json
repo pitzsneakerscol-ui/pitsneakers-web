@@ -11876,5 +11876,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:32:00.000Z"
+  },
+  {
+    "id": "JUMPMAN-01",
+    "slug": "jordan-jumpman-x-chase-b",
+    "name": "Jumpman x Chase B",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1199000,
+    "promo": false,
+    "sizes": [
+      "10.5",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IH7971-001. Comisión incluida en el precio.",
+    "images": [
+      "/products/JUMPMAN-01.7826a41c.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:33:00.000Z"
   }
 ]
