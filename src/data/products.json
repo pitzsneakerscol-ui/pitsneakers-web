@@ -11816,5 +11816,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:29:00.000Z"
+  },
+  {
+    "id": "AJ1-52",
+    "slug": "jordan-travis-scott-shy-pink-2",
+    "name": "Travis Scott Shy Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1950000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IQ7604-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-05.561259a2.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:30:00.000Z"
   }
 ]

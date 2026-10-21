@@ -3888,5 +3888,19 @@
     "price": 1450000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-07.b2e7b51a.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-travis-scott-shy-pink-2",
+    "name": "Travis Scott Shy Pink",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-52",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1950000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-05.561259a2.webp"
   }
 ]
