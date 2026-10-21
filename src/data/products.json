@@ -11750,5 +11750,49 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:26:00.000Z"
+  },
+  {
+    "id": "AMECSTASY-01",
+    "slug": "nike-air-max-ecstasy-x-supreme-black",
+    "name": "Air Max Ecstasy x Supreme Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "11",
+      "10",
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IM7412-001. Comisión incluida en el precio.",
+    "images": [
+      "/products/AMECSTASY-01.641fc7f5.webp",
+      "/products/AMECSTASY-01-2.c34e9076.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:27:00.000Z"
+  },
+  {
+    "id": "AMECSTASY-02",
+    "slug": "nike-air-max-ecstasy-x-supreme-red",
+    "name": "Air Max Ecstasy x Supreme Red",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "9.5",
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IM7412-600. Comisión incluida en el precio.",
+    "images": [
+      "/products/AMECSTASY-02.160e0c83.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:28:00.000Z"
   }
 ]

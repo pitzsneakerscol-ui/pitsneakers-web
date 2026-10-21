@@ -3843,5 +3843,36 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/AF1-20.b5ac5eb5.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-max-ecstasy-x-supreme-black",
+    "name": "Air Max Ecstasy x Supreme Black",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AMECSTASY-01",
+    "sizes": [
+      "11",
+      "10",
+      "9"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AMECSTASY-01.641fc7f5.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-max-ecstasy-x-supreme-red",
+    "name": "Air Max Ecstasy x Supreme Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AMECSTASY-02",
+    "sizes": [
+      "9.5",
+      "8.5"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AMECSTASY-02.160e0c83.webp"
   }
 ]
