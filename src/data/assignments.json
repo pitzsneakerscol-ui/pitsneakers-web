@@ -4044,5 +4044,19 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/AJ1-56.97126f8d.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-stan-smith-lux",
+    "name": "Stan Smith Lux",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "STANSMITH-02",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 590000,
+    "condition": "nuevo",
+    "image": "/products/STANSMITH-02.20727b85.webp"
   }
 ]
