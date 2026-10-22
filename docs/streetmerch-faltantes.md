@@ -22,7 +22,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 18. [x] Adidas · Stan Smith Lux — código HP2201 — tallas 10.5 — $590.000
 19. [x] Bape · Bapesta x Hidden — código 1M23-191-905 — tallas 9.5 — $1.850.000
 20. [x] Yeezy · Knit RNR Fade Onyx — código IE1663 — tallas 9.5 — $550.000
-21. [ ] Nike · Air Force 1 50th Anniversary Hip Hop — código FN6835-010 — tallas 9.5 — $850.000
+21. [x] Nike · Air Force 1 50th Anniversary Hip Hop — código FN6835-010 — tallas 9.5 — $850.000
 22. [ ] Nike · Dunk Low Gone Fishing Rainbow Trout — código FN7523-300 — tallas 9.5 — $690.000
 23. [ ] Jordan · Jordan 1 Low True Blue — código 553558-412 — tallas 9.5 — $690.000
 24. [ ] Jordan · Jordan 1 Low OG Atmospgere grey — código CZ0790-101 — tallas 9.5 — $790.000

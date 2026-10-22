@@ -4086,5 +4086,19 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/YZY-KNIT-01.03e9f2c9.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-force-1-50th-anniversary-hip-hop",
+    "name": "Air Force 1 50th Anniversary Hip Hop",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-22",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 850000,
+    "condition": "nuevo",
+    "image": "/products/AF1-22.5c7ddfec.webp"
   }
 ]

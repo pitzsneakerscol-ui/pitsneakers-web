@@ -12099,5 +12099,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:43:00.000Z"
+  },
+  {
+    "id": "AF1-22",
+    "slug": "nike-air-force-1-50th-anniversary-hip-hop",
+    "name": "Air Force 1 50th Anniversary Hip Hop",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FN6835-010. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-22.5c7ddfec.webp",
+      "/products/AF1-22-2.99fc01c9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:44:00.000Z"
   }
 ]
