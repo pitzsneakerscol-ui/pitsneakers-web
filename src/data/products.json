@@ -12261,5 +12261,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:51:00.000Z"
+  },
+  {
+    "id": "AJ1-60",
+    "slug": "jordan-jordan-1-high-latte",
+    "name": "Jordan 1 High Latte",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FD2596-021. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-60.8144ddd4.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:52:00.000Z"
   }
 ]

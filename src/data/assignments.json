@@ -4199,5 +4199,19 @@
     "price": 1050000,
     "condition": "nuevo",
     "image": "/products/MIND002-04.a094399f.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-high-latte",
+    "name": "Jordan 1 High Latte",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-60",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-60.8144ddd4.webp"
   }
 ]

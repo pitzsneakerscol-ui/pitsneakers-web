@@ -30,7 +30,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 26. [x] Adidas · F50 Adizero Sp5der — código KZ6575 — tallas 8.5, 10 — $1.100.000
 27. [x] Jordan · Jumpman Dark Mocha — código FZ8117-204 — tallas 8.5 — $1.499.000
 28. [x] Nike · Mind M002 — código HQ4308-400 — tallas 8.5 — $1.050.000
-29. [ ] Jordan · Jordan 1 High Latte — código FD2596-021 — tallas 8.5 — $750.000
+29. [x] Jordan · Jordan 1 High Latte — código FD2596-021 — tallas 8.5 — $750.000
 30. [ ] Nike · Dunk Low Tartan Plaid — código DV0827-100 — tallas 8.5 — $690.000
 31. [ ] Jordan · Jordan 1 Mid Lakers — código DQ8426-517 — tallas 8.5 — $690.000
 32. [ ] Nike · Dunk Low Gone Fishing Chinook Salmon — código DV7210-001 — tallas 7.5 — $750.000
