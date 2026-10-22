@@ -4072,5 +4072,19 @@
     "price": 1850000,
     "condition": "nuevo",
     "image": "/products/BAPESTA-01.9d2cb90d.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-yeezy-knit-rnr-fade-onyx",
+    "name": "Yeezy Knit RNR Fade Onyx",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-KNIT-01",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/YZY-KNIT-01.03e9f2c9.webp"
   }
 ]
