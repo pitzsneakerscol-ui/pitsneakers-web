@@ -26,7 +26,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 22. [x] Nike · Dunk Low Gone Fishing Rainbow Trout — código FN7523-300 — tallas 9.5 — $690.000
 23. [x] Jordan · Jordan 1 Low True Blue — código 553558-412 — tallas 9.5 — $690.000
 24. [x] Jordan · Jordan 1 Low OG Atmospgere grey — código CZ0790-101 — tallas 9.5 — $790.000
-25. [ ] Jordan · Jordan 1 Mid Gym Red Black Toe — código DQ8426-106 — tallas 9.5 — $690.000
+25. [x] Jordan · Jordan 1 Mid Gym Red Black Toe — código DQ8426-106 — tallas 9.5 — $690.000
 26. [ ] Adidas · F50 Adizero Sp5der — código KZ6575 — tallas 8.5, 10 — $1.100.000
 27. [ ] Jordan · Jumpman Dark Mocha — código FZ8117-204 — tallas 8.5 — $1.499.000
 28. [ ] Nike · Mind M002 — código HQ4308-400 — tallas 8.5 — $1.050.000

@@ -12180,5 +12180,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:47:00.000Z"
+  },
+  {
+    "id": "AJ1-59",
+    "slug": "jordan-jordan-1-mid-gym-red-black-toe",
+    "name": "Jordan 1 Mid Gym Red Black Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 690000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DQ8426-106. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-59.15c23b28.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:48:00.000Z"
   }
 ]

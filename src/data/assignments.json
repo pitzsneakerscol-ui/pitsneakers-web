@@ -4142,5 +4142,19 @@
     "price": 790000,
     "condition": "nuevo",
     "image": "/products/AJ1-58.4f142965.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-mid-gym-red-black-toe",
+    "name": "Jordan 1 Mid Gym Red Black Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-59",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-59.15c23b28.webp"
   }
 ]
