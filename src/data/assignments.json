@@ -3973,5 +3973,19 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/AJ1-53.82ec1afb.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-reimagined-black-toe-2",
+    "name": "Jordan 1 Reimagined Black Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-54",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-09.422b601c.webp"
   }
 ]
