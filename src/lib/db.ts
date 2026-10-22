@@ -374,6 +374,11 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["credit_code", "TEXT NOT NULL DEFAULT ''"],
     ["discount", "INTEGER NOT NULL DEFAULT 0"],
     ["fee", "INTEGER NOT NULL DEFAULT 0"],
+    ["ship_department", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_address", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_complement", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_document", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_notes", "TEXT NOT NULL DEFAULT ''"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { addPair, changePassword, resendVerification, saveProfile } from "@/app/cuenta/actions";
 import { payOffer } from "@/app/cuenta/offer-actions";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
+import ShippingFields from "@/components/ShippingFields";
 
 const msg = (s: { error?: string; message?: string } | undefined) =>
   s?.error ? (
@@ -114,10 +115,10 @@ export function PayOfferForm({ id, name, phone, city, label }: { id: number; nam
           <input id={`po-p-${id}`} name="phone" defaultValue={phone} inputMode="numeric" required maxLength={14} placeholder="3001234567" className={inputCls} />
         </div>
         <div className="sm:col-span-2">
-          <label htmlFor={`po-c-${id}`} className={labelCls}>Ciudad</label>
-          <input id={`po-c-${id}`} name="city" defaultValue={city} required maxLength={60} className={inputCls} />
+          <p className="pt-6 text-[11px] text-muted">Te llevamos a pagar con estos datos y la dirección de abajo.</p>
         </div>
       </div>
+      <ShippingFields idPrefix={`po-${id}`} defaults={{ city }} />
       {state?.error && <p role="alert" className="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent">{state.error}</p>}
       <button type="submit" disabled={pending} className={`${btnAccent} w-full`}>{pending ? "Llevándote a Wompi…" : label}</button>
     </form>

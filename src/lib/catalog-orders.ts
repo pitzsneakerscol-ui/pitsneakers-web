@@ -25,6 +25,11 @@ export interface CatalogOrder {
   buyerEmail: string;
   buyerPhone: string;
   buyerCity: string;
+  shipDepartment: string;
+  shipAddress: string;
+  shipComplement: string;
+  shipDocument: string;
+  shipNotes: string;
   status: OrderStatus;
   wompiId: string;
   paymentMethod: string;
@@ -50,6 +55,11 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   buyerEmail: String(r.buyer_email),
   buyerPhone: String(r.buyer_phone),
   buyerCity: String(r.buyer_city),
+  shipDepartment: String(r.ship_department ?? ""),
+  shipAddress: String(r.ship_address ?? ""),
+  shipComplement: String(r.ship_complement ?? ""),
+  shipDocument: String(r.ship_document ?? ""),
+  shipNotes: String(r.ship_notes ?? ""),
   status: String(r.status) as OrderStatus,
   wompiId: String(r.wompi_id),
   paymentMethod: String(r.payment_method),
@@ -68,9 +78,9 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
     const reference = newReference();
     const r = await db.execute({
       sql: `INSERT OR IGNORE INTO catalog_orders
-            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, buyer_name, buyer_email, buyer_phone, buyer_city, created_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, Date.now()],
+            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, buyer_name, buyer_email, buyer_phone, buyer_city, ship_department, ship_address, ship_complement, ship_document, ship_notes, created_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
     });
     if (r.rowsAffected > 0) return (await getOrderByRef(reference))!;
   }

@@ -2,6 +2,9 @@ import { siteConfig } from "@/config/site";
 import { formatPrice } from "@/lib/format";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 import type { CatalogOrder } from "@/lib/catalog-orders";
+import { shippingLine } from "@/lib/shipping-shared";
+
+const shipTo = (o: CatalogOrder) => shippingLine({ department: o.shipDepartment, city: o.buyerCity, address: o.shipAddress, complement: o.shipComplement });
 
 const line = (o: CatalogOrder) => `**${o.brand ? o.brand + " " : ""}${o.productName}**${o.size && o.size !== "Única" ? ` · talla ${o.size}` : ""}`;
 
@@ -19,6 +22,7 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
       `> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`,
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
+      ...(o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
       "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",
       "- Cada par pasa por verificación antes de salir.",
       "",
@@ -46,6 +50,13 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
       `> **Correo:** ${o.buyerEmail}`,
       `> **Teléfono:** ${o.buyerPhone}`,
       `> **Ciudad:** ${o.buyerCity || "—"}`,
+      ...(o.shipAddress
+        ? [
+            `> **Enviar a:** ${shipTo(o)}`,
+            ...(o.shipDocument ? [`> **Cédula:** ${o.shipDocument}`] : []),
+            ...(o.shipNotes ? [`> **Indicaciones:** ${o.shipNotes}`] : []),
+          ]
+        : []),
       `> **Medio:** ${o.paymentMethod || "—"}`,
       ...(o.discount > 0 ? [`> **Crédito de trivia aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",

@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/format";
 import { processingFee } from "@/lib/fees";
 import { feeAfterPerk } from "@/lib/leagues";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
+import ShippingFields from "@/components/ShippingFields";
 
 /** "Comprar ahora": pide los datos y manda a pagar en Wompi (PSE, Nequi, tarjeta). El envío se coordina por WhatsApp después del pago. */
 export default function CheckoutForm({ productId, size, name, price, test }: { productId: string; size: string; name: string; price: number; test: boolean }) {
@@ -63,10 +64,7 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
           <input id="co-phone" name="phone" type="tel" inputMode="numeric" required autoComplete="tel-national" placeholder="3001234567" maxLength={14} className={inputCls} />
         </div>
       </div>
-      <div>
-        <label htmlFor="co-city" className={labelCls}>Ciudad de entrega</label>
-        <input id="co-city" name="city" required autoComplete="address-level2" maxLength={60} className={inputCls} />
-      </div>
+      <ShippingFields idPrefix="co" />
       <div>
         <label htmlFor="co-credit" className={labelCls}>Código de crédito (opcional)</label>
         <input id="co-credit" name="credit" autoComplete="off" autoCapitalize="characters" maxLength={20} placeholder="CRED-XXXXXXX" className={`${inputCls} font-mono tracking-wider`} />
@@ -88,7 +86,7 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
         {pending ? "Llevándote a Wompi…" : `Pagar ${formatPrice(price + fee)} con Wompi`}
       </button>
       <p className="text-center text-[11px] text-muted">
-        PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). El envío lo coordinamos por WhatsApp después de pagar. Al pagar aceptas nuestras{" "}
+        PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). Con tu dirección preparamos el envío; un asesor te confirma el valor y te manda la guía. Al pagar aceptas nuestras{" "}
         <Link href="/politicas" className="underline underline-offset-2 hover:text-ink">políticas de compra y datos</Link>; tienes 5 días hábiles de retracto.
       </p>
     </form>

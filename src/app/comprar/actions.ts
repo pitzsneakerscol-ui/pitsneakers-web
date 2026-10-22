@@ -6,6 +6,7 @@ import { isDbConfigured } from "@/lib/db";
 import { createOrder } from "@/lib/catalog-orders";
 import { getAllProducts } from "@/lib/products";
 import { isEmail } from "@/lib/reseller-shared";
+import { parseShipping } from "@/lib/shipping-shared";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { checkCredit, reserveCredit } from "@/lib/trivia";
 import { processingFee } from "@/lib/fees";
@@ -30,11 +31,11 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
     const name = clean(fd, "name", 80);
     const email = clean(fd, "email", 120).toLowerCase();
     const phone = clean(fd, "phone", 20).replace(/\D/g, "").replace(/^57(?=\d{10}$)/, "");
-    const city = clean(fd, "city", 60);
     if (name.length < 3 || !name.includes(" ")) return { error: "Escribe tu nombre y apellido." };
     if (!isEmail(email)) return { error: "Escribe un correo válido: ahí te llega el comprobante." };
     if (!/^3\d{9}$/.test(phone)) return { error: "Escribe tu celular de 10 dígitos (empieza por 3)." };
-    if (city.length < 2) return { error: "Escribe tu ciudad." };
+    const ship = parseShipping(fd);
+    if ("error" in ship) return { error: ship.error };
 
     const ip = await clientIp();
     if (!(await rateLimitHit(`checkout:${ip}`, 12, 60 * 60 * 1000))) return { error: "Hiciste muchos intentos seguidos. Espera un rato e intenta de nuevo." };
@@ -78,7 +79,12 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       buyerName: name,
       buyerEmail: email,
       buyerPhone: phone,
-      buyerCity: city,
+      buyerCity: ship.data.city,
+      shipDepartment: ship.data.department,
+      shipAddress: ship.data.address,
+      shipComplement: ship.data.complement,
+      shipDocument: ship.data.document,
+      shipNotes: ship.data.notes,
     });
     if (creditCode) await reserveCredit(creditCode, order.reference);
     url = buildCheckoutUrl({ reference: order.reference, amountCop: order.amount, email, name, phone });

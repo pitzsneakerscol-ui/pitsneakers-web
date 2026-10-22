@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listOrders, type OrderStatus } from "@/lib/catalog-orders";
+import { shippingLine } from "@/lib/shipping-shared";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { isWompiConfigured, isWompiTest } from "@/lib/wompi";
@@ -94,6 +95,14 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   {o.fee > 0 ? <span className="text-muted"> · incluye {formatPrice(o.fee)} de costo de pago</span> : null}
                   {o.discount > 0 ? <span className="text-muted"> · crédito {formatPrice(o.discount)} ({o.creditCode})</span> : null}
                 </p>
+                {o.shipAddress ? (
+                  <p className="mt-1.5 rounded-lg bg-paper px-3 py-2 text-sm">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Enviar a </span>
+                    {shippingLine({ department: o.shipDepartment, city: o.buyerCity, address: o.shipAddress, complement: o.shipComplement })}
+                    {o.shipDocument ? <span className="text-muted"> · CC {o.shipDocument}</span> : null}
+                    {o.shipNotes ? <span className="block text-xs text-muted">Indicaciones: {o.shipNotes}</span> : null}
+                  </p>
+                ) : null}
               </li>
             );
           })}

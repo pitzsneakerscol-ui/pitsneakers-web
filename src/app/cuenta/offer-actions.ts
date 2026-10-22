@@ -16,6 +16,7 @@ import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { rejectOffer } from "@/lib/buyer-offers";
 import { getPerks } from "@/lib/perks";
 import { feeAfterPerk } from "@/lib/leagues";
+import { parseShipping } from "@/lib/shipping-shared";
 
 export type OfferState = { error?: string; ok?: boolean; message?: string } | undefined;
 
@@ -97,10 +98,11 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
 
     const name = clean(fd, "name", 80) || buyer.name;
     const phone = clean(fd, "phone", 20).replace(/\D/g, "").replace(/^57(?=\d{10}$)/, "");
-    const city = clean(fd, "city", 60);
     if (name.length < 3 || !name.includes(" ")) return { error: "Escribe tu nombre y apellido." };
     if (!/^3\d{9}$/.test(phone)) return { error: "Escribe tu celular de 10 dígitos (empieza por 3)." };
-    if (city.length < 2) return { error: "Escribe tu ciudad." };
+    const ship = parseShipping(fd);
+    if ("error" in ship) return { error: ship.error };
+    const city = ship.data.city;
 
     // El par debe seguir publicado con esa talla (si ya se vendió, no se cobra).
     const product = (await getAllProducts()).find((p) => p.id === offer.productId);
@@ -125,6 +127,11 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
       buyerEmail: buyer.email,
       buyerPhone: phone,
       buyerCity: city,
+      shipDepartment: ship.data.department,
+      shipAddress: ship.data.address,
+      shipComplement: ship.data.complement,
+      shipDocument: ship.data.document,
+      shipNotes: ship.data.notes,
     });
     await attachOrder(offer.id, order.reference);
     await updateProfile(buyer.id, { name, phone, city });
