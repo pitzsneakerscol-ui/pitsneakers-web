@@ -4185,5 +4185,19 @@
     "price": 1499000,
     "condition": "nuevo",
     "image": "/products/JUMPMAN-02.3f62f1ce.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-mind-002-blue",
+    "name": "Mind 002 Blue",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND002-04",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1050000,
+    "condition": "nuevo",
+    "image": "/products/MIND002-04.a094399f.webp"
   }
 ]
