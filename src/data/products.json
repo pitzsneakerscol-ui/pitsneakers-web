@@ -12059,5 +12059,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:41:00.000Z"
+  },
+  {
+    "id": "BAPESTA-01",
+    "slug": "bape-bapesta-x-hidden",
+    "name": "Bapesta x Hidden",
+    "brand": "Bape",
+    "category": "sneakers",
+    "price": 1850000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo 1M23-191-905. Comisión incluida en el precio.",
+    "images": [
+      "/products/BAPESTA-01.9d2cb90d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:42:00.000Z"
   }
 ]

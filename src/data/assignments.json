@@ -4058,5 +4058,19 @@
     "price": 590000,
     "condition": "nuevo",
     "image": "/products/STANSMITH-02.20727b85.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "bape-bapesta-x-hidden",
+    "name": "Bapesta x Hidden",
+    "brand": "Bape",
+    "colorway": "",
+    "sku": "BAPESTA-01",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1850000,
+    "condition": "nuevo",
+    "image": "/products/BAPESTA-01.9d2cb90d.webp"
   }
 ]
