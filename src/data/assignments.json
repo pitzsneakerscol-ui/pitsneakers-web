@@ -3987,5 +3987,19 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/AJ1-09.422b601c.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-force-1-slam-jam",
+    "name": "Air Force 1 Slam Jam",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-21",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1150000,
+    "condition": "nuevo",
+    "image": "/products/AF1-21.6dc1e4ac.webp"
   }
 ]

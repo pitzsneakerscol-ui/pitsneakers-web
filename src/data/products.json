@@ -11958,5 +11958,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:36:00.000Z"
+  },
+  {
+    "id": "AF1-21",
+    "slug": "nike-air-force-1-slam-jam",
+    "name": "Air Force 1 Slam Jam",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1150000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DX5590-001. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-21.6dc1e4ac.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:37:00.000Z"
   }
 ]

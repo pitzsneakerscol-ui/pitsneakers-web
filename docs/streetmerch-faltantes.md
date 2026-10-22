@@ -15,7 +15,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 11. [x] Adidas · Samba x Bape — código KJ8852 — tallas 10.5 — $999.999
 12. [x] Jordan · Jordan 1 High UNC — código DZ5485-400 — tallas 10.5 — $950.000
 13. [x] Jordan · Jordan 1 High Black Toe Reimagined — código DZ5485-106 — tallas 10.5 — $950.000
-14. [ ] Nike · Air Force 1 Slam Jam — código DX5590-001 — tallas 10.5 — $1.150.000
+14. [x] Nike · Air Force 1 Slam Jam — código DX5590-001 — tallas 10.5 — $1.150.000
 15. [ ] Jordan · Jordan 1 Low OG Black Toe — código CZ0790-106 — tallas 10.5 — $820.000
 16. [ ] Nike · Dunk Low Celtics — código FN3612-300 — tallas 10.5 — $650.000
 17. [ ] Jordan · Jordan 1 Mid Smoke Pine green — código DQ8426-142 — tallas 10.5, 10 — $550.000
