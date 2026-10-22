@@ -4213,5 +4213,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/AJ1-60.8144ddd4.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-tartan-plaid",
+    "name": "Dunk Low Tartan Plaid",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-24",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-24.302c5c0c.webp"
   }
 ]
