@@ -4100,5 +4100,19 @@
     "price": 850000,
     "condition": "nuevo",
     "image": "/products/AF1-22.5c7ddfec.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-gone-fishing-rainbow-trout",
+    "name": "Dunk Low Gone Fishing Rainbow Trout",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-23",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-23.7ff958c2.webp"
   }
 ]

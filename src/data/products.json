@@ -12120,5 +12120,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:44:00.000Z"
+  },
+  {
+    "id": "DUNK-23",
+    "slug": "nike-dunk-low-gone-fishing-rainbow-trout",
+    "name": "Dunk Low Gone Fishing Rainbow Trout",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 690000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FN7523-300. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-23.7ff958c2.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:45:00.000Z"
   }
 ]
