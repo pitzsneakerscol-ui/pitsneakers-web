@@ -12221,5 +12221,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:49:00.000Z"
+  },
+  {
+    "id": "JUMPMAN-02",
+    "slug": "jordan-jumpman-dark-mocha",
+    "name": "Jumpman Dark Mocha",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1499000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FZ8117-204. Comisión incluida en el precio.",
+    "images": [
+      "/products/JUMPMAN-02.3f62f1ce.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:50:00.000Z"
   }
 ]

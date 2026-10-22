@@ -4171,5 +4171,19 @@
     "price": 1100000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-12.52813a7e.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jumpman-dark-mocha",
+    "name": "Jumpman Dark Mocha",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "JUMPMAN-02",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 1499000,
+    "condition": "nuevo",
+    "image": "/products/JUMPMAN-02.3f62f1ce.webp"
   }
 ]
