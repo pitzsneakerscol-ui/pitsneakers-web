@@ -12018,5 +12018,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:39:00.000Z"
+  },
+  {
+    "id": "AJ1-56",
+    "slug": "jordan-jordan-1-mid-smoke-pine-green",
+    "name": "Jordan 1 Mid Smoke Pine Green",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "10.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DQ8426-142. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-56.97126f8d.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:40:00.000Z"
   }
 ]
