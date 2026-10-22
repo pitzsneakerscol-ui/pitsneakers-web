@@ -12200,5 +12200,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:48:00.000Z"
+  },
+  {
+    "id": "ADIDAS-12",
+    "slug": "adidas-f50-adizero-sp5der",
+    "name": "F50 Adizero Sp5der",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "8.5",
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo KZ6575. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-12.52813a7e.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:49:00.000Z"
   }
 ]

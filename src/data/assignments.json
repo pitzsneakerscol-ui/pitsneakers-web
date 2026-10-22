@@ -4156,5 +4156,20 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/AJ1-59.15c23b28.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-f50-adizero-sp5der",
+    "name": "F50 Adizero Sp5der",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-12",
+    "sizes": [
+      "8.5",
+      "10"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-12.52813a7e.webp"
   }
 ]
