@@ -11978,5 +11978,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:37:00.000Z"
+  },
+  {
+    "id": "AJ1-55",
+    "slug": "jordan-jordan-1-low-og-black-toe",
+    "name": "Jordan 1 Low OG Black Toe",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 820000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo CZ0790-106. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-55.2a90bf03.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:38:00.000Z"
   }
 ]

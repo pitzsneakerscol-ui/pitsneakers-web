@@ -4001,5 +4001,19 @@
     "price": 1150000,
     "condition": "nuevo",
     "image": "/products/AF1-21.6dc1e4ac.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-og-black-toe",
+    "name": "Jordan 1 Low OG Black Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-55",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 820000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-55.2a90bf03.webp"
   }
 ]
