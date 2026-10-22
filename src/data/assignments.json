@@ -4015,5 +4015,19 @@
     "price": 820000,
     "condition": "nuevo",
     "image": "/products/AJ1-55.61dab45f.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-celtics",
+    "name": "Dunk Low Celtics",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-22",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-22.48cc2f8a.webp"
   }
 ]
