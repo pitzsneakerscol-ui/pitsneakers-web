@@ -4114,5 +4114,19 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/DUNK-23.7ff958c2.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-true-blue",
+    "name": "Jordan 1 Low True Blue",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-57",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-57.87849486.webp"
   }
 ]
