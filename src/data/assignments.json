@@ -3959,5 +3959,19 @@
     "price": 999999,
     "condition": "nuevo",
     "image": "/products/SAMBABAPE-01.4e0e7986.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-high-unc-toe",
+    "name": "Jordan 1 High UNC Toe",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-53",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-53.82ec1afb.webp"
   }
 ]
