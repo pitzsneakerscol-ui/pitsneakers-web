@@ -4227,5 +4227,19 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/DUNK-24.302c5c0c.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-mid-lakers",
+    "name": "Jordan 1 Mid Lakers",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-61",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-61.c4ecfb30.webp"
   }
 ]
