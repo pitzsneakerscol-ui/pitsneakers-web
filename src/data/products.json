@@ -12361,5 +12361,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:56:00.000Z"
+  },
+  {
+    "id": "DUNK-26",
+    "slug": "nike-dunk-low-just-do-it",
+    "name": "Dunk Low Just Do It",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 690000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DV1160-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-26.dbc058c8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:57:00.000Z"
   }
 ]

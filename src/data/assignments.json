@@ -4269,5 +4269,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/DUNK-25.dd7c2c58.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-just-do-it",
+    "name": "Dunk Low Just Do It",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-26",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-26.dbc058c8.webp"
   }
 ]
