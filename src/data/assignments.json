@@ -4255,5 +4255,19 @@
     "price": 650000,
     "condition": "nuevo",
     "image": "/products/AJ1-62.9328c254.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-gone-fishing-chinook-salmon",
+    "name": "Dunk Low Gone Fishing Chinook Salmon",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-25",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-25.dd7c2c58.webp"
   }
 ]
