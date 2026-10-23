@@ -34,7 +34,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 30. [x] Nike · Dunk Low Tartan Plaid — código DV0827-100 — tallas 8.5 — $690.000
 31. [x] Jordan · Jordan 1 Mid Lakers — código DQ8426-517 — tallas 8.5 — $690.000
 32. [ ] Nike · Dunk Low Gone Fishing Chinook Salmon — código DV7210-001 — tallas 7.5 — $750.000
-33. [ ] Jordan · Jordan 1 Mid Sky J Mauve — código BQ6472-050 — tallas 7.5 — $650.000
+33. [x] Jordan · Jordan 1 Mid Sky J Mauve — código BQ6472-050 — tallas 7.5 — $650.000
 34. [ ] Nike · Dunk Low Just Do It — código DV1160-100 — tallas 6.5 — $690.000
 35. [ ] Nike · Dunk Low White and Sail — código DD1503-121 — tallas 6.5 — $650.000
 36. [ ] Nike · Dunk Low SB Adobe — código DV5429-600 — tallas 6.5 — $650.000

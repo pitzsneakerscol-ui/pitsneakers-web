@@ -4241,5 +4241,19 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/AJ1-61.c4ecfb30.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-mid-sky-j-mauve",
+    "name": "Jordan 1 Mid Sky J Mauve",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-62",
+    "sizes": [
+      "7.5"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-62.9328c254.webp"
   }
 ]

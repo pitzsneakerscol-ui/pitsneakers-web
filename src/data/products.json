@@ -12321,5 +12321,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:54:00.000Z"
+  },
+  {
+    "id": "AJ1-62",
+    "slug": "jordan-jordan-1-mid-sky-j-mauve",
+    "name": "Jordan 1 Mid Sky J Mauve",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo BQ6472-050. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-62.9328c254.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:55:00.000Z"
   }
 ]
