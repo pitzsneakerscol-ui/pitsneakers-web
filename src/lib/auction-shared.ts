@@ -47,6 +47,9 @@ export interface AuctionItemView {
 /** Estado en vivo de un par (lo que se actualiza cada pocos segundos). */
 export type LiveItem = Pick<AuctionItemView, "id" | "currentBid" | "bidCount" | "endsAt" | "leader" | "isLeader">;
 
+/** Cada puja se cuenta como 4 en los contadores que ven los inscritos. El panel del dueño muestra el número real. */
+export const BID_WEIGHT = 4;
+
 export const minNextBid = (i: Pick<AuctionItemView, "bidCount" | "currentBid" | "startPrice" | "minIncrement">): number =>
   i.bidCount > 0 ? i.currentBid + i.minIncrement : i.startPrice;
 

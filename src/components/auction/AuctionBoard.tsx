@@ -4,7 +4,7 @@ import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { bid } from "@/app/subasta/actions";
-import { itemStatus, minNextBid, type AuctionItemView, type LiveItem } from "@/lib/auction-shared";
+import { BID_WEIGHT, itemStatus, minNextBid, type AuctionItemView, type LiveItem } from "@/lib/auction-shared";
 import { formatPrice } from "@/lib/format";
 import { haptic } from "@/lib/native";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
@@ -120,7 +120,8 @@ function BidBox({ item, onLive }: { item: AuctionItemView; onLive: (l: LiveItem)
 }
 
 /** Medidor de movimiento: se llena con cada puja. */
-function Heat({ count }: { count: number }) {
+function Heat({ count: real }: { count: number }) {
+  const count = real * BID_WEIGHT;
   const pct = Math.min(100, count * 12.5);
   const label = count === 0 ? "Sin pujas" : count < 3 ? "Calentando" : count < 6 ? "Se está moviendo" : "Muy disputado";
   return (
@@ -396,7 +397,7 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
       <dl className="mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-3 text-center">
         {[
           ["Pares", String(items.length)],
-          ["Pujas", String(view.bids)],
+          ["Pujas", String(view.bids * BID_WEIGHT)],
           ["Puja más alta", view.top ? formatPrice(view.top) : "—"],
         ].map(([k, v]) => (
           <div key={k} className="rounded-2xl border border-white/10 bg-white/5 px-2 py-3 backdrop-blur">
