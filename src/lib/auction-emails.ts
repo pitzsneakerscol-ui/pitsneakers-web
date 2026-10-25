@@ -5,6 +5,24 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 const url = () => `${siteConfig.siteUrl.replace(/\/$/, "")}/subasta`;
 
+/** Le confirma al que acaba de pujar que va ganando. */
+export function leadingEmail(opts: { item: string; amount: number; endsAt: number }): { subject: string; body: string } {
+  return {
+    subject: `Vas ganando ${opts.item}`,
+    body: [
+      "# ¡Vas ==ganando==!",
+      "",
+      `Tu puja de **${formatPrice(opts.amount)}** es la más alta por **${opts.item}**.`,
+      "",
+      `> El par cierra el **${formatWhen(opts.endsAt)}** (hora de Colombia). Si alguien te supera, te avisamos por aquí.`,
+      "",
+      `[boton: Ver la subasta | ${url()}]`,
+      "",
+      "**Equipo Pitsneakers**",
+    ].join("\n"),
+  };
+}
+
 /** Le avisa al que iba ganando que lo superaron. */
 export function outbidEmail(opts: { item: string; amount: number; minNext: number }): { subject: string; body: string } {
   return {

@@ -1,13 +1,14 @@
 "use server";
 
 import { redirect, unstable_rethrow } from "next/navigation";
+import { after } from "next/server";
 import { clientIp, rateLimitHit } from "@/lib/auth";
 import { isDbConfigured } from "@/lib/db";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { isEmail } from "@/lib/reseller-shared";
 import { createBidderSession, destroyBidderSession, getBidder, getPublishedAuction, getWaitlistEmail, listAuctionItems, placeBid, verifyPass } from "@/lib/auction";
 import { minNextBid, type LiveItem } from "@/lib/auction-shared";
-import { outbidEmail } from "@/lib/auction-emails";
+import { leadingEmail, outbidEmail } from "@/lib/auction-emails";
 
 export type PassState = { error?: string } | undefined;
 export type BidState = { ok: boolean; error?: string; message?: string; item?: LiveItem } | undefined;
@@ -43,7 +44,7 @@ export async function leaveAuction(): Promise<void> {
   redirect("/subasta");
 }
 
-/** Pujar por un par. Si superas a alguien, le llega un correo. */
+/** Pujar por un par. Te llega un correo de que vas ganando y, si superas a alguien, a esa persona le llega que la superaron. */
 export async function bid(itemId: number, amount: number): Promise<BidState> {
   try {
     if (!isDbConfigured()) return { ok: false, error: "La subasta aún no está disponible." };
@@ -58,12 +59,26 @@ export async function bid(itemId: number, amount: number): Promise<BidState> {
     const items = auction ? await listAuctionItems(auction.id, bidder.id) : [];
     const it = items.find((x) => x.id === Number(itemId));
 
-    if (res.prevLeaderId !== null && it && isEmailConfigured()) {
-      const to = await getWaitlistEmail(res.prevLeaderId);
-      if (to) {
-        const { subject, body } = outbidEmail({ item: res.itemName, amount: it.currentBid, minNext: minNextBid(it) });
-        void sendEmail({ to, subject, body }).catch(() => undefined);
-      }
+    // Dos correos: al que acaba de pujar ("vas ganando") y al que iba ganando ("te superaron").
+    // Salen después de responder y uno tras otro (Resend acepta ~2 por segundo).
+    if (it && isEmailConfigured()) {
+      const prevId = res.prevLeaderId;
+      const itemName = res.itemName;
+      after(async () => {
+        const mine = await getWaitlistEmail(bidder.id);
+        if (mine) {
+          const { subject, body } = leadingEmail({ item: itemName, amount: it.currentBid, endsAt: it.endsAt });
+          await sendEmail({ to: mine, subject, body }).catch(() => undefined);
+        }
+        if (prevId !== null && prevId !== bidder.id) {
+          const to = await getWaitlistEmail(prevId);
+          if (to) {
+            await new Promise((r) => setTimeout(r, 600));
+            const { subject, body } = outbidEmail({ item: itemName, amount: it.currentBid, minNext: minNextBid(it) });
+            await sendEmail({ to, subject, body }).catch(() => undefined);
+          }
+        }
+      });
     }
     return {
       ok: true,
