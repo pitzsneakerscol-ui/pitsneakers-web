@@ -83,6 +83,38 @@ export async function addAuctionItem(_prev: ActionState, fd: FormData): Promise<
   return { ok: true, message: `“${name}” agregado.` };
 }
 
+/** Cambia los datos de un par ya cargado. La foto puede ser el SKU del catálogo, un enlace https o una ruta del sitio (/products/…). */
+export async function updateAuctionItem(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const id = Number(fd.get("id")) || 0;
+  if (!id) return { error: "No encontramos el par." };
+  const db = await getDb();
+  const cur = await db.execute({ sql: "SELECT image, bid_count FROM auction_items WHERE id = ?", args: [id] });
+  if (!cur.rows[0]) return { error: "Ese par ya no existe." };
+
+  const name = text(fd, "name", 80);
+  if (!name) return { error: "Escribe el nombre del par." };
+  let image = text(fd, "image", 400) || String(cur.rows[0].image);
+  if (!/^https?:\/\//i.test(image) && !image.startsWith("/")) {
+    const sku = image.toUpperCase();
+    const p = (await getAllProducts()).find((x) => x.id.toUpperCase() === sku);
+    if (!p?.images[0]) return { error: `No encontré el SKU “${image}” en el catálogo. Pega un enlace https o una ruta (/products/…).` };
+    image = p.images[0];
+  }
+  const startPrice = money(fd, "start_price");
+  if (startPrice < 10000) return { error: "Escribe el precio de salida." };
+  const increment = money(fd, "increment") || 20000;
+  const condition = text(fd, "condition", 10) === "usado" ? "usado" : "nuevo";
+
+  await db.execute({
+    sql: `UPDATE auction_items SET name = ?, brand = ?, size = ?, condition = ?, description = ?, image = ?, start_price = ?, min_increment = ? WHERE id = ?`,
+    args: [name, text(fd, "brand", 60), text(fd, "size", 30), condition, text(fd, "description", 200), image, startPrice, increment, id],
+  });
+  refresh();
+  revalidatePath("/subasta");
+  return { ok: true, message: "Cambios guardados." };
+}
+
 export async function deleteAuctionItem(fd: FormData): Promise<void> {
   await requireAdmin();
   const id = Number(fd.get("id")) || 0;

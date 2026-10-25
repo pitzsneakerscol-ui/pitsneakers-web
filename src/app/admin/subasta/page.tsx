@@ -6,7 +6,7 @@ import { formatWhen, itemStatus, toLocalInput } from "@/lib/auction-shared";
 import { isEmailConfigured } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { cardCls, btnGhost } from "@/components/reseller/ui";
-import { AnnounceForm, AuctionForm, ItemForm } from "@/components/admin/AuctionForms";
+import { AnnounceForm, AuctionForm, EditItemForm, ItemForm } from "@/components/admin/AuctionForms";
 import { deleteAuctionItem, moveAuctionItem, notifyWinner } from "@/app/admin/subasta/actions";
 import { siteConfig } from "@/config/site";
 
@@ -100,6 +100,10 @@ export default async function SubastaAdminPage() {
                           <button type="submit" className={btnGhost}>Quitar</button>
                         </form>
                       </div>
+                      <details className="group w-full basis-full">
+                        <summary className={`${btnGhost} inline-flex cursor-pointer list-none`}>✏️ Editar este par</summary>
+                        <EditItemForm item={{ id: it.id, name: it.name, brand: it.brand, size: it.size, condition: it.condition, description: it.description, image: it.image, startPrice: it.startPrice, minIncrement: it.minIncrement, bidCount: it.bidCount }} />
+                      </details>
                     </li>
                   );
                 })}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { addAuctionItem, announceAuction, saveAuction } from "@/app/admin/subasta/actions";
+import { addAuctionItem, announceAuction, saveAuction, updateAuctionItem } from "@/app/admin/subasta/actions";
 import { btnAccent, btnPrimary, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 function Notice({ state }: { state: { ok?: boolean; error?: string; message?: string } | undefined }) {
@@ -89,6 +89,57 @@ export function ItemForm({ auctionId }: { auctionId: number }) {
       </div>
       <Notice state={state} />
       <button type="submit" disabled={pending} className={btnAccent}>{pending ? "Agregando…" : "Agregar par"}</button>
+    </form>
+  );
+}
+
+/** Edita un par ya cargado (se despliega debajo de su fila). */
+export function EditItemForm({ item }: { item: { id: number; name: string; brand: string; size: string; condition: string; description: string; image: string; startPrice: number; minIncrement: number; bidCount: number } }) {
+  const [state, action, pending] = useActionState(updateAuctionItem, undefined);
+  const f = (k: string) => `ed-${item.id}-${k}`;
+  return (
+    <form onSubmit={submitWith(action)} className="mt-3 space-y-4 border-t border-line pt-4">
+      <input type="hidden" name="id" value={item.id} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <label htmlFor={f("image")} className={labelCls}>Foto: ruta, enlace https o SKU del catálogo</label>
+          <input id={f("image")} name="image" defaultValue={item.image} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={f("name")} className={labelCls}>Nombre</label>
+          <input id={f("name")} name="name" required maxLength={80} defaultValue={item.name} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={f("brand")} className={labelCls}>Marca</label>
+          <input id={f("brand")} name="brand" maxLength={60} defaultValue={item.brand} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={f("size")} className={labelCls}>Talla</label>
+          <input id={f("size")} name="size" maxLength={30} defaultValue={item.size} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={f("cond")} className={labelCls}>Condición</label>
+          <select id={f("cond")} name="condition" className={inputCls} defaultValue={item.condition === "usado" ? "usado" : "nuevo"}>
+            <option value="nuevo">Nuevo</option>
+            <option value="usado">Usado</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor={f("start")} className={labelCls}>Precio de salida (COP)</label>
+          <input id={f("start")} name="start_price" required inputMode="numeric" defaultValue={item.startPrice} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={f("inc")} className={labelCls}>Incremento mínimo (COP)</label>
+          <input id={f("inc")} name="increment" inputMode="numeric" defaultValue={item.minIncrement} className={inputCls} />
+        </div>
+        <div className="sm:col-span-2">
+          <label htmlFor={f("desc")} className={labelCls}>Detalle (opcional)</label>
+          <input id={f("desc")} name="description" maxLength={200} defaultValue={item.description} className={inputCls} />
+        </div>
+      </div>
+      {item.bidCount > 0 && <p className="text-xs text-muted">Este par ya tiene pujas: cambiar el precio de salida no mueve la puja más alta, y un incremento nuevo aplica desde la próxima puja.</p>}
+      <Notice state={state} />
+      <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Guardando…" : "Guardar cambios"}</button>
     </form>
   );
 }
