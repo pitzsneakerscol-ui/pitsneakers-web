@@ -1680,32 +1680,27 @@ body {
 .au-urgent { animation: pl-pulse 1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .au-urgent { animation: none; } }
 
-/* Fondo animado de la subasta (AuctionBackdrop) */
+/* Fondo animado de la subasta (AuctionBackdrop): papel tapiz de dibujos que se desliza y se ilumina */
 .ax-aurora { position: absolute; border-radius: 999px; will-change: transform; }
-.ax-a1 { width: 70vmax; height: 70vmax; left: -20vmax; top: -25vmax; background: radial-gradient(closest-side, rgba(255, 90, 60, 0.55), rgba(255, 90, 60, 0)); animation: ax-drift-a 16s ease-in-out infinite alternate; }
-.ax-a2 { width: 60vmax; height: 60vmax; right: -22vmax; top: 18vh; background: radial-gradient(closest-side, rgba(255, 176, 32, 0.34), rgba(255, 176, 32, 0)); animation: ax-drift-b 19s ease-in-out infinite alternate; }
-.ax-a3 { width: 65vmax; height: 65vmax; left: 8vw; bottom: -38vmax; background: radial-gradient(closest-side, rgba(190, 30, 90, 0.38), rgba(190, 30, 90, 0)); animation: ax-drift-c 22s ease-in-out infinite alternate; }
-.ax-ray { position: absolute; top: -10vh; left: 50%; width: 140vmax; height: 120vh; margin-left: -70vmax; transform-origin: 50% 0; mix-blend-mode: screen; opacity: 0.5; }
-.ax-r1 { background: conic-gradient(from 168deg at 50% 0%, transparent 0deg, rgba(255, 120, 80, 0.22) 6deg, transparent 14deg); animation: ax-sweep 11s ease-in-out infinite alternate; }
-.ax-r2 { background: conic-gradient(from 178deg at 50% 0%, transparent 0deg, rgba(255, 200, 120, 0.16) 5deg, transparent 12deg); animation: ax-sweep 15s ease-in-out infinite alternate-reverse; }
-.ax-checker { position: absolute; left: -10%; right: -10%; top: -6vh; height: 46vh; opacity: 0.09; transform: skewY(-4deg);
-  background: conic-gradient(#fff 25%, transparent 0 50%, #fff 0 75%, transparent 0) 0 0 / 64px 64px; animation: ax-checker 14s linear infinite;
-  -webkit-mask-image: linear-gradient(to bottom, #000, transparent); mask-image: linear-gradient(to bottom, #000, transparent); }
-.ax-word { position: absolute; left: 0; width: max-content; font-family: var(--font-display, inherit); font-size: clamp(7rem, 17vw, 15rem); line-height: 1; white-space: nowrap; letter-spacing: 0.02em; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); }
-.ax-w1 { top: 14vh; animation: ax-marquee 90s linear infinite; }
-.ax-w2 { top: 58vh; animation: ax-marquee 120s linear infinite reverse; -webkit-text-stroke-color: rgba(255, 110, 70, 0.09); }
-.ax-ember { position: absolute; bottom: -12px; border-radius: 999px; background: #ffb347; box-shadow: 0 0 10px 2px rgba(255, 120, 60, 0.7); opacity: 0; animation: ax-rise linear infinite; }
-.ax-ember:nth-of-type(3n) { background: #ff6a3c; }
-.ax-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 35%, transparent 40%, rgba(0, 0, 0, 0.65) 100%); }
+.ax-a1 { width: 70vmax; height: 70vmax; left: -20vmax; top: -25vmax; background: radial-gradient(closest-side, rgba(214, 150, 100, 0.16), rgba(214, 150, 100, 0)); animation: ax-drift-a 16s ease-in-out infinite alternate; }
+.ax-a2 { width: 60vmax; height: 60vmax; right: -22vmax; top: 18vh; background: radial-gradient(closest-side, rgba(214, 170, 120, 0.07), rgba(214, 170, 120, 0)); animation: ax-drift-b 19s ease-in-out infinite alternate; }
+.ax-a3 { width: 65vmax; height: 65vmax; left: 8vw; bottom: -38vmax; background: radial-gradient(closest-side, rgba(200, 140, 100, 0.06), rgba(200, 140, 100, 0)); animation: ax-drift-c 22s ease-in-out infinite alternate; }
+.ax-sheet { position: absolute; left: 0; top: 0; width: calc(100% + 480px); height: calc(100% + 480px); will-change: transform; animation: ax-pan 180s linear infinite; }
+.ax-doodles { position: absolute; inset: 0; opacity: 0.095; background-repeat: repeat; }
+.ax-lit { position: absolute; fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; opacity: 0; filter: drop-shadow(0 0 3px currentColor); animation: ax-glow 16s ease-in-out infinite; }
+.ax-lit * { vector-effect: non-scaling-stroke; }
+.ax-ember { position: absolute; bottom: -12px; border-radius: 999px; background: #f3dcc0; box-shadow: 0 0 8px 1px rgba(233, 201, 160, 0.5); opacity: 0; animation: ax-rise linear infinite; }
+.ax-ember:nth-of-type(3n) { background: #e9c9a0; }
+.ax-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 35%, transparent 30%, rgba(0, 0, 0, 0.75) 100%); }
 @keyframes ax-drift-a { to { transform: translate(18vw, 14vh) scale(1.15); } }
 @keyframes ax-drift-b { to { transform: translate(-16vw, -10vh) scale(0.9); } }
 @keyframes ax-drift-c { to { transform: translate(14vw, -16vh) scale(1.12); } }
-@keyframes ax-sweep { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
-@keyframes ax-checker { to { background-position: 128px 64px; } }
-@keyframes ax-marquee { to { transform: translateX(-50%); } }
+@keyframes ax-pan { to { transform: translate3d(-480px, -480px, 0); } }
+@keyframes ax-glow { 0%, 100% { opacity: 0; } 20% { opacity: 0; } 50% { opacity: 0.5; } 80% { opacity: 0; } }
 @keyframes ax-rise { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: 0.9; } 100% { opacity: 0; transform: translate(var(--dx, 0), -105vh); } }
 @media (prefers-reduced-motion: reduce) {
-  .ax-aurora, .ax-ray, .ax-checker, .ax-word, .ax-ember { animation: none; }
+  .ax-aurora, .ax-sheet, .ax-ember { animation: none; }
+  .ax-lit { animation: none; opacity: 0.25; }
   .ax-ember { display: none; }
 }
 
