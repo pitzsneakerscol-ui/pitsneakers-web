@@ -1680,6 +1680,33 @@ body {
 .au-urgent { animation: pl-pulse 1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .au-urgent { animation: none; } }
 
+/* Tablero de la subasta: entrada escalonada, destellos al subir el precio, brillo en pares en disputa */
+.au-card { transition: transform 0.25s ease-out, box-shadow 0.3s, border-color 0.3s; will-change: transform; }
+.au-rise { animation: au-rise 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+.au-flash { animation: au-flash 0.9s ease-out; }
+.au-tick { animation: au-tick 0.35s ease-out; }
+.au-toast { animation: au-toast 0.4s cubic-bezier(0.2, 1.3, 0.4, 1) both; }
+.au-win { box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.35), 0 12px 50px -12px rgba(52, 211, 153, 0.55); }
+.au-hot { animation: au-hot 1.4s ease-in-out infinite; }
+.au-heat { background: linear-gradient(90deg, #f59e0b, var(--color-accent), #ef4444); transition: width 0.8s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.au-btn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%); background-size: 250% 100%; animation: au-shine 3.2s ease-in-out infinite; pointer-events: none; }
+.au-sheen { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%); transform: translateX(-120%); transition: transform 0.9s ease; }
+.au-card:hover .au-sheen { transform: translateX(120%); }
+.au-spark { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 999px; background: #fbbf24; animation: au-spark 0.7s ease-out forwards; }
+.au-spark:nth-child(3n) { background: var(--color-accent); }
+.au-spark:nth-child(3n + 1) { background: #34d399; }
+@keyframes au-rise { from { opacity: 0; transform: translateY(22px) scale(0.97); } }
+@keyframes au-flash { 0% { transform: scale(1.18); color: #fff; text-shadow: 0 0 22px rgba(238, 90, 56, 0.9); } 100% { transform: scale(1); text-shadow: none; } }
+@keyframes au-tick { from { opacity: 0.2; transform: translateY(-8px); } }
+@keyframes au-toast { from { opacity: 0; transform: translateY(14px) scale(0.95); } }
+@keyframes au-hot { 50% { box-shadow: 0 0 0 4px rgba(238, 90, 56, 0.18), 0 10px 40px -10px rgba(238, 90, 56, 0.5); } }
+@keyframes au-shine { 0%, 55% { background-position: 150% 0; } 100% { background-position: -100% 0; } }
+@keyframes au-spark { to { opacity: 0; transform: rotate(var(--a)) translateX(var(--d)) scale(0.4); } }
+@media (prefers-reduced-motion: reduce) {
+  .au-rise, .au-flash, .au-tick, .au-toast, .au-hot, .au-btn::after, .au-spark { animation: none; }
+  .au-card, .au-sheen { transition: none; }
+}
+
 /* ---------- Modo noche del sitio público (html.site-dark, lo activa el botón de la barra) ---------- */
 html.site-dark {
   --color-ink: #f2efe9;
