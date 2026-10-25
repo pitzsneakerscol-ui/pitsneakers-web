@@ -188,6 +188,11 @@ function Card({ it, index, status, left, now, onLive }: { it: AuctionItemView; i
           {locked ? "Marca y modelo secretos" : `${it.brand} · ${it.condition}`}
         </p>
         <h3 className="mt-1 font-display text-2xl leading-tight tracking-wide">{locked ? "¿Qué par será?" : it.name}</h3>
+        {!locked && it.size && (
+          <p className="mt-2 inline-flex w-fit items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+            Talla {it.size}
+          </p>
+        )}
         {!locked && it.description && <p className="mt-1 text-sm text-white/60">{it.description}</p>}
 
         {!locked && <div className="mt-4 flex items-end justify-between gap-3">
@@ -218,7 +223,7 @@ function Card({ it, index, status, left, now, onLive }: { it: AuctionItemView; i
             ) : it.isLeader ? (
               <>
                 <p className="font-semibold text-emerald-300">¡Ganaste este par por {formatPrice(it.currentBid)}!</p>
-                <a className="mt-1 inline-block underline underline-offset-4" target="_blank" rel="noreferrer" href={buildGeneralWhatsAppLink(`Hola! Gané ${it.name} en la subasta por ${formatPrice(it.currentBid)}. ¿Cómo coordinamos el pago?`)}>
+                <a className="mt-1 inline-block underline underline-offset-4" target="_blank" rel="noreferrer" href={buildGeneralWhatsAppLink(`Hola! Gané ${it.name}${it.size ? ` (talla ${it.size})` : ""} en la subasta por ${formatPrice(it.currentBid)}. ¿Cómo coordinamos el pago?`)}>
                   Coordinar el pago por WhatsApp
                 </a>
               </>

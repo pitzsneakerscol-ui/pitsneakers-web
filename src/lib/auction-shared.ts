@@ -23,6 +23,8 @@ export interface AuctionItemView {
   id: number;
   name: string;
   brand: string;
+  /** Talla. Vacía mientras el par está en incógnito (el servidor no la manda hasta que se desbloquea). */
+  size: string;
   condition: string;
   description: string;
   image: string;

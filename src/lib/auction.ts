@@ -117,16 +117,14 @@ async function loadItems(auctionId: number, viewerId: number | null): Promise<(A
 }
 
 /**
- * Los pares que ven los inscritos: nunca llevan la talla, y los que todavía no se desbloquean salen en incógnito
- * (sin nombre, foto ni precio: esos datos ni siquiera salen del servidor).
+ * Los pares que ven los inscritos: los que todavía no se desbloquean salen en incógnito
+ * (sin nombre, talla, foto ni precio: esos datos ni siquiera salen del servidor).
  */
 export async function listAuctionItems(auctionId: number, viewerId: number | null): Promise<AuctionItemView[]> {
   const now = Date.now();
-  return (await loadItems(auctionId, viewerId)).map((full) => {
-    const { size, ...it } = full;
-    void size;
+  return (await loadItems(auctionId, viewerId)).map((it) => {
     if (it.opensAt <= now || it.endsAt <= now) return it;
-    return { ...it, locked: true, name: "Par incógnito", brand: "", condition: "", description: "", image: "", startPrice: 0, minIncrement: 0, currentBid: 0, bidCount: 0, leader: "", isLeader: false };
+    return { ...it, locked: true, name: "Par incógnito", brand: "", size: "", condition: "", description: "", image: "", startPrice: 0, minIncrement: 0, currentBid: 0, bidCount: 0, leader: "", isLeader: false };
   });
 }
 
@@ -181,7 +179,6 @@ export async function getWaitlistEmail(id: number): Promise<string | null> {
 /* ---------- Panel del dueño ---------- */
 
 export interface AdminItem extends AuctionItemView {
-  size: string;
   leaderEmail: string;
   winnerNotified: boolean;
 }
