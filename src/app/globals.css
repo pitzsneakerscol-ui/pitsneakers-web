@@ -1724,6 +1724,11 @@ body {
 .au-spark { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 999px; background: #fbbf24; animation: au-spark 0.7s ease-out forwards; }
 .au-spark:nth-child(3n) { background: var(--color-accent); }
 .au-spark:nth-child(3n + 1) { background: #34d399; }
+.au-mystery { animation: au-mystery 4s ease-in-out infinite; }
+.au-scan { position: absolute; left: 0; right: 0; top: 0; height: 36%; pointer-events: none; background: linear-gradient(to bottom, transparent, rgba(255, 90, 60, 0.18), transparent); animation: au-scan 3.4s ease-in-out infinite; }
+@keyframes au-mystery { 50% { transform: scale(1.08) rotate(-3deg); opacity: 0.7; } }
+@keyframes au-scan { from { transform: translateY(-100%); } to { transform: translateY(300%); } }
+@media (prefers-reduced-motion: reduce) { .au-mystery, .au-scan { animation: none; } }
 @keyframes au-rise { from { opacity: 0; transform: translateY(22px) scale(0.97); } }
 @keyframes au-flash { 0% { transform: scale(1.18); color: #fff; text-shadow: 0 0 22px rgba(238, 90, 56, 0.9); } 100% { transform: scale(1); text-shadow: none; } }
 @keyframes au-tick { from { opacity: 0.2; transform: translateY(-8px); } }

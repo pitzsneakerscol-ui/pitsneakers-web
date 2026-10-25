@@ -59,6 +59,8 @@ export default async function SubastaPage() {
   const items = auction ? await listAuctionItems(auction.id, bidder.id) : [];
   const now = serverNow();
   const started = auction ? now >= auction.startsAt : false;
+  const visible = items.filter((i) => !i.locked);
+  const hidden = items.length - visible.length;
 
   return (
     <div className={shell}>
@@ -90,7 +92,7 @@ export default async function SubastaPage() {
               </span>
               <h1 className="mt-4 font-display text-5xl leading-[1.02] tracking-wide sm:text-7xl">{auction.title}</h1>
               <p className="mx-auto mt-3 max-w-2xl text-white/70">
-                {started ? `Cierra ${formatWhen(auction.endsAt)} (hora de Colombia), salvo que alguien puje al final.` : `Abre ${formatWhen(auction.startsAt)} (hora de Colombia). Ya puedes ver los pares.`}
+                {started ? `Cierra ${formatWhen(auction.endsAt)} (hora de Colombia), salvo que alguien puje al final.` : `Abre ${formatWhen(auction.startsAt)} (hora de Colombia). Cada hora se desbloquea un par nuevo.`}
               </p>
             </section>
 
@@ -101,12 +103,13 @@ export default async function SubastaPage() {
                 <li>Si alguien puja en los últimos 2 minutos, ese par se alarga 2 minutos más.</li>
                 <li>Te avisamos por correo si te superan y si ganas.</li>
                 <li>Pujar es un compromiso de compra: el ganador coordina el pago por WhatsApp y tiene 24 horas para pagar.</li>
-                <li>Los precios de salida van desde {items.length ? formatPrice(Math.min(...items.map((i) => i.startPrice))) : "—"}.</li>
+                <li>Cada hora se desbloquea un par nuevo: los que aún no abren están en incógnito{hidden > 0 ? ` (ahora hay ${hidden})` : ""}. El último es el gran final.</li>
+                {visible.length > 0 && <li>Los precios de salida van desde {formatPrice(Math.min(...visible.map((i) => i.startPrice)))}.</li>}
               </ul>
             </details>
 
             <div className="mt-8">
-              <AuctionBoard startsAt={auction.startsAt} serverNow={now} initial={items} />
+              <AuctionBoard key={visible.length} startsAt={auction.startsAt} serverNow={now} initial={items} />
             </div>
           </>
         )}

@@ -2,6 +2,7 @@
 
 import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { bid } from "@/app/subasta/actions";
 import { itemStatus, minNextBid, type AuctionItemView, type LiveItem } from "@/lib/auction-shared";
 import { formatPrice } from "@/lib/format";
@@ -135,9 +136,10 @@ function Heat({ count }: { count: number }) {
   );
 }
 
-function Card({ it, index, status, left, onLive }: { it: AuctionItemView; index: number; status: ReturnType<typeof itemStatus>; left: number; onLive: (l: LiveItem) => void }) {
+function Card({ it, index, status, left, now, onLive }: { it: AuctionItemView; index: number; status: ReturnType<typeof itemStatus> | "locked"; left: number; now: number; onLive: (l: LiveItem) => void }) {
   const ref = useRef<HTMLLIElement>(null);
   const price = useCountUp(it.bidCount > 0 ? it.currentBid : it.startPrice);
+  const locked = status === "locked";
   const urgent = status === "open" && left < URGENT_MS;
   const winning = it.isLeader && status === "open";
 
@@ -160,24 +162,35 @@ function Card({ it, index, status, left, onLive }: { it: AuctionItemView; index:
       style={{ animationDelay: `${index * 70}ms` }}
       className={`au-card au-rise group flex flex-col overflow-hidden rounded-3xl border bg-white/5 backdrop-blur ${winning ? "au-win border-emerald-400/60" : urgent ? "au-hot border-accent/70" : "border-white/10"}`}
     >
-      <div className="relative aspect-square overflow-hidden bg-white">
-        {it.image && <Image src={it.image} alt={`${it.brand} ${it.name}`} fill unoptimized sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-contain p-4 transition duration-500 ease-out group-hover:scale-110" />}
+      <div className={`relative aspect-square overflow-hidden ${locked ? "bg-gradient-to-br from-[#1d1d23] to-[#0b0b0d]" : "bg-white"}`}>
+        {locked && (
+          <>
+            <span className="au-mystery pointer-events-none absolute inset-0 flex select-none items-center justify-center font-display text-[11rem] leading-none text-white/10" aria-hidden="true">?</span>
+            <span className="au-scan" aria-hidden="true" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
+              <span className="text-5xl" aria-hidden="true">🔒</span>
+              <p className="font-display text-3xl tracking-wide">{it.finale ? "El gran final" : "En incógnito"}</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/55">Se desbloquea en</p>
+              <p className="font-display text-4xl tabular-nums tracking-wide text-accent">{it.opensAt > now ? countdown(it.opensAt - now) : "…"}</p>
+            </div>
+          </>
+        )}
+        {!locked && it.image && <Image src={it.image} alt={`${it.brand} ${it.name}`} fill unoptimized sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-contain p-4 transition duration-500 ease-out group-hover:scale-110" />}
         <span className="au-sheen" aria-hidden="true" />
-        <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider tabular-nums ${status === "open" ? (urgent ? "au-urgent bg-accent text-white" : "bg-black/80 text-white") : "bg-black/60 text-white/80"}`}>
-          {status === "upcoming" ? "Aún no abre" : status === "open" ? `${urgent ? "⏱ " : ""}Cierra en ${countdown(left)}` : "Cerrada"}
+        <span className={`absolute left-3 top-3 z-10 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider tabular-nums ${status === "open" ? (urgent ? "au-urgent bg-accent text-white" : "bg-black/80 text-white") : "bg-black/60 text-white/80"}`}>
+          {status === "locked" ? "🔒 Incógnito" : status === "upcoming" ? "Aún no abre" : status === "open" ? `${urgent ? "⏱ " : ""}Cierra en ${countdown(left)}` : "Cerrada"}
         </span>
         {winning && <span className="absolute right-3 top-3 rounded-full bg-emerald-500 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white shadow-lg">Vas ganando</span>}
-        <span className="absolute bottom-3 left-3 rounded-full bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/90">Lote {pad(index + 1)}</span>
+        <span className="absolute bottom-3 left-3 z-10 rounded-full bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/90">Lote {pad(index + 1)}</span>
       </div>
       <div className="flex flex-1 flex-col p-5">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50">
-          {it.brand}
-          {it.size ? ` · Talla ${it.size}` : ""} · {it.condition}
+          {locked ? "Marca y modelo secretos" : `${it.brand} · ${it.condition}`}
         </p>
-        <h3 className="mt-1 font-display text-2xl leading-tight tracking-wide">{it.name}</h3>
-        {it.description && <p className="mt-1 text-sm text-white/60">{it.description}</p>}
+        <h3 className="mt-1 font-display text-2xl leading-tight tracking-wide">{locked ? "¿Qué par será?" : it.name}</h3>
+        {!locked && it.description && <p className="mt-1 text-sm text-white/60">{it.description}</p>}
 
-        <div className="mt-4 flex items-end justify-between gap-3">
+        {!locked && <div className="mt-4 flex items-end justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50">{it.bidCount > 0 ? "Puja más alta" : "Precio de salida"}</p>
             <p key={it.bidCount} className="au-flash font-display text-4xl tabular-nums tracking-wide text-accent">{formatPrice(price)}</p>
@@ -188,12 +201,16 @@ function Card({ it, index, status, left, onLive }: { it: AuctionItemView; index:
               <p>{it.leader}</p>
             </div>
           )}
-        </div>
+        </div>}
 
-        {status !== "upcoming" && <Heat count={it.bidCount} />}
+        {(status === "open" || status === "closed") && <Heat count={it.bidCount} />}
 
         {status === "open" && <BidBox item={it} onLive={onLive} />}
-        {status === "upcoming" && <p className="mt-4 rounded-lg bg-white/5 px-3 py-2 text-sm text-white/70">Las pujas abren con la subasta. Mientras tanto, mira los pares.</p>}
+        {(status === "locked" || status === "upcoming") && (
+          <p className="mt-4 rounded-lg bg-white/5 px-3 py-2 text-sm text-white/70">
+            {it.finale ? "El último par de la subasta. Se destapa al final." : "Cada hora se destapa un par nuevo. Vuelve a esa hora para ver cuál es."}
+          </p>
+        )}
         {status === "closed" && (
           <div className="mt-4 rounded-lg bg-white/5 px-3 py-3 text-sm">
             {it.bidCount === 0 ? (
@@ -201,7 +218,7 @@ function Card({ it, index, status, left, onLive }: { it: AuctionItemView; index:
             ) : it.isLeader ? (
               <>
                 <p className="font-semibold text-emerald-300">¡Ganaste este par por {formatPrice(it.currentBid)}!</p>
-                <a className="mt-1 inline-block underline underline-offset-4" target="_blank" rel="noreferrer" href={buildGeneralWhatsAppLink(`Hola! Gané ${it.name}${it.size ? ` talla ${it.size}` : ""} en la subasta por ${formatPrice(it.currentBid)}. ¿Cómo coordinamos el pago?`)}>
+                <a className="mt-1 inline-block underline underline-offset-4" target="_blank" rel="noreferrer" href={buildGeneralWhatsAppLink(`Hola! Gané ${it.name} en la subasta por ${formatPrice(it.currentBid)}. ¿Cómo coordinamos el pago?`)}>
                   Coordinar el pago por WhatsApp
                 </a>
               </>
@@ -243,7 +260,7 @@ function Clock({ label, ms }: { label: string; ms: number }) {
 }
 
 type Toast = { id: number; text: string; kind: "bid" | "lost" };
-type Filter = "all" | "live" | "soon" | "mine";
+type Filter = "all" | "live" | "soon" | "mine" | "hidden";
 
 /** Los pares de la subasta con precio, cuenta regresiva y pujas en vivo (se actualiza cada pocos segundos). */
 export default function AuctionBoard({ startsAt, serverNow, initial }: { startsAt: number; serverNow: number; initial: AuctionItemView[] }) {
@@ -254,10 +271,20 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
   const offset = useRef(0);
   const itemsRef = useRef(initial);
   const toastId = useRef(0);
+  const lastRefresh = useRef(0);
+  const router = useRouter();
 
   useEffect(() => {
     itemsRef.current = items;
   }, [items]);
+
+  // Cuando llega la hora de un par en incógnito, se pide la página de nuevo al servidor para que mande su nombre, foto y precio.
+  useEffect(() => {
+    if (!items.some((it) => it.locked && it.opensAt <= now)) return;
+    if (Date.now() - lastRefresh.current < 3000) return;
+    lastRefresh.current = Date.now();
+    router.refresh();
+  }, [now, items, router]);
 
   useEffect(() => {
     offset.current = serverNow - Date.now();
@@ -293,14 +320,24 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
   const merge = (l: LiveItem) => setItems((cur) => cur.map((it) => (it.id === l.id ? { ...it, ...l } : it)));
 
   const view = useMemo(() => {
-    const rows = items.map((it, i) => ({ it, i, status: itemStatus(startsAt, it.endsAt, now), left: it.endsAt - now }));
+    const rows = items.map((it, i) => ({ it, i, status: (it.locked ? "locked" : itemStatus(startsAt, it.endsAt, now)) as ReturnType<typeof itemStatus> | "locked", left: it.endsAt - now }));
     const open = rows.filter((r) => r.status === "open");
+    const hidden = rows.filter((r) => r.status === "locked");
     const filtered =
-      filter === "live" ? open : filter === "soon" ? open.filter((r) => r.left < SOON_MS).sort((a, b) => a.left - b.left) : filter === "mine" ? rows.filter((r) => r.it.isLeader) : rows;
+      filter === "live"
+        ? open
+        : filter === "soon"
+          ? open.filter((r) => r.left < SOON_MS).sort((a, b) => a.left - b.left)
+          : filter === "mine"
+            ? rows.filter((r) => r.it.isLeader)
+            : filter === "hidden"
+              ? hidden
+              : rows;
     const nextClose = open.length ? Math.min(...open.map((r) => r.left)) : 0;
+    const nextUnlock = hidden.length ? Math.max(0, Math.min(...hidden.map((r) => r.it.opensAt - now))) : 0;
     const bids = items.reduce((n, it) => n + it.bidCount, 0);
     const top = items.reduce((m, it) => (it.bidCount > 0 ? Math.max(m, it.currentBid) : m), 0);
-    return { rows, open, filtered, nextClose, bids, top, mine: rows.filter((r) => r.it.isLeader && r.status === "open").length };
+    return { rows, open, hidden, filtered, nextClose, nextUnlock, bids, top, mine: rows.filter((r) => r.it.isLeader && r.status === "open").length };
   }, [items, now, startsAt, filter]);
 
   if (items.length === 0) {
@@ -308,10 +345,11 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
   }
 
   const notStarted = now < startsAt;
-  const allClosed = !notStarted && view.open.length === 0;
+  const allClosed = !notStarted && view.open.length === 0 && view.hidden.length === 0;
   const tabs: [Filter, string][] = [
     ["all", `Todos (${items.length})`],
     ["live", `En vivo (${view.open.length})`],
+    ...(view.hidden.length > 0 ? ([["hidden", `🔒 Incógnito (${view.hidden.length})`]] as [Filter, string][]) : []),
     ["soon", "Cierran pronto"],
     ["mine", `Voy ganando (${view.mine})`],
   ];
@@ -325,15 +363,30 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
             items.map((it) => (
               <span key={`${k}-${it.id}`} className="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-white/70">
                 <span className="text-accent">●</span>
-                {it.name}
-                <span className="text-white/40">{formatPrice(it.bidCount > 0 ? it.currentBid : it.startPrice)}</span>
+                {it.locked ? "🔒 Incógnito" : it.name}
+                {!it.locked && <span className="text-white/40">{formatPrice(it.bidCount > 0 ? it.currentBid : it.startPrice)}</span>}
               </span>
             ))
           )}
         </div>
       </div>
 
-      <div className="mt-8">{allClosed ? <p className="text-center font-display text-3xl tracking-wide text-white/80">La subasta cerró</p> : <Clock label={notStarted ? "Abre en" : "Próximo cierre en"} ms={notStarted ? startsAt - now : view.nextClose} />}</div>
+      <div className="mt-8">
+        {allClosed ? (
+          <p className="text-center font-display text-3xl tracking-wide text-white/80">La subasta cerró</p>
+        ) : notStarted ? (
+          <Clock label="Se destapa el primer par en" ms={startsAt - now} />
+        ) : view.open.length > 0 ? (
+          <Clock label="Próximo cierre en" ms={view.nextClose} />
+        ) : (
+          <Clock label="Se destapa el próximo par en" ms={view.nextUnlock} />
+        )}
+        {view.hidden.length > 0 && !notStarted && (
+          <p className="mt-4 text-center text-sm font-semibold text-white/75">
+            🔓 Próximo par en <span className="tabular-nums text-accent">{countdown(view.nextUnlock)}</span> · {view.hidden.length === 1 ? "queda 1 en incógnito" : `quedan ${view.hidden.length} en incógnito`}
+          </p>
+        )}
+      </div>
 
       <dl className="mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-3 text-center">
         {[
@@ -364,12 +417,12 @@ export default function AuctionBoard({ startsAt, serverNow, initial }: { startsA
 
       {view.filtered.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-white/70">
-          {filter === "mine" ? "Todavía no vas ganando ningún par. ¡Haz tu primera puja!" : filter === "soon" ? "Ningún par cierra en la próxima hora." : "No hay pares en vivo ahora mismo."}
+          {filter === "mine" ? "Todavía no vas ganando ningún par. ¡Haz tu primera puja!" : filter === "soon" ? "Ningún par cierra en la próxima hora." : filter === "hidden" ? "Ya no quedan pares en incógnito." : "No hay pares en vivo ahora mismo."}
         </p>
       ) : (
         <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {view.filtered.map((r) => (
-            <Card key={r.it.id} it={r.it} index={r.i} status={r.status} left={r.left} onLive={merge} />
+            <Card key={r.it.id} it={r.it} index={r.i} status={r.status} left={r.left} now={now} onLive={merge} />
           ))}
         </ul>
       )}

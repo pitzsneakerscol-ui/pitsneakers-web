@@ -93,6 +93,27 @@ export async function deleteAuctionItem(fd: FormData): Promise<void> {
   refresh();
 }
 
+/** Sube o baja un par en la lista. El orden es el orden en que se desbloquean (uno por hora); el último es el gran final. */
+export async function moveAuctionItem(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get("id")) || 0;
+  const dir = fd.get("dir") === "up" ? -1 : 1;
+  if (!id) return;
+  const db = await getDb();
+  const cur = await db.execute({ sql: "SELECT auction_id FROM auction_items WHERE id = ?", args: [id] });
+  if (!cur.rows[0]) return;
+  const auctionId = Number(cur.rows[0].auction_id);
+  const rows = await db.execute({ sql: "SELECT id FROM auction_items WHERE auction_id = ? ORDER BY position, id", args: [auctionId] });
+  const ids = rows.rows.map((r) => Number(r.id));
+  const from = ids.indexOf(id);
+  const to = from + dir;
+  if (from < 0 || to < 0 || to >= ids.length) return;
+  [ids[from], ids[to]] = [ids[to], ids[from]];
+  // Se reescriben todas las posiciones 0…n-1 (también arregla huecos que deja “Quitar”).
+  await db.batch(ids.map((x, pos) => ({ sql: "UPDATE auction_items SET position = ? WHERE id = ?", args: [pos, x] })));
+  refresh();
+}
+
 /** Correo al ganador de un par ya cerrado, con el paso a paso para pagar. */
 export async function notifyWinner(fd: FormData): Promise<void> {
   await requireAdmin();

@@ -3,6 +3,11 @@
 /** Si alguien puja en los últimos 2 minutos, ese par se alarga 2 minutos más (evita las pujas "a último segundo"). */
 export const SNIPE_MS = 2 * 60 * 1000;
 export const MAX_BID = 50_000_000;
+/** Cada cuánto se desbloquea un par nuevo: el primero con la apertura y luego uno por hora, en el orden de la lista. */
+export const UNLOCK_EVERY_MS = 60 * 60 * 1000;
+
+/** Momento en que se destapa el par que va en la posición `rank` (0 = el primero). */
+export const unlockAt = (startsAt: number, rank: number): number => startsAt + rank * UNLOCK_EVERY_MS;
 
 export type ItemStatus = "upcoming" | "open" | "closed";
 
@@ -18,7 +23,6 @@ export interface AuctionItemView {
   id: number;
   name: string;
   brand: string;
-  size: string;
   condition: string;
   description: string;
   image: string;
@@ -30,6 +34,12 @@ export interface AuctionItemView {
   /** Correo enmascarado del que va ganando (nunca el correo completo). */
   leader: string;
   isLeader: boolean;
+  /** En incógnito: todavía no se desbloquea, así que el servidor no manda nombre, foto ni precio. */
+  locked: boolean;
+  /** Cuándo se desbloquea. */
+  opensAt: number;
+  /** El último de la lista (el gran final). */
+  finale: boolean;
 }
 
 /** Estado en vivo de un par (lo que se actualiza cada pocos segundos). */

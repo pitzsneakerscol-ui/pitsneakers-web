@@ -3,7 +3,7 @@ import { cache } from "react";
 import { cookies } from "next/headers";
 import { createHash, randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
-import { MAX_BID, SNIPE_MS, maskEmail, minNextBid, type AuctionInfo, type AuctionItemView } from "@/lib/auction-shared";
+import { MAX_BID, SNIPE_MS, maskEmail, minNextBid, unlockAt, type AuctionInfo, type AuctionItemView } from "@/lib/auction-shared";
 
 /* ---------- Pase de la lista de espera (sesión del que puja) ---------- */
 
@@ -85,14 +85,17 @@ export async function getLatestAuction(): Promise<AuctionInfo | null> {
   return r.rows[0] ? toAuction(r.rows[0]) : null;
 }
 
-export async function listAuctionItems(auctionId: number, viewerId: number | null): Promise<AuctionItemView[]> {
+/** Todos los datos de los pares tal como están en la base (incluye la talla). Solo para el panel del dueño y uso interno. */
+async function loadItems(auctionId: number, viewerId: number | null): Promise<(AuctionItemView & { size: string })[]> {
   const db = await getDb();
+  const au = await db.execute({ sql: "SELECT starts_at FROM auctions WHERE id = ?", args: [auctionId] });
+  const startsAt = Number(au.rows[0]?.starts_at ?? 0);
   const r = await db.execute({
     sql: `SELECT i.*, w.email AS leader_email FROM auction_items i LEFT JOIN waitlist w ON w.id = i.leader_id
           WHERE i.auction_id = ? ORDER BY i.position, i.id`,
     args: [auctionId],
   });
-  return r.rows.map((x) => ({
+  return r.rows.map((x, i) => ({
     id: Number(x.id),
     name: String(x.name),
     brand: String(x.brand),
@@ -107,7 +110,24 @@ export async function listAuctionItems(auctionId: number, viewerId: number | nul
     endsAt: Number(x.ends_at),
     leader: x.leader_email ? maskEmail(String(x.leader_email)) : "",
     isLeader: viewerId !== null && x.leader_id !== null && Number(x.leader_id) === viewerId,
+    locked: false,
+    opensAt: unlockAt(startsAt, i),
+    finale: i === r.rows.length - 1,
   }));
+}
+
+/**
+ * Los pares que ven los inscritos: nunca llevan la talla, y los que todavía no se desbloquean salen en incógnito
+ * (sin nombre, foto ni precio: esos datos ni siquiera salen del servidor).
+ */
+export async function listAuctionItems(auctionId: number, viewerId: number | null): Promise<AuctionItemView[]> {
+  const now = Date.now();
+  return (await loadItems(auctionId, viewerId)).map((full) => {
+    const { size, ...it } = full;
+    void size;
+    if (it.opensAt <= now || it.endsAt <= now) return it;
+    return { ...it, locked: true, name: "Par incógnito", brand: "", condition: "", description: "", image: "", startPrice: 0, minIncrement: 0, currentBid: 0, bidCount: 0, leader: "", isLeader: false };
+  });
 }
 
 export type BidResult = { ok: true; prevLeaderId: number | null; endsAt: number; itemName: string } | { ok: false; error: string };
@@ -126,6 +146,13 @@ export async function placeBid(itemId: number, bidderId: number, amount: number)
   if (!row || Number(row.a_pub) !== 1) return { ok: false, error: "Este par ya no está disponible." };
   if (now < Number(row.a_start)) return { ok: false, error: "La subasta todavía no empieza." };
   if (now >= Number(row.ends_at)) return { ok: false, error: "Este par ya cerró." };
+  // Los pares se destapan de a uno: el lugar en la lista decide desde cuándo se puede pujar.
+  const pos = Number(row.position);
+  const rank = await db.execute({
+    sql: "SELECT COUNT(*) AS n FROM auction_items WHERE auction_id = ? AND (position < ? OR (position = ? AND id < ?))",
+    args: [Number(row.auction_id), pos, pos, itemId],
+  });
+  if (now < unlockAt(Number(row.a_start), Number(rank.rows[0].n))) return { ok: false, error: "Este par todavía está en incógnito. Se desbloquea más tarde." };
   const leader = row.leader_id === null ? null : Number(row.leader_id);
   if (leader === bidderId) return { ok: false, error: "Ya vas ganando este par." };
 
@@ -154,13 +181,14 @@ export async function getWaitlistEmail(id: number): Promise<string | null> {
 /* ---------- Panel del dueño ---------- */
 
 export interface AdminItem extends AuctionItemView {
+  size: string;
   leaderEmail: string;
   winnerNotified: boolean;
 }
 
 export async function listAdminItems(auctionId: number): Promise<AdminItem[]> {
   const db = await getDb();
-  const base = await listAuctionItems(auctionId, null);
+  const base = await loadItems(auctionId, null);
   const r = await db.execute({
     sql: `SELECT i.id AS id, w.email AS email, i.winner_notified AS wn FROM auction_items i LEFT JOIN waitlist w ON w.id = i.leader_id WHERE i.auction_id = ?`,
     args: [auctionId],

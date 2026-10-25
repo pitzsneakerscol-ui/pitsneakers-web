@@ -7,7 +7,7 @@ import { isEmailConfigured } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { cardCls, btnGhost } from "@/components/reseller/ui";
 import { AnnounceForm, AuctionForm, ItemForm } from "@/components/admin/AuctionForms";
-import { deleteAuctionItem, notifyWinner } from "@/app/admin/subasta/actions";
+import { deleteAuctionItem, moveAuctionItem, notifyWinner } from "@/app/admin/subasta/actions";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = { title: "Subasta" };
@@ -46,18 +46,35 @@ export default async function SubastaAdminPage() {
       {auction && (
         <>
           <section className={`${cardCls} p-5 sm:p-6`}>
-            <h2 className="mb-4 font-display text-2xl tracking-wide">2. Pares ({items.length})</h2>
+            <h2 className="mb-1 font-display text-2xl tracking-wide">2. Pares ({items.length})</h2>
+            <p className="mb-4 text-sm text-muted">
+              Se desbloquean en este orden: el primero cuando abre la subasta y uno nuevo cada hora. Hasta entonces los inscritos lo ven en incógnito (sin nombre, foto ni precio). El último es el gran final. La talla nunca se muestra a los inscritos.
+            </p>
             {items.length > 0 && (
               <ul className="mb-6 space-y-3">
-                {items.map((it) => {
+                {items.map((it, idx) => {
                   const st = itemStatus(auction.startsAt, it.endsAt, now);
                   return (
                     <li key={it.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-line p-3">
+                      <div className="flex shrink-0 flex-col items-center gap-1">
+                        <form action={moveAuctionItem}>
+                          <input type="hidden" name="id" value={it.id} />
+                          <input type="hidden" name="dir" value="up" />
+                          <button type="submit" disabled={idx === 0} aria-label={`Subir ${it.name}`} className={`${btnGhost} px-2 py-1`}>↑</button>
+                        </form>
+                        <span className="text-xs font-semibold text-muted">{idx + 1}</span>
+                        <form action={moveAuctionItem}>
+                          <input type="hidden" name="id" value={it.id} />
+                          <input type="hidden" name="dir" value="down" />
+                          <button type="submit" disabled={idx === items.length - 1} aria-label={`Bajar ${it.name}`} className={`${btnGhost} px-2 py-1`}>↓</button>
+                        </form>
+                      </div>
                       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white">
                         <Image src={it.image} alt="" fill unoptimized sizes="64px" className="object-contain p-1" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-semibold">{it.name}</p>
+                        <p className="truncate font-semibold">{it.name}{it.finale ? " · 🏁 gran final" : ""}</p>
+                        <p className="text-xs text-muted">{it.opensAt <= now ? "Desbloqueado" : `Se desbloquea ${formatWhen(it.opensAt)}`}{it.opensAt >= it.endsAt ? " · ⚠️ queda después del cierre" : ""}</p>
                         <p className="text-xs text-muted">
                           {it.size ? `Talla ${it.size} · ` : ""}Salida {formatPrice(it.startPrice)} · +{formatPrice(it.minIncrement)} · cierra {formatWhen(it.endsAt)}
                         </p>
