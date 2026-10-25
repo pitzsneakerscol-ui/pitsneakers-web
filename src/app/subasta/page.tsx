@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PassForm from "@/components/auction/PassForm";
 import AuctionBoard from "@/components/auction/AuctionBoard";
+import AuctionBackdrop from "@/components/auction/AuctionBackdrop";
 import { leaveAuction } from "@/app/subasta/actions";
 import { getBidder, getPublishedAuction, listAuctionItems, serverNow } from "@/lib/auction";
 import { formatWhen, maskEmail } from "@/lib/auction-shared";
@@ -34,8 +35,7 @@ export default async function SubastaPage() {
   if (!bidder) {
     return (
       <div className={`${shell} flex flex-col`}>
-        <div className="pl-glow" aria-hidden="true" />
-        <div className="pl-stripes" aria-hidden="true" />
+        <AuctionBackdrop />
         <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center px-5 py-10 text-center">
           <div className="pl-logo -mb-8 -mt-6">
             <Image src="/logo-pitsneakers.png" alt="Pitsneakers" width={320} height={320} priority className="h-56 w-56 drop-shadow-[0_10px_40px_rgba(200,64,40,0.45)]" />
@@ -62,8 +62,7 @@ export default async function SubastaPage() {
 
   return (
     <div className={shell}>
-      <div className="pl-glow" aria-hidden="true" />
-      <div className="pl-stripes" aria-hidden="true" />
+      <AuctionBackdrop />
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5 sm:px-8">
         <span className="font-display text-2xl tracking-wide sm:text-3xl">
           PIT<span className="text-accent">SNEAKERS</span>
