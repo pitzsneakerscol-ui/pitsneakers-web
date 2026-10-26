@@ -48,26 +48,36 @@ function useCountUp(target: number, ms = 650): number {
 
 function BidBox({ item, onLive }: { item: AuctionItemView; onLive: (l: LiveItem) => void }) {
   const min = minNextBid(item);
-  const [value, setValue] = useState("");
+  // null = el usuario no ha tocado el campo (muestra la puja mínima actual); "" = lo vació para escribir su monto.
+  const [value, setValue] = useState<string | null>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [pending, setPending] = useState(false);
   const [burst, setBurst] = useState(0);
-  // Si el usuario no ha escrito nada, el campo muestra siempre la puja mínima actual.
-  const shown = value === "" ? String(min) : value;
+  // Monto grande pendiente de confirmar (se confirma en pantalla: window.confirm lo bloquean algunos navegadores internos).
+  const [confirming, setConfirming] = useState<number | null>(null);
+  const shown = value === null ? String(min) : value;
   const amount = Number(shown.replace(/\D/g, "")) || 0;
+  const edit = (v: string | null) => {
+    setValue(v);
+    setConfirming(null);
+  };
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (amount < min) return setMsg({ ok: false, text: `La puja mínima ahora es ${formatPrice(min)}.` });
-    if (amount > min * 2 && !window.confirm(`¿Seguro que quieres pujar ${formatPrice(amount)}? Es mucho más que la puja mínima (${formatPrice(min)}). Pujar es un compromiso de compra.`)) return;
+    if (amount > min * 2 && confirming !== amount) {
+      setConfirming(amount);
+      return setMsg({ ok: false, text: `¿Seguro que quieres pujar ${formatPrice(amount)}? Es mucho más que la puja mínima (${formatPrice(min)}) y pujar es un compromiso de compra. Pulsa “Confirmar” para continuar.` });
+    }
     setPending(true);
     setMsg(null);
+    setConfirming(null);
     startTransition(async () => {
       const r = await bid(item.id, amount);
       setPending(false);
       if (r?.item) onLive(r.item);
       if (r?.ok) {
-        setValue("");
+        setValue(null);
         setBurst((b) => b + 1);
         haptic("success");
       }
@@ -83,7 +93,9 @@ function BidBox({ item, onLive }: { item: AuctionItemView; onLive: (l: LiveItem)
           <input
             inputMode="numeric"
             value={amount ? amount.toLocaleString("es-CO") : ""}
-            onChange={(e) => setValue(e.target.value.replace(/\D/g, ""))}
+            onChange={(e) => edit(e.target.value.replace(/\D/g, ""))}
+            onFocus={(e) => e.target.select()}
+            placeholder={String(min.toLocaleString("es-CO"))}
             aria-label={`Tu puja por ${item.name}`}
             disabled={pending}
             className="w-full rounded-full border border-white/20 bg-white/10 py-3 pl-7 pr-4 text-base font-semibold text-white outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/30 disabled:opacity-50"
@@ -91,7 +103,7 @@ function BidBox({ item, onLive }: { item: AuctionItemView; onLive: (l: LiveItem)
         </div>
         <span className="relative shrink-0">
           <button type="submit" disabled={pending || item.isLeader} className="au-btn relative h-full rounded-full bg-accent px-5 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110 active:scale-95 disabled:opacity-60">
-            {pending ? "…" : item.isLeader ? "Vas ganando" : "Pujar"}
+            {pending ? "…" : item.isLeader ? "Vas ganando" : confirming === amount ? "Confirmar" : "Pujar"}
           </button>
           {burst > 0 && (
             <span key={burst} className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -103,9 +115,9 @@ function BidBox({ item, onLive }: { item: AuctionItemView; onLive: (l: LiveItem)
         </span>
       </div>
       <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-white/50">
-        <span className="mr-1">Mínimo {formatPrice(min)}</span>
+        <span className="mr-1">Mínimo {formatPrice(min)} · o escribe el monto que quieras</span>
         {[1, 3, 5].map((k) => (
-          <button key={k} type="button" onClick={() => setValue(String(min + item.minIncrement * k))} className="rounded-full border border-white/15 px-2.5 py-1 transition hover:border-accent hover:text-white active:scale-95">
+          <button key={k} type="button" onClick={() => edit(String(min + item.minIncrement * k))} className="rounded-full border border-white/15 px-2.5 py-1 transition hover:border-accent hover:text-white active:scale-95">
             + {formatPrice(item.minIncrement * k)}
           </button>
         ))}
