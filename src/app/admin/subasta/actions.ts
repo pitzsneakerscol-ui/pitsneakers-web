@@ -6,7 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { getAllProducts } from "@/lib/products";
 import { fromLocalInput } from "@/lib/auction-shared";
-import { announceEmail, winnerEmail } from "@/lib/auction-emails";
+import { announceEmail, reminderEmail, winnerEmail } from "@/lib/auction-emails";
 import { prelaunch } from "@/config/prelaunch";
 import type { ActionState } from "@/lib/reseller-shared";
 
@@ -162,6 +162,35 @@ export async function notifyWinner(fd: FormData): Promise<void> {
   const sent = await sendEmail({ to: String(row.email), subject, body });
   if (sent.ok) await db.execute({ sql: "UPDATE auction_items SET winner_notified = 1 WHERE id = ?", args: [id] });
   refresh();
+}
+
+/** Recordatorio de cierre a toda la lista de espera. De a 40 por clic; cada inscrito lo recibe una sola vez por subasta. */
+export async function remindAuction(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  if (!isEmailConfigured()) return { error: "El envío de correos no está configurado." };
+  const auctionId = Number(fd.get("auction_id")) || 0;
+  const db = await getDb();
+  const a = await db.execute({ sql: "SELECT title, ends_at, published FROM auctions WHERE id = ?", args: [auctionId] });
+  const au = a.rows[0];
+  if (!au) return { error: "Primero crea la subasta." };
+  if (Number(au.published) !== 1) return { error: "La subasta no está publicada." };
+  if (Number(au.ends_at) <= Date.now()) return { error: "La subasta ya cerró." };
+  const { subject, body } = reminderEmail({ title: String(au.title), endsAt: Number(au.ends_at) });
+  const pending = await db.execute({ sql: "SELECT id, email FROM waitlist WHERE auction_reminded != ? ORDER BY id LIMIT 40", args: [auctionId] });
+  if (pending.rows.length === 0) return { ok: true, message: "Todos los inscritos ya recibieron el recordatorio." };
+  let sent = 0;
+  let failed = 0;
+  for (const row of pending.rows) {
+    const res = await sendEmail({ to: String(row.email), subject, body });
+    if (res.ok) {
+      sent++;
+      await db.execute({ sql: "UPDATE waitlist SET auction_reminded = ? WHERE id = ?", args: [auctionId, Number(row.id)] });
+    } else failed++;
+    await new Promise((r) => setTimeout(r, 600));
+  }
+  const left = Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE auction_reminded != ?", args: [auctionId] })).rows[0].n);
+  refresh();
+  return { ok: failed === 0, message: `Enviados: ${sent}${failed ? ` · fallidos: ${failed}` : ""}.${left > 0 ? ` Faltan ${left}: pulsa de nuevo para seguir.` : " Ya recibieron el recordatorio todos."}`, ...(failed ? { error: "Algunos correos fallaron; vuelve a intentar." } : {}) };
 }
 
 /** Avisa a la lista de espera que la subasta tiene fecha. Envía de a 40 (límite de Resend); vuelve a pulsar para seguir. */

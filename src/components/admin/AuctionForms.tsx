@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { addAuctionItem, announceAuction, saveAuction, updateAuctionItem } from "@/app/admin/subasta/actions";
+import { addAuctionItem, announceAuction, remindAuction, saveAuction, updateAuctionItem } from "@/app/admin/subasta/actions";
 import { btnAccent, btnPrimary, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 function Notice({ state }: { state: { ok?: boolean; error?: string; message?: string } | undefined }) {
@@ -140,6 +140,27 @@ export function EditItemForm({ item }: { item: { id: number; name: string; brand
       {item.bidCount > 0 && <p className="text-xs text-muted">Este par ya tiene pujas: cambiar el precio de salida no mueve la puja más alta, y un incremento nuevo aplica desde la próxima puja.</p>}
       <Notice state={state} />
       <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Guardando…" : "Guardar cambios"}</button>
+    </form>
+  );
+}
+
+/** Recordatorio de cierre a la lista de espera. */
+export function ReminderForm({ auctionId, pendingCount }: { auctionId: number; pendingCount: number }) {
+  const [state, action, pending] = useActionState(remindAuction, undefined);
+  return (
+    <form
+      onSubmit={(e) => {
+        if (window.confirm(`¿Enviar el recordatorio de cierre a la lista (${pendingCount} sin recordar)? Salen de a 40 por clic.`)) submitWith(action)(e);
+        else e.preventDefault();
+      }}
+      className="space-y-3"
+    >
+      <input type="hidden" name="auction_id" value={auctionId} />
+      <Notice state={state} />
+      <button type="submit" disabled={pending || pendingCount === 0} className={btnAccent}>
+        {pending ? "Enviando… (puede tardar un poco)" : pendingCount === 0 ? "Todos recordados" : `Enviar recordatorio de cierre (${pendingCount} sin recordar)`}
+      </button>
+      <p className="text-xs text-muted">Les llega “hoy cierra la subasta” con la hora de cierre y el enlace. Envía de a 40 por clic; cada persona lo recibe una sola vez.</p>
     </form>
   );
 }

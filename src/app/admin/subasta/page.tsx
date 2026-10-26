@@ -6,7 +6,7 @@ import { formatWhen, itemStatus, toLocalInput } from "@/lib/auction-shared";
 import { isEmailConfigured } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { cardCls, btnGhost } from "@/components/reseller/ui";
-import { AnnounceForm, AuctionForm, EditItemForm, ItemForm } from "@/components/admin/AuctionForms";
+import { AnnounceForm, AuctionForm, EditItemForm, ItemForm, ReminderForm } from "@/components/admin/AuctionForms";
 import { deleteAuctionItem, moveAuctionItem, notifyWinner } from "@/app/admin/subasta/actions";
 import { siteConfig } from "@/config/site";
 
@@ -17,6 +17,7 @@ export default async function SubastaAdminPage() {
   const items = auction ? await listAdminItems(auction.id) : [];
   const db = await getDb();
   const waiting = Number((await db.execute("SELECT COUNT(*) AS n FROM waitlist WHERE announced = 0")).rows[0].n);
+  const unreminded = auction ? Number((await db.execute({ sql: "SELECT COUNT(*) AS n FROM waitlist WHERE auction_reminded != ?", args: [auction.id] })).rows[0].n) : 0;
   const now = serverNow();
   const defaultStart = toLocalInput(now + 3 * 86_400_000);
   const defaultEnd = toLocalInput(now + 4 * 86_400_000);
@@ -116,6 +117,12 @@ export default async function SubastaAdminPage() {
             <h2 className="mb-1 font-display text-2xl tracking-wide">3. Avisar a la lista</h2>
             <p className="mb-4 text-sm text-muted">Les llega un correo con la fecha de apertura y cierre, y el enlace para entrar con su pase.</p>
             <AnnounceForm auctionId={auction.id} pendingCount={waiting} />
+          </section>
+
+          <section className={`${cardCls} p-5 sm:p-6`}>
+            <h2 className="mb-1 font-display text-2xl tracking-wide">4. Recordatorio de cierre</h2>
+            <p className="mb-4 text-sm text-muted">Les llega “hoy cierra la subasta” con la hora de cierre ({formatWhen(auction.endsAt)}) y el enlace para entrar.</p>
+            <ReminderForm auctionId={auction.id} pendingCount={unreminded} />
           </section>
         </>
       )}

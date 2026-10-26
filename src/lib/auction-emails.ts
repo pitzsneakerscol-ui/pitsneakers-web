@@ -5,6 +5,26 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 const url = () => `${siteConfig.siteUrl.replace(/\/$/, "")}/subasta`;
 
+/** Recordatorio a la lista: la subasta cierra hoy. */
+export function reminderEmail(opts: { title: string; endsAt: number }): { subject: string; body: string } {
+  return {
+    subject: "Hoy cierra la subasta 🔨 últimas horas",
+    body: [
+      `# ${opts.title}: hoy ==cierra==`,
+      "",
+      `La subasta cierra hoy, **${formatWhen(opts.endsAt)}** (hora de Colombia). Si todavía no pujaste, estas son tus últimas horas.`,
+      "",
+      "- Entra con tu correo y tu **pase personal** (el código que te llegó al inscribirte).",
+      "- Cada puja debe superar la anterior por el incremento del par.",
+      "- Si alguien puja en los últimos 2 minutos, el par se alarga 2 minutos más.",
+      "",
+      `[boton: Entrar a la subasta | ${url()}]`,
+      "",
+      "**Equipo Pitsneakers**",
+    ].join("\n"),
+  };
+}
+
 /** Le confirma al que acaba de pujar que va ganando. */
 export function leadingEmail(opts: { item: string; amount: number; endsAt: number }): { subject: string; body: string } {
   return {
