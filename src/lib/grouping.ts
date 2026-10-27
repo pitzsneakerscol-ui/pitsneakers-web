@@ -1,4 +1,4 @@
-import { Product, ProductCondition, ProductGroup } from "@/types/product";
+import { CardGroup, Product, ProductCondition, ProductGroup } from "@/types/product";
 
 const DIACRITICS_REGEX = new RegExp("[\\u0300-\\u036f]", "g");
 
@@ -89,7 +89,7 @@ export function groupProducts(products: Product[]): ProductGroup[] {
   });
 }
 
-export function groupPriceRange(group: ProductGroup): { min: number; max: number } {
+export function groupPriceRange(group: Pick<CardGroup, "variants">): { min: number; max: number } {
   const prices = group.variants.map((v) => v.price);
   return { min: Math.min(...prices), max: Math.max(...prices) };
 }
@@ -100,7 +100,7 @@ export function groupSizes(group: ProductGroup): string[] {
   return Array.from(all).sort((a, b) => parseFloat(a) - parseFloat(b));
 }
 
-export function groupConditions(group: ProductGroup): ProductCondition[] {
+export function groupConditions(group: Pick<CardGroup, "variants">): ProductCondition[] {
   return Array.from(new Set(group.variants.map((v) => v.condition)));
 }
 
@@ -112,7 +112,7 @@ export interface GroupPromo {
 
 /** Si al menos una variante está en promo (con un precio "antes" mayor al actual),
  * devuelve el precio promo más barato disponible. Si no, null. */
-export function groupPromo(group: ProductGroup): GroupPromo | null {
+export function groupPromo(group: Pick<CardGroup, "variants">): GroupPromo | null {
   const promoVariants = group.variants.filter(
     (v) => v.promo && v.priceBefore && v.priceBefore > v.price
   );
@@ -122,4 +122,23 @@ export function groupPromo(group: ProductGroup): GroupPromo | null {
   const priceBefore = cheapest.priceBefore!;
   const discountPercent = Math.round((1 - cheapest.price / priceBefore) * 100);
   return { price: cheapest.price, priceBefore, discountPercent };
+}
+
+/** Versión liviana de un grupo para pintar su tarjeta (solo la primera foto y los datos de precio/condición). */
+export function toCardGroup(g: ProductGroup): CardGroup {
+  return {
+    groupSlug: g.groupSlug,
+    name: g.name,
+    brand: g.brand,
+    ...(g.colorway ? { colorway: g.colorway } : {}),
+    category: g.category,
+    images: g.images.slice(0, 1),
+    isNew: g.isNew,
+    variants: g.variants.map((v) => ({
+      price: v.price,
+      ...(v.priceBefore ? { priceBefore: v.priceBefore } : {}),
+      ...(v.promo ? { promo: true } : {}),
+      condition: v.condition,
+    })),
+  };
 }

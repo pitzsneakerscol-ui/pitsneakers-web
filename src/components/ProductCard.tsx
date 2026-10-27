@@ -1,12 +1,14 @@
+"use client";
+
 import Link from "next/link";
-import { ProductGroup } from "@/types/product";
+import { CardGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
 import { groupPriceRange, groupConditions, groupPromo } from "@/lib/grouping";
 import ProductMedia from "@/components/ProductMedia";
 import FavoriteButton from "@/components/FavoriteButton";
 import QuickViewButton from "@/components/QuickView";
 
-export default function ProductCard({ group }: { group: ProductGroup }) {
+export default function ProductCard({ group }: { group: CardGroup }) {
   const { min } = groupPriceRange(group);
   const conditions = groupConditions(group);
   const hasUsado = conditions.includes("usado");

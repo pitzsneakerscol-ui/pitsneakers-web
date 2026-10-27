@@ -1,24 +1,26 @@
 "use client";
 
-import { Children, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CardGroup } from "@/types/product";
+import ProductCard from "@/components/ProductCard";
+import Reveal from "@/components/Reveal";
 
 /**
  * Muestra el catálogo por tandas: carga más pares solos al acercarte al final
  * (o con el botón). Así la página no arma cientos de tarjetas e imágenes de una vez.
  */
 export default function ProgressiveGrid({
-  children,
+  groups,
   pageSize = 24,
   className,
 }: {
-  children: React.ReactNode;
+  groups: CardGroup[];
   pageSize?: number;
   className?: string;
 }) {
-  const items = Children.toArray(children);
   const [visible, setVisible] = useState(pageSize);
   const sentinel = useRef<HTMLDivElement>(null);
-  const total = items.length;
+  const total = groups.length;
   const done = visible >= total;
 
   useEffect(() => {
@@ -36,7 +38,13 @@ export default function ProgressiveGrid({
 
   return (
     <>
-      <div className={className}>{items.slice(0, visible)}</div>
+      <div className={className}>
+        {groups.slice(0, visible).map((group, i) => (
+          <Reveal key={group.groupSlug} delay={(i % 4) * 70} className="h-full">
+            <ProductCard group={group} />
+          </Reveal>
+        ))}
+      </div>
       {!done && (
         <div ref={sentinel} className="mt-12 flex flex-col items-center gap-3">
           <p className="text-xs uppercase tracking-wide text-muted">

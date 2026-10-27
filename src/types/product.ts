@@ -38,3 +38,15 @@ export interface ProductGroup {
   dateAdded: string;
   variants: Product[];
 }
+
+/** Lo mínimo que necesita una tarjeta del catálogo: así la página no envía al navegador la ficha completa de cada par. */
+export interface CardGroup {
+  groupSlug: string;
+  name: string;
+  brand: string;
+  colorway?: string;
+  category: ProductCategory;
+  images: string[];
+  isNew: boolean;
+  variants: Pick<Product, "price" | "priceBefore" | "promo" | "condition">[];
+}

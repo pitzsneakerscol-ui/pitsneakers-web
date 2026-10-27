@@ -1,7 +1,6 @@
 import { ProductGroup } from "@/types/product";
-import ProductCard from "@/components/ProductCard";
-import Reveal from "@/components/Reveal";
 import ProgressiveGrid from "@/components/ProgressiveGrid";
+import { toCardGroup } from "@/lib/grouping";
 
 const GRID = "grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4";
 const PAGE_SIZE = 24;
@@ -21,20 +20,12 @@ export default function ProductGrid({
     );
   }
 
-  const cards = groups.map((group, i) => (
-    <Reveal key={group.groupSlug} delay={(i % 4) * 70} className="h-full">
-      <ProductCard group={group} />
-    </Reveal>
-  ));
-
-  // Las listas largas (catálogo) se cargan por tandas; las cortas se muestran completas.
-  if (groups.length <= PAGE_SIZE) return <div className={GRID}>{cards}</div>;
+  // Al navegador solo viaja lo que pinta cada tarjeta (no la ficha completa de cada par); las tarjetas salen por tandas.
+  const cards = groups.map(toCardGroup);
 
   // La `key` reinicia el avance cuando cambian los filtros.
   const resetKey = `${groups.length}:${groups[0].groupSlug}:${groups[groups.length - 1].groupSlug}`;
   return (
-    <ProgressiveGrid key={resetKey} pageSize={PAGE_SIZE} className={GRID}>
-      {cards}
-    </ProgressiveGrid>
+    <ProgressiveGrid key={resetKey} groups={cards} pageSize={PAGE_SIZE} className={GRID} />
   );
 }
