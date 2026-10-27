@@ -1,9 +1,13 @@
 import "server-only";
+import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
 import { listResellers } from "@/lib/admin";
 import { getSyncPlan, type SyncPair } from "@/lib/seller-sync";
+import type { SellerAssignment } from "@/lib/sheet-source";
 
 export interface NewsItem {
+  /** true = el modelo está enlazado al catálogo (aunque esta talla o unidad todavía no se publique). */
+  linked: boolean;
   name: string;
   brand: string;
   size: string;
@@ -22,13 +26,29 @@ export interface StockNewsRow {
   recent: NewsItem[];
   /** Pares del catálogo asignados a esta persona que todavía no están en su inventario. */
   pendingLoad: SyncPair[];
-  /** Pares en su inventario (en stock o reservados) que no están enlazados al catálogo público: faltan por publicar. */
+  /** Pares en su inventario (en stock o reservados) que no tienen publicación propia en el catálogo: ni el modelo ni esa talla están asignados a él. */
   unpublished: NewsItem[];
   /** Pares activos en su inventario. */
   active: number;
 }
 
 const DAY = 86_400_000;
+
+const assignments = assignmentsJson as SellerAssignment[];
+const loose = (v: string) => v.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9@]+/g, "");
+const normSize = (v: string) => v.trim().toLowerCase().replace(",", ".");
+
+/** Unidades que el catálogo ya tiene publicadas para cada vendedor: "vendedor|modelo|talla" -> cantidad. */
+function publishedUnits(): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const a of assignments) {
+    for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
+      const key = `${loose(a.seller)}|${a.slug}|${normSize(size)}`;
+      out.set(key, (out.get(key) ?? 0) + (a.counts?.[size] ?? 1));
+    }
+  }
+  return out;
+}
 
 /**
  * Novedades de inventario por revendedor: qué cargó en los últimos `days` días, qué le falta cargar de lo que tiene asignado en el catálogo
@@ -71,14 +91,37 @@ export async function getStockNews(days: number, now: number): Promise<StockNews
     ])
   );
 
+  // Lo que el catálogo ya publica a nombre de cada revendedor (el vendedor del catálogo puede ser su usuario o su correo).
+  const published = publishedUnits();
+  const keysByUser = new Map(resellers.map((r) => [r.id, [r.username, r.email, r.displayName].filter(Boolean).map(loose)]));
+  const avail = new Map<number, Map<string, number>>();
+  const availFor = (userId: number): Map<string, number> => {
+    let m = avail.get(userId);
+    if (!m) {
+      m = new Map();
+      for (const key of keysByUser.get(userId) ?? []) {
+        for (const [k, n] of published) {
+          if (k.startsWith(`${key}|`)) m.set(k.slice(key.length + 1), Math.max(m.get(k.slice(key.length + 1)) ?? 0, n));
+        }
+      }
+      avail.set(userId, m);
+    }
+    return m;
+  };
+
   for (const x of itemsRes.rows) {
-    const row = rows.get(Number(x.user_id));
+    const userId = Number(x.user_id);
+    const row = rows.get(userId);
     if (!row) continue;
-    const it: NewsItem = { name: String(x.name), brand: String(x.brand), size: String(x.size), status: String(x.status), createdAt: Number(x.created_at) };
+    const slug = String(x.catalog_slug);
+    const it: NewsItem = { linked: slug !== "", name: String(x.name), brand: String(x.brand), size: String(x.size), status: String(x.status), createdAt: Number(x.created_at) };
     if (it.createdAt >= since) row.recent.push(it);
     if (it.status !== "vendido") {
       row.active++;
-      if (!String(x.catalog_slug)) row.unpublished.push(it);
+      // Publicado = el catálogo tiene este modelo y esta talla a nombre del revendedor (una unidad por cada una publicada).
+      const left = slug ? (availFor(userId).get(`${slug}|${normSize(it.size)}`) ?? 0) : 0;
+      if (left > 0) availFor(userId).set(`${slug}|${normSize(it.size)}`, left - 1);
+      else row.unpublished.push(it);
     }
   }
 

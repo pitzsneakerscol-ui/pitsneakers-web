@@ -10,15 +10,21 @@ export const dynamic = "force-dynamic";
 
 const RANGES = [1, 3, 7, 14, 30];
 
-const label = (i: { name: string; brand: string; size: string }) => `${i.brand ? `${i.brand} ` : ""}${i.name}${i.size ? ` · ${i.size}` : ""}`;
+const label = (i: { name: string; brand: string; size: string }) => {
+  const withBrand = i.brand && !i.name.toLowerCase().startsWith(i.brand.toLowerCase()) ? `${i.brand} ${i.name}` : i.name;
+  return `${withBrand}${i.size ? ` · ${i.size}` : ""}`;
+};
 
-function List({ items, empty }: { items: NewsItem[]; empty: string }) {
+function List({ items, empty, showLinked = false }: { items: NewsItem[]; empty: string; showLinked?: boolean }) {
   if (items.length === 0) return <p className="text-sm text-muted">{empty}</p>;
   return (
     <ul className="space-y-1 text-sm">
       {items.slice(0, 40).map((i, k) => (
         <li key={k} className="flex justify-between gap-3">
-          <span className="min-w-0 truncate">{label(i)}</span>
+          <span className="min-w-0">
+            <span className="truncate">{label(i)}</span>
+            {showLinked && <span className="block text-[11px] text-muted">{i.linked ? "El modelo está en el catálogo, pero esta talla no está publicada a su nombre" : "No está enlazado al catálogo"}</span>}
+          </span>
           <span className="shrink-0 text-xs text-muted">{ago(i.createdAt)}</span>
         </li>
       ))}
@@ -131,7 +137,7 @@ export default async function StockNewsPage({ searchParams }: { searchParams: Pr
                   </section>
                   <section>
                     <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted">Falta publicar en el catálogo</h3>
-                    <List items={r.unpublished} empty="Todo lo suyo ya está enlazado al catálogo." />
+                    <List items={r.unpublished} showLinked empty="Todo lo suyo ya está publicado en el catálogo." />
                   </section>
                 </div>
               </details>
