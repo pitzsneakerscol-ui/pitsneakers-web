@@ -4283,5 +4283,33 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/DUNK-26.dbc058c8.webp"
+  },
+  {
+    "seller": "criscorredor222@gmail.com",
+    "slug": "jordan-jordan-4-london",
+    "name": "Jordan 4 London",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-26",
+    "sizes": [
+      "9"
+    ],
+    "price": 2200000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-26.a0cf2a83.webp"
+  },
+  {
+    "seller": "emmanuellecm",
+    "slug": "adidas-jellyfish-red",
+    "name": "Jellyfish Red",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-13",
+    "sizes": [
+      "9"
+    ],
+    "price": 1749000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-13.93531025.webp"
   }
 ]

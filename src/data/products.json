@@ -12381,5 +12381,45 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:57:00.000Z"
+  },
+  {
+    "id": "AJ4-26",
+    "slug": "jordan-jordan-4-london",
+    "name": "Jordan 4 London",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 2200000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-26.a0cf2a83.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:58:00.000Z"
+  },
+  {
+    "id": "ADIDAS-13",
+    "slug": "adidas-jellyfish-red",
+    "name": "Jellyfish Red",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1749000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-13.93531025.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T09:59:00.000Z"
   }
 ]
