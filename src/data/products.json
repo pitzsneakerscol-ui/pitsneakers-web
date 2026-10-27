@@ -12521,5 +12521,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:04:00.000Z"
+  },
+  {
+    "id": "ADIDAS-14",
+    "slug": "adidas-jellyfish-red-2",
+    "name": "Jellyfish Red",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 1400000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-13.93531025.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:05:00.000Z"
   }
 ]

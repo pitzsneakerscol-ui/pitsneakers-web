@@ -4353,5 +4353,19 @@
     "price": 1100000,
     "condition": "nuevo",
     "image": "/products/AMECSTASY-03.8499e43f.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "adidas-jellyfish-red-2",
+    "name": "Jellyfish Red",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-14",
+    "sizes": [
+      "10"
+    ],
+    "price": 1400000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-13.93531025.webp"
   }
 ]
