@@ -370,6 +370,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["trivia_announced", "INTEGER NOT NULL DEFAULT 0"],
     // Id de la subasta cuyo recordatorio de cierre ya recibió (0 = ninguno).
     ["auction_reminded", "INTEGER NOT NULL DEFAULT 0"],
+    // 1 = el dueño le quitó el derecho a pujar (pujas falsas).
+    ["bid_blocked", "INTEGER NOT NULL DEFAULT 0"],
   ],
   trivia_questions: [["bank_key", "TEXT NOT NULL DEFAULT ''"]],
   catalog_orders: [

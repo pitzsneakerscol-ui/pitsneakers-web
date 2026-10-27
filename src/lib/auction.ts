@@ -151,6 +151,8 @@ export async function placeBid(itemId: number, bidderId: number, amount: number)
     args: [Number(row.auction_id), pos, pos, itemId],
   });
   if (now < unlockAt(Number(row.a_start), Number(rank.rows[0].n))) return { ok: false, error: "Este par todavía está en incógnito. Se desbloquea más tarde." };
+  const who = await db.execute({ sql: "SELECT bid_blocked FROM waitlist WHERE id = ?", args: [bidderId] });
+  if (Number(who.rows[0]?.bid_blocked) === 1) return { ok: false, error: "Tu cuenta no puede pujar en esta subasta. Escríbenos por WhatsApp si crees que es un error." };
   const leader = row.leader_id === null ? null : Number(row.leader_id);
   if (leader === bidderId) return { ok: false, error: "Ya vas ganando este par." };
 

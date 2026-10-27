@@ -146,6 +146,45 @@ export async function moveAuctionItem(fd: FormData): Promise<void> {
   refresh();
 }
 
+/**
+ * Anula las pujas de quien va ganando un par (pujas falsas). El par vuelve a la puja más alta que quede.
+ * Con block = 1 también se le quita el derecho a pujar y se anulan sus pujas en los demás pares que siguen abiertos.
+ */
+export async function voidLeadingBid(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get("id")) || 0;
+  const block = fd.get("block") === "1";
+  if (!id) return;
+  const db = await getDb();
+  const cur = await db.execute({ sql: "SELECT auction_id, leader_id FROM auction_items WHERE id = ?", args: [id] });
+  const row = cur.rows[0];
+  if (!row || row.leader_id === null) return;
+  const bidder = Number(row.leader_id);
+  const now = Date.now();
+
+  let itemIds = [id];
+  if (block) {
+    await db.execute({ sql: "UPDATE waitlist SET bid_blocked = 1 WHERE id = ?", args: [bidder] });
+    const others = await db.execute({
+      sql: `SELECT DISTINCT i.id AS id FROM auction_bids b JOIN auction_items i ON i.id = b.item_id
+            WHERE b.bidder_id = ? AND i.auction_id = ? AND i.ends_at > ?`,
+      args: [bidder, Number(row.auction_id), now],
+    });
+    itemIds = [...new Set([id, ...others.rows.map((r) => Number(r.id))])];
+  }
+  for (const itemId of itemIds) {
+    await db.execute({ sql: "DELETE FROM auction_bids WHERE item_id = ? AND bidder_id = ?", args: [itemId, bidder] });
+    const top = await db.execute({ sql: "SELECT bidder_id, amount FROM auction_bids WHERE item_id = ? ORDER BY amount DESC, id DESC LIMIT 1", args: [itemId] });
+    const n = await db.execute({ sql: "SELECT COUNT(*) AS n FROM auction_bids WHERE item_id = ?", args: [itemId] });
+    await db.execute({
+      sql: "UPDATE auction_items SET current_bid = ?, bid_count = ?, leader_id = ?, winner_notified = 0 WHERE id = ?",
+      args: [top.rows[0] ? Number(top.rows[0].amount) : 0, Number(n.rows[0].n), top.rows[0] ? Number(top.rows[0].bidder_id) : null, itemId],
+    });
+  }
+  refresh();
+  revalidatePath("/subasta");
+}
+
 /** Correo al ganador de un par ya cerrado, con el paso a paso para pagar. */
 export async function notifyWinner(fd: FormData): Promise<void> {
   await requireAdmin();

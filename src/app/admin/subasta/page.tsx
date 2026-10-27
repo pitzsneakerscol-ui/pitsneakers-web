@@ -7,7 +7,7 @@ import { isEmailConfigured } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { cardCls, btnGhost } from "@/components/reseller/ui";
 import { AnnounceForm, AuctionForm, EditItemForm, ItemForm, ReminderForm } from "@/components/admin/AuctionForms";
-import { deleteAuctionItem, moveAuctionItem, notifyWinner } from "@/app/admin/subasta/actions";
+import { deleteAuctionItem, moveAuctionItem, notifyWinner, voidLeadingBid } from "@/app/admin/subasta/actions";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = { title: "Subasta" };
@@ -94,6 +94,13 @@ export default async function SubastaAdminPage() {
                           <form action={notifyWinner}>
                             <input type="hidden" name="id" value={it.id} />
                             <button type="submit" disabled={!mail} className={btnGhost}>{it.winnerNotified ? "Reenviar al ganador" : "Avisar al ganador"}</button>
+                          </form>
+                        )}
+                        {it.bidCount > 0 && (
+                          <form action={voidLeadingBid} className="flex items-center gap-2">
+                            <input type="hidden" name="id" value={it.id} />
+                            <button type="submit" name="block" value="0" className={btnGhost} title="Borra las pujas de quien va ganando este par; vuelve la puja más alta que quede">Anular puja</button>
+                            <button type="submit" name="block" value="1" className={btnGhost} title="Anula sus pujas en todos los pares abiertos y no lo deja volver a pujar">Anular y bloquear</button>
                           </form>
                         )}
                         <form action={deleteAuctionItem}>
