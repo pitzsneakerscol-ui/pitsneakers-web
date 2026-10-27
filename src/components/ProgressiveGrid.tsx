@@ -5,6 +5,9 @@ import type { CardGroup } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 
+// Tarjetas cuya foto se pide de una vez (lo que se ve al abrir): una pantalla en celular, una fila en computador.
+const EAGER = 6;
+
 /**
  * Muestra el catálogo por tandas: carga más pares solos al acercarte al final
  * (o con el botón). Así la página no arma cientos de tarjetas e imágenes de una vez.
@@ -41,7 +44,7 @@ export default function ProgressiveGrid({
       <div className={className}>
         {groups.slice(0, visible).map((group, i) => (
           <Reveal key={group.groupSlug} delay={(i % 4) * 70} className="h-full">
-            <ProductCard group={group} />
+            <ProductCard group={group} eager={i < EAGER} />
           </Reveal>
         ))}
       </div>

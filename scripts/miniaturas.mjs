@@ -1,4 +1,4 @@
-// Miniaturas del catálogo: una copia liviana (800 px) de cada foto de public/products en public/products/t/.
+// Miniaturas del catálogo: una copia liviana (640 px) de cada foto de public/products en public/products/t/.
 // Las tarjetas del catálogo usan estas copias: son archivos estáticos que sirve la CDN al instante, sin esperar
 // a que Vercel genere la versión reducida la primera vez que alguien pide cada foto.
 //
@@ -14,7 +14,7 @@ import sharp from "sharp";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = path.join(ROOT, "public", "products");
 const SALIDA = path.join(PUBLIC, "t");
-const ANCHO = 800;
+const ANCHO = 640;
 const EXT = /\.(webp|png|jpe?g)$/i;
 
 export async function hacerMiniaturas({ todas = false } = {}) {
@@ -28,7 +28,7 @@ export async function hacerMiniaturas({ todas = false } = {}) {
     const destino = path.join(SALIDA, nombre);
     const origen = path.join(PUBLIC, f);
     if (!todas && fs.existsSync(destino) && fs.statSync(destino).mtimeMs >= fs.statSync(origen).mtimeMs) continue;
-    await sharp(origen).resize({ width: ANCHO, withoutEnlargement: true }).webp({ quality: 80, alphaQuality: 90, effort: 5 }).toFile(destino);
+    await sharp(origen).resize({ width: ANCHO, withoutEnlargement: true }).webp({ quality: 72, alphaQuality: 80, effort: 6 }).toFile(destino);
     hechas++;
   }
   // Las miniaturas de fotos que ya no existen se borran.

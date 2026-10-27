@@ -8,7 +8,7 @@ import ProductMedia from "@/components/ProductMedia";
 import FavoriteButton from "@/components/FavoriteButton";
 import QuickViewButton from "@/components/QuickView";
 
-export default function ProductCard({ group }: { group: CardGroup }) {
+export default function ProductCard({ group, eager = false }: { group: CardGroup; eager?: boolean }) {
   const { min } = groupPriceRange(group);
   const conditions = groupConditions(group);
   const hasUsado = conditions.includes("usado");
@@ -26,6 +26,7 @@ export default function ProductCard({ group }: { group: CardGroup }) {
         <ProductMedia
           product={group}
           thumb
+          eager={eager}
           className="transition duration-500 group-hover:scale-[1.04]"
         />
         <span className="card-shine" aria-hidden="true" />

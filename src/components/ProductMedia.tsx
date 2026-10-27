@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product";
 
@@ -27,6 +27,7 @@ export default function ProductMedia({
   sizes,
   priority,
   thumb = false,
+  eager = false,
   className = "",
 }: {
   product: Pick<Product, "images" | "brand" | "name" | "category">;
@@ -35,12 +36,33 @@ export default function ProductMedia({
   priority?: boolean;
   /** Usa la miniatura estática (para tarjetas): carga al instante, sin esperar a que se genere una versión reducida. */
   thumb?: boolean;
+  /** Foto de lo que se ve al abrir la página: se pide ya y con prioridad. Las demás esperan a estar cerca de la pantalla. */
+  eager?: boolean;
   className?: string;
 }) {
   const src = product.images[index];
   // La foto aparece con un fundido cuando termina de cargar (y no "salta" sobre el cuadro vacío al deslizar).
   const [loaded, setLoaded] = useState(false);
   const [thumbFailed, setThumbFailed] = useState(false);
+  // En las tarjetas las fotos se piden cuando están cerca de la pantalla: así el ancho de banda va primero a lo que se ve
+  // (si el navegador pidiera las 24 a la vez, todas llegarían tarde, incluidas las de la primera fila).
+  const [near, setNear] = useState(!thumb || eager);
+  const holder = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = holder.current;
+    if (near || !el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
   // Las fotos del catálogo ya son recortes transparentes (WebP): se muestran con sus colores reales, sin mezclar con
   // el fondo (así lo blanco se ve blanco). El efecto "multiplicar" queda solo para fotos antiguas con fondo blanco (PNG/JPG).
   const blend = src && /\.(png|jpe?g)$/i.test(src) ? "mix-blend-multiply" : "";
@@ -50,14 +72,15 @@ export default function ProductMedia({
   if (src) {
     return (
       <>
-      {!loaded && <span className="img-skeleton" aria-hidden="true" />}
+      {!loaded && <span ref={holder} className="img-skeleton" aria-hidden="true" />}
+      {near && (
       <Image
         src={thumbSrc ?? src}
         unoptimized={thumbSrc !== null}
         alt={`${product.brand} ${product.name}`}
         fill
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
-        priority={priority}
+        priority={priority || (thumb && eager)}
         quality={90}
         ref={(el) => {
           // Si ya cargó antes de que la página se hidratara, no hay evento onLoad: se detecta aquí.
@@ -67,6 +90,7 @@ export default function ProductMedia({
         onError={() => (thumbSrc ? setThumbFailed(true) : setLoaded(true))}
         className={`object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} ${blend} ${className}`}
       />
+      )}
       </>
     );
   }
