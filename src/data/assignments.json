@@ -4311,5 +4311,47 @@
     "price": 1749000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-13.93531025.webp"
+  },
+  {
+    "seller": "cristianh",
+    "slug": "jordan-jordan-4-pearl-pink",
+    "name": "Jordan 4 Pearl Pink",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-27",
+    "sizes": [
+      "10"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-27.47553977.webp"
+  },
+  {
+    "seller": "cristianh",
+    "slug": "jordan-travis-scott-shy-pink-3",
+    "name": "Travis Scott Shy Pink",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-63",
+    "sizes": [
+      "9.5"
+    ],
+    "price": 1800000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-05.561259a2.webp"
+  },
+  {
+    "seller": "sbarbosan",
+    "slug": "nike-air-max-ecstasy-x-supreme-white-university-blue",
+    "name": "Air Max Ecstasy x Supreme White University Blue",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AMECSTASY-03",
+    "sizes": [
+      "8"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AMECSTASY-03.8499e43f.webp"
   }
 ]

@@ -12421,5 +12421,65 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T09:59:00.000Z"
+  },
+  {
+    "id": "AJ4-27",
+    "slug": "jordan-jordan-4-pearl-pink",
+    "name": "Jordan 4 Pearl Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-27.47553977.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:00:00.000Z"
+  },
+  {
+    "id": "AJ1-63",
+    "slug": "jordan-travis-scott-shy-pink-3",
+    "name": "Travis Scott Shy Pink",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1800000,
+    "promo": false,
+    "sizes": [
+      "9.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo IQ7604-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-05.561259a2.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:01:00.000Z"
+  },
+  {
+    "id": "AMECSTASY-03",
+    "slug": "nike-air-max-ecstasy-x-supreme-white-university-blue",
+    "name": "Air Max Ecstasy x Supreme White University Blue",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AMECSTASY-03.8499e43f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:02:00.000Z"
   }
 ]
