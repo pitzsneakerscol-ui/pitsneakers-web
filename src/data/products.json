@@ -12481,5 +12481,45 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:02:00.000Z"
+  },
+  {
+    "id": "NB-23",
+    "slug": "new-balance-new-balance-1000-black-silver-metallic",
+    "name": "New Balance 1000 Black Silver Metallic",
+    "brand": "New Balance",
+    "category": "sneakers",
+    "price": 360000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/NB-23.10876c5b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:03:00.000Z"
+  },
+  {
+    "id": "AF1-23",
+    "slug": "nike-air-force-1-low-flax",
+    "name": "Air Force 1 Low Flax",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 410000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-23.e62096f8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:04:00.000Z"
   }
 ]
