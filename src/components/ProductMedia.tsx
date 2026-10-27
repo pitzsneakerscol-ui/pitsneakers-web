@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { Product } from "@/types/product";
 
@@ -26,12 +29,16 @@ export default function ProductMedia({
   className?: string;
 }) {
   const src = product.images[index];
+  // La foto aparece con un fundido cuando termina de cargar (y no "salta" sobre el cuadro vacío al deslizar).
+  const [loaded, setLoaded] = useState(false);
   // Las fotos del catálogo ya son recortes transparentes (WebP): se muestran con sus colores reales, sin mezclar con
   // el fondo (así lo blanco se ve blanco). El efecto "multiplicar" queda solo para fotos antiguas con fondo blanco (PNG/JPG).
   const blend = src && /\.(png|jpe?g)$/i.test(src) ? "mix-blend-multiply" : "";
 
   if (src) {
     return (
+      <>
+      {!loaded && <span className="img-skeleton" aria-hidden="true" />}
       <Image
         src={src}
         alt={`${product.brand} ${product.name}`}
@@ -39,8 +46,15 @@ export default function ProductMedia({
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
         priority={priority}
         quality={90}
-        className={`object-cover ${blend} ${className}`}
+        ref={(el) => {
+          // Si ya cargó antes de que la página se hidratara, no hay evento onLoad: se detecta aquí.
+          if (el?.complete && el.naturalWidth > 0) setLoaded(true);
+        }}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+        className={`object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} ${blend} ${className}`}
       />
+      </>
     );
   }
 

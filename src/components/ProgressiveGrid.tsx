@@ -28,7 +28,7 @@ export default function ProgressiveGrid({
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) setVisible((v) => v + pageSize);
       },
-      { rootMargin: "700px 0px" }
+      { rootMargin: "1800px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();

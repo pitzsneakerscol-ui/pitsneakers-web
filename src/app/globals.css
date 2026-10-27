@@ -209,6 +209,16 @@ body {
 .card-lift:hover {
   transform: translateY(-6px);
 }
+/* Mientras llega la foto de una tarjeta: un brillo suave que pasa sobre el cuadro */
+.img-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  background-size: 220% 100%;
+  animation: img-skeleton 1.4s ease-in-out infinite;
+}
+@keyframes img-skeleton { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+@media (prefers-reduced-motion: reduce) { .img-skeleton { animation: none; } }
 .card-shine {
   pointer-events: none;
   position: absolute;
