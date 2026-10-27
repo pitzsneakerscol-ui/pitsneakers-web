@@ -6,7 +6,7 @@ import { formatWhen, itemStatus, toLocalInput } from "@/lib/auction-shared";
 import { isEmailConfigured } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { cardCls, btnGhost } from "@/components/reseller/ui";
-import { AnnounceForm, AuctionForm, EditItemForm, ItemForm, ReminderForm } from "@/components/admin/AuctionForms";
+import { AnnounceForm, AuctionForm, EditItemForm, ItemForm, ReminderForm, RemindBiddersForm } from "@/components/admin/AuctionForms";
 import { deleteAuctionItem, moveAuctionItem, notifyWinner, voidLeadingBid } from "@/app/admin/subasta/actions";
 import { siteConfig } from "@/config/site";
 
@@ -96,6 +96,7 @@ export default async function SubastaAdminPage() {
                             <button type="submit" disabled={!mail} className={btnGhost}>{it.winnerNotified ? "Reenviar al ganador" : "Avisar al ganador"}</button>
                           </form>
                         )}
+                        {it.bidCount > 0 && st === "open" && <RemindBiddersForm itemId={it.id} name={it.name} />}
                         {it.bidCount > 0 && (
                           <form action={voidLeadingBid} className="flex items-center gap-2">
                             <input type="hidden" name="id" value={it.id} />

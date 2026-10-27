@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import { addAuctionItem, announceAuction, remindAuction, saveAuction, updateAuctionItem } from "@/app/admin/subasta/actions";
-import { btnAccent, btnPrimary, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
+import { addAuctionItem, announceAuction, remindAuction, remindItemBidders, saveAuction, updateAuctionItem } from "@/app/admin/subasta/actions";
+import { btnAccent, btnGhost, btnPrimary, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 function Notice({ state }: { state: { ok?: boolean; error?: string; message?: string } | undefined }) {
   if (!state) return null;
@@ -140,6 +140,25 @@ export function EditItemForm({ item }: { item: { id: number; name: string; brand
       {item.bidCount > 0 && <p className="text-xs text-muted">Este par ya tiene pujas: cambiar el precio de salida no mueve la puja más alta, y un incremento nuevo aplica desde la próxima puja.</p>}
       <Notice state={state} />
       <button type="submit" disabled={pending} className={btnPrimary}>{pending ? "Guardando…" : "Guardar cambios"}</button>
+    </form>
+  );
+}
+
+/** Recordatorio a los que pujaron por un par (se confirma antes de enviar). */
+export function RemindBiddersForm({ itemId, name }: { itemId: number; name: string }) {
+  const [state, action, pending] = useActionState(remindItemBidders, undefined);
+  return (
+    <form
+      onSubmit={(e) => {
+        if (window.confirm(`¿Enviar el recordatorio a todos los que pujaron por ${name}? Si hay una puja falsa, anúlala antes.`)) submitWith(action)(e);
+        else e.preventDefault();
+      }}
+      className="flex flex-col items-start gap-1.5"
+    >
+      <input type="hidden" name="id" value={itemId} />
+      <button type="submit" disabled={pending} className={btnGhost}>{pending ? "Enviando…" : "Recordar a los que pujaron"}</button>
+      {state?.error && <p role="alert" className="text-xs text-accent">{state.error}</p>}
+      {state?.message && !state.error && <p role="status" className="text-xs text-emerald-700">{state.message}</p>}
     </form>
   );
 }

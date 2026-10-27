@@ -5,8 +5,8 @@ import { getDb } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { getAllProducts } from "@/lib/products";
-import { fromLocalInput } from "@/lib/auction-shared";
-import { announceEmail, reminderEmail, winnerEmail } from "@/lib/auction-emails";
+import { fromLocalInput, minNextBid } from "@/lib/auction-shared";
+import { announceEmail, itemReminderEmail, reminderEmail, winnerEmail } from "@/lib/auction-emails";
 import { prelaunch } from "@/config/prelaunch";
 import type { ActionState } from "@/lib/reseller-shared";
 
@@ -183,6 +183,36 @@ export async function voidLeadingBid(fd: FormData): Promise<void> {
   }
   refresh();
   revalidatePath("/subasta");
+}
+
+/** Recordatorio a los que pujaron por un par que sigue abierto (no a los bloqueados). Hasta 40 por clic. */
+export async function remindItemBidders(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  if (!isEmailConfigured()) return { error: "El envío de correos no está configurado." };
+  const id = Number(fd.get("id")) || 0;
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT name, ends_at, current_bid, bid_count, start_price, min_increment, leader_id FROM auction_items WHERE id = ?", args: [id] });
+  const it = r.rows[0];
+  if (!it) return { error: "No encontramos el par." };
+  if (Number(it.ends_at) <= Date.now()) return { error: "Este par ya cerró." };
+  const bidders = await db.execute({
+    sql: `SELECT DISTINCT w.id AS id, w.email AS email FROM auction_bids b JOIN waitlist w ON w.id = b.bidder_id
+          WHERE b.item_id = ? AND w.bid_blocked = 0 ORDER BY w.id LIMIT 40`,
+    args: [id],
+  });
+  if (bidders.rows.length === 0) return { error: "Nadie ha pujado por este par." };
+  const current = Number(it.current_bid);
+  const minNext = minNextBid({ bidCount: Number(it.bid_count), currentBid: current, startPrice: Number(it.start_price), minIncrement: Number(it.min_increment) });
+  let sent = 0;
+  let failed = 0;
+  for (const b of bidders.rows) {
+    const { subject, body } = itemReminderEmail({ item: String(it.name), endsAt: Number(it.ends_at), current, minNext, isLeader: it.leader_id !== null && Number(it.leader_id) === Number(b.id) });
+    const res = await sendEmail({ to: String(b.email), subject, body });
+    if (res.ok) sent++;
+    else failed++;
+    await new Promise((x) => setTimeout(x, 600));
+  }
+  return { ok: failed === 0, message: `Enviados: ${sent}${failed ? ` · fallidos: ${failed}` : ""}.`, ...(failed ? { error: "Algunos correos fallaron." } : {}) };
 }
 
 /** Correo al ganador de un par ya cerrado, con el paso a paso para pagar. */

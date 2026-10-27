@@ -25,6 +25,28 @@ export function reminderEmail(opts: { title: string; endsAt: number }): { subjec
   };
 }
 
+/** Recordatorio a los que pujaron por un par: cómo va y cuándo cierra. */
+export function itemReminderEmail(opts: { item: string; endsAt: number; current: number; minNext: number; isLeader: boolean }): { subject: string; body: string } {
+  return {
+    subject: opts.isLeader ? `Vas ganando ${opts.item}: cierra pronto` : `${opts.item}: todavía puedes ganar`,
+    body: [
+      opts.isLeader ? "# Sigues ==ganando==" : "# Todavía puedes ==ganar==",
+      "",
+      opts.isLeader
+        ? `Tu puja de **${formatPrice(opts.current)}** sigue siendo la más alta por **${opts.item}**.`
+        : `La puja más alta por **${opts.item}** es de **${formatPrice(opts.current)}**.`,
+      "",
+      opts.isLeader
+        ? `> El par cierra el **${formatWhen(opts.endsAt)}** (hora de Colombia). Si alguien te supera, te avisamos por aquí.`
+        : `> Para ganar necesitas pujar al menos **${formatPrice(opts.minNext)}**. El par cierra el **${formatWhen(opts.endsAt)}** (hora de Colombia).`,
+      "",
+      `[boton: ${opts.isLeader ? "Ver la subasta" : "Pujar ahora"} | ${url()}]`,
+      "",
+      "**Equipo Pitsneakers**",
+    ].join("\n"),
+  };
+}
+
 /** Le confirma al que acaba de pujar que va ganando. */
 export function leadingEmail(opts: { item: string; amount: number; endsAt: number }): { subject: string; body: string } {
   return {
