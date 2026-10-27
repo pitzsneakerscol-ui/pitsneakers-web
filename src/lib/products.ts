@@ -3,6 +3,7 @@ import { Product, ProductCategory, ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
 import { groupProducts, groupPromo } from "@/lib/grouping";
+import { loadLiveOverlay } from "@/lib/catalog-live";
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -21,8 +22,15 @@ async function loadProducts(): Promise<Product[]> {
   }
 }
 
+/** El catálogo del archivo (o de la hoja), sin los pares en vivo ni los ocultos. */
+export async function getStaticProducts(): Promise<Product[]> {
+  return loadProducts();
+}
+
 export async function getAllProducts(): Promise<Product[]> {
-  const products = await loadProducts();
+  const base = await loadProducts();
+  const { live, hidden } = await loadLiveOverlay();
+  const products = [...base.filter((p) => !hidden.has(p.id)), ...live];
   return [...products].sort(
     (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
   );

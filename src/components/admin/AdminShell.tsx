@@ -28,6 +28,7 @@ const MAIN: Item[] = [
   { href: "/admin/consultas", label: "Consultas", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/admin/catalogo", label: "Actualizar catálogo", Icon: BoxIcon },
   { href: "/admin/novedades", label: "Novedades de stock", Icon: BoxIcon },
   { href: "/admin/pedidos", label: "Pedidos web", Icon: ReceiptIcon },
   { href: "/admin/ofertas", label: "Ofertas", Icon: TagIcon },
@@ -48,6 +49,7 @@ const TITLES: Record<string, string> = {
   revendedores: "Vendedores",
   inventario: "Inventario global",
   novedades: "Novedades de inventario",
+  catalogo: "Actualizar catálogo",
   ventas: "Ventas",
   consultas: "Consultas de mercado",
   ofertas: "Ofertas",

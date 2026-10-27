@@ -360,6 +360,26 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status, created_at)`,
+  // Catálogo en vivo: pares del stock de los revendedores que se publican al pulsar "Actualizar catálogo" (se suman al catálogo del archivo).
+  `CREATE TABLE IF NOT EXISTS live_listings (
+    id TEXT PRIMARY KEY,
+    seller_id INTEGER NOT NULL,
+    payload TEXT NOT NULL,
+    updated_at INTEGER NOT NULL
+  )`,
+  // SKU del catálogo del archivo que se ocultan porque el revendedor ya no los tiene en stock.
+  `CREATE TABLE IF NOT EXISTS catalog_hidden (
+    sku TEXT PRIMARY KEY,
+    reason TEXT NOT NULL DEFAULT '',
+    updated_at INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS catalog_sync (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    updated_at INTEGER NOT NULL,
+    live INTEGER NOT NULL DEFAULT 0,
+    hidden INTEGER NOT NULL DEFAULT 0,
+    pending INTEGER NOT NULL DEFAULT 0
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.
