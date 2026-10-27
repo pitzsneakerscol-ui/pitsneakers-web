@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "fotos": "node scripts/procesar-fotos.mjs"
+    "fotos": "node scripts/procesar-fotos.mjs",
+    "miniaturas": "node scripts/miniaturas.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",

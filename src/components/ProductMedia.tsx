@@ -15,32 +15,45 @@ const GRADIENTS: Record<string, string> = {
   streetwear: "from-[#2a2118] via-[#1c1712] to-[#0a0a0a]",
 };
 
+/** /products/NOMBRE.ext -> /products/t/NOMBRE.webp (ver scripts/miniaturas.mjs). */
+function thumbOf(src: string): string | null {
+  const m = /^\/products\/([^/]+)\.(?:webp|png|jpe?g)$/i.exec(src);
+  return m ? `/products/t/${m[1]}.webp` : null;
+}
+
 export default function ProductMedia({
   product,
   index = 0,
   sizes,
   priority,
+  thumb = false,
   className = "",
 }: {
   product: Pick<Product, "images" | "brand" | "name" | "category">;
   index?: number;
   sizes?: string;
   priority?: boolean;
+  /** Usa la miniatura estática (para tarjetas): carga al instante, sin esperar a que se genere una versión reducida. */
+  thumb?: boolean;
   className?: string;
 }) {
   const src = product.images[index];
   // La foto aparece con un fundido cuando termina de cargar (y no "salta" sobre el cuadro vacío al deslizar).
   const [loaded, setLoaded] = useState(false);
+  const [thumbFailed, setThumbFailed] = useState(false);
   // Las fotos del catálogo ya son recortes transparentes (WebP): se muestran con sus colores reales, sin mezclar con
   // el fondo (así lo blanco se ve blanco). El efecto "multiplicar" queda solo para fotos antiguas con fondo blanco (PNG/JPG).
   const blend = src && /\.(png|jpe?g)$/i.test(src) ? "mix-blend-multiply" : "";
+
+  const thumbSrc = thumb && src && !thumbFailed ? thumbOf(src) : null;
 
   if (src) {
     return (
       <>
       {!loaded && <span className="img-skeleton" aria-hidden="true" />}
       <Image
-        src={src}
+        src={thumbSrc ?? src}
+        unoptimized={thumbSrc !== null}
         alt={`${product.brand} ${product.name}`}
         fill
         sizes={sizes ?? "(min-width: 1024px) 25vw, 50vw"}
@@ -51,7 +64,7 @@ export default function ProductMedia({
           if (el?.complete && el.naturalWidth > 0) setLoaded(true);
         }}
         onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(true)}
+        onError={() => (thumbSrc ? setThumbFailed(true) : setLoaded(true))}
         className={`object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} ${blend} ${className}`}
       />
       </>

@@ -24,6 +24,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import sharp from "sharp";
+import { hacerMiniaturas } from "./miniaturas.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = path.join(ROOT, "public", "products");
@@ -625,7 +626,9 @@ async function modoProcesar() {
   if (reporte.omitidas) console.log(`\n(${reporte.omitidas} ya procesadas antes, omitidas)`);
 }
 
-(CATALOGO ? modoCatalogo() : VERSIONAR ? modoVersionar() : IGUALAR ? modoIgualar() : modoProcesar()).catch((e) => {
+(CATALOGO ? modoCatalogo() : VERSIONAR ? modoVersionar() : IGUALAR ? modoIgualar() : modoProcesar())
+  .then(() => (PROBAR ? undefined : hacerMiniaturas()))
+  .catch((e) => {
   console.error("Error:", e.message);
   process.exit(1);
 });

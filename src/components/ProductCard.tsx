@@ -25,6 +25,7 @@ export default function ProductCard({ group }: { group: CardGroup }) {
       >
         <ProductMedia
           product={group}
+          thumb
           className="transition duration-500 group-hover:scale-[1.04]"
         />
         <span className="card-shine" aria-hidden="true" />
