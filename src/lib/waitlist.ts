@@ -50,23 +50,20 @@ export function waitlistToCsv(rows: WaitlistEntry[]): string {
   return "﻿" + lines.join("\r\n") + "\r\n";
 }
 
-/** Correo de bienvenida con el código del incentivo. */
-export function waitlistEmail(code: string): { subject: string; body: string } {
-  const wa = buildGeneralWhatsAppLink(`Hola! Ya estoy en la lista de Pitsneakers. Mi pase es ${code}`);
-  const subject = `Ya estás en la lista: tu pase para la subasta 🔨`;
+/** Correo de bienvenida a la lista de espera. */
+export function waitlistEmail(): { subject: string; body: string } {
+  const wa = buildGeneralWhatsAppLink("Hola! Ya estoy en la lista de Pitsneakers");
+  const subject = "Ya estás en la lista de Pitsneakers";
   const body = [
     "# Ya estás ==en la lista==",
     "",
-    `Gracias por unirte a ${siteConfig.name}. Estamos preparando el lanzamiento de la nueva página y tú vas a entrar primero. Por estar en la lista tienes acceso a una **subasta exclusiva de ${prelaunch.auctionPairs} pares** que no van a estar en el catálogo.`,
-    "",
-    `> **Tu pase personal:** ==${code}==`,
-    "> Con este pase podrás pujar en la subasta. Guárdalo: solo los inscritos entran.",
+    `Gracias por unirte a ${siteConfig.name}. Estamos preparando el lanzamiento de la nueva página y tú vas a entrar primero.`,
     "",
     ...prelaunch.perks.map((p) => `- ${p}`),
     "",
     `[boton: Escríbenos por WhatsApp | ${wa}]`,
     "",
-    "Guarda este correo: ahí está tu pase. Te avisamos por aquí el día y la hora de la subasta.",
+    "Te avisamos por aquí apenas abramos.",
     "",
     "**Equipo Pitsneakers**",
   ].join("\n");

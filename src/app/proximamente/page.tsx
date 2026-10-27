@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import WaitlistForm from "@/components/WaitlistForm";
+import PrelaunchCountdown from "@/components/PrelaunchCountdown";
 import { prelaunch } from "@/config/prelaunch";
 import { siteConfig } from "@/config/site";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Próximamente",
-  description: `Estamos preparando la nueva ${siteConfig.name}. Deja tu correo y entra a la subasta exclusiva de ${prelaunch.auctionPairs} pares.`,
+  description: `Estamos preparando la nueva ${siteConfig.name}. Muy pronto abrimos.`,
   robots: { index: false, follow: false },
 };
 
 const BRANDS = ["Jordan", "Nike", "Yeezy", "New Balance", "Adidas", "Asics", "Supreme", "Dunk SB", "Travis Scott", "Bad Bunny"];
 
 export default function ProximamentePage() {
-  const n = prelaunch.auctionPairs;
   return (
     <div className="theme-dark pl-root relative isolate flex min-h-screen flex-col overflow-hidden bg-paper text-ink">
       <div className="pl-glow" aria-hidden="true" />
@@ -41,22 +40,11 @@ export default function ProximamentePage() {
           La nueva <span className="text-accent">Pitsneakers</span> está por salir
         </h1>
         <p className="mt-4 max-w-xl text-base text-white/70 sm:text-lg">
-          Sneakers y streetwear verificados, de la comunidad de {siteConfig.stats.whatsappMembers} en WhatsApp. Deja tu correo y entras primero.
+          Sneakers y streetwear verificados, de la comunidad de {siteConfig.stats.whatsappMembers} en WhatsApp.
         </p>
 
-        <div className="mt-8 w-full max-w-lg rounded-3xl border border-white/10 bg-white/5 p-5 text-left backdrop-blur sm:p-6">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-accent">🔨 Por inscribirte ganas</p>
-          <ul className="mt-3 space-y-2 text-sm text-white/85">
-            {prelaunch.perks.map((p, i) => (
-              <li key={p} className="flex gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">{i === 0 ? n : "✓"}</span>
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-5">
-            <WaitlistForm />
-          </div>
+        <div className="mt-7 w-full">
+          <PrelaunchCountdown target={prelaunch.countdown.target} start={prelaunch.countdown.start} />
         </div>
       </main>
 
@@ -71,7 +59,6 @@ export default function ProximamentePage() {
       <footer className="relative z-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-5 py-5 text-xs text-white/60">
         <a href={buildGeneralWhatsAppLink("Hola! Quiero info sobre Pitsneakers")} className="hover:text-white" target="_blank" rel="noreferrer">WhatsApp</a>
         <a href={siteConfig.instagramUrl} className="hover:text-white" target="_blank" rel="noreferrer">Instagram {siteConfig.instagramHandle}</a>
-        <Link href="/subasta" className="font-semibold text-white/80 underline underline-offset-4 hover:text-white">Subasta</Link>
         <Link href="/trivia" className="font-semibold text-white/80 underline underline-offset-4 hover:text-white">Trivia</Link>
         <Link href="/politicas" className="hover:text-white">Políticas</Link>
         <span>{siteConfig.city}</span>

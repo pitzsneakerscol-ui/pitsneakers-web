@@ -1677,6 +1677,13 @@ body {
 @keyframes pl-float { 50% { transform: translateY(-8px) rotate(-1.5deg); } }
 @media (prefers-reduced-motion: reduce) { .pl-logo { animation: none; } }
 
+.pl-timer-urgent { animation: pl-pulse 1.4s ease-in-out infinite; }
+.pl-timer-frantic { animation: pl-shake 0.5s linear infinite, pl-pulse 0.6s ease-in-out infinite; }
+.pl-colon { animation: pl-blink 1s steps(1) infinite; }
+.pl-bar { transition: width 0.2s linear; box-shadow: 0 0 12px rgba(200, 64, 40, 0.8); }
+@keyframes pl-blink { 50% { opacity: 0.2; } }
+@keyframes pl-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-1.5px); } 75% { transform: translateX(1.5px); } }
+@media (prefers-reduced-motion: reduce) { .pl-timer-urgent, .pl-timer-frantic, .pl-colon { animation: none; } }
 .au-urgent { animation: pl-pulse 1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .au-urgent { animation: none; } }
 

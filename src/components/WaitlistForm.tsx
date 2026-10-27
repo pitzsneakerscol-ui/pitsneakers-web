@@ -1,42 +1,19 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { joinList } from "@/app/proximamente/actions";
 import { submitWith } from "@/components/reseller/ui";
 
-/** Formulario de la lista de espera: correo → pase personal para la subasta. */
+/** Formulario de la lista de espera: el correo queda inscrito para el lanzamiento. */
 export default function WaitlistForm() {
   const [state, action, pending] = useActionState(joinList, undefined);
-  const [copied, setCopied] = useState(false);
-
-  async function copy(code: string) {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* sin portapapeles: el código queda visible para copiarlo a mano */
-    }
-  }
 
   if (state?.ok) {
     return (
       <div className="pl-done rounded-2xl border border-accent/50 bg-white/5 p-6 text-center backdrop-blur">
-        <p className="text-4xl" aria-hidden="true">🔨</p>
+        <p className="text-4xl" aria-hidden="true">✅</p>
         <h2 className="mt-2 font-display text-3xl tracking-wide">¡Ya estás en la lista!</h2>
-        {state.code && (
-          <button
-            type="button"
-            onClick={() => copy(state.code!)}
-            className="mt-4 inline-flex items-center gap-2 rounded-xl border border-dashed border-accent bg-accent/10 px-5 py-3 font-display text-2xl tracking-[0.2em] text-accent transition hover:bg-accent/20"
-            aria-label={`Copiar el código ${state.code}`}
-          >
-            {state.code}
-            <span className="font-sans text-[10px] font-semibold uppercase tracking-wider text-white/70">{copied ? "Copiado" : "Copiar"}</span>
-          </button>
-        )}
-        {state.code && <p className="mt-2 text-sm text-white/80">Es tu pase personal para la subasta exclusiva.</p>}
         <p className="mt-2 text-sm text-white/70">{state.message}</p>
       </div>
     );
@@ -61,7 +38,7 @@ export default function WaitlistForm() {
           disabled={pending}
           className="pl-cta inline-flex shrink-0 items-center justify-center rounded-full bg-accent px-7 py-3.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110 disabled:opacity-60"
         >
-          {pending ? "Inscribiendo…" : "Quiero entrar a la subasta"}
+          {pending ? "Inscribiendo…" : "Quiero entrar primero"}
         </button>
       </div>
       {/* Campo trampa para bots: las personas no lo ven. */}
@@ -70,7 +47,7 @@ export default function WaitlistForm() {
       </div>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/15 px-4 py-3 text-sm text-white">{state.error}</p>}
       <p className="text-center text-xs text-white/50">
-        Sin spam. Solo tu pase y los avisos de subasta y trivia. Al inscribirte aceptas el tratamiento de tus datos según nuestras{" "}
+        Sin spam. Solo el aviso del lanzamiento y las novedades de trivia. Al inscribirte aceptas el tratamiento de tus datos según nuestras{" "}
         <Link href="/politicas#datos" className="underline underline-offset-2 hover:text-white">políticas</Link>.
       </p>
     </form>
