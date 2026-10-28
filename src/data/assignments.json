@@ -4633,5 +4633,47 @@
     "price": 790000,
     "condition": "nuevo",
     "image": "/products/AJ1-65.e6b809a4.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-panda-2-0",
+    "name": "Dunk Panda 2.0",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-30",
+    "sizes": [
+      "9"
+    ],
+    "price": 790000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-30.2766582a.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-air-force-1-low-ano-del-tigre",
+    "name": "Air Force 1 Low Año del Tigre",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "AF1-25",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/AF1-25.b24fe2d1.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-4-vivid-sulfur",
+    "name": "Jordan 4 Vivid Sulfur",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-29",
+    "sizes": [
+      "7"
+    ],
+    "price": 1450000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-29.c40e55ef.webp"
   }
 ]

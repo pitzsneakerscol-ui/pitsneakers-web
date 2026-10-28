@@ -12894,5 +12894,65 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:23:00.000Z"
+  },
+  {
+    "id": "DUNK-30",
+    "slug": "nike-dunk-panda-2-0",
+    "name": "Dunk Panda 2.0",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 790000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-30.2766582a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:24:00.000Z"
+  },
+  {
+    "id": "AF1-25",
+    "slug": "nike-air-force-1-low-ano-del-tigre",
+    "name": "Air Force 1 Low Año del Tigre",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-25.b24fe2d1.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:25:00.000Z"
+  },
+  {
+    "id": "AJ4-29",
+    "slug": "jordan-jordan-4-vivid-sulfur",
+    "name": "Jordan 4 Vivid Sulfur",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1450000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-29.c40e55ef.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:26:00.000Z"
   }
 ]
