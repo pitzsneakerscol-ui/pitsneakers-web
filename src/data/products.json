@@ -12621,5 +12621,245 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:09:00.000Z"
+  },
+  {
+    "id": "MIND002-05",
+    "slug": "nike-mind-002-black-2",
+    "name": "Mind 002 Black",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND002-05.590d35fb.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:10:00.000Z"
+  },
+  {
+    "id": "ASICS-18",
+    "slug": "asics-gel-1130-cream-oxblood",
+    "name": "Gel-1130 Cream Oxblood",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-18.feef8116.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:11:00.000Z"
+  },
+  {
+    "id": "AF1-24",
+    "slug": "nike-air-force-1-low-supreme-white",
+    "name": "Air Force 1 Low Supreme White",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 950000,
+    "promo": false,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-10.59ea1cd6.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:12:00.000Z"
+  },
+  {
+    "id": "VANS-01",
+    "slug": "vans-lx-old-skool-36-pearlized-pack-yacht-club",
+    "name": "LX Old Skool 36 Pearlized Pack Yacht Club",
+    "brand": "Vans",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/VANS-01.b5f0de29.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:13:00.000Z"
+  },
+  {
+    "id": "AM90-02",
+    "slug": "nike-air-max-90-undftd-blanco-y-verde",
+    "name": "Air Max 90 UNDFTD Blanco y Verde",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AM90-02.78cb1f7b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:14:00.000Z"
+  },
+  {
+    "id": "DUNK-28",
+    "slug": "nike-dunk-low-union-pack-court-violeta",
+    "name": "Dunk Low Union Pack Court Violeta",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-28.ba71d149.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:15:00.000Z"
+  },
+  {
+    "id": "DUNK-29",
+    "slug": "nike-dunk-low-union-passport-pack-gris-pistacho",
+    "name": "Dunk Low Union Passport Pack Gris Pistacho",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-29.d3cb0596.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:16:00.000Z"
+  },
+  {
+    "id": "FIELDJAXX-02",
+    "slug": "nike-zoom-field-jaxx-travis-scott-light-chocolate",
+    "name": "Zoom Field Jaxx Travis Scott Light Chocolate",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 850000,
+    "promo": false,
+    "sizes": [
+      "10.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/FIELDJAXX-02.1400bdd6.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:17:00.000Z"
+  },
+  {
+    "id": "ASICS-19",
+    "slug": "asics-gt-2160-miami-dolphins",
+    "name": "GT-2160 Miami Dolphins",
+    "brand": "Asics",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ASICS-19.da670f66.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:18:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-51",
+    "slug": "nike-sb-dunk-low-city-of-love-blanco-hueso-claro",
+    "name": "SB Dunk Low City of Love Blanco Hueso Claro",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1000000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-51.532dd4c4.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:19:00.000Z"
+  },
+  {
+    "id": "AM95-02",
+    "slug": "nike-air-max-95-sb-flor-cactus-2",
+    "name": "Air Max 95 SB Flor Cactus",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AM95-01.233d93ff.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:20:00.000Z"
+  },
+  {
+    "id": "ADIDAS-17",
+    "slug": "adidas-adistar-control-5-unheardof-pork-chop-piggy-runner-2-0-steve-o",
+    "name": "Adistar Control 5 Unheardof Pork Chop Piggy Runner 2.0 Steve-O",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "7.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/ADIDAS-17.acd9c6d8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:21:00.000Z"
   }
 ]
