@@ -66,13 +66,20 @@ function photosFirst(groups: ProductGroup[]): ProductGroup[] {
   return [...groups.filter((g) => g.images.length > 0), ...groups.filter((g) => g.images.length === 0)];
 }
 
-/** Destacados: los pares más costosos (por el precio de su talla más cara), solo sneakers y con foto. */
+// Pares que el dueño fija al inicio de Destacados (por el groupSlug del modelo), antes de los más costosos.
+const FEATURED_PINNED = ["adidas-jellyfish-red", "adidas-jellyfish-storm"];
+
+/** Destacados: primero los fijados a mano y luego los pares más costosos (por el precio de su talla más cara), solo sneakers y con foto. */
 export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  return groups
-    .filter((g) => g.category === "sneakers" && g.images.length > 0)
-    .sort((a, b) => groupPriceRange(b).max - groupPriceRange(a).max)
-    .slice(0, limit);
+  const pool = groups.filter((g) => g.category === "sneakers" && g.images.length > 0);
+  const pinned = FEATURED_PINNED.map((slug) => pool.find((g) => g.groupSlug === slug)).filter(
+    (g): g is ProductGroup => g !== undefined
+  );
+  const rest = pool
+    .filter((g) => !pinned.includes(g))
+    .sort((a, b) => groupPriceRange(b).max - groupPriceRange(a).max);
+  return [...pinned, ...rest].slice(0, limit);
 }
 
 export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[]> {
