@@ -38,6 +38,17 @@ export default async function StreetwearPage({
         </p>
       </div>
 
+      <div
+        role="status"
+        className="mt-8 flex items-start gap-3 rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 sm:items-center sm:px-5"
+      >
+        <span className="text-lg leading-none" aria-hidden="true">🚧</span>
+        <p className="text-sm text-ink">
+          <strong className="font-semibold">Categoría en proceso.</strong>{" "}
+          Estamos subiendo más prendas poco a poco; pronto habrá más para ver.
+        </p>
+      </div>
+
       <Suspense>
         <CatalogFilters brands={brands} sizes={sizes} />
       </Suspense>
