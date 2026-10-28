@@ -10,6 +10,7 @@ import CheckoutForm from "@/components/CheckoutForm";
 import OfferBox from "@/components/cuenta/OfferBox";
 import { shareLink } from "@/lib/native";
 import SizeHelp from "@/components/SizeHelp";
+import { btnAccent } from "@/components/reseller/ui";
 
 interface Option {
   key: string;
@@ -228,7 +229,7 @@ export default function ProductPurchasePanel({
         {!multiVariant || selected ? (
           <>
             {payEnabled && (
-              <div className="mb-3">
+              <div id="comprar-ahora" className="mb-3 scroll-mt-24">
                 <CheckoutForm
                   key={selected?.key ?? "unico"}
                   productId={(selected ? selected.variant : options[0].variant).id}
@@ -287,7 +288,18 @@ export default function ProductPurchasePanel({
               </p>
               <p className={`text-lg font-semibold ${activePromo ? "text-accent" : ""}`}>{priceLabel}</p>
             </div>
-            {ready ? (
+            {ready && payEnabled ? (
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(new Event("pit:open-checkout"));
+                  setTimeout(() => document.getElementById("comprar-ahora")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+                }}
+                className={`${btnAccent} min-w-0 flex-1 !px-4 !py-3 !text-sm`}
+              >
+                Comprar ahora
+              </button>
+            ) : ready ? (
               <WhatsAppButtonLarge
                 product={selected ? selected.variant : options[0].variant}
                 size={selected ? selected.size : undefined}

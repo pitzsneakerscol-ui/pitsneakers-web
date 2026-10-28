@@ -15,6 +15,12 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
   const [state, action, pending] = useActionState(startCheckout, undefined);
   // Beneficio de liga: si hay un comprador con sesión cuya liga cubre parte del costo, se descuenta.
   const [perk, setPerk] = useState<{ pct: number; league: string }>({ pct: 0, league: "" });
+  // El botón fijo de la página de producto (celular) abre este formulario.
+  useEffect(() => {
+    const abrir = () => setOpen(true);
+    window.addEventListener("pit:open-checkout", abrir);
+    return () => window.removeEventListener("pit:open-checkout", abrir);
+  }, []);
   useEffect(() => {
     if (!open) return;
     let live = true;
