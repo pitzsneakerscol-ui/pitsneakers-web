@@ -66,7 +66,7 @@ export default async function CategoryBanners() {
           <Reveal key={category.href} delay={i * 120} className="h-full">
             <Link
               href={category.href}
-              className="card-lift group relative flex flex-col gap-6 overflow-hidden rounded-lg bg-[#ebe8e2] p-6 sm:p-8"
+              className="card-lift group relative flex flex-col gap-6 overflow-hidden rounded-lg border border-transparent bg-[#ebe8e2] p-6 sm:p-8 [html.site-dark_&]:border-line [html.site-dark_&]:bg-paper-raised"
             >
               {/* Palabra gigante de fondo */}
               <span
@@ -99,7 +99,7 @@ export default async function CategoryBanners() {
                   {category.label}
                 </h3>
                 <p className="mt-2 max-w-xs text-sm text-muted">{category.description}</p>
-                <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition group-hover:bg-accent">
+                <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition group-hover:bg-accent [html.site-dark_&]:!bg-[#f2efe9] [html.site-dark_&]:!text-[#0a0a0a] [html.site-dark_&]:group-hover:!bg-accent [html.site-dark_&]:group-hover:!text-white">
                   Ver todo
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span>
                 </span>
