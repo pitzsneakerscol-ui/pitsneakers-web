@@ -11524,33 +11524,6 @@
     "dateAdded": "1970-01-01T09:15:00.000Z"
   },
   {
-    "id": "SLMN-10",
-    "slug": "salomon-acs-nexxt-x-feid-the-green-star-black-3",
-    "name": "ACS Nexxt x Feid The Green Star Black",
-    "brand": "Salomon",
-    "category": "sneakers",
-    "price": 820000,
-    "priceBefore": 960000,
-    "promo": true,
-    "sizes": [
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11"
-    ],
-    "condition": "nuevo",
-    "description": "Nuevo con caja. Comisión incluida en el precio.",
-    "images": [
-      "/products/SLMN-08.520fb44f.webp"
-    ],
-    "featured": false,
-    "isNew": false,
-    "dateAdded": "1970-01-01T09:16:00.000Z"
-  },
-  {
     "id": "YZY-SLIDE-34",
     "slug": "adidas-yeezy-slide-azure-7",
     "name": "Yeezy Slide Azure",
@@ -11568,7 +11541,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:17:00.000Z"
+    "dateAdded": "1970-01-01T09:16:00.000Z"
   },
   {
     "id": "YZY700-21",
@@ -11588,7 +11561,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:18:00.000Z"
+    "dateAdded": "1970-01-01T09:17:00.000Z"
   },
   {
     "id": "YZY-FOAM-21",
@@ -11608,7 +11581,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:19:00.000Z"
+    "dateAdded": "1970-01-01T09:18:00.000Z"
   },
   {
     "id": "ASICS-17",
@@ -11628,7 +11601,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:20:00.000Z"
+    "dateAdded": "1970-01-01T09:19:00.000Z"
   },
   {
     "id": "DUNK-19",
@@ -11648,7 +11621,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:21:00.000Z"
+    "dateAdded": "1970-01-01T09:20:00.000Z"
   },
   {
     "id": "FORUMBAPE-02",
@@ -11668,7 +11641,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:22:00.000Z"
+    "dateAdded": "1970-01-01T09:21:00.000Z"
   },
   {
     "id": "ADI2000-02",
@@ -11689,7 +11662,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:23:00.000Z"
+    "dateAdded": "1970-01-01T09:22:00.000Z"
   },
   {
     "id": "AJ1-51",
@@ -11709,7 +11682,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:24:00.000Z"
+    "dateAdded": "1970-01-01T09:23:00.000Z"
   },
   {
     "id": "AF1-19",
@@ -11729,7 +11702,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:25:00.000Z"
+    "dateAdded": "1970-01-01T09:24:00.000Z"
   },
   {
     "id": "AF1-20",
@@ -11749,7 +11722,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:26:00.000Z"
+    "dateAdded": "1970-01-01T09:25:00.000Z"
   },
   {
     "id": "AMECSTASY-01",
@@ -11772,7 +11745,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:27:00.000Z"
+    "dateAdded": "1970-01-01T09:26:00.000Z"
   },
   {
     "id": "AMECSTASY-02",
@@ -11793,7 +11766,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:28:00.000Z"
+    "dateAdded": "1970-01-01T09:27:00.000Z"
   },
   {
     "id": "ADIDAS-11",
@@ -11815,7 +11788,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:29:00.000Z"
+    "dateAdded": "1970-01-01T09:28:00.000Z"
   },
   {
     "id": "AJ1-52",
@@ -11835,7 +11808,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:30:00.000Z"
+    "dateAdded": "1970-01-01T09:29:00.000Z"
   },
   {
     "id": "DUNK-20",
@@ -11855,7 +11828,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:31:00.000Z"
+    "dateAdded": "1970-01-01T09:30:00.000Z"
   },
   {
     "id": "DUNK-21",
@@ -11875,7 +11848,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:32:00.000Z"
+    "dateAdded": "1970-01-01T09:31:00.000Z"
   },
   {
     "id": "JUMPMAN-01",
@@ -11896,7 +11869,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:33:00.000Z"
+    "dateAdded": "1970-01-01T09:32:00.000Z"
   },
   {
     "id": "SAMBABAPE-01",
@@ -11917,7 +11890,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:34:00.000Z"
+    "dateAdded": "1970-01-01T09:33:00.000Z"
   },
   {
     "id": "AJ1-53",
@@ -11937,7 +11910,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:35:00.000Z"
+    "dateAdded": "1970-01-01T09:34:00.000Z"
   },
   {
     "id": "AJ1-54",
@@ -11957,7 +11930,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:36:00.000Z"
+    "dateAdded": "1970-01-01T09:35:00.000Z"
   },
   {
     "id": "AF1-21",
@@ -11977,7 +11950,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:37:00.000Z"
+    "dateAdded": "1970-01-01T09:36:00.000Z"
   },
   {
     "id": "AJ1-55",
@@ -11997,7 +11970,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:38:00.000Z"
+    "dateAdded": "1970-01-01T09:37:00.000Z"
   },
   {
     "id": "DUNK-22",
@@ -12017,7 +11990,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:39:00.000Z"
+    "dateAdded": "1970-01-01T09:38:00.000Z"
   },
   {
     "id": "AJ1-56",
@@ -12038,7 +12011,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:40:00.000Z"
+    "dateAdded": "1970-01-01T09:39:00.000Z"
   },
   {
     "id": "STANSMITH-02",
@@ -12058,7 +12031,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:41:00.000Z"
+    "dateAdded": "1970-01-01T09:40:00.000Z"
   },
   {
     "id": "BAPESTA-01",
@@ -12078,7 +12051,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:42:00.000Z"
+    "dateAdded": "1970-01-01T09:41:00.000Z"
   },
   {
     "id": "YZY-KNIT-01",
@@ -12098,7 +12071,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:43:00.000Z"
+    "dateAdded": "1970-01-01T09:42:00.000Z"
   },
   {
     "id": "AF1-22",
@@ -12119,7 +12092,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:44:00.000Z"
+    "dateAdded": "1970-01-01T09:43:00.000Z"
   },
   {
     "id": "DUNK-23",
@@ -12139,7 +12112,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:45:00.000Z"
+    "dateAdded": "1970-01-01T09:44:00.000Z"
   },
   {
     "id": "AJ1-57",
@@ -12159,7 +12132,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:46:00.000Z"
+    "dateAdded": "1970-01-01T09:45:00.000Z"
   },
   {
     "id": "AJ1-58",
@@ -12179,7 +12152,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:47:00.000Z"
+    "dateAdded": "1970-01-01T09:46:00.000Z"
   },
   {
     "id": "AJ1-59",
@@ -12199,7 +12172,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:48:00.000Z"
+    "dateAdded": "1970-01-01T09:47:00.000Z"
   },
   {
     "id": "ADIDAS-12",
@@ -12220,7 +12193,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:49:00.000Z"
+    "dateAdded": "1970-01-01T09:48:00.000Z"
   },
   {
     "id": "JUMPMAN-02",
@@ -12240,7 +12213,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:50:00.000Z"
+    "dateAdded": "1970-01-01T09:49:00.000Z"
   },
   {
     "id": "MIND002-04",
@@ -12260,7 +12233,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:51:00.000Z"
+    "dateAdded": "1970-01-01T09:50:00.000Z"
   },
   {
     "id": "AJ1-60",
@@ -12280,7 +12253,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:52:00.000Z"
+    "dateAdded": "1970-01-01T09:51:00.000Z"
   },
   {
     "id": "DUNK-24",
@@ -12300,7 +12273,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:53:00.000Z"
+    "dateAdded": "1970-01-01T09:52:00.000Z"
   },
   {
     "id": "AJ1-61",
@@ -12320,7 +12293,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:54:00.000Z"
+    "dateAdded": "1970-01-01T09:53:00.000Z"
   },
   {
     "id": "AJ1-62",
@@ -12340,7 +12313,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:55:00.000Z"
+    "dateAdded": "1970-01-01T09:54:00.000Z"
   },
   {
     "id": "DUNK-25",
@@ -12360,7 +12333,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:56:00.000Z"
+    "dateAdded": "1970-01-01T09:55:00.000Z"
   },
   {
     "id": "DUNK-26",
@@ -12380,7 +12353,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:57:00.000Z"
+    "dateAdded": "1970-01-01T09:56:00.000Z"
   },
   {
     "id": "AJ4-26",
@@ -12400,7 +12373,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:58:00.000Z"
+    "dateAdded": "1970-01-01T09:57:00.000Z"
   },
   {
     "id": "ADIDAS-13",
@@ -12420,7 +12393,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T09:59:00.000Z"
+    "dateAdded": "1970-01-01T09:58:00.000Z"
   },
   {
     "id": "AJ4-27",
@@ -12440,7 +12413,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:00:00.000Z"
+    "dateAdded": "1970-01-01T09:59:00.000Z"
   },
   {
     "id": "AJ1-63",
@@ -12460,7 +12433,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:01:00.000Z"
+    "dateAdded": "1970-01-01T10:00:00.000Z"
   },
   {
     "id": "AMECSTASY-03",
@@ -12480,7 +12453,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:02:00.000Z"
+    "dateAdded": "1970-01-01T10:01:00.000Z"
   },
   {
     "id": "NB-23",
@@ -12500,7 +12473,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:03:00.000Z"
+    "dateAdded": "1970-01-01T10:02:00.000Z"
   },
   {
     "id": "AF1-23",
@@ -12520,7 +12493,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:04:00.000Z"
+    "dateAdded": "1970-01-01T10:03:00.000Z"
   },
   {
     "id": "ADIDAS-14",
@@ -12540,7 +12513,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:05:00.000Z"
+    "dateAdded": "1970-01-01T10:04:00.000Z"
   },
   {
     "id": "ADIDAS-15",
@@ -12560,7 +12533,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:06:00.000Z"
+    "dateAdded": "1970-01-01T10:05:00.000Z"
   },
   {
     "id": "ADIDAS-16",
@@ -12580,7 +12553,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:07:00.000Z"
+    "dateAdded": "1970-01-01T10:06:00.000Z"
   },
   {
     "id": "DUNK-27",
@@ -12600,7 +12573,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:08:00.000Z"
+    "dateAdded": "1970-01-01T10:07:00.000Z"
   },
   {
     "id": "AJ4-28",
@@ -12620,7 +12593,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:09:00.000Z"
+    "dateAdded": "1970-01-01T10:08:00.000Z"
   },
   {
     "id": "MIND002-05",
@@ -12640,7 +12613,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:10:00.000Z"
+    "dateAdded": "1970-01-01T10:09:00.000Z"
   },
   {
     "id": "ASICS-18",
@@ -12660,7 +12633,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:11:00.000Z"
+    "dateAdded": "1970-01-01T10:10:00.000Z"
   },
   {
     "id": "AF1-24",
@@ -12680,7 +12653,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:12:00.000Z"
+    "dateAdded": "1970-01-01T10:11:00.000Z"
   },
   {
     "id": "VANS-01",
@@ -12700,7 +12673,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:13:00.000Z"
+    "dateAdded": "1970-01-01T10:12:00.000Z"
   },
   {
     "id": "AM90-02",
@@ -12720,7 +12693,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:14:00.000Z"
+    "dateAdded": "1970-01-01T10:13:00.000Z"
   },
   {
     "id": "DUNK-28",
@@ -12740,7 +12713,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:15:00.000Z"
+    "dateAdded": "1970-01-01T10:14:00.000Z"
   },
   {
     "id": "DUNK-29",
@@ -12760,7 +12733,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:16:00.000Z"
+    "dateAdded": "1970-01-01T10:15:00.000Z"
   },
   {
     "id": "FIELDJAXX-02",
@@ -12780,7 +12753,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:17:00.000Z"
+    "dateAdded": "1970-01-01T10:16:00.000Z"
   },
   {
     "id": "ASICS-19",
@@ -12800,7 +12773,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:18:00.000Z"
+    "dateAdded": "1970-01-01T10:17:00.000Z"
   },
   {
     "id": "SB-DUNK-51",
@@ -12820,7 +12793,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:19:00.000Z"
+    "dateAdded": "1970-01-01T10:18:00.000Z"
   },
   {
     "id": "AM95-02",
@@ -12840,7 +12813,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:20:00.000Z"
+    "dateAdded": "1970-01-01T10:19:00.000Z"
   },
   {
     "id": "ADIDAS-17",
@@ -12860,7 +12833,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:21:00.000Z"
+    "dateAdded": "1970-01-01T10:20:00.000Z"
   },
   {
     "id": "SB-DUNK-52",
@@ -12880,7 +12853,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:22:00.000Z"
+    "dateAdded": "1970-01-01T10:21:00.000Z"
   },
   {
     "id": "AJ1-164",
@@ -12900,6 +12873,6 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:23:00.000Z"
+    "dateAdded": "1970-01-01T10:22:00.000Z"
   }
 ]
