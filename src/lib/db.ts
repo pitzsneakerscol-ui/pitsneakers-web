@@ -419,9 +419,22 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
   ],
 };
 
-type Cache = { ready?: Promise<Client> };
+type Cache = { ready?: Promise<Client>; read?: Client };
 const g = globalThis as unknown as { __rvDb?: Cache };
 const cache: Cache = (g.__rvDb ??= {});
+
+/**
+ * Conexión de solo lectura para las páginas públicas: no prepara el esquema. getDb() corre unas 60 consultas de preparación
+ * en cada arranque del servidor, y contra una base remota eso son segundos antes de poder mostrar el catálogo.
+ */
+export function getReadDb(): Client {
+  if (cache.read) return cache.read;
+  const url = resolveUrl();
+  if (!url) throw new Error("DATABASE_URL no esta configurada.");
+  if (url.startsWith("file:")) mkdirSync(".data", { recursive: true });
+  cache.read = createClient({ url, authToken: envValue("DATABASE_AUTH_TOKEN") || undefined });
+  return cache.read;
+}
 
 export async function getDb(): Promise<Client> {
   if (cache.ready) return cache.ready;

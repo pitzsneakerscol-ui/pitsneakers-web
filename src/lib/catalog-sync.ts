@@ -1,6 +1,7 @@
 import "server-only";
 import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
+import { resetLiveOverlay } from "@/lib/catalog-live";
 import { getStaticProducts } from "@/lib/products";
 import { groupProducts } from "@/lib/grouping";
 import type { SellerAssignment } from "@/lib/sheet-source";
@@ -255,4 +256,5 @@ export async function applyCatalogPlan(plan: CatalogPlan, now: number): Promise<
       args: [now, plan.live.length, plan.hidden.length, plan.pending.length],
     },
   ]);
+  resetLiveOverlay();
 }
