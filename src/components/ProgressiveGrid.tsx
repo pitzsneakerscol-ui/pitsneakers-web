@@ -50,9 +50,6 @@ export default function ProgressiveGrid({
       </div>
       {!done && (
         <div ref={sentinel} className="mt-12 flex flex-col items-center gap-3">
-          <p className="text-xs uppercase tracking-wide text-muted">
-            Mostrando {visible} de {total}
-          </p>
           <button
             type="button"
             onClick={() => setVisible((v) => v + pageSize)}

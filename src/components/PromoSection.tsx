@@ -50,7 +50,7 @@ export default async function PromoSection() {
               href="/sale"
               className="inline-block rounded-full bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white hover:opacity-90"
             >
-              Ver todo el sale ({groups.length})
+              Ver todo el sale
             </Link>
           </div>
         )}

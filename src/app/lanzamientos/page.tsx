@@ -58,10 +58,6 @@ export default async function LanzamientosPage({
         ))}
       </div>
 
-      <p className="mt-6 text-xs uppercase tracking-wide text-muted">
-        {groups.length} {groups.length === 1 ? "resultado" : "resultados"}
-      </p>
-
       <div className="mt-4">
         <ProductGrid groups={groups} />
       </div>

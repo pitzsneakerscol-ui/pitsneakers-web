@@ -1,22 +1,10 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import PlayMascot from "@/components/PlayMascot";
-import { getAllProducts } from "@/lib/products";
 
 const HEADLINE = ["SNEAKERS", "Y", "STREETWEAR,", "VERIFICADOS", "PAR", "A", "PAR."];
 
-/** Pares de sneakers publicados (cada talla cuenta como un par), redondeados hacia abajo a la centena: "más de 700". */
-async function pairsLabel(): Promise<string> {
-  const products = await getAllProducts();
-  const pairs = products
-    .filter((p) => p.category === "sneakers")
-    .reduce((n, p) => n + Math.max(1, p.sizes.length), 0);
-  const floor = Math.floor(pairs / 100) * 100;
-  return floor >= 100 ? `más de ${floor.toLocaleString("es-CO")}` : "cientos de";
-}
-
-export default async function Hero() {
-  const pairs = await pairsLabel();
+export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-ink text-white">
       <div
@@ -55,7 +43,7 @@ export default async function Hero() {
           >
             Evolucionamos: de comunidad a la{" "}
             <strong className="font-semibold text-white">primera plataforma y marketplace de sneakers de Colombia</strong>.{" "}
-            <strong className="font-semibold text-white">{pairs.charAt(0).toUpperCase() + pairs.slice(1)} pares</strong> publicados y un referente en el país. Cada
+            Un referente en el país. Cada
             producto pasa por revisión física y autenticación antes de llegar a ti, y cierras tu compra directo por WhatsApp.
           </p>
           <div

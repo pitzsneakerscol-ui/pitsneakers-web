@@ -39,10 +39,7 @@ export default async function SalePage() {
 
       {groups.length > 0 ? (
         <>
-          <p className="mt-8 border-t border-line pt-4 text-xs uppercase tracking-wide text-muted">
-            {groups.length} {groups.length === 1 ? "par en sale" : "pares en sale"}
-          </p>
-          <div className="mt-4">
+          <div className="mt-8 border-t border-line pt-4">
             <ProductGrid groups={groups} />
           </div>
         </>
