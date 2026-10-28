@@ -13042,5 +13042,25 @@
     "featured": false,
     "isNew": true,
     "dateAdded": "1970-01-01T10:30:00.000Z"
+  },
+  {
+    "id": "AJ4-30",
+    "slug": "jordan-jordan-4-off-white-sail",
+    "name": "Jordan 4 Off-White Sail",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 3500000,
+    "promo": false,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Talla 8.5 US hombre / 10 US mujer. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-30.8df496ba.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:31:00.000Z"
   }
 ]

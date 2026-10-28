@@ -4735,5 +4735,19 @@
     "condition": "nuevo",
     "image": "/products/GODSPEED-04.03346b3a.webp",
     "kind": "accesorio"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "jordan-jordan-4-off-white-sail",
+    "name": "Jordan 4 Off-White Sail",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-30",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 3500000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-30.8df496ba.webp"
   }
 ]
