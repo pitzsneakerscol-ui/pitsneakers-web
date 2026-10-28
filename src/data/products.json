@@ -12856,7 +12856,7 @@
     "dateAdded": "1970-01-01T10:21:00.000Z"
   },
   {
-    "id": "AJ1-164",
+    "id": "AJ1-64",
     "slug": "jordan-jordan-1-mid-metallic-gold-black",
     "name": "Jordan 1 Mid Metallic Gold Black",
     "brand": "Jordan",
@@ -12869,10 +12869,30 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/AJ1-164.fdee5843.webp"
+      "/products/AJ1-64.fdee5843.webp"
     ],
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:22:00.000Z"
+  },
+  {
+    "id": "AJ1-65",
+    "slug": "jordan-jordan-1-low-wear-away-mocha",
+    "name": "Jordan 1 Low Wear Away Mocha",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 790000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-65.e6b809a4.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:23:00.000Z"
   }
 ]

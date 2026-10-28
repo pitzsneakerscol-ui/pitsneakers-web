@@ -4612,12 +4612,26 @@
     "name": "Jordan 1 Mid Metallic Gold Black",
     "brand": "Jordan",
     "colorway": "",
-    "sku": "AJ1-164",
+    "sku": "AJ1-64",
     "sizes": [
       "6.5"
     ],
     "price": 650000,
     "condition": "nuevo",
-    "image": "/products/AJ1-164.fdee5843.webp"
+    "image": "/products/AJ1-64.fdee5843.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-wear-away-mocha",
+    "name": "Jordan 1 Low Wear Away Mocha",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-65",
+    "sizes": [
+      "11"
+    ],
+    "price": 790000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-65.e6b809a4.webp"
   }
 ]
