@@ -65,7 +65,6 @@ export default function MobileTabBar({ sellEnabled = false }: { sellEnabled?: bo
     { key: "home", label: "Inicio", href: "/", icon: <HomeIcon className="h-6 w-6" />, match: (p) => p === "/" },
     { key: "sneakers", label: "Sneakers", href: "/sneakers", icon: <ShoeIcon className="h-6 w-6" />, match: (p) => p.startsWith("/sneakers") },
     { key: "streetwear", label: "Ropa", href: "/streetwear", icon: <ShirtIcon className="h-6 w-6" />, match: (p) => p.startsWith("/streetwear") },
-    { key: "search", label: "Buscar", icon: <SearchIcon className="h-6 w-6" />, match: () => false },
     sellEnabled
       ? {
           key: "sell",
@@ -82,6 +81,7 @@ export default function MobileTabBar({ sellEnabled = false }: { sellEnabled?: bo
           icon: <ChatIcon className="h-6 w-6" />,
           match: () => false,
         },
+    { key: "search", label: "Buscar", icon: <SearchIcon className="h-6 w-6" />, match: () => false },
   ];
 
   const itemCls = (active: boolean) =>
