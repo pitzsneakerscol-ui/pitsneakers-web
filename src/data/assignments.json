@@ -4381,5 +4381,47 @@
     "price": 1270000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-15.3d6d79d7.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "adidas-jellyfish-red-3",
+    "name": "Jellyfish Red",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-16",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1270000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-13.93531025.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "nike-dunk-low-premium-lila",
+    "name": "Dunk Low Premium Lila",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-27",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-27.378de09a.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "jordan-jordan-4-valentines-day-sierra-red",
+    "name": "Jordan 4 Valentines Day Sierra Red",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-28",
+    "sizes": [
+      "7"
+    ],
+    "price": 1000000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-28.9de2118d.webp"
   }
 ]
