@@ -43,8 +43,7 @@ export default function Hero() {
           >
             Evolucionamos: de comunidad a la{" "}
             <strong className="font-semibold text-white">primera plataforma y marketplace de sneakers de Colombia</strong>.{" "}
-            Un referente en el país. Cada
-            producto pasa por revisión física y autenticación antes de llegar a ti, y compras con la seguridad de nuestra consignación.
+            Cada par pasa por revisión física y autenticación antes de llegar a ti.
           </p>
           <div
             className="fade-up mt-6 flex gap-3 sm:mt-10"
