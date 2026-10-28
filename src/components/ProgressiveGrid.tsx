@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CardGroup } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
-import Reveal from "@/components/Reveal";
 
 // Tarjetas cuya foto se pide de una vez (lo que se ve al abrir): una pantalla en celular, una fila en computador.
 const EAGER = 6;
@@ -42,10 +41,11 @@ export default function ProgressiveGrid({
   return (
     <>
       <div className={className}>
+        {/* Sin animación de entrada: en iPhone el navegador avisa tarde de lo que entra a la pantalla y las tarjetas se quedaban en blanco mientras se deslizaba. */}
         {groups.slice(0, visible).map((group, i) => (
-          <Reveal key={group.groupSlug} delay={(i % 4) * 70} className="h-full">
+          <div key={group.groupSlug} className="h-full">
             <ProductCard group={group} eager={i < EAGER} />
-          </Reveal>
+          </div>
         ))}
       </div>
       {!done && (

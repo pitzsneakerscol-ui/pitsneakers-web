@@ -58,7 +58,7 @@ export default function ProductMedia({
           io.disconnect();
         }
       },
-      { rootMargin: "700px 0px" }
+      { rootMargin: "1400px 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
