@@ -12861,5 +12861,45 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:21:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-52",
+    "slug": "nike-sb-dunk-low-adobe",
+    "name": "SB Dunk Low Adobe",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-52.db82d70a.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:22:00.000Z"
+  },
+  {
+    "id": "AJ1-164",
+    "slug": "jordan-jordan-1-mid-metallic-gold-black",
+    "name": "Jordan 1 Mid Metallic Gold Black",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "6.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-164.fdee5843.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:23:00.000Z"
   }
 ]

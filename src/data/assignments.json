@@ -4591,5 +4591,33 @@
     "price": 900000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-17.acd9c6d8.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-sb-dunk-low-adobe",
+    "name": "SB Dunk Low Adobe",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "SB-DUNK-52",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/SB-DUNK-52.db82d70a.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-mid-metallic-gold-black",
+    "name": "Jordan 1 Mid Metallic Gold Black",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-164",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-164.fdee5843.webp"
   }
 ]
