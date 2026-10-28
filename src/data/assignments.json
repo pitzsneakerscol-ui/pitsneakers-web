@@ -4675,5 +4675,35 @@
     "price": 1450000,
     "condition": "nuevo",
     "image": "/products/AJ4-29.c40e55ef.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "godspeed-cap-4-ever-baby-blue",
+    "name": "Cap 4 Ever Baby Blue",
+    "brand": "Godspeed",
+    "colorway": "",
+    "sku": "GODSPEED-01",
+    "sizes": [
+      "Regulable"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/GODSPEED-01.ccd00cf1.webp",
+    "kind": "accesorio"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "godspeed-cap-4-ever-turquoise-black",
+    "name": "Cap 4 Ever Turquoise Black",
+    "brand": "Godspeed",
+    "colorway": "",
+    "sku": "GODSPEED-02",
+    "sizes": [
+      "Regulable"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/GODSPEED-02.799b289b.webp",
+    "kind": "accesorio"
   }
 ]

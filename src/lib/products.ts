@@ -82,10 +82,18 @@ export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
   return [...pinned, ...rest].slice(0, limit);
 }
 
+// Mínimo de tarjetas en la página de lanzamientos, aunque haya pocos marcados como nuevos.
+const MIN_ARRIVALS = 12;
+
 export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
   const news = photosFirst(groups.filter((g) => g.isNew));
-  const pool = news.length > 0 ? news : photosFirst(groups);
+  // Los marcados como lanzamiento van primero; si son pocos, se completa con lo más reciente para que la sección no quede casi vacía.
+  const min = limit ?? MIN_ARRIVALS;
+  const pool =
+    news.length >= min
+      ? news
+      : [...news, ...photosFirst(groups.filter((g) => !g.isNew)).slice(0, min - news.length)];
   return typeof limit === "number" ? pool.slice(0, limit) : pool;
 }
 

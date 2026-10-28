@@ -12954,5 +12954,49 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:26:00.000Z"
+  },
+  {
+    "id": "GODSPEED-01",
+    "slug": "godspeed-cap-4-ever-baby-blue",
+    "name": "Cap 4 Ever Baby Blue",
+    "brand": "Godspeed",
+    "category": "streetwear",
+    "subcategory": "accesorio",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con etiquetas. Comisión incluida en el precio.",
+    "images": [
+      "/products/GODSPEED-01.ccd00cf1.webp",
+      "/products/GODSPEED-01-2.7a4872ca.webp"
+    ],
+    "featured": false,
+    "isNew": true,
+    "dateAdded": "1970-01-01T10:27:00.000Z"
+  },
+  {
+    "id": "GODSPEED-02",
+    "slug": "godspeed-cap-4-ever-turquoise-black",
+    "name": "Cap 4 Ever Turquoise Black",
+    "brand": "Godspeed",
+    "category": "streetwear",
+    "subcategory": "accesorio",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con etiquetas. Comisión incluida en el precio.",
+    "images": [
+      "/products/GODSPEED-02.799b289b.webp",
+      "/products/GODSPEED-02-2.d7f7b494.webp"
+    ],
+    "featured": false,
+    "isNew": true,
+    "dateAdded": "1970-01-01T10:28:00.000Z"
   }
 ]
