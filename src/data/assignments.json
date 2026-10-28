@@ -4705,5 +4705,20 @@
     "condition": "nuevo",
     "image": "/products/GODSPEED-02.799b289b.webp",
     "kind": "accesorio"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "godspeed-cap-4-ever-royal-blue-orange",
+    "name": "Cap 4 Ever Royal Blue Orange",
+    "brand": "Godspeed",
+    "colorway": "",
+    "sku": "GODSPEED-03",
+    "sizes": [
+      "Regulable"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/GODSPEED-03.d4a4145c.webp",
+    "kind": "accesorio"
   }
 ]
