@@ -4367,5 +4367,19 @@
     "price": 1400000,
     "condition": "nuevo",
     "image": "/products/ADIDAS-13.93531025.webp"
+  },
+  {
+    "seller": "drrip.814",
+    "slug": "adidas-jellyfish-storm",
+    "name": "Jellyfish Storm",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "ADIDAS-15",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 1270000,
+    "condition": "nuevo",
+    "image": "/products/ADIDAS-15.3d6d79d7.webp"
   }
 ]
