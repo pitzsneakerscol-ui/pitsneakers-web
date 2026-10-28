@@ -44,7 +44,7 @@ const steps = [
     number: "05",
     title: "Venta intermediada de forma segura",
     description:
-      "Cerramos la negociación por WhatsApp y coordinamos la entrega. En pares cobramos una comisión de " +
+      "Intermediamos el pago y coordinamos la entrega. En pares cobramos una comisión de " +
       `$${siteConfig.commission.tenis.fixed.toLocaleString("es-CO")} fijos más el envío (aprox. $${siteConfig.commission.tenis.shipping.toLocaleString("es-CO")}); en ropa y accesorios, el ${siteConfig.commission.ropa.percent}% del valor — el vendedor recibe el resto una vez confirmada la entrega.`,
   },
 ];

@@ -35,7 +35,7 @@ const sections: Section[] = [
           <li>Los precios están en pesos colombianos (COP) e incluyen la comisión de Pitsneakers. No hay cargos ocultos: los únicos valores adicionales posibles son el envío y, si pagas en línea, el costo de procesamiento del pago, y ambos se te informan antes de pagar.</li>
           <li>Las fotos corresponden al modelo. Cada publicación indica la talla, el estado (nuevo o usado) y los detalles relevantes en la descripción.</li>
           <li>La disponibilidad de cada par se confirma por nuestro equipo. Como cada par es único o de pocas unidades, puede venderse por otro canal en el mismo momento: si esto ocurre después de tu pago, te devolvemos el 100% del dinero.</li>
-          <li>Puedes comprar por WhatsApp o pagando en línea desde la página del par, cuando esté habilitado el botón <B>Comprar ahora</B>.</li>
+          <li>Compras pagando en línea desde la página del par con el botón <B>Comprar ahora</B>. Si tienes dudas antes de pagar, te atendemos por WhatsApp.</li>
         </UL>
       </>
     ),

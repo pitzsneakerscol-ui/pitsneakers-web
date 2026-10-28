@@ -8,7 +8,7 @@ import Faq, { type FaqItem } from "@/components/contact/Faq";
 
 export const metadata: Metadata = {
   title: "Contacto",
-  description: "Escríbenos por WhatsApp o Instagram — así cerramos siempre las ventas en Pitsneakers.",
+  description: "Escríbenos por WhatsApp o Instagram para resolver cualquier duda sobre un par o tu pedido en Pitsneakers.",
 };
 
 const channels = [
@@ -66,8 +66,8 @@ const faqs: FaqItem[] = [
     q: "¿Cómo compro un par?",
     a: (
       <>
-        Elige el par en el catálogo y toca <strong>Consultar por WhatsApp</strong>: el mensaje sale escrito con el
-        producto y la talla, y cerramos la compra por chat. También puedes pagar en línea con <strong>Comprar ahora</strong>.
+        Elige el par en el catálogo, selecciona tu talla y toca <strong>Comprar ahora</strong>: pagas con PSE, Nequi o
+        tarjeta y nosotros preparamos el envío. Si tienes dudas antes de comprar, escríbenos por WhatsApp.
       </>
     ),
   },
@@ -104,7 +104,7 @@ const faqs: FaqItem[] = [
     q: "¿Tienen pago en línea?",
     a: (
       <>
-        Sí: en la página de cada par puedes pulsar <strong>Comprar ahora</strong> y pagar con PSE, Nequi o tarjeta (cuando está habilitado), o cerrar la compra por WhatsApp como siempre. Mira las{" "}
+        Sí: en la página de cada par puedes pulsar <strong>Comprar ahora</strong> y pagar con PSE, Nequi o tarjeta. Mira las{" "}
         <Link href="/politicas" className="font-semibold text-ink underline underline-offset-4">políticas de compra, envíos y devoluciones</Link>.
       </>
     ),
