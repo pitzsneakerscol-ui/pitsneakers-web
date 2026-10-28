@@ -1,5 +1,5 @@
 import Link from "next/link";
-import StepsCarousel from "@/components/StepsCarousel";
+import VerifySteps from "@/components/VerifySteps";
 
 const steps = [
   {
@@ -36,7 +36,7 @@ export default function TrustSteps() {
         </div>
 
         <div className="mt-10">
-          <StepsCarousel steps={steps} cardClassName="bg-paper" showArrows={false} />
+          <VerifySteps steps={steps} />
         </div>
 
         <div className="mt-8 flex justify-center">
