@@ -14,6 +14,7 @@ function Items({ groups, hidden = false }: { groups: ProductGroup[]; hidden?: bo
           <li key={g.groupSlug}>
             <Link
               href={`/producto/${g.groupSlug}`}
+              prefetch={false}
               tabIndex={hidden ? -1 : undefined}
               className="group mx-2 flex items-center gap-3 rounded-full border border-line bg-paper-raised py-1.5 pl-1.5 pr-5 transition hover:border-ink"
             >

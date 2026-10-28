@@ -19,8 +19,10 @@ export default function ProductCard({ group, eager = false }: { group: CardGroup
   return (
     <div className="card-lift group relative flex h-full flex-col">
       <div className="relative">
+      {/* prefetch={false}: sin esto el navegador precarga cada par visible (decenas de llamadas al servidor) y compite con las fotos. */}
       <Link
         href={`/producto/${group.groupSlug}`}
+        prefetch={false}
         className="relative block aspect-square w-full overflow-hidden bg-[#ebe8e2]"
       >
         <ProductMedia
@@ -53,7 +55,7 @@ export default function ProductCard({ group, eager = false }: { group: CardGroup
       </div>
 
       <div className="mt-3 flex items-start justify-between gap-2">
-        <Link href={`/producto/${group.groupSlug}`} className="min-w-0">
+        <Link href={`/producto/${group.groupSlug}`} prefetch={false} className="min-w-0">
           <p className="truncate text-[11px] uppercase tracking-wider text-muted">
             {group.brand}
           </p>
