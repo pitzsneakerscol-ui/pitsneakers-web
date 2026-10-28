@@ -2,7 +2,7 @@ import productsFallback from "@/data/products.json";
 import { Product, ProductCategory, ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
-import { groupProducts, groupPromo } from "@/lib/grouping";
+import { groupPriceRange, groupProducts, groupPromo } from "@/lib/grouping";
 import { loadLiveOverlay } from "@/lib/catalog-live";
 
 async function loadProducts(): Promise<Product[]> {
@@ -66,11 +66,13 @@ function photosFirst(groups: ProductGroup[]): ProductGroup[] {
   return [...groups.filter((g) => g.images.length > 0), ...groups.filter((g) => g.images.length === 0)];
 }
 
+/** Destacados: los pares más costosos (por el precio de su talla más cara), solo sneakers y con foto. */
 export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  const featured = photosFirst(groups.filter((g) => g.featured));
-  const pool = featured.length >= limit ? featured : photosFirst([...featured, ...groups.filter((g) => !g.featured)]);
-  return pool.slice(0, limit);
+  return groups
+    .filter((g) => g.category === "sneakers" && g.images.length > 0)
+    .sort((a, b) => groupPriceRange(b).max - groupPriceRange(a).max)
+    .slice(0, limit);
 }
 
 export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[]> {
