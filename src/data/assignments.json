@@ -4720,5 +4720,20 @@
     "condition": "nuevo",
     "image": "/products/GODSPEED-03.d4a4145c.webp",
     "kind": "accesorio"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "godspeed-cap-4-ever-new-york",
+    "name": "Cap 4 Ever New York",
+    "brand": "Godspeed",
+    "colorway": "",
+    "sku": "GODSPEED-04",
+    "sizes": [
+      "Regulable"
+    ],
+    "price": 400000,
+    "condition": "nuevo",
+    "image": "/products/GODSPEED-04.03346b3a.webp",
+    "kind": "accesorio"
   }
 ]

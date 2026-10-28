@@ -13020,5 +13020,27 @@
     "featured": false,
     "isNew": true,
     "dateAdded": "1970-01-01T10:29:00.000Z"
+  },
+  {
+    "id": "GODSPEED-04",
+    "slug": "godspeed-cap-4-ever-new-york",
+    "name": "Cap 4 Ever New York",
+    "brand": "Godspeed",
+    "category": "streetwear",
+    "subcategory": "accesorio",
+    "price": 400000,
+    "promo": false,
+    "sizes": [
+      "Regulable"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con etiquetas. Comisión incluida en el precio.",
+    "images": [
+      "/products/GODSPEED-04.03346b3a.webp",
+      "/products/GODSPEED-04-2.089829b8.webp"
+    ],
+    "featured": false,
+    "isNew": true,
+    "dateAdded": "1970-01-01T10:30:00.000Z"
   }
 ]
