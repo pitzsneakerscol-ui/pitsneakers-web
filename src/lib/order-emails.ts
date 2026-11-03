@@ -30,6 +30,10 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
       "",
       "Guarda este correo: la referencia del pedido es tu comprobante.",
       "",
+      "Cuando te llegue tu pedido, cuéntanos cómo te fue: toma un minuto y no necesitas crear cuenta.",
+      "",
+      `[boton: Dejar mi reseña | ${siteConfig.siteUrl.replace(/\/$/, "")}/resena?ref=${o.reference}]`,
+      "",
       "**Equipo Pitsneakers**",
     ].join("\n"),
   };

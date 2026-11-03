@@ -4,7 +4,7 @@ import { unstable_rethrow } from "next/navigation";
 import { clientIp, rateLimitHit } from "@/lib/auth";
 import { isDbConfigured } from "@/lib/db";
 import { isEmail } from "@/lib/reseller-shared";
-import { createReview, MAX_PHOTO_BYTES } from "@/lib/reviews";
+import { createReview, MAX_PHOTO_BYTES, reviewPrefill } from "@/lib/reviews";
 
 export type ReviewState = { ok?: boolean; error?: string } | undefined;
 
@@ -49,10 +49,15 @@ export async function submitReview(_prev: ReviewState, fd: FormData): Promise<Re
       photo = { base64: buf.toString("base64"), type };
     }
 
+    // Si viene del enlace de su pedido, solo cuenta una reseña por pedido pagado; una referencia inválida se ignora (queda como reseña abierta).
+    const ref = clean(fd.get("ref"), 20).toUpperCase();
+    const order = ref ? await reviewPrefill(ref) : null;
+    if (order?.done) return { error: "Ya recibimos tu reseña de este pedido. ¡Gracias!" };
+
     const ip = await clientIp();
     if (!(await rateLimitHit(`review:ip:${ip}`, 5, HOUR))) return { error: "Enviaste varias reseñas seguidas. Espera un rato e intenta de nuevo." };
 
-    await createReview({ name, email, rating, text, product, photo });
+    await createReview({ name, email, rating, text, product, photo, orderRef: order?.ref });
     return { ok: true };
   } catch (e) {
     unstable_rethrow(e);

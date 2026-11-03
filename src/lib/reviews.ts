@@ -1,5 +1,6 @@
 import "server-only";
 import { getDb, isDbConfigured } from "@/lib/db";
+import { getOrderByRef } from "@/lib/catalog-orders";
 import type { Testimonial } from "@/types/testimonial";
 
 export type ReviewStatus = "pending" | "approved" | "rejected";
@@ -13,6 +14,8 @@ export interface ReviewRow {
   product: string;
   hasPhoto: boolean;
   vip: boolean;
+  /** Pedido pagado del que viene la reseña ("" si llegó por el enlace abierto). */
+  orderRef: string;
   status: ReviewStatus;
   createdAt: number;
 }
@@ -20,7 +23,7 @@ export interface ReviewRow {
 /** Foto máxima ya reducida por el navegador (unos 150-400 KB); el servidor la limita por seguridad. */
 export const MAX_PHOTO_BYTES = 700_000;
 
-const COLS = "id, name, email, rating, text, product, photo_type, status, vip, created_at, CASE WHEN photo != '' THEN 1 ELSE 0 END AS has_photo";
+const COLS = "id, name, email, rating, text, product, photo_type, status, vip, order_ref, created_at, CASE WHEN photo != '' THEN 1 ELSE 0 END AS has_photo";
 
 function toRow(r: Record<string, unknown>): ReviewRow {
   return {
@@ -32,6 +35,7 @@ function toRow(r: Record<string, unknown>): ReviewRow {
     product: String(r.product),
     hasPhoto: Number(r.has_photo) === 1,
     vip: Number(r.vip) === 1,
+    orderRef: String(r.order_ref ?? ""),
     status: String(r.status) as ReviewStatus,
     createdAt: Number(r.created_at),
   };
@@ -44,14 +48,46 @@ export async function createReview(input: {
   text: string;
   product: string;
   photo?: { base64: string; type: string };
+  orderRef?: string;
 }): Promise<number> {
   const db = await getDb();
   const r = await db.execute({
-    sql: `INSERT INTO reviews (name, email, rating, text, product, photo, photo_type, status, created_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
-    args: [input.name, input.email, input.rating, input.text, input.product, input.photo?.base64 ?? "", input.photo?.type ?? "", Date.now()],
+    sql: `INSERT INTO reviews (name, email, rating, text, product, photo, photo_type, order_ref, status, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
+    args: [input.name, input.email, input.rating, input.text, input.product, input.photo?.base64 ?? "", input.photo?.type ?? "", input.orderRef ?? "", Date.now()],
   });
   return Number(r.lastInsertRowid);
+}
+
+/**
+ * Datos para precargar el formulario cuando el cliente llega desde su pedido (/resena?ref=PITS-…).
+ * Solo sirve para pedidos pagados; devuelve el producto y un nombre corto ("Camilo R."), nunca contacto ni dirección.
+ */
+export async function reviewPrefill(ref: string): Promise<{ ref: string; name: string; product: string; done: boolean } | null> {
+  if (!/^PITS-[A-Z0-9]{7}$/.test(ref) || !isDbConfigured()) return null;
+  try {
+    const order = await getOrderByRef(ref);
+    if (!order || order.status !== "pagado") return null;
+    const [first, ...rest] = order.buyerName.trim().split(/\s+/);
+    const initial = rest.length ? ` ${rest[rest.length - 1][0].toUpperCase()}.` : "";
+    return {
+      ref: order.reference,
+      name: `${first}${initial}`.slice(0, 40),
+      // Modelos como "Jordan 4 …" ya traen la marca en el nombre: no se repite.
+      product: `${order.brand && !order.productName.toLowerCase().startsWith(order.brand.toLowerCase()) ? order.brand + " " : ""}${order.productName}`.slice(0, 80),
+      done: await orderHasReview(order.reference),
+    };
+  } catch (e) {
+    console.error("[reseñas] no se pudo leer el pedido:", e);
+    return null;
+  }
+}
+
+/** ¿Ese pedido ya tiene una reseña? (una por pedido, aunque la hayan rechazado). */
+export async function orderHasReview(orderRef: string): Promise<boolean> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT 1 FROM reviews WHERE order_ref = ? LIMIT 1", args: [orderRef] });
+  return r.rows.length > 0;
 }
 
 export async function listReviews(): Promise<ReviewRow[]> {

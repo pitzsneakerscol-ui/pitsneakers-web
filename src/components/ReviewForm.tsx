@@ -28,7 +28,14 @@ async function shrink(file: File): Promise<Blob | null> {
   }
 }
 
-export default function ReviewForm() {
+interface Props {
+  /** Referencia del pedido cuando el cliente llega desde su enlace personal. */
+  orderRef?: string;
+  defaultName?: string;
+  defaultProduct?: string;
+}
+
+export default function ReviewForm({ orderRef, defaultName, defaultProduct }: Props) {
   const [state, action, pending] = useActionState(submitReview, undefined);
   const [rating, setRating] = useState(5);
   const [preview, setPreview] = useState<string | null>(null);
@@ -89,9 +96,11 @@ export default function ReviewForm() {
         </label>
       </div>
 
+      {orderRef && <input type="hidden" name="ref" value={orderRef} />}
+
       <div>
         <label htmlFor="rv-name" className={labelCls}>Tu nombre *</label>
-        <input id="rv-name" name="name" required maxLength={40} autoComplete="given-name" placeholder="Ej. Camilo R." className={inputCls} />
+        <input id="rv-name" name="name" required maxLength={40} defaultValue={defaultName} autoComplete="given-name" placeholder="Ej. Camilo R." className={inputCls} />
         <p className="mt-1 text-[11px] text-muted">Así aparecerá publicado. Puedes poner solo el nombre y la inicial del apellido.</p>
       </div>
 
@@ -117,7 +126,7 @@ export default function ReviewForm() {
 
       <div>
         <label htmlFor="rv-product" className={labelCls}>¿Qué par o prenda compraste? (opcional)</label>
-        <input id="rv-product" name="product" maxLength={80} placeholder="Ej. Jordan 4 Military Blue" className={inputCls} />
+        <input id="rv-product" name="product" maxLength={80} defaultValue={defaultProduct} placeholder="Ej. Jordan 4 Military Blue" className={inputCls} />
       </div>
 
       <div>
@@ -126,19 +135,13 @@ export default function ReviewForm() {
       </div>
 
       <div>
-        <label htmlFor="rv-photo" className={labelCls}>Foto de tu compra (opcional)</label>
+        <label htmlFor="rv-photo" className={labelCls}>Foto de tu compra</label>
         <input id="rv-photo" name="photo" type="file" accept="image/*" onChange={onPick} className="block w-full text-sm text-muted file:mr-3 file:rounded-full file:border-0 file:bg-ink file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-white" />
         {preview && (
           // Vista previa local de la foto elegida: no pasa por el optimizador de imágenes.
           // eslint-disable-next-line @next/next/no-img-element
           <img src={preview} alt="Vista previa de tu foto" className="mt-3 max-h-56 rounded-lg border border-line object-cover" />
         )}
-      </div>
-
-      <div>
-        <label htmlFor="rv-email" className={labelCls}>Tu correo (opcional)</label>
-        <input id="rv-email" name="email" type="email" maxLength={120} autoComplete="email" placeholder="tu@correo.com" className={inputCls} />
-        <p className="mt-1 text-[11px] text-muted">No se publica. Solo lo usamos si necesitamos escribirte sobre tu reseña.</p>
       </div>
 
       <label className="flex items-start gap-2.5 text-sm text-muted">

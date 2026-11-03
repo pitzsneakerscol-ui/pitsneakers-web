@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { listReviews, type ReviewStatus } from "@/lib/reviews";
 import { siteConfig } from "@/config/site";
 import { ago } from "@/lib/admin-shared";
 import { btnGhost, btnPrimary, cardCls } from "@/components/reseller/ui";
 import ConfirmForm from "@/components/admin/ConfirmForm";
 import CopyLink from "@/components/admin/CopyLink";
+import ReviewQr from "@/components/admin/ReviewQr";
 import { moderateReview } from "./actions";
 
 export const metadata: Metadata = { title: "Reseñas de clientes" };
 
 const LABEL: Record<ReviewStatus, string> = { pending: "Por revisar", approved: "Publicada", rejected: "Rechazada" };
 
-export default async function ResenasPage() {
-  const rows = await listReviews();
-  const link = `${siteConfig.siteUrl}/resena`;
-  const pending = rows.filter((r) => r.status === "pending").length;
-  const approved = rows.filter((r) => r.status === "approved").length;
+const FILTERS: { key: "todas" | ReviewStatus; label: string }[] = [
+  { key: "pending", label: "Por revisar" },
+  { key: "approved", label: "Publicadas" },
+  { key: "rejected", label: "Rechazadas" },
+  { key: "todas", label: "Todas" },
+];
+
+export default async function ResenasPage({ searchParams }: { searchParams: Promise<{ f?: string }> }) {
+  const { f } = await searchParams;
+  const all = await listReviews();
+  const pending = all.filter((r) => r.status === "pending").length;
+  const approved = all.filter((r) => r.status === "approved").length;
+  // Sin filtro explícito: si hay reseñas por revisar se muestran solo esas; si no, todas.
+  const filter = FILTERS.find((x) => x.key === f)?.key ?? (pending > 0 ? "pending" : "todas");
+  const rows = filter === "todas" ? all : all.filter((r) => r.status === filter);
+  const link = `${siteConfig.siteUrl.replace(/\/$/, "")}/resena`;
 
   return (
     <div className="space-y-6">
@@ -29,7 +42,10 @@ export default async function ResenasPage() {
       <div className={`${cardCls} p-4`}>
         <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Enlace para tus clientes</p>
         <CopyLink value={link} />
-        <p className="mt-2 text-[11px] text-muted">Compártelo por WhatsApp o inclúyelo en el empaque. Funciona aunque el sitio esté en “Próximamente”.</p>
+        <p className="mt-2 text-[11px] text-muted">Compártelo por WhatsApp o inclúyelo en el empaque. Funciona aunque el sitio esté en “Próximamente”. Quien paga en la web recibe además, en su correo, un enlace propio con su producto ya escrito.</p>
+        <div className="mt-5 border-t border-line pt-5">
+          <ReviewQr url={link} />
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
@@ -43,12 +59,25 @@ export default async function ResenasPage() {
         </div>
         <div className={`${cardCls} p-4`}>
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Total recibidas</p>
-          <p className="font-display text-4xl tracking-wide">{rows.length}</p>
+          <p className="font-display text-4xl tracking-wide">{all.length}</p>
         </div>
       </div>
 
+      <nav className="flex flex-wrap gap-2 text-sm" aria-label="Filtrar reseñas">
+        {FILTERS.map(({ key, label }) => {
+          const n = key === "todas" ? all.length : all.filter((r) => r.status === key).length;
+          return (
+            <Link key={key} href={`/admin/resenas?f=${key}`} className={`rounded-full px-4 py-2 ${filter === key ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>
+              {label} ({n})
+            </Link>
+          );
+        })}
+      </nav>
+
       {rows.length === 0 ? (
-        <div className={`${cardCls} px-6 py-14 text-center text-sm text-muted`}>Aún no ha llegado ninguna reseña.</div>
+        <div className={`${cardCls} px-6 py-14 text-center text-sm text-muted`}>
+          {all.length === 0 ? "Aún no ha llegado ninguna reseña." : filter === "pending" ? "No tienes reseñas por revisar. ¡Todo al día!" : "No hay reseñas en esta lista."}
+        </div>
       ) : (
         <ul className="space-y-4">
           {rows.map((r) => (
@@ -61,6 +90,7 @@ export default async function ResenasPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-semibold">{r.name}</span>
+                  {r.orderRef && <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-400">✓ Compra verificada</span>}
                   {r.vip && <span className="rounded-full bg-[#ffd23f] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black">★ VIP</span>}
                   <span className="text-accent" aria-label={`${r.rating} de 5 estrellas`}>{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
                   <span
@@ -76,6 +106,7 @@ export default async function ResenasPage() {
                 <p className="mt-2 text-[11px] text-muted">
                   {ago(r.createdAt)}
                   {r.email && <> · {r.email}</>}
+                  {r.orderRef && <> · Pedido {r.orderRef}</>}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {r.status !== "approved" && <ConfirmForm action={moderateReview} fields={{ id: r.id, action: "aprobar" }} label="Aprobar y publicar" className={btnPrimary} />}
