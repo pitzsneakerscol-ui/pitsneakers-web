@@ -11,20 +11,35 @@ import type { Product } from "@/types/product";
 export interface LiveOverlay {
   live: Product[];
   hidden: Set<string>;
+  /** Ajustes manuales del admin por SKU (precio, precio anterior, oculto). */
+  overrides: Map<string, PriceOverride>;
+}
+
+export interface PriceOverride {
+  price: number;
+  /** 0 = sin precio anterior (no es promo). */
+  priceBefore: number;
+  hidden: boolean;
 }
 
 // El layout lee esto en cada página: se guarda en memoria unos segundos para no ir a la base remota en cada visita.
 const TTL_MS = 60_000;
 const memo = globalThis as unknown as { __liveOverlay?: { at: number; value: LiveOverlay; pending?: Promise<LiveOverlay> } };
 
+const EMPTY = (): LiveOverlay => ({ live: [], hidden: new Set<string>(), overrides: new Map() });
+
 async function query(db: Client): Promise<LiveOverlay> {
-  const [live, hidden] = await Promise.all([
+  const [live, hidden, overrides] = await Promise.all([
     db.execute("SELECT payload FROM live_listings ORDER BY updated_at DESC, id"),
     db.execute("SELECT sku FROM catalog_hidden"),
+    db.execute("SELECT sku, price, price_before, hidden FROM catalog_overrides"),
   ]);
   return {
     live: live.rows.map((r) => JSON.parse(String(r.payload)) as Product),
     hidden: new Set(hidden.rows.map((r) => String(r.sku))),
+    overrides: new Map(
+      overrides.rows.map((r) => [String(r.sku), { price: Number(r.price), priceBefore: Number(r.price_before), hidden: Number(r.hidden) === 1 }]),
+    ),
   };
 }
 
@@ -56,8 +71,8 @@ export const loadLiveOverlay = cache(async (): Promise<LiveOverlay> => {
       console.error("[catalogo] no se pudo leer el catálogo en vivo:", e);
       // Si había una lectura anterior, se sigue mostrando esa en vez de vaciar el catálogo.
       if (hit) return hit.value;
-      return { live: [], hidden: new Set<string>() };
+      return EMPTY();
     });
-  memo.__liveOverlay = { at: hit?.at ?? 0, value: hit?.value ?? { live: [], hidden: new Set() }, pending };
+  memo.__liveOverlay = { at: hit?.at ?? 0, value: hit?.value ?? EMPTY(), pending };
   return pending;
 });

@@ -28,6 +28,7 @@ const MAIN: Item[] = [
   { href: "/admin/consultas", label: "Consultas", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/admin/precios", label: "Catálogo y precios", Icon: TagIcon },
   { href: "/admin/catalogo", label: "Actualizar catálogo", Icon: BoxIcon },
   { href: "/admin/novedades", label: "Novedades de stock", Icon: BoxIcon },
   { href: "/admin/pedidos", label: "Pedidos web", Icon: ReceiptIcon },

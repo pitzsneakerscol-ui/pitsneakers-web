@@ -367,6 +367,14 @@ const SCHEMA = [
     payload TEXT NOT NULL,
     updated_at INTEGER NOT NULL
   )`,
+  // Ajustes hechos a mano desde el admin sobre un par del catálogo (precio, precio anterior y si se oculta); mandan sobre el archivo y sobre el stock del revendedor.
+  `CREATE TABLE IF NOT EXISTS catalog_overrides (
+    sku TEXT PRIMARY KEY,
+    price INTEGER NOT NULL,
+    price_before INTEGER NOT NULL DEFAULT 0,
+    hidden INTEGER NOT NULL DEFAULT 0,
+    updated_at INTEGER NOT NULL
+  )`,
   // SKU del catálogo del archivo que se ocultan porque el revendedor ya no los tiene en stock.
   `CREATE TABLE IF NOT EXISTS catalog_hidden (
     sku TEXT PRIMARY KEY,

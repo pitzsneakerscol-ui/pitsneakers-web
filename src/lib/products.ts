@@ -3,7 +3,7 @@ import { Product, ProductCategory, ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
 import { groupPriceRange, groupProducts, groupPromo } from "@/lib/grouping";
-import { loadLiveOverlay } from "@/lib/catalog-live";
+import { loadLiveOverlay, type PriceOverride } from "@/lib/catalog-live";
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -27,10 +27,27 @@ export async function getStaticProducts(): Promise<Product[]> {
   return loadProducts();
 }
 
+/** Aplica los ajustes manuales del admin: precio, precio anterior (promo) y pares ocultos. */
+export function applyOverrides(products: Product[], overrides: Map<string, PriceOverride>): Product[] {
+  if (overrides.size === 0) return products;
+  const out: Product[] = [];
+  for (const p of products) {
+    const o = overrides.get(p.id);
+    if (!o) {
+      out.push(p);
+      continue;
+    }
+    if (o.hidden) continue;
+    const priceBefore = o.priceBefore > o.price ? o.priceBefore : undefined;
+    out.push({ ...p, price: o.price, priceBefore, promo: priceBefore !== undefined });
+  }
+  return out;
+}
+
 export async function getAllProducts(): Promise<Product[]> {
   const base = await loadProducts();
-  const { live, hidden } = await loadLiveOverlay();
-  const products = [...base.filter((p) => !hidden.has(p.id)), ...live];
+  const { live, hidden, overrides } = await loadLiveOverlay();
+  const products = applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live], overrides);
   return [...products].sort(
     (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
   );
