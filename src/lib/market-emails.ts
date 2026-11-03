@@ -15,7 +15,7 @@ export function questionEmail(opts: {
   const body = [
     "# Nueva consulta ==de mercado==",
     "",
-    `**${opts.seller}** (@${opts.username}) pregunta si le recomendamos comprar este par:`,
+    `**${opts.seller}** (@${opts.username}) pregunta si le conviene comprar este par para revenderlo:`,
     "",
     `> **Par:** ${opts.model}`,
     ...(opts.size ? [`> **Talla:** ${opts.size}`] : []),
@@ -32,9 +32,9 @@ export function questionEmail(opts: {
 }
 
 const VERDICT_TEXT: Record<string, string> = {
-  comprar: "✅ Sí, te recomendamos comprarlo",
+  comprar: "✅ Sí, te conviene comprarlo para revender",
   esperar: "⏳ Mejor espera un poco",
-  no: "❌ No te lo recomendamos",
+  no: "❌ No te lo recomendamos para revender",
 };
 
 export const verdictLabel = (v: string) => VERDICT_TEXT[v] ?? "";

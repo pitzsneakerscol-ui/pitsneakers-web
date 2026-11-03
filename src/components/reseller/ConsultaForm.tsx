@@ -6,7 +6,7 @@ import { btnAccent, cardCls, inputCls, labelCls, submitWith } from "@/components
 
 const SIZES = ["6", "7", "8", "8.5", "9", "9.5", "10", "10.5", "11", "12"];
 
-/** Formulario "Pregúntale al equipo": ¿me recomiendan comprar este par? */
+/** Formulario "Pregúntale al equipo": ¿me conviene comprar este par para revenderlo? (asesoría de reventa, no una compra en la tienda). */
 export default function ConsultaForm({ suggestions }: { suggestions: string[] }) {
   const [state, action, pending] = useActionState(askMarket, undefined);
   const [formKey, setFormKey] = useState(0);
@@ -28,7 +28,7 @@ export default function ConsultaForm({ suggestions }: { suggestions: string[] })
   return (
     <form key={formKey} onSubmit={submitWith(action)} className={`${cardCls} space-y-5 p-5 sm:p-6`}>
       <div>
-        <label htmlFor="c-model" className={labelCls}>¿Qué par te interesa? *</label>
+        <label htmlFor="c-model" className={labelCls}>¿Qué par piensas comprar para revender? *</label>
         <input id="c-model" name="model" required list="c-sugerencias" autoComplete="off" placeholder="Ej: Jordan 4 Military Black, Dunk Low Panda…" className={inputCls} />
         <datalist id="c-sugerencias">
           {suggestions.map((s) => (
@@ -48,7 +48,7 @@ export default function ConsultaForm({ suggestions }: { suggestions: string[] })
           </datalist>
         </div>
         <div>
-          <label htmlFor="c-price" className={labelCls}>¿A cuánto lo comprarías? (opcional)</label>
+          <label htmlFor="c-price" className={labelCls}>¿A qué precio te lo ofrecen? (opcional)</label>
           <div className="flex items-center gap-2">
             <span className="text-muted">$</span>
             <input id="c-price" name="buyPrice" inputMode="numeric" autoComplete="off" placeholder="850.000" className={inputCls} />

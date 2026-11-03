@@ -24,10 +24,15 @@ export default async function ConsultasPage() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="font-display text-4xl tracking-wide sm:text-5xl">¿Compro este par o no?</h1>
+        <h1 className="font-display text-4xl tracking-wide sm:text-5xl">¿Te conviene comprar este par para revender?</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          Pregúntale al equipo de Pitsneakers cómo se está moviendo un par en el mercado antes de comprarlo. Te damos una opinión
-          sincera: comprar, esperar o dejarlo pasar.
+          Un servicio para ti como revendedor: cuéntanos un par que estás pensando comprar (a otro vendedor o en una tienda) para
+          revenderlo, y el equipo te dice cómo se mueve en el mercado y si te conviene a ese precio. Te damos una opinión sincera:
+          comprar, esperar o dejarlo pasar.
+        </p>
+        <p className="mt-3 max-w-2xl rounded-lg border border-line bg-paper-raised px-4 py-3 text-sm">
+          <strong>Aquí no se compra nada.</strong> No es una compra en Pitsneakers ni una opinión sobre los pares del catálogo:
+          es solo una asesoría de reventa.
         </p>
       </header>
 
@@ -46,7 +51,7 @@ export default async function ConsultasPage() {
                     <p className="font-semibold">{q.model}</p>
                     <p className="text-xs text-muted">
                       {q.size ? `Talla ${q.size} · ` : ""}
-                      {q.buyPrice > 0 ? `Lo comprarías a ${formatPrice(q.buyPrice)} · ` : ""}
+                      {q.buyPrice > 0 ? `Pensabas comprarlo a ${formatPrice(q.buyPrice)} · ` : ""}
                       {fmtDay(q.createdAt)}
                     </p>
                   </div>
