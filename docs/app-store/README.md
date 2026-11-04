@@ -22,7 +22,7 @@ Estado: el proyecto de iPhone (`mobile/ios`) ya está preparado en el código. L
    - *Environment variables* del flujo `ios-app-store`: `APP_STORE_APPLE_ID` = el número del paso 4.
    - Pulsa *Start new build* con el flujo `ios-app-store`. Sube la compilación a TestFlight.
 7. Prueba la app desde **TestFlight** en un iPhone (instala la app *TestFlight* y acepta la invitación).
-8. Avisos push de iPhone (opcional para la primera versión): en Apple Developer crea una llave APNs y súbela a Firebase; el envío de avisos aún no está construido (ver `mobile/README.md`).
+8. Avisos push: el envío ya está construido. Para activarlo crea la llave APNs (Apple Developer → Keys) y pon `APNS_KEY`, `APNS_KEY_ID` y `APNS_TEAM_ID` en Vercel; para Android, la cuenta de servicio de Firebase en `FCM_SERVICE_ACCOUNT` (detalle en `mobile/README.md`).
 9. Completa la ficha con `ficha-es.md` y envía a revisión.
 
 ## Antes de enviar a revisión

@@ -1,6 +1,7 @@
 import { applyTransaction, markEmailed } from "@/lib/catalog-orders";
 import { isDbConfigured } from "@/lib/db";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
+import { pushOrderStep } from "@/lib/push-events";
 import { buyerPaidEmail, teamPaidEmail } from "@/lib/order-emails";
 import { siteConfig } from "@/config/site";
 import { isWompiTest, verifyEvent, type WompiEvent } from "@/lib/wompi";
@@ -32,5 +33,6 @@ export async function POST(request: Request) {
       sendEmail({ to: siteConfig.contactEmail, subject: team.subject, body: team.body, replyTo: res.order.buyerEmail }),
     ]);
   }
+  if (res.justPaid) await pushOrderStep(res.order, "confirmada");
   return new Response("ok", { status: 200 });
 }

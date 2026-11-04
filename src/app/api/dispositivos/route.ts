@@ -1,5 +1,6 @@
 import { getBidder } from "@/lib/auction";
 import { clientIp, getCurrentUser, rateLimitHit } from "@/lib/auth";
+import { getBuyer } from "@/lib/buyers";
 import { getDb, isDbConfigured } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -18,13 +19,14 @@ export async function POST(request: Request) {
   if (token.length < 20 || token.length > 400) return Response.json({ ok: false }, { status: 400 });
   if (!(await rateLimitHit(`device:${await clientIp()}`, 30, 60 * 60 * 1000))) return Response.json({ ok: false }, { status: 429 });
 
-  const [user, bidder] = await Promise.all([getCurrentUser(), getBidder()]);
+  const [user, bidder, buyer] = await Promise.all([getCurrentUser(), getBidder(), getBuyer().catch(() => null)]);
   const db = await getDb();
   await db.execute({
-    sql: `INSERT INTO devices (token, platform, user_id, waitlist_id, created_at, last_seen) VALUES (?, ?, ?, ?, ?, ?)
+    sql: `INSERT INTO devices (token, platform, user_id, waitlist_id, buyer_id, created_at, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(token) DO UPDATE SET platform = excluded.platform, last_seen = excluded.last_seen,
-            user_id = COALESCE(excluded.user_id, devices.user_id), waitlist_id = COALESCE(excluded.waitlist_id, devices.waitlist_id)`,
-    args: [token, platform, user && !user.isAdmin ? user.id : null, bidder?.id ?? null, Date.now(), Date.now()],
+            user_id = COALESCE(excluded.user_id, devices.user_id), waitlist_id = COALESCE(excluded.waitlist_id, devices.waitlist_id),
+            buyer_id = COALESCE(excluded.buyer_id, devices.buyer_id)`,
+    args: [token, platform, user && !user.isAdmin ? user.id : null, bidder?.id ?? null, buyer?.id ?? null, Date.now(), Date.now()],
   });
   return Response.json({ ok: true });
 }

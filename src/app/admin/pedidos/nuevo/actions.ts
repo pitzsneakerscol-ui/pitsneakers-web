@@ -12,6 +12,8 @@ import { VERIF_CHECKS } from "@/lib/verification-shared";
 import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerPaidEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { isMessageType, type SaleState } from "@/lib/sale-shared";
+import { after } from "next/server";
+import { pushOrderStep, type OrderPushStep } from "@/lib/push-events";
 
 const clean = (fd: FormData, key: string, max: number) => String(fd.get(key) ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 
@@ -98,6 +100,8 @@ export async function registerSale(_prev: SaleState, fd: FormData): Promise<Sale
     : buyerDeliveredEmail(order);
   if (type === "confirmada") await markEmailed(order.id);
   const sent = await sendEmail({ to: order.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
+  const pushStep: OrderPushStep = type === "en_camino" || type === "recibido" || type === "verificado" || type === "despachado" || type === "entregado" ? type : "confirmada";
+  after(() => pushOrderStep(order, pushStep));
 
   revalidatePath("/admin/pedidos");
   redirect(`/admin/pedidos?ok=${encodeURIComponent(order.reference)}&g=4&m=${sent.ok ? "1" : "0"}#${order.reference}`);

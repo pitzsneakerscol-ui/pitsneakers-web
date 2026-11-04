@@ -3,6 +3,7 @@ import { runSync } from "@/lib/seller-sync";
 import { notifyInventory } from "@/lib/seller-notify";
 import { ensureWeeklyGame } from "@/lib/trivia";
 import { syncTracking } from "@/lib/tracking-sync";
+import { pushTriviaReminder } from "@/lib/push-events";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -33,5 +34,7 @@ export async function GET(request: Request) {
   }
   // Respaldo del rastreo: si un aviso de Skydropx se perdió, aquí se ponen al día los pedidos en camino.
   const rastreo = await syncTracking({ staleMs: 60 * 60_000, limit: 40 }).catch(() => null);
-  return Response.json({ ok: true, pares: added, vendedores: sellers, esperandoCuenta: waiting.length, correos: { enviados: sent, sinCorreo: noEmail, fallidos: failed }, rastreo });
+  // Aviso en la app de que la trivia es hoy (una sola vez por juego).
+  const triviaPush = await pushTriviaReminder();
+  return Response.json({ ok: true, avisosTrivia: triviaPush, pares: added, vendedores: sellers, esperandoCuenta: waiting.length, correos: { enviados: sent, sinCorreo: noEmail, fallidos: failed }, rastreo });
 }

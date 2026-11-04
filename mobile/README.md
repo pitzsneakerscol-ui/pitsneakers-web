@@ -37,9 +37,23 @@ Es una app hecha con [Capacitor](https://capacitorjs.com): un contenedor nativo 
 
 Apple rechaza apps que son "solo una página web". Esta app incluye funciones nativas reales: avisos push, hoja nativa de compartir, vibración en acciones (pujas, trivia), pantalla de carga y manejo de la barra de estado. En la nota para el revisor explica que la app ofrece subasta y trivia en vivo con avisos, y deja una cuenta de prueba de revendedor y un pase de prueba para la subasta y la trivia. Pagos: como son productos físicos, puedes usar Wompi (no se exige el pago de Apple/Google).
 
-## Cómo se registran los avisos
+## Avisos push
 
-Al abrir la app aparece un aviso para activar notificaciones; al aceptar, el celular manda su código a `POST /api/dispositivos` y queda guardado en la tabla `devices` (ligado al revendedor o al inscrito con pase, si hay sesión). **Falta construir el envío de los avisos** (trivia del jueves, subasta, ofertas): se hace con Firebase Cloud Messaging una vez exista el proyecto de Firebase.
+**Registro:** al abrir la app aparece un aviso para activar notificaciones; al aceptar, el celular manda su código a `POST /api/dispositivos` y queda guardado en la tabla `devices`, ligado al revendedor, al inscrito con pase o al comprador con cuenta (si hay sesión). Si la persona inicia sesión después, el celular se vuelve a registrar solo.
+
+**Envío** (`src/lib/push.ts`, sin librerías de Firebase): Android sale por Firebase Cloud Messaging y iPhone sale directo a Apple (APNs). Se configura con variables en Vercel; sin ellas no se envía nada y nada se rompe.
+
+| Variable | Qué es |
+|---|---|
+| `FCM_SERVICE_ACCOUNT` | El JSON completo de la cuenta de servicio de Firebase (Configuración del proyecto → Cuentas de servicio → Generar nueva clave privada). Pégalo tal cual. |
+| `APNS_KEY` | El contenido del archivo `AuthKey_XXXX.p8` (Apple Developer → Keys, con "Apple Push Notifications service" marcado). |
+| `APNS_KEY_ID` | El ID de esa llave (10 caracteres). |
+| `APNS_TEAM_ID` | El ID de tu equipo en Apple Developer (10 caracteres). |
+| `APNS_SANDBOX=1` | Solo para compilaciones de desarrollo. TestFlight y App Store usan producción. |
+
+**Qué avisa solo:** el estado del pedido (confirmado, en camino a verificación, recibido, verificado, despachado, entregado), la respuesta a una oferta, cuando superan a alguien en la subasta y la trivia el día que empieza (lo manda la tarea diaria). **A mano:** panel del dueño → *Avisos en la app*.
+
+Al tocar un aviso se abre la pantalla que trae (solo rutas de pitsneakers.com).
 
 ## Navegación dentro de la app
 

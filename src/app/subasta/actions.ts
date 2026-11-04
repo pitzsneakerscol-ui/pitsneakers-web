@@ -9,6 +9,7 @@ import { isEmail } from "@/lib/reseller-shared";
 import { createBidderSession, destroyBidderSession, getBidder, getPublishedAuction, getWaitlistEmail, listAuctionItems, placeBid, verifyPass } from "@/lib/auction";
 import { minNextBid, type LiveItem } from "@/lib/auction-shared";
 import { leadingEmail, outbidEmail } from "@/lib/auction-emails";
+import { pushOutbid } from "@/lib/push-events";
 
 export type PassState = { error?: string } | undefined;
 export type BidState = { ok: boolean; error?: string; message?: string; item?: LiveItem } | undefined;
@@ -58,6 +59,12 @@ export async function bid(itemId: number, amount: number): Promise<BidState> {
     const auction = await getPublishedAuction();
     const items = auction ? await listAuctionItems(auction.id, bidder.id) : [];
     const it = items.find((x) => x.id === Number(itemId));
+
+    // Aviso en la app a quien iba ganando: lo superaron.
+    if (it && res.prevLeaderId !== null && res.prevLeaderId !== bidder.id) {
+      const prev = res.prevLeaderId;
+      after(() => pushOutbid(prev, res.itemName, it.currentBid));
+    }
 
     // Dos correos: al que acaba de pujar ("vas ganando") y al que iba ganando ("te superaron").
     // Salen después de responder y uno tras otro (Resend acepta ~2 por segundo).

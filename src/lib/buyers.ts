@@ -102,6 +102,7 @@ export async function deleteBuyer(id: number): Promise<void> {
       "DELETE FROM buyer_favorites WHERE buyer_id = ?",
       "DELETE FROM buyer_collection WHERE buyer_id = ?",
       "DELETE FROM buyer_offers WHERE buyer_id = ?",
+      "DELETE FROM devices WHERE buyer_id = ?",
       "DELETE FROM buyers WHERE id = ?",
     ].map((sql) => ({ sql, args: [id] })),
     "write"

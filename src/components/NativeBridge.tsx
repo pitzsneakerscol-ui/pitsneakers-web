@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { isNativeApp, nativePlatform, plugin } from "@/lib/native";
 
 type Call = (arg?: unknown) => Promise<unknown> & { remove?: () => void };
@@ -23,15 +24,24 @@ async function sendToken(token: string) {
  */
 export default function NativeBridge() {
   const [ask, setAsk] = useState(false);
+  const pathname = usePathname();
+  const lastRegister = useRef(0);
 
   useEffect(() => {
     if (!isNativeApp()) return;
     document.documentElement.classList.add("native-app");
+    lastRegister.current = Date.now(); // el registro de arranque cuenta: el de cambio de ruta espera 5 min
     const check = call("PushNotifications", "checkPermissions");
     const register = call("PushNotifications", "register");
     const addListener = call("PushNotifications", "addListener") as unknown as ((ev: string, cb: (d: { value: string }) => void) => Promise<unknown>) | undefined;
     if (!check || !register || !addListener) return;
     void addListener("registration", (d) => void sendToken(d.value));
+    // Al tocar un aviso se abre la pantalla que trae (solo rutas internas de la página).
+    const onTap = addListener as unknown as (ev: string, cb: (d: { notification?: { data?: { url?: unknown } } }) => void) => Promise<unknown>;
+    void onTap("pushNotificationActionPerformed", (d) => {
+      const url = d.notification?.data?.url;
+      if (typeof url === "string" && url.startsWith("/") && !url.startsWith("//")) window.location.assign(url);
+    });
     check()
       .then((r) => {
         const status = (r as { receive?: string }).receive;
@@ -40,6 +50,18 @@ export default function NativeBridge() {
       })
       .catch(() => undefined);
   }, []);
+
+  // Si la persona inicia sesión después de abrir la app, el celular se vuelve a registrar para ligarlo a su cuenta (máx. cada 5 min).
+  useEffect(() => {
+    if (!isNativeApp() || Date.now() - lastRegister.current < 5 * 60_000) return;
+    const check = call("PushNotifications", "checkPermissions");
+    const register = call("PushNotifications", "register");
+    if (!check || !register) return;
+    lastRegister.current = Date.now();
+    check()
+      .then((r) => ((r as { receive?: string }).receive === "granted" ? register() : undefined))
+      .catch(() => undefined);
+  }, [pathname]);
 
   async function enable() {
     setAsk(false);

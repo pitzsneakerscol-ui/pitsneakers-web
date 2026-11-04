@@ -453,6 +453,9 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["bid_blocked", "INTEGER NOT NULL DEFAULT 0"],
   ],
   trivia_questions: [["bank_key", "TEXT NOT NULL DEFAULT ''"]],
+  // Celulares de la app: comprador con cuenta al que pertenece el aviso (0/NULL = ninguno). Y trivia cuyo aviso push ya salió.
+  devices: [["buyer_id", "INTEGER"]],
+  trivia_games: [["push_sent", "INTEGER NOT NULL DEFAULT 0"]],
   catalog_orders: [
     ["credit_code", "TEXT NOT NULL DEFAULT ''"],
     ["discount", "INTEGER NOT NULL DEFAULT 0"],

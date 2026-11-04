@@ -44,6 +44,7 @@ const MORE: Item[] = [
   { href: "/admin/trivia", label: "Trivia", Icon: PlayIcon },
   { href: "/admin/resenas", label: "Reseñas", Icon: ChatIcon },
   { href: "/admin/correos", label: "Correos", Icon: MailIcon },
+  { href: "/admin/avisos", label: "Avisos en la app", Icon: ChatIcon },
   { href: "/admin/plantillas", label: "Plantillas", Icon: DocIcon },
 ];
 

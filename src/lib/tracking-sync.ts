@@ -2,6 +2,7 @@ import "server-only";
 import { advanceFulfillment, listTrackable, setSkyStatus, type CatalogOrder } from "@/lib/catalog-orders";
 import { buyerDeliveredEmail, buyerShippedEmail, teamShipmentIssueEmail } from "@/lib/order-emails";
 import { sendEmail, isEmailConfigured } from "@/lib/email";
+import { pushOrderStep } from "@/lib/push-events";
 import { getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { siteConfig } from "@/config/site";
 import type { Fulfillment } from "@/lib/fulfillment-shared";
@@ -73,8 +74,13 @@ export async function applyTracking(order: CatalogOrder, skyStatus: string, trac
   const res = await advanceFulfillment(order.id, order.fulfillment, to);
   if (!res) return null; // otro aviso ya lo cambió: no se repiten los correos
 
-  if (to === "despachado" && res.firstShip) await mail(res.order.buyerEmail, buyerShippedEmail(res.order));
-  else if (to === "entregado") await mail(res.order.buyerEmail, buyerDeliveredEmail(res.order));
+  if (to === "despachado" && res.firstShip) {
+    await mail(res.order.buyerEmail, buyerShippedEmail(res.order));
+    await pushOrderStep(res.order, "despachado");
+  } else if (to === "entregado") {
+    await mail(res.order.buyerEmail, buyerDeliveredEmail(res.order));
+    await pushOrderStep(res.order, "entregado");
+  }
   else if (to === "incidencia") await mail(siteConfig.contactEmail, teamShipmentIssueEmail(res.order, skyStatusLabel(status)));
   return to;
 }

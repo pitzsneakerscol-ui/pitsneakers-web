@@ -9,6 +9,8 @@ import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/li
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
 import { sendEmail } from "@/lib/email";
+import { after } from "next/server";
+import { pushOrderStep, type OrderPushStep } from "@/lib/push-events";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
@@ -47,6 +49,7 @@ export async function verifyOrder(fd: FormData): Promise<void> {
     const mail = buyerVerifiedEmail(fresh);
     const sent = await sendEmail({ to: fresh.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
     emailed = sent.ok ? "1" : "0";
+    after(() => pushOrderStep(fresh, "verificado"));
   }
 
   revalidatePath("/admin/pedidos");
@@ -156,6 +159,9 @@ export async function saveFulfillment(fd: FormData): Promise<void> {
     if (mail) {
       const sent = await sendEmail({ to: o.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
       emailed = sent.ok ? "1" : "0";
+      // El mismo aviso, como notificación en la app (si el comprador la tiene instalada).
+      const pushStep: OrderPushStep = o.fulfillment === "despachado" ? "despachado" : o.fulfillment === "entregado" ? "entregado" : o.fulfillment === "hacia_verificacion" ? "en_camino" : "recibido";
+      after(() => pushOrderStep(o, pushStep));
     }
   }
 
