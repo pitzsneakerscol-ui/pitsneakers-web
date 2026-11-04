@@ -8,7 +8,8 @@ import Faq, { type FaqItem } from "@/components/contact/Faq";
 
 export const metadata: Metadata = {
   title: "Contacto",
-  description: "Escríbenos por WhatsApp o Instagram para resolver cualquier duda sobre un par o tu pedido en Pitsneakers.",
+  description:
+    "Escríbenos por WhatsApp o Instagram: te ayudamos a encontrar tu talla, resolver dudas de un par o seguir tu pedido. Pitsneakers, Bogotá.",
 };
 
 const channels = [

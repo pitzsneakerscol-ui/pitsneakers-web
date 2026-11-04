@@ -2,7 +2,7 @@
 export const siteConfig = {
   name: "Pitsneakers",
   description:
-    "Comunidad de reventa de sneakers y streetwear en Bogotá. Consignación verificada — cada par pasa por revisión física y autenticación antes de publicarse.",
+    "Sneakers y streetwear verificados en Bogotá. Cada par pasa por revisión física y autenticación antes de publicarse. Compra en línea o haz tu oferta.",
   // Número de WhatsApp en formato internacional sin "+", ej: 573001234567
   whatsappNumber: "573115609644",
   // Correo donde llegan las consultas de los revendedores ("¿me recomiendan comprar este par?"). Debe existir como alias (ImprovMX).

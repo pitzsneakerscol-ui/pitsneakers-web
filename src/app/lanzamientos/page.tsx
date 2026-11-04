@@ -6,7 +6,8 @@ import CommunityNotice from "@/components/CommunityNotice";
 
 export const metadata: Metadata = {
   title: "Lanzamientos",
-  description: "Los pares y prendas más recientes en consignación con Pitsneakers.",
+  description:
+    "Lo último en llegar: sneakers y streetwear recién publicados y verificados por Pitsneakers. Mira las novedades antes de que se agoten.",
 };
 
 export default async function LanzamientosPage({

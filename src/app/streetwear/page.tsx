@@ -8,7 +8,8 @@ import CommunityNotice from "@/components/CommunityNotice";
 
 export const metadata: Metadata = {
   title: "Streetwear",
-  description: "Catálogo de streetwear verificado en consignación — hoodies, jackets, pantalones y más.",
+  description:
+    "Supreme, Essentials, Gallery Dept y más: camisetas, buzos y gorras verificados. Compra en línea o por WhatsApp. Pitsneakers, Bogotá.",
 };
 
 export default async function StreetwearPage({

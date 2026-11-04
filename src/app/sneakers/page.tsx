@@ -8,7 +8,8 @@ import CommunityNotice from "@/components/CommunityNotice";
 
 export const metadata: Metadata = {
   title: "Sneakers",
-  description: "Catálogo de sneakers verificados en consignación — Nike, Adidas, New Balance y más.",
+  description:
+    "Nike, Jordan, Adidas y New Balance verificados por nuestro equipo. Compra en línea o haz tu oferta desde el 70 %. Pitsneakers, Bogotá.",
 };
 
 export default async function SneakersPage({

@@ -8,8 +8,9 @@ import CountdownTimer from "@/components/CountdownTimer";
 import CommunityNotice from "@/components/CommunityNotice";
 
 export const metadata: Metadata = {
-  title: "Sale",
-  description: "Rebajas de apertura de Pitsneakers: pares y prendas seleccionados con precio especial.",
+  title: siteConfig.promo.title,
+  description:
+    "Sneakers y streetwear verificados con descuento de apertura en Pitsneakers: pares y prendas a precio especial mientras dure la promoción.",
 };
 
 export default async function SalePage() {

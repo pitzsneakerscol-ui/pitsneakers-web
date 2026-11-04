@@ -37,12 +37,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: siteConfig.siteUrl ? new URL(siteConfig.siteUrl) : undefined,
   title: {
-    default: `${siteConfig.name} — Sneakers y Streetwear Verificados`,
+    default: `${siteConfig.name} — Sneakers y Streetwear Verificados en Colombia`,
     template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.description,
   openGraph: {
-    title: `${siteConfig.name} — Sneakers y Streetwear Verificados`,
+    title: `${siteConfig.name} — Sneakers y Streetwear Verificados en Colombia`,
     description: siteConfig.description,
     locale: "es_CO",
     type: "website",
