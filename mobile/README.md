@@ -22,7 +22,7 @@ Es una app hecha con [Capacitor](https://capacitorjs.com): un contenedor nativo 
 2. Firebase: crea un proyecto → agrega una app Android con el id `com.pitsneakers.app` → descarga `google-services.json` y cópialo a `mobile/android/app/`. (Sin este archivo, la app funciona pero no recibe avisos push.)
 3. En esta carpeta: `npx cap sync android` y `npx cap open android`.
 4. Para probar: conecta un celular con depuración USB y pulsa ▶ en Android Studio.
-5. Para publicar: **Build → Generate Signed App Bundle (AAB)**. Crea tu llave de firma (guárdala y haz copia: si la pierdes no puedes actualizar la app) y sube el `.aab` en Play Console (Producción o Prueba cerrada).
+5. Para publicar sin Android Studio: la compilación en la nube (Codemagic) está lista, ver `docs/play-store/README.md`. Con Android Studio: **Build → Generate Signed App Bundle (AAB)**. Crea tu llave de firma (guárdala y haz copia: si la pierdes no puedes actualizar la app) y sube el `.aab` en Play Console (Producción o Prueba cerrada).
 6. En Play Console completa: ficha de la tienda (descripción, capturas, ícono 512), clasificación de contenido, política de privacidad (`https://pitsneakers.com/politicas`) y el formulario de seguridad de datos.
 
 ## iPhone (necesita Mac o compilación en la nube)

@@ -1,5 +1,5 @@
-# Compilación de la app de iPhone en la nube (Codemagic), sin necesitar un Mac propio.
-# Pasos para activarla: docs/app-store/README.md
+# Compilación de las apps en la nube (Codemagic), sin necesitar Mac ni Android Studio.
+# iPhone: docs/app-store/README.md · Android: docs/play-store/README.md
 workflows:
   ios-app-store:
     name: Pitsneakers iOS (App Store)
@@ -52,3 +52,45 @@ workflows:
         # false = sube a TestFlight y tú decides cuándo enviar a revisión desde App Store Connect.
         submit_to_testflight: true
         submit_to_app_store: false
+
+  android-play-store:
+    name: Pitsneakers Android (Google Play)
+    instance_type: linux_x2
+    max_build_duration: 30
+    environment:
+      node: 22
+      java: 21
+      android_signing:
+        # Llave de firma subida en Codemagic → Teams → Code signing identities → Android keystores, con este nombre.
+        - pitsneakers_upload
+    triggering:
+      events: []
+    scripts:
+      - name: Instalar plugins de Capacitor y sincronizar Android
+        script: |
+          cd mobile
+          npm ci
+          npx cap sync android
+      - name: Poner google-services.json (avisos push; variable GOOGLE_SERVICES_JSON de Codemagic)
+        script: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            echo "$GOOGLE_SERVICES_JSON" | base64 --decode > mobile/android/app/google-services.json
+            echo "google-services.json listo"
+          else
+            echo "AVISO: falta GOOGLE_SERVICES_JSON; la app se compila pero no recibirá avisos push."
+          fi
+      - name: Compilar el .aab firmado
+        script: |
+          cd mobile/android
+          chmod +x gradlew
+          ./gradlew bundleRelease
+    artifacts:
+      - mobile/android/app/build/outputs/bundle/release/*.aab
+      - mobile/android/app/build/outputs/mapping/release/mapping.txt
+    # Para subir solo a "Prueba interna" en Play (después de la primera subida manual), quita el # de estas líneas
+    # y agrega GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (JSON de la cuenta de servicio de Google Play) en Codemagic.
+    # publishing:
+    #   google_play:
+    #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+    #     track: internal
+    #     submit_as_draft: true
