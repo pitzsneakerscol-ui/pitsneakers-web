@@ -343,7 +343,7 @@ export interface FulfillmentInput {
 }
 
 export type FulfillmentResult =
-  | { ok: true; order: CatalogOrder; justShipped: boolean; justDelivered: boolean; shipmentChanged: boolean }
+  | { ok: true; order: CatalogOrder; justShipped: boolean; justDelivered: boolean; shipmentChanged: boolean; before: Fulfillment }
   | { ok: false; error: string };
 
 /**
@@ -383,5 +383,6 @@ export async function updateFulfillment(id: number, input: FulfillmentInput): Pr
     justShipped: input.step === "despachado" && order.shippedAt === null,
     justDelivered: input.step === "entregado" && order.deliveredAt === null,
     shipmentChanged: order.carrier !== carrier || order.tracking !== tracking,
+    before: order.fulfillment,
   };
 }

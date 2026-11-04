@@ -28,6 +28,8 @@ export function stepsFor(o: CatalogOrder): Step[] {
   const delivered = f === "entregado";
   // El par ya llegó a nuestro punto de verificación (o ya estaba aquí) cuando se está revisando o ya salió.
   const arrived = f === "preparando" || shipped;
+  // Verificado y empacado: ya salió, o está en el punto de verificación con la revisión completa guardada.
+  const packed = shipped || (f === "preparando" && isVerified(o.verifChecks));
   const direct = o.carrier === DIRECT_CARRIER;
 
   return [
@@ -48,13 +50,13 @@ export function stepsFor(o: CatalogOrder): Step[] {
     },
     {
       title: "Verificado y empacado",
-      text: shipped
+      text: packed
         ? "Revisamos tu par a fondo y lo dejamos empacado."
         : f === "preparando"
           ? "Estamos revisando tu par y empacándolo con cuidado."
           : "Cada par pasa por revisión física y autenticación antes de salir.",
       extra: o.verifAt && isVerified(o.verifChecks) ? `Verificado el ${shortDay(o.verifAt)} · ${o.verifChecks.length} puntos revisados` : undefined,
-      done: shipped,
+      done: packed,
     },
     {
       title: direct ? "Entrega coordinada" : "Entregado a la transportadora",

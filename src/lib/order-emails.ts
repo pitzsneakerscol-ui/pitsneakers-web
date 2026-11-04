@@ -41,22 +41,24 @@ function statusTimeline(o: CatalogOrder): string[] {
 
 /** Confirmación al comprador. */
 export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string } {
-  const wa = buildGeneralWhatsAppLink(`Hola! Acabo de pagar mi pedido ${o.reference} (${o.productName}${o.size ? ` talla ${o.size}` : ""}). ¿Coordinamos el envío?`);
+  // Venta cerrada por WhatsApp: ya acordaron todo ahí, así que no se vuelve a pedir confirmar dirección ni envío.
+  const manual = o.paymentMethod.startsWith("WhatsApp");
+  const wa = buildGeneralWhatsAppLink(manual ? `Hola! Sobre mi pedido ${o.reference} (${o.productName}): ` : `Hola! Acabo de pagar mi pedido ${o.reference} (${o.productName}${o.size ? ` talla ${o.size}` : ""}). ¿Coordinamos el envío?`);
   return {
-    subject: `Pago recibido: ${o.productName} 🔥`,
+    subject: manual ? `Tu compra está confirmada: ${o.productName} 🔥` : `Pago recibido: ${o.productName} 🔥`,
     body: [
-      "# ¡Pago ==recibido==!",
+      manual ? "# ¡Compra ==confirmada==!" : "# ¡Pago ==recibido==!",
       "",
       `Hola ${o.buyerName.split(" ")[0]}, ya tenemos tu pago. ¡Gracias por comprar en Pitsneakers!`,
       "",
       ...productRow(o),
       ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
-      `> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`,
+      ...(manual ? [] : [`> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`]),
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
       ...(o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
-      "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",
+      manual ? "- Te avisamos por correo en cada paso: cuando llegue a verificación, cuando esté verificado y cuando lo despachemos." : "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",
       "- Puedes ver en qué va tu pedido cuando quieras con el botón de abajo.",
       "",
       `[boton: Ver el estado de mi pedido | ${trackingUrl(o)}]`,
@@ -157,6 +159,54 @@ export function teamShipmentIssueEmail(o: CatalogOrder, issue: string): { subjec
       `[boton: Ver pedidos | ${siteConfig.siteUrl.replace(/\/$/, "")}/admin/pedidos?f=incidencia]`,
     ].join("\n"),
   };
+}
+
+/** Correo de avance de un paso intermedio: par, línea de estado actualizada y botón al seguimiento. */
+function stepEmail(o: CatalogOrder, subject: string, title: string, intro: string, bullets: string[]): { subject: string; body: string } {
+  const wa = buildGeneralWhatsAppLink(`Hola! Tengo una consulta sobre mi pedido ${o.reference} (${o.productName}).`);
+  return {
+    subject,
+    body: [
+      `# ${title}`,
+      "",
+      `Hola ${o.buyerName.split(" ")[0]}, ${intro}`,
+      "",
+      ...productRow(o),
+      ...statusTimeline(o),
+      `> **Pedido:** ${o.reference}`,
+      "",
+      ...bullets.map((b) => `- ${b}`),
+      "",
+      `[boton: Ver el estado de mi pedido | ${trackingUrl(o)}]`,
+      `[boton: Escribirnos por WhatsApp | ${wa}]`,
+      "",
+      "**Equipo Pitsneakers**",
+    ].join("\n"),
+  };
+}
+
+/** Aviso de que el par viene en camino a nuestro punto de verificación. */
+export function buyerOnTheWayEmail(o: CatalogOrder): { subject: string; body: string } {
+  return stepEmail(o, `Tu ${o.productName} va en camino a verificación`, "Tu par va ==en camino== a verificación", "tu par ya viene en camino a nuestro punto de verificación.", [
+    "Cuando llegue lo revisamos a fondo antes de enviártelo.",
+    "Te avisamos por correo en cada paso; también puedes verlo cuando quieras con el botón de abajo.",
+  ]);
+}
+
+/** Aviso de que el par ya llegó al punto de verificación. */
+export function buyerReceivedEmail(o: CatalogOrder): { subject: string; body: string } {
+  return stepEmail(o, `Recibimos tu ${o.productName}`, "Ya ==recibimos== tu par", "tu par ya está en nuestro punto de verificación.", [
+    "Ahora lo revisamos físicamente (autenticidad, estado y talla) y lo empacamos con protección.",
+    "Cuando termine la verificación te avisamos.",
+  ]);
+}
+
+/** Aviso de que el par pasó la verificación. */
+export function buyerVerifiedEmail(o: CatalogOrder): { subject: string; body: string } {
+  return stepEmail(o, `Tu ${o.productName} fue verificado ✅`, "Tu par fue ==verificado==", "tu par pasó nuestra verificación: autenticidad, estado y talla revisados.", [
+    "Lo dejamos empacado con protección, listo para salir.",
+    "En cuanto lo despachemos te mandamos la guía por correo.",
+  ]);
 }
 
 /** Aviso de entrega y petición de reseña, justo cuando el cliente ya tiene el par. */

@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, saveVerification, updateFulfillment } from "@/lib/catalog-orders";
-import { MAX_PHOTO_BYTES, parseChecks } from "@/lib/verification-shared";
+import { MAX_PHOTO_BYTES, isVerified, parseChecks } from "@/lib/verification-shared";
 import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
-import { buyerDeliveredEmail, buyerShippedEmail } from "@/lib/order-emails";
+import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
 import { sendEmail } from "@/lib/email";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
@@ -36,12 +36,22 @@ export async function verifyOrder(fd: FormData): Promise<void> {
     }
   }
 
-  await saveVerification(o.id, { checks: parseChecks(fd.getAll("check").map(String).join(",")), by: admin.displayName || admin.username, note: text(fd, "note") });
+  const checks = parseChecks(fd.getAll("check").map(String).join(","));
+  await saveVerification(o.id, { checks, by: admin.displayName || admin.username, note: text(fd, "note") });
   for (const f of files) await addOrderPhoto(o.id, f.type, new Uint8Array(await f.arrayBuffer()));
+
+  // Al dar el par por verificado (solo la primera vez) se le avisa al cliente, si el equipo lo pide.
+  let emailed = "";
+  if (fd.get("notify") === "on" && isVerified(checks) && !isVerified(o.verifChecks)) {
+    const fresh = (await getOrderById(o.id)) ?? o;
+    const mail = buyerVerifiedEmail(fresh);
+    const sent = await sendEmail({ to: fresh.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
+    emailed = sent.ok ? "1" : "0";
+  }
 
   revalidatePath("/admin/pedidos");
   revalidatePath(`/pedido/${o.reference}`);
-  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=3#${o.reference}`);
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=3${emailed ? `&m=${emailed}` : ""}#${o.reference}`);
 }
 
 /** Borra una foto de recepción de un pedido. */
@@ -138,7 +148,11 @@ export async function saveFulfillment(fd: FormData): Promise<void> {
         ? buyerShippedEmail(o)
         : o.fulfillment === "entregado" && res.justDelivered
           ? buyerDeliveredEmail(o)
-          : null;
+          : o.fulfillment === "hacia_verificacion" && res.before !== "hacia_verificacion"
+            ? buyerOnTheWayEmail(o)
+            : o.fulfillment === "preparando" && res.before !== "preparando"
+              ? buyerReceivedEmail(o)
+              : null;
     if (mail) {
       const sent = await sendEmail({ to: o.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
       emailed = sent.ok ? "1" : "0";

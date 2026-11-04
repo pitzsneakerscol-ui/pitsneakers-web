@@ -75,7 +75,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       <header>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Pedidos web</h1>
-          <Link href="/admin/pedidos/nuevo" className={btnPrimary}>Registrar venta por WhatsApp</Link>
+          <Link href="/admin/pedidos/nuevo" className={btnPrimary}>Avisar a un cliente de WhatsApp</Link>
         </div>
         <p className="mt-2 max-w-2xl text-sm text-muted">
           Compras que los clientes pagaron en la página con Wompi. Confirma el stock, devuelve el pago desde el panel de Wompi si ya no hay y lleva aquí el envío: al despachar con guía, el cliente recibe el correo y puede ver en qué va su pedido.
@@ -85,7 +85,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "registrado como venta pagada. Ya aparece abajo y el cliente puede seguirlo en su enlace." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -167,6 +167,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     <strong>{formatPrice(o.amount)}</strong>
                     <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider ${st.cls}`}>{st.label}</span>
                     {isPaid ? <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider ${FULFILLMENT_CLS[o.fulfillment]}`}>{FULFILLMENT_LABEL[o.fulfillment]}</span> : null}
+                    {o.paymentMethod.startsWith("WhatsApp") ? <span className="rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">WhatsApp</span> : null}
                     {late48 ? <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Atrasado</span> : null}
                   </div>
                 </div>
@@ -186,7 +187,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   </p>
                 ) : null}
 
-                {isPaid && sky && o.shipAddress && !o.skyShipmentId && o.fulfillment !== "entregado" ? (
+                {isPaid && sky && o.shipAddress && !o.skyShipmentId && o.fulfillment !== "entregado" && !o.paymentMethod.startsWith("WhatsApp") ? (
                   <form action={generateGuide} className="mt-3 flex flex-wrap items-end gap-2 rounded-lg border border-line p-3">
                     <input type="hidden" name="id" value={o.id} />
                     <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
@@ -278,6 +279,10 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                         </div>
                         <div className="flex flex-wrap items-center gap-3">
                           <button type="submit" className={btnPrimary}>Guardar verificación</button>
+                          <label className="flex items-center gap-2 text-xs text-muted">
+                            <input type="checkbox" name="notify" defaultChecked className="h-4 w-4 accent-accent" />
+                            Avisar al cliente por correo que su par fue verificado
+                          </label>
                           <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos son evidencia interna: el cliente no las ve.</p>
                         </div>
                       </form>
@@ -321,7 +326,8 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                       <button type="submit" className={btnPrimary}>Guardar</button>
                     </div>
                     <p className="text-xs text-muted sm:col-span-2 lg:col-span-5">
-                      El correo sale solo al pasar a <strong>Despachado</strong> (con la guía) o a <strong>Entregado</strong> (pide la reseña). Cliente:{" "}
+                      {o.paymentMethod.startsWith("WhatsApp") ? <><strong>Venta por WhatsApp:</strong> elige tú la transportadora y escribe la guía a mano; el cliente la recibe en el correo de despachado. </> : null}
+                      El correo sale al pasar a <strong>En camino a verificación</strong>, <strong>Verificando y empacando</strong> (par recibido), <strong>Despachado</strong> (con la guía) o <strong>Entregado</strong> (pide la reseña). El aviso de <strong>verificado</strong> sale al guardar la verificación completa. Cliente:{" "}
                       <Link href={`/pedido/${o.reference}`} target="_blank" className="underline">ver lo que ve él</Link>
                       {o.shippedAt ? <span> · salió {ago(o.shippedAt)}</span> : null}
                     </p>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllProducts } from "@/lib/products";
-import { isEmailConfigured } from "@/lib/email";
 import SaleForm from "@/components/admin/SaleForm";
 import type { SaleProduct } from "@/lib/sale-shared";
 
@@ -23,12 +22,12 @@ export default async function NuevaVentaPage() {
     <div className="space-y-6">
       <header>
         <Link href="/admin/pedidos" className="text-xs font-semibold uppercase tracking-wide text-muted underline">← Pedidos web</Link>
-        <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Registrar venta por WhatsApp</h1>
+        <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Avisar a un cliente de WhatsApp</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          Para ventas que cerraste fuera de la página. Eliges el par del catálogo (con su foto), pones los datos del cliente y el precio que acordaron: el pedido queda pagado y el cliente recibe el mismo proceso que quien compra en la web, con su enlace de seguimiento.
+          Para ventas que cerraste fuera de la página. Eliges el par del catálogo (con su foto, talla y estado), pones el nombre y el correo del cliente y el tipo de mensaje: le llega el correo con el seguimiento de su pedido, igual que a quien compra en la web.
         </p>
       </header>
-      <SaleForm products={products} emailOn={isEmailConfigured()} />
+      <SaleForm products={products} />
     </div>
   );
 }
