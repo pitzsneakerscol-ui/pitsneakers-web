@@ -120,7 +120,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
             const isPaid = o.status === "pagado";
             const late48 = isPaid && isLate(o.fulfillment, o.paidAt, o.createdAt);
             return (
-              <li key={o.id} id={o.reference} className={`${cardCls} p-4 sm:p-5 ${late48 ? "border-accent/60" : ""}`}>
+              <li key={o.id} id={o.reference} className={`${cardCls} p-4 sm:p-5 ${late48 ? "ring-1 ring-accent/60" : ""}`}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="font-semibold">{o.brand} {o.productName}</p>

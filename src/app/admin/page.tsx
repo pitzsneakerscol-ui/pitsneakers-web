@@ -6,6 +6,7 @@ import { ago, fmtDateTime } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import Kpi from "@/components/admin/Kpi";
+import TodayQueue from "@/components/admin/TodayQueue";
 
 export const metadata: Metadata = { title: "Resumen del dueño" };
 
@@ -33,6 +34,8 @@ export default async function AdminHome() {
           El envío de correos aún no está activo: faltan <code>RESEND_API_KEY</code> y <code>EMAIL_FROM</code>. Mira el README para activarlo.
         </p>
       )}
+
+      <TodayQueue />
 
       <section aria-labelledby="k-pagos">
         <h2 id="k-pagos" className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted">Pagos</h2>

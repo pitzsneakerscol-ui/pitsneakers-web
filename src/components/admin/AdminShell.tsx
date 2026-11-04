@@ -78,7 +78,7 @@ function Badge({ n }: { n: number }) {
 }
 
 /** Panel del dueño: mismo estilo oscuro del panel de revendedores (barra lateral en computador, barra de tareas en celular). */
-export default function AdminShell({ pending, reviewsPending = 0, children }: { pending: number; reviewsPending?: number; children: React.ReactNode }) {
+export default function AdminShell({ pending, reviewsPending = 0, todayCount = 0, children }: { pending: number; reviewsPending?: number; todayCount?: number; children: React.ReactNode }) {
   const pathname = usePathname();
   const [more, setMore] = useState(false);
   const active = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname === href || pathname.startsWith(`${href}/`));
@@ -100,6 +100,7 @@ export default function AdminShell({ pending, reviewsPending = 0, children }: { 
     >
       <it.Icon className="h-5 w-5 shrink-0" />
       {it.label}
+      {it.href === "/admin" && <Badge n={todayCount} />}
       {it.href === "/admin/consultas" && <Badge n={pending} />}
       {it.href === "/admin/resenas" && <Badge n={reviewsPending} />}
     </Link>
@@ -169,6 +170,7 @@ export default function AdminShell({ pending, reviewsPending = 0, children }: { 
           >
             <it.Icon className="h-6 w-6" />
             {it.label}
+            {it.href === "/admin" && todayCount > 0 && <span className="rsh-badge absolute right-[24%] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true" />}
             {it.href === "/admin/consultas" && pending > 0 && <span className="rsh-badge absolute right-[24%] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true" />}
           </Link>
         ))}
