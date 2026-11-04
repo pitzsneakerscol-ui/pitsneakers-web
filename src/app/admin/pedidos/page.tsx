@@ -8,7 +8,8 @@ import { isWompiConfigured, isWompiTest } from "@/lib/wompi";
 import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
-import { saveFulfillment } from "./actions";
+import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
+import { generateGuide, refreshGuide, saveFulfillment } from "./actions";
 
 export const metadata: Metadata = { title: "Pedidos web" };
 
@@ -29,10 +30,18 @@ const FILTERS = [
   ["pendiente", "Sin pagar"],
 ] as const;
 
-type SP = { f?: string; e?: string; ok?: string; m?: string };
+type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string };
+
+/** Saldo de créditos de Skydropx (null si no está conectado o no respondió: el panel sigue funcionando). */
+async function skySaldo(): Promise<{ balance: number; currency: string } | null> {
+  if (!isSkydropxConfigured()) return null;
+  return getCredits().catch(() => null);
+}
 
 export default async function PedidosPage({ searchParams }: { searchParams: Promise<SP> }) {
-  const { f, e, ok, m } = await searchParams;
+  const { f, e, ok, m, g } = await searchParams;
+  const sky = isSkydropxConfigured();
+  const credits = await skySaldo();
   const filter = FILTERS.some(([k]) => k === f) ? (f as (typeof FILTERS)[number][0]) : "todos";
   const all = await listOrders();
   const rows = all.filter((o) => {
@@ -66,7 +75,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> actualizado.
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -79,6 +88,22 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
         <p className="mt-2 text-muted">
           URL de eventos para el panel de Wompi: <code className="rounded bg-paper px-1.5 py-0.5 text-xs text-ink">{base}/api/wompi/eventos</code>
         </p>
+      </section>
+
+      <section className={`${cardCls} p-4 text-sm sm:p-5`}>
+        <p className="font-semibold">
+          Skydropx ({CARRIER_LABEL}):{" "}
+          {!sky ? "sin conectar" : credits ? (
+            <>
+              créditos disponibles <span className={credits.balance < 60000 ? "text-accent" : ""}>{formatPrice(credits.balance)}</span>
+            </>
+          ) : "conectado, pero no pude leer el saldo"}
+        </p>
+        {!sky ? (
+          <p className="mt-1 text-muted">Faltan las variables SKYDROPX_CLIENT_ID y SKYDROPX_CLIENT_SECRET en Vercel (las sacas en Skydropx → Conexiones → API). Mientras tanto puedes pegar la guía a mano.</p>
+        ) : (
+          <p className="mt-1 text-muted">Cada guía se paga con estos créditos al generarla. Si se acaban, recarga en Skydropx.</p>
+        )}
       </section>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -151,12 +176,46 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   </p>
                 ) : null}
 
+                {isPaid && sky && o.shipAddress && !o.skyShipmentId && o.fulfillment !== "entregado" ? (
+                  <form action={generateGuide} className="mt-3 flex flex-wrap items-end gap-2 rounded-lg border border-line p-3">
+                    <input type="hidden" name="id" value={o.id} />
+                    <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                      Código postal de entrega
+                      <input name="postal" defaultValue={o.shipPostal} inputMode="numeric" maxLength={8} required autoComplete="off" placeholder="Ej: 050021" className={`${inputCls} mt-1 block w-40 normal-case tracking-normal`} />
+                    </label>
+                    <button type="submit" className={btnPrimary}>Generar guía {CARRIER_LABEL}</button>
+                    <p className="basis-full text-xs text-muted">Cotiza solo con {CARRIER_LABEL}, descuenta el costo de tus créditos de Skydropx y guarda el número de guía y la etiqueta. Tarda unos segundos.</p>
+                  </form>
+                ) : null}
+                {isPaid && o.skyShipmentId ? (
+                  <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg bg-paper px-3 py-2 text-sm">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Guía Skydropx</span>
+                    {o.skyShipmentId === "pending" ? (
+                      <span className="text-muted">Generándose… recarga en unos segundos. Si lleva minutos así, revisa en Skydropx y pega la guía a mano abajo.</span>
+                    ) : (
+                      <>
+                        <strong className="font-mono">{o.tracking || "pendiente"}</strong>
+                        {o.shipCost > 0 ? <span className="text-muted">costó {formatPrice(o.shipCost)}</span> : null}
+                        {o.labelUrl ? (
+                          <a href={o.labelUrl} target="_blank" rel="noreferrer" className="font-semibold text-accent underline">Descargar etiqueta (PDF)</a>
+                        ) : null}
+                        {!o.tracking || !o.labelUrl ? (
+                          <form action={refreshGuide}>
+                            <input type="hidden" name="id" value={o.id} />
+                            <button type="submit" className="text-xs font-semibold underline">Actualizar guía</button>
+                          </form>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                ) : null}
+
                 {isPaid ? (
                   <form action={saveFulfillment} className="mt-3 grid gap-2 rounded-lg border border-line p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.2fr_1.4fr_auto] lg:items-end">
                     <input type="hidden" name="id" value={o.id} />
                     <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
                       Paso del envío
-                      <select name="step" defaultValue={o.fulfillment || "por_preparar"} className={`${selectAutoCls} mt-1 block w-full normal-case tracking-normal`}>
+                      <select name="step" defaultValue={isToShip(o.fulfillment) && o.tracking ? "despachado" : o.fulfillment || "por_preparar"} className={`${selectAutoCls} mt-1 block w-full normal-case tracking-normal`}>
                         {FULFILLMENT_STEPS.map((s) => (
                           <option key={s} value={s}>{FULFILLMENT_LABEL[s]}</option>
                         ))}

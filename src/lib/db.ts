@@ -460,6 +460,11 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["ship_note", "TEXT NOT NULL DEFAULT ''"],
     ["shipped_at", "INTEGER"],
     ["delivered_at", "INTEGER"],
+    // Guía comprada en Skydropx: id del envío, etiqueta PDF, costo en créditos y código postal usado.
+    ["sky_shipment_id", "TEXT NOT NULL DEFAULT ''"],
+    ["label_url", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_cost", "INTEGER NOT NULL DEFAULT 0"],
+    ["ship_postal", "TEXT NOT NULL DEFAULT ''"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

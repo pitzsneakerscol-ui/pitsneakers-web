@@ -45,6 +45,12 @@ export interface CatalogOrder {
   shipNote: string;
   shippedAt: number | null;
   deliveredAt: number | null;
+  /** guía comprada en Skydropx ("" = todavía no) */
+  skyShipmentId: string;
+  labelUrl: string;
+  /** costo de la guía en créditos de Skydropx */
+  shipCost: number;
+  shipPostal: string;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -81,13 +87,17 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   shipNote: String(r.ship_note ?? ""),
   shippedAt: r.shipped_at === null || r.shipped_at === undefined ? null : Number(r.shipped_at),
   deliveredAt: r.delivered_at === null || r.delivered_at === undefined ? null : Number(r.delivered_at),
+  skyShipmentId: String(r.sky_shipment_id ?? ""),
+  labelUrl: String(r.label_url ?? ""),
+  shipCost: Number(r.ship_cost ?? 0),
+  shipPostal: String(r.ship_postal ?? ""),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -159,6 +169,37 @@ export async function markEmailed(orderId: number): Promise<boolean> {
   const db = await getDb();
   const r = await db.execute({ sql: "UPDATE catalog_orders SET emailed = 1 WHERE id = ? AND emailed = 0", args: [orderId] });
   return r.rowsAffected > 0;
+}
+
+/** Reserva el pedido para comprar su guía: evita pagar dos guías si se hace doble clic. Devuelve false si ya tiene una o está en proceso. */
+export async function claimGuide(id: number): Promise<boolean> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "UPDATE catalog_orders SET sky_shipment_id = 'pending' WHERE id = ? AND sky_shipment_id = ''", args: [id] });
+  return r.rowsAffected > 0;
+}
+
+/** Quita la reserva si la compra falló, para poder reintentar. */
+export async function releaseGuide(id: number): Promise<void> {
+  const db = await getDb();
+  await db.execute({ sql: "UPDATE catalog_orders SET sky_shipment_id = '' WHERE id = ? AND sky_shipment_id = 'pending'", args: [id] });
+}
+
+export interface GuideSave {
+  shipmentId: string;
+  carrier: string;
+  tracking: string;
+  labelUrl: string;
+  cost: number;
+  postal: string;
+}
+
+/** Guarda la guía comprada. El paso del envío no cambia: despachar (y avisar al cliente) sigue siendo un clic aparte. */
+export async function saveGuide(id: number, g: GuideSave): Promise<void> {
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET sky_shipment_id = ?, carrier = ?, tracking = ?, label_url = ?, ship_cost = ?, ship_postal = ? WHERE id = ?",
+    args: [g.shipmentId, g.carrier, g.tracking.slice(0, 60), g.labelUrl, g.cost, g.postal, id],
+  });
 }
 
 export interface FulfillmentInput {
