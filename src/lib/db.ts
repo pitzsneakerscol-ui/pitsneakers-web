@@ -465,6 +465,9 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["label_url", "TEXT NOT NULL DEFAULT ''"],
     ["ship_cost", "INTEGER NOT NULL DEFAULT 0"],
     ["ship_postal", "TEXT NOT NULL DEFAULT ''"],
+    // Último estado del recorrido que reportó la transportadora (Skydropx) y cuándo se consultó.
+    ["sky_status", "TEXT NOT NULL DEFAULT ''"],
+    ["tracked_at", "INTEGER"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

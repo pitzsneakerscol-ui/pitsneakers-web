@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { after } from "next/server";
+import { syncTracking, skyStatusLabel } from "@/lib/tracking-sync";
 import { listOrders, type OrderStatus } from "@/lib/catalog-orders";
 import { shippingLine } from "@/lib/shipping-shared";
 import { ago } from "@/lib/admin-shared";
@@ -41,6 +43,8 @@ async function skySaldo(): Promise<{ balance: number; currency: string } | null>
 export default async function PedidosPage({ searchParams }: { searchParams: Promise<SP> }) {
   const { f, e, ok, m, g } = await searchParams;
   const sky = isSkydropxConfigured();
+  // Pone al día el rastreo de los pedidos en camino sin hacer esperar la página (se ve al recargar).
+  if (sky) after(() => syncTracking({ staleMs: 10 * 60_000, limit: 10 }).catch(() => undefined));
   const credits = await skySaldo();
   const filter = FILTERS.some(([k]) => k === f) ? (f as (typeof FILTERS)[number][0]) : "todos";
   const all = await listOrders();
@@ -196,6 +200,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                       <>
                         <strong className="font-mono">{o.tracking || "pendiente"}</strong>
                         {o.shipCost > 0 ? <span className="text-muted">costó {formatPrice(o.shipCost)}</span> : null}
+                        {o.skyStatus ? <span className="rounded-full bg-line px-2.5 py-0.5 text-xs font-semibold">{skyStatusLabel(o.skyStatus)}{o.trackedAt ? ` · ${ago(o.trackedAt)}` : ""}</span> : null}
                         {o.labelUrl ? (
                           <a href={o.labelUrl} target="_blank" rel="noreferrer" className="font-semibold text-accent underline">Descargar etiqueta (PDF)</a>
                         ) : null}

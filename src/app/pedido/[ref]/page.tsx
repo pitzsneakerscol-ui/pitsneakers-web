@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getOrderByRef, type CatalogOrder } from "@/lib/catalog-orders";
-import { DIRECT_CARRIER } from "@/lib/fulfillment-shared";
+import { after } from "next/server";
+import { refreshIfStale } from "@/lib/tracking-sync";
+import { getOrderByRef } from "@/lib/catalog-orders";
+import { shortDay } from "@/lib/fulfillment-shared";
+import { stepsFor } from "@/lib/order-steps";
 import { getAllGroups } from "@/lib/products";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
-import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Estado de tu pedido",
@@ -12,68 +14,18 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// El estado cambia cuando el equipo despacha: siempre se lee de la base de datos.
+// El estado cambia cuando el equipo despacha o la transportadora avisa: siempre se lee de la base de datos.
 export const dynamic = "force-dynamic";
 
 const longDay = (ms: number) => new Date(ms).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" });
-const shortDay = (ms: number) => new Date(ms).toLocaleDateString("es-CO", { day: "numeric", month: "long", timeZone: "America/Bogota" });
-
-interface Step {
-  title: string;
-  text: string;
-  /** dato destacado debajo del texto (guía, fecha) */
-  extra?: string;
-  done: boolean;
-}
-
-/** Pasos que ve el comprador, con una explicación debajo de cada uno, a partir del seguimiento que lleva el equipo. */
-function stepsFor(o: CatalogOrder): Step[] {
-  const f = o.fulfillment;
-  const shipped = f === "despachado" || f === "entregado" || (f === "incidencia" && o.shippedAt !== null);
-  const delivered = f === "entregado";
-  const preparing = f === "preparando" || shipped;
-  const direct = o.carrier === DIRECT_CARRIER;
-
-  return [
-    {
-      title: "Pedido confirmado",
-      text: "¡Listo! Recibimos tu pago y tu pedido está confirmado.",
-      extra: o.paidAt ? shortDay(o.paidAt) : undefined,
-      done: true,
-    },
-    {
-      title: "Verificado y empacado",
-      text: shipped
-        ? "Revisamos tu par a fondo y lo dejamos empacado."
-        : preparing
-          ? "Estamos revisando tu par y empacándolo con cuidado."
-          : "Cada par pasa por revisión física y autenticación antes de salir.",
-      done: shipped,
-    },
-    {
-      title: direct ? "Entrega coordinada" : "Entregado a la transportadora",
-      text: shipped
-        ? direct
-          ? "Lo entregamos directamente: te escribimos por WhatsApp para coordinar."
-          : `Tu pedido salió con ${o.carrier || "la transportadora"}.${o.tracking ? " Con el número de guía puedes ver el recorrido en su página." : ""}`
-        : "Cuando salga te mandamos la guía por correo.",
-      extra: shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : ""].filter(Boolean).join(" · ") || undefined : undefined,
-      done: shipped,
-    },
-    {
-      title: "Entregado en tu dirección",
-      text: delivered ? "Tu pedido llegó. ¡A estrenar!" : `Cuando lo tengas, etiquétanos en Instagram ${siteConfig.instagramHandle}: nos encanta ver tus pares.`,
-      extra: delivered && o.deliveredAt ? shortDay(o.deliveredAt) : undefined,
-      done: delivered,
-    },
-  ];
-}
 
 export default async function PedidoPage({ params }: { params: Promise<{ ref: string }> }) {
   const { ref } = await params;
   const reference = decodeURIComponent(ref).trim().toUpperCase();
   const order = /^PITS-[A-Z0-9]{7}$/.test(reference) ? await getOrderByRef(reference) : null;
   const wa = buildGeneralWhatsAppLink(`Hola! Quiero consultar mi pedido ${reference}.`);
+  // Si el pedido va en camino, se le pregunta a la transportadora sin hacer esperar al cliente (lo ve al recargar).
+  if (order) after(() => refreshIfStale(order));
 
   if (!order || order.status !== "pagado") {
     return (

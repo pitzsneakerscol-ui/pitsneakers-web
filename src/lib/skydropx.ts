@@ -1,4 +1,5 @@
 import "server-only";
+import { createHmac, timingSafeEqual } from "node:crypto";
 
 /**
  * Cliente mínimo de la API PRO de Skydropx (https://pro.skydropx.com/es-MX/api-docs): cotizar, comprar la guía con los
@@ -104,6 +105,30 @@ function parcel(): { length: number; width: number; height: number; weight: numb
   return { length: l > 0 ? l : 35, width: w > 0 ? w : 25, height: h > 0 ? h : 15, weight: kg > 0 ? kg : 2 };
 }
 
+// ---------- webhooks ----------
+/**
+ * Verifica que un aviso venga de Skydropx. Su panel (Conexiones → Webhooks) permite dos formas, ambas con la clave que
+ * defines en SKYDROPX_WEBHOOK_SECRET: "Authorization: HMAC <firma>" (SHA-512 en hexadecimal sobre el cuerpo exacto,
+ * recomendada) o "Authorization: Bearer <clave>". Si le cambias el nombre al encabezado, ponlo en SKYDROPX_WEBHOOK_HEADER.
+ */
+export function webhookHeaderName(): string {
+  return (process.env.SKYDROPX_WEBHOOK_HEADER ?? "").trim().toLowerCase() || "authorization";
+}
+
+export function verifyWebhook(rawBody: string, headerValue: string | null): boolean {
+  const secret = (process.env.SKYDROPX_WEBHOOK_SECRET ?? "").trim();
+  if (!secret || !headerValue) return false;
+  const same = (a: string, b: string) => {
+    const x = Buffer.from(a);
+    const y = Buffer.from(b);
+    return x.length === y.length && timingSafeEqual(x, y);
+  };
+  const v = headerValue.trim();
+  if (/^hmac /i.test(v)) return same(v.slice(5).trim().toLowerCase(), createHmac("sha512", secret).update(rawBody).digest("hex"));
+  if (/^bearer /i.test(v)) return same(v.slice(7).trim(), secret);
+  return false;
+}
+
 // ---------- guía ----------
 export interface GuideInput {
   /** valor del par: se declara a la transportadora */
@@ -128,6 +153,8 @@ export interface Guide {
   labelUrl: string;
   cost: number;
   status: string;
+  /** estado del recorrido que reporta la transportadora: created, picked_up, in_transit, last_mile, delivered… */
+  trackingStatus: string;
   error: string;
 }
 
@@ -147,6 +174,7 @@ function readShipment(raw: Json): Guide {
     labelUrl: str(pk.label_url),
     cost: Math.round(num(attrs.total)),
     status: str(attrs.workflow_status),
+    trackingStatus: str(pk.tracking_status).toLowerCase(),
     error: str(detail.error_message_detail) || str(detail.error_message) || str(detail.error_code),
   };
 }

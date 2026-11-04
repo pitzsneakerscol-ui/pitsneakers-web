@@ -4,13 +4,40 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 import { shippingLine } from "@/lib/shipping-shared";
 import { DIRECT_CARRIER } from "@/lib/fulfillment-shared";
+import { stepsFor } from "@/lib/order-steps";
 
 /** Página pública donde el comprador ve en qué va su pedido (solo con la referencia, sin cuenta). */
 export const trackingUrl = (o: CatalogOrder) => `${siteConfig.siteUrl.replace(/\/$/, "")}/pedido/${o.reference}`;
 
 const shipTo = (o: CatalogOrder) => shippingLine({ department: o.shipDepartment, city: o.buyerCity, address: o.shipAddress, complement: o.shipComplement });
 
-const line = (o: CatalogOrder) => `**${`${o.brand} ${o.productName}`.trim().replace(/^(\S+) \1 /, "$1 ")}**${o.size && o.size !== "Única" ? ` · talla ${o.size}` : ""}`;
+/** Un dato dentro de un bloque [producto:] / [paso:] del correo: sin los caracteres que lo separan. */
+const cell = (s: string) => s.replace(/[|\]\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+
+/**
+ * Fila del par comprado, como en el seguimiento de la página: foto pequeña a la izquierda y a la derecha nombre y talla.
+ * Las rutas del catálogo (/products/…) se vuelven enlaces completos para que la foto cargue en el correo.
+ */
+function productRow(o: CatalogOrder): string[] {
+  const src = o.image.trim();
+  // Las fotos del catálogo son de 2000 px (160 KB): en el correo se pide una versión de 256 px en JPEG, que pesa unos 5 KB y abre en cualquier correo.
+  const img = src.startsWith("https://") ? src : src.startsWith("/") ? `${siteConfig.siteUrl.replace(/\/$/, "")}/_next/image?url=${encodeURIComponent(src)}&w=256&q=75` : "-";
+  const name = `${o.brand} ${o.productName}`.trim().replace(/^(\S+) \1 /, "$1 ");
+  const detail = `${o.size && o.size !== "Única" ? `Talla: ${o.size}` : "Talla única"} · ${o.condition}`;
+  return [`[producto: ${cell(img)} | ${cell(name)} | ${cell(detail)}]`, ""];
+}
+
+/** "Estado del pedido": la misma línea de pasos con checks que ve el comprador en la página del pedido. */
+function statusTimeline(o: CatalogOrder): string[] {
+  const steps = stepsFor(o);
+  const current = steps.findIndex((s) => !s.done);
+  return [
+    "## Estado del pedido",
+    "",
+    ...steps.map((s, i) => `[paso: ${s.done ? "ok" : i === current ? "actual" : "no"} | ${cell(s.title)} | ${cell(s.text)} | ${cell(s.extra ?? "")}]`),
+    "",
+  ];
+}
 
 /** Confirmación al comprador. */
 export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string } {
@@ -20,16 +47,17 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
     body: [
       "# ¡Pago ==recibido==!",
       "",
-      `Hola ${o.buyerName.split(" ")[0]}, ya tenemos tu pago por ${line(o)}.`,
+      `Hola ${o.buyerName.split(" ")[0]}, ya tenemos tu pago. ¡Gracias por comprar en Pitsneakers!`,
       "",
+      ...productRow(o),
+      ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
       `> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`,
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
       ...(o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
       "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",
-      "- Cada par pasa por verificación antes de salir.",
-      "- Cuando lo despachemos te mandamos la guía por correo, y puedes ver en qué va tu pedido cuando quieras.",
+      "- Puedes ver en qué va tu pedido cuando quieras con el botón de abajo.",
       "",
       `[boton: Ver el estado de mi pedido | ${trackingUrl(o)}]`,
       `[boton: Escribirnos por WhatsApp | ${wa}]`,
@@ -53,8 +81,7 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
     body: [
       `# ${test ? "Pago de prueba" : "Nuevo pago"} ==${formatPrice(o.amount)}==`,
       "",
-      line(o) + ` (${o.condition})`,
-      "",
+      ...productRow(o),
       `> **Referencia:** ${o.reference}`,
       `> **Comprador:** ${o.buyerName}`,
       `> **Correo:** ${o.buyerEmail}`,
@@ -87,8 +114,10 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
     body: [
       "# Tu pedido va ==en camino==",
       "",
-      `Hola ${o.buyerName.split(" ")[0]}, ya despachamos ${line(o)}.`,
+      `Hola ${o.buyerName.split(" ")[0]}, tu pedido ya salió. Aquí tienes el detalle:`,
       "",
+      ...productRow(o),
+      ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
       ...(o.carrier ? [`> **Transportadora:** ${o.carrier}`] : []),
       ...(!direct && o.tracking ? [`> **Número de guía:** ${o.tracking}`] : []),
@@ -107,6 +136,29 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
   };
 }
 
+/** Aviso al equipo (info@) de que la transportadora reportó un problema con un envío. */
+export function teamShipmentIssueEmail(o: CatalogOrder, issue: string): { subject: string; body: string } {
+  const wa = `https://wa.me/57${o.buyerPhone.replace(/\D/g, "").slice(-10)}`;
+  return {
+    subject: `⚠️ Problema con el envío ${o.reference}: ${issue}`,
+    body: [
+      `# Envío con ==problema==`,
+      "",
+      ...productRow(o),
+      `> **Estado que reporta la transportadora:** ${issue}`,
+      `> **Pedido:** ${o.reference}`,
+      `> **Comprador:** ${o.buyerName} · ${o.buyerPhone}`,
+      ...(o.carrier ? [`> **Transportadora:** ${o.carrier}${o.tracking ? ` · guía ${o.tracking}` : ""}`] : []),
+      ...(o.shipAddress ? [`> **Enviado a:** ${shipTo(o)}`] : []),
+      "",
+      "El pedido quedó marcado como **Incidencia** en el panel. Revisa con la transportadora y avísale al comprador.",
+      "",
+      `[boton: Escribirle al comprador | ${wa}]`,
+      `[boton: Ver pedidos | ${siteConfig.siteUrl.replace(/\/$/, "")}/admin/pedidos?f=incidencia]`,
+    ].join("\n"),
+  };
+}
+
 /** Aviso de entrega y petición de reseña, justo cuando el cliente ya tiene el par. */
 export function buyerDeliveredEmail(o: CatalogOrder): { subject: string; body: string } {
   const wa = buildGeneralWhatsAppLink(`Hola! Sobre mi pedido ${o.reference} (${o.productName}): `);
@@ -115,8 +167,10 @@ export function buyerDeliveredEmail(o: CatalogOrder): { subject: string; body: s
     body: [
       "# Tu pedido ==llegó==",
       "",
-      `Hola ${o.buyerName.split(" ")[0]}, marcamos como entregado ${line(o)}. ¡Disfrútalo!`,
+      `Hola ${o.buyerName.split(" ")[0]}, marcamos tu pedido como entregado. ¡Disfrútalo!`,
       "",
+      ...productRow(o),
+      ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
       "",
       "- Si algo no está bien con tu par, escríbenos cuanto antes y lo revisamos contigo.",

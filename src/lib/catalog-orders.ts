@@ -51,6 +51,9 @@ export interface CatalogOrder {
   /** costo de la guía en créditos de Skydropx */
   shipCost: number;
   shipPostal: string;
+  /** último estado del recorrido según la transportadora ("" = sin datos todavía) */
+  skyStatus: string;
+  trackedAt: number | null;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -91,13 +94,15 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   labelUrl: String(r.label_url ?? ""),
   shipCost: Number(r.ship_cost ?? 0),
   shipPostal: String(r.ship_postal ?? ""),
+  skyStatus: String(r.sky_status ?? ""),
+  trackedAt: r.tracked_at === null || r.tracked_at === undefined ? null : Number(r.tracked_at),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -122,6 +127,61 @@ export async function getOrderById(id: number): Promise<CatalogOrder | null> {
   const db = await getDb();
   const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE id = ?", args: [id] });
   return r.rows[0] ? toOrder(r.rows[0]) : null;
+}
+
+/** Pedido al que pertenece un envío de Skydropx (por id del envío o, si no, por número de guía). */
+export async function getOrderByShipment(shipmentId: string, tracking: string): Promise<CatalogOrder | null> {
+  const db = await getDb();
+  if (shipmentId) {
+    const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE sky_shipment_id = ?", args: [shipmentId] });
+    if (r.rows[0]) return toOrder(r.rows[0]);
+  }
+  if (tracking) {
+    const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE tracking = ? AND sky_shipment_id NOT IN ('', 'pending')", args: [tracking] });
+    if (r.rows[0]) return toOrder(r.rows[0]);
+  }
+  return null;
+}
+
+/** Pedidos pagados con guía de Skydropx que todavía no se entregan y no se consultan desde hace `staleMs`. */
+export async function listTrackable(staleMs: number, limit: number): Promise<CatalogOrder[]> {
+  const db = await getDb();
+  const r = await db.execute({
+    sql: `SELECT * FROM catalog_orders
+          WHERE status = 'pagado' AND sky_shipment_id NOT IN ('', 'pending') AND fulfillment IN ('por_preparar', 'preparando', 'despachado', 'incidencia')
+            AND (tracked_at IS NULL OR tracked_at < ?)
+          ORDER BY COALESCE(tracked_at, 0) ASC LIMIT ?`,
+    args: [Date.now() - staleMs, limit],
+  });
+  return r.rows.map(toOrder);
+}
+
+/** Guarda el estado del recorrido que reportó la transportadora y marca la hora de la consulta. */
+export async function setSkyStatus(id: number, skyStatus: string, number?: string, labelUrl?: string): Promise<void> {
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET sky_status = CASE WHEN ? <> '' AND sky_status <> 'delivered' THEN ? ELSE sky_status END, tracked_at = ?, tracking = CASE WHEN ? <> '' AND tracking = '' THEN ? ELSE tracking END, label_url = CASE WHEN ? <> '' AND label_url = '' THEN ? ELSE label_url END WHERE id = ?",
+    args: [skyStatus, skyStatus, Date.now(), number ?? "", number ?? "", labelUrl ?? "", labelUrl ?? "", id],
+  });
+}
+
+/**
+ * Pasa un pedido de `from` a `to` solo si todavía está en `from` (así dos avisos a la vez no repiten el cambio ni los correos).
+ * Devuelve el pedido actualizado y si la salida (primera vez despachado) es nueva, o null si otro proceso ya lo cambió.
+ */
+export async function advanceFulfillment(id: number, from: Fulfillment, to: "despachado" | "entregado" | "incidencia"): Promise<{ order: CatalogOrder; firstShip: boolean } | null> {
+  const before = await getOrderById(id);
+  if (!before) return null;
+  const now = Date.now();
+  const shippedAt = to === "incidencia" ? before.shippedAt : (before.shippedAt ?? now);
+  const deliveredAt = to === "entregado" ? now : before.deliveredAt;
+  const db = await getDb();
+  const r = await db.execute({
+    sql: "UPDATE catalog_orders SET fulfillment = ?, shipped_at = ?, delivered_at = ? WHERE id = ? AND fulfillment = ?",
+    args: [to, shippedAt, deliveredAt, id, from],
+  });
+  if (r.rowsAffected === 0) return null;
+  return { order: (await getOrderById(id))!, firstShip: to !== "incidencia" && before.shippedAt === null };
 }
 
 export async function listOrders(): Promise<CatalogOrder[]> {

@@ -51,6 +51,8 @@ export function missingVars(rendered: string): string[] {
  *   > Caja destacada (varias líneas seguidas forman una sola)
  *   - Lista con viñetas
  *   [boton: Texto del botón | https://enlace]
+ *   [producto: foto | nombre | detalle | enlace]  fila con foto pequeña (como en el seguimiento del pedido)
+ *   [paso: ok | título | texto | dato]            línea de estados con checks (ok / actual / no)
  *   ---  → línea divisoria
  *   Los párrafos se separan con una línea en blanco.
  */
@@ -90,13 +92,74 @@ function stripe(height = 6): string {
   ).join("")}</tr></table>`;
 }
 
+/* Fila de producto y línea de estados del pedido (como en el seguimiento de la página):
+ *   [producto: https://foto | Nombre | Talla: 9.5 · nuevo | https://enlace]   (foto y enlace opcionales: "-" o vacío)
+ *   [paso: ok | Pedido confirmado | Texto | dato destacado]                    (ok = hecho, actual = en curso, no = pendiente)
+ */
+interface ProductLine { img: string; name: string; detail: string; url: string }
+interface StepLine { state: "ok" | "actual" | "no"; title: string; text: string; extra: string }
+
+const cells = (t: string) => {
+  const m = t.match(/^\[\w+:\s*([\s\S]*?)\s*\]$/);
+  return m ? m[1].split("|").map((c) => c.trim()) : [];
+};
+
+function parseProduct(t: string): ProductLine | null {
+  const [img = "", name = "", detail = "", url = ""] = cells(t);
+  if (!name) return null;
+  return { img: isHttps(img) ? img : "", name, detail, url: isHttps(url) ? url : "" };
+}
+
+function parseStep(t: string): StepLine | null {
+  const [state = "", title = "", text = "", extra = ""] = cells(t);
+  if (!title || !(state === "ok" || state === "actual" || state === "no")) return null;
+  return { state, title, text, extra };
+}
+
+function productRow(p: ProductLine): string {
+  const photo = p.img
+    ? `<td width="112" valign="middle" style="padding:16px 14px 16px 0"><img src="${esc(p.img)}" alt="${esc(p.name)}" width="98" style="display:block;width:98px;height:auto;border:0;border-radius:10px;background:#f4f1ea"></td>`
+    : "";
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 26px;border-top:1px solid #e9e4da;border-bottom:1px solid #e9e4da"><tr>${photo}<td valign="middle" style="padding:16px 0"><div style="font-size:17px;font-weight:bold;line-height:1.35;color:${INK}">${esc(p.name)}</div>${
+    p.detail ? `<div style="margin-top:7px"><span style="display:inline-block;border:1px solid #d9d4c9;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:bold;color:#333">${esc(p.detail)}</span></div>` : ""
+  }${
+    p.url ? `<div style="margin-top:10px"><a href="${esc(p.url)}" style="color:#15803d;font-size:14px;font-weight:bold;text-decoration:underline">Ver producto</a></div>` : ""
+  }</td></tr></table>`;
+}
+
+const GREEN = "#16a34a";
+
+/** Línea de estados vertical: círculo con check si está hecho, aro si es el actual, vacío si falta. La línea une los círculos. */
+function timeline(steps: StepLine[]): string {
+  const rows = steps.map((s, i) => {
+    const last = i === steps.length - 1;
+    const circle =
+      s.state === "ok"
+        ? `background:${GREEN};color:#ffffff;font-size:15px;font-weight:bold`
+        : s.state === "actual"
+          ? `background:#ffffff;border:3px solid ${GREEN}`
+          : "background:#ffffff;border:2px solid #cfcac0";
+    const line = last ? "" : `${s.state === "ok" && steps[i + 1].state === "ok" ? GREEN : "#d9d4c9"}`;
+    const lineCss = line ? `background-image:linear-gradient(${line},${line});background-repeat:no-repeat;background-position:center top;background-size:2px 100%;` : "";
+    return `<tr><td width="42" valign="top" align="center" style="${lineCss}"><table role="presentation" cellpadding="0" cellspacing="0" align="center"><tr><td width="28" height="28" align="center" valign="middle" style="width:28px;height:28px;border-radius:14px;line-height:28px;${circle}">${s.state === "ok" ? "&#10003;" : "&nbsp;"}</td></tr></table></td><td valign="top" style="padding:2px 0 ${last ? 4 : 24}px 6px"><div style="font-size:17px;font-weight:bold;line-height:1.3;color:${s.state === "no" ? "#8a857b" : INK}">${esc(s.title)}</div>${
+      s.text ? `<div style="margin-top:4px;font-size:14px;line-height:1.55;color:#6b665c">${inline(s.text)}</div>` : ""
+    }${s.extra ? `<div style="margin-top:4px;font-size:14px;font-weight:bold;color:${INK}">${esc(s.extra)}</div>` : ""}</td></tr>`;
+  });
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 26px">${rows.join("")}</table>`;
+}
+
 function blocks(body: string): string {
   const out: string[] = [];
   let para: string[] = [];
   let quote: string[] = [];
   let list: string[] = [];
+  let steps: StepLine[] = [];
 
   const flush = () => {
+    if (steps.length) {
+      out.push(timeline(steps));
+      steps = [];
+    }
     if (para.length) {
       out.push(
         `<p style="margin:0 0 18px;font-size:17px;line-height:1.65;color:#1a1a1a">${para.map((l) => inline(l)).join("<br>")}</p>`
@@ -139,7 +202,16 @@ function blocks(body: string): string {
     } else if (t === "---") {
       flush();
       out.push(`<hr style="border:none;border-top:2px dashed #e4dfd6;margin:26px 0">`);
+    } else if (/^\[producto:/i.test(t)) {
+      flush();
+      const p = parseProduct(t);
+      if (p) out.push(productRow(p));
+    } else if (/^\[paso:/i.test(t)) {
+      if (para.length || quote.length || list.length) flush();
+      const s = parseStep(t);
+      if (s) steps.push(s);
     } else if (/^\[boton:/i.test(t)) {
+      flush();
       flush();
       const m = t.match(/^\[boton:\s*(.+?)\s*\|\s*(\S+?)\s*\]$/i);
       if (m && isHttps(m[2])) {
@@ -221,6 +293,14 @@ export function renderEmailText(body: string): string {
       const btn = t.match(/^\[boton:\s*(.+?)\s*\|\s*(\S+?)\s*\]$/i);
       if (btn) return `${btn[1]}: ${btn[2]}`;
       if (t === "---") return "";
+      if (/^\[producto:/i.test(t)) {
+        const p = parseProduct(t);
+        return p ? [p.name, p.detail].filter(Boolean).join(" · ") : "";
+      }
+      if (/^\[paso:/i.test(t)) {
+        const s = parseStep(t);
+        return s ? `${s.state === "ok" ? "✓" : "○"} ${s.title}${s.text ? ` — ${s.text}` : ""}${s.extra ? ` (${s.extra})` : ""}` : "";
+      }
       return line
         .replace(/^\s*#{1,2}\s+/, "")
         .replace(/^\s*>\s?/, "")
