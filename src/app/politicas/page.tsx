@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Términos de compra, pagos, envíos, cambios y devoluciones, tratamiento de datos personales y reglas de la subasta y la trivia de Pitsneakers.",
 };
 
-const UPDATED = "14 de octubre de 2026";
+const UPDATED = "4 de noviembre de 2026";
 const cop = (n: number) => `$${n.toLocaleString("es-CO")} COP`;
 
 interface Section {
@@ -114,7 +114,7 @@ const sections: Section[] = [
           <li>Una <B>oferta</B> es una propuesta de precio por un par publicado: no obliga a Pitsneakers a vender. Si la aceptamos, tienes entre <B>{siteConfig.offers.payHours} y 72 horas</B> (según tu liga) para pagarla en línea; vencido ese plazo, el par puede venderse a otra persona. Una oferta aceptada y pagada es una compra y se rige por las reglas de compras y devoluciones.</li>
           <li>El <B>valor aproximado de tu colección</B> es solo una estimación basada en el precio al que Pitsneakers vende hoy ese modelo o en su última venta. No es una tasación ni una oferta de recompra.</li>
           <li><B>Ligas y beneficios.</B> Según los pares que hayas comprado en Pitsneakers, tu cuenta sube de liga (Bronce, Plata, Oro, Platino y Diamante) y obtiene beneficios como ofertas desde un porcentaje menor del precio, más tiempo para pagar una oferta aceptada, respuesta prioritaria y descuentos en el costo del pago en línea. Los pares agregados a mano suman puntos para la liga, pero no activan beneficios. Pitsneakers puede modificar, limitar o retirar los beneficios en cualquier momento y los revisa ante usos indebidos.</li>
-          <li>Puedes pedir que eliminemos tu cuenta escribiéndonos al correo de contacto.</li>
+          <li>Puedes <B>eliminar tu cuenta</B> tú mismo desde la app o la página, o escribiéndonos al correo de contacto. Los pasos están en <Link href="/eliminar-cuenta" className="font-semibold text-ink underline underline-offset-4">Eliminar mi cuenta</Link>. Los pedidos ya pagados se conservan como registro contable, sin ligarse a ninguna cuenta.</li>
         </UL>
       </>
     ),
@@ -150,15 +150,16 @@ const sections: Section[] = [
           <li>Al inscribirte en la lista de espera, la subasta o la trivia: tu correo y el pase que se te asigna.</li>
           <li>Si creas una cuenta: nombre, correo, celular y ciudad, tu lista de deseos, tus ofertas y los pares que agregues a tu colección. Si entras con Google, recibimos tu nombre y correo.</li>
           <li>Si eres revendedor: usuario, nombre, correo, WhatsApp y la información de tu inventario y ventas.</li>
+          <li>Si usas la app y activas los avisos: un identificador técnico de tu celular (token de notificaciones) y su sistema (iPhone o Android), ligado a tu cuenta si tienes sesión iniciada. No usamos tu ubicación ni tus contactos, ni te rastreamos entre otras apps.</li>
         </UL>
         <P><B>Para qué los usamos</B></P>
         <UL>
           <li>Procesar y entregar tus pedidos, enviarte el comprobante y atender tu servicio posventa.</li>
-          <li>Avisarte de la subasta, la trivia, lanzamientos y novedades (puedes pedir que dejemos de escribirte en cualquier momento).</li>
+          <li>Avisarte de la subasta, la trivia, lanzamientos, ofertas y del estado de tu pedido, por correo o con notificaciones en la app (puedes desactivarlas en los ajustes de tu celular o pedir que dejemos de escribirte en cualquier momento).</li>
           <li>Administrar las cuentas de revendedores y las ventas que intermediamos.</li>
           <li>Cumplir obligaciones legales y prevenir fraudes.</li>
         </UL>
-        <P><B>Con quién los compartimos.</B> Solo con proveedores que nos ayudan a operar: Wompi (pagos), Google (ingreso con Google, si lo usas), Resend (envío de correos), Vercel y Turso (alojamiento y bases de datos), transportadoras (para entregar tu pedido) y WhatsApp (comunicación). Estos proveedores pueden almacenar datos en servidores fuera de Colombia. No vendemos tus datos.</P>
+        <P><B>Con quién los compartimos.</B> Solo con proveedores que nos ayudan a operar: Wompi (pagos), Google (ingreso con Google y avisos en Android), Apple (avisos en iPhone), Resend (envío de correos), Vercel y Turso (alojamiento y bases de datos), transportadoras (para entregar tu pedido) y WhatsApp (comunicación). Estos proveedores pueden almacenar datos en servidores fuera de Colombia. No vendemos tus datos.</P>
         <P><B>Tus derechos como titular</B></P>
         <UL>
           <li>Conocer, actualizar y rectificar tus datos.</li>

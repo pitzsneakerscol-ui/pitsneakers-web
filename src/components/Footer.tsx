@@ -42,6 +42,7 @@ export default function Footer() {
               <li><Link href="/verificacion" className="hover:text-white">Verificación</Link></li>
               <li><Link href="/contacto" className="hover:text-white">Contacto</Link></li>
               <li><Link href="/politicas" className="hover:text-white">Políticas y datos personales</Link></li>
+              <li><Link href="/eliminar-cuenta" className="hover:text-white">Eliminar mi cuenta</Link></li>
             </ul>
           </div>
 
