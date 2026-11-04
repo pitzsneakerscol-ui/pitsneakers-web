@@ -27,8 +27,7 @@ export default function SaleForm({ products }: { products: SaleProduct[] }) {
 
   function choose(p: SaleProduct) {
     setPicked(p);
-    setSize(p.sizes.length === 1 ? p.sizes[0] : "");
-    setQuery("");
+    setSize(p.sizes.length === 1 ? p.sizes[0] : "");    setQuery("");
   }
 
   return (
@@ -47,7 +46,7 @@ export default function SaleForm({ products }: { products: SaleProduct[] }) {
               <p className="font-semibold">{picked.name}</p>
               <p className="text-muted">{[picked.brand, picked.colorway].filter(Boolean).join(" · ")}</p>
               <p className="mt-1"><span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Estado </span>{picked.condition}</p>
-              <p><span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Talla </span>{size || (picked.sizes.length ? "elige abajo" : "Única")}</p>
+              <p><span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Talla </span>{size || "escríbela abajo"}</p>
             </div>
             <button type="button" onClick={() => setPicked(null)} className="text-xs font-semibold uppercase tracking-wide text-muted underline">Cambiar</button>
           </div>
@@ -79,14 +78,9 @@ export default function SaleForm({ products }: { products: SaleProduct[] }) {
         {picked ? (
           <div className="max-w-xs">
             <label className={labelCls} htmlFor="size">Talla</label>
-            {picked.sizes.length > 0 ? (
-              <select id="size" name="size" value={size} onChange={(e) => setSize(e.target.value)} className={`${selectAutoCls} w-full`} required>
-                <option value="">Elige la talla</option>
-                {picked.sizes.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            ) : (
-              <input id="size" name="size" value="Única" readOnly className={inputCls} />
-            )}
+            <input id="size" name="size" value={size} onChange={(e) => setSize(e.target.value)} list="sale-sizes" maxLength={20} autoComplete="off" placeholder="Ej. 9.5, 42, M" className={inputCls} required />
+            <datalist id="sale-sizes">{picked.sizes.map((s) => <option key={s} value={s} />)}</datalist>
+            <p className="mt-1 text-xs text-muted">{picked.sizes.length > 0 ? `En la página: ${picked.sizes.join(", ")}. ` : ""}Escribe la que compró el cliente, aunque sea otra.</p>
           </div>
         ) : null}
       </section>

@@ -27,8 +27,8 @@ export async function registerSale(_prev: SaleState, fd: FormData): Promise<Sale
   const p = (await getAllProducts()).find((x) => x.id === clean(fd, "productId", 80));
   if (!p) return { error: "Elige el par de la lista." };
   const size = clean(fd, "size", 30);
-  const sizeOk = p.sizes.length === 0 ? size === "Única" || size === "" : p.sizes.includes(size);
-  if (!sizeOk) return { error: "Elige la talla del par." };
+  // La talla se escribe libre: la que compró el cliente puede no ser una de las publicadas en el catálogo.
+  if (!size) return { error: "Escribe la talla del par." };
 
   const name = clean(fd, "name", 80);
   const email = clean(fd, "email", 120).toLowerCase();
@@ -60,7 +60,7 @@ export async function registerSale(_prev: SaleState, fd: FormData): Promise<Sale
     productId: p.id,
     productName: p.name,
     brand: p.brand,
-    size: size || "Única",
+    size,
     condition: p.condition,
     image: p.images[0] ?? "",
     amount: p.price,
