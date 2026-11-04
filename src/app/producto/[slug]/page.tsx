@@ -11,6 +11,8 @@ import ProductGrid from "@/components/ProductGrid";
 import SectionHeading from "@/components/SectionHeading";
 import { isDbConfigured } from "@/lib/db";
 import { isWompiConfigured, isWompiTest } from "@/lib/wompi";
+import { loadLiveOverlay } from "@/lib/catalog-live";
+import AdminProductEditor from "@/components/admin/AdminProductEditor";
 
 export async function generateStaticParams() {
   const groups = await getAllGroups();
@@ -48,6 +50,7 @@ export default async function ProductPage({
   }
 
   const related = await getRelatedGroups(group);
+  const { overrides } = await loadLiveOverlay();
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
@@ -55,6 +58,17 @@ export default async function ProductPage({
         <ProductGallery group={group} />
         <ProductPurchasePanel group={group} sticky payEnabled={isDbConfigured() && isWompiConfigured()} payTest={isWompiTest()} />
       </div>
+
+      <AdminProductEditor
+        variants={group.variants.map((v) => ({
+          id: v.id,
+          condition: v.condition,
+          price: v.price,
+          priceBefore: v.priceBefore && v.priceBefore > v.price ? v.priceBefore : 0,
+          sizes: v.sizes,
+          adjusted: overrides.has(v.id),
+        }))}
+      />
 
       {related.length > 0 && (
         <section className="mt-24">

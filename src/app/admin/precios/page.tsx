@@ -107,7 +107,7 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
                     <div className="min-w-0">
                       <p className="truncate font-semibold">{p.brand} {p.name}</p>
                       <p className="text-xs text-muted">
-                        {p.id} · talla {p.sizes.join(", ") || "—"} · {p.condition}
+                        {p.id} · talla {(o?.sizes ?? p.sizes).join(", ") || "—"} · {p.condition}
                         {liveIds.has(p.id) && " · del stock de un revendedor"}
                       </p>
                       {o && (

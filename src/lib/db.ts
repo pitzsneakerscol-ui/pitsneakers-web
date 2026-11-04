@@ -392,6 +392,8 @@ const SCHEMA = [
 
 // Columnas agregadas después de la primera versión de cada tabla.
 const ADDED_COLUMNS: Record<string, [string, string][]> = {
+  // Tallas que el admin dejó a mano para un par (lista JSON; NULL = las del archivo / del stock del revendedor).
+  catalog_overrides: [["sizes", "TEXT"]],
   reviews: [
     ["vip", "INTEGER NOT NULL DEFAULT 0"],
     // Referencia del pedido pagado que originó la reseña ("" = reseña abierta, sin pedido).

@@ -27,7 +27,7 @@ export async function getStaticProducts(): Promise<Product[]> {
   return loadProducts();
 }
 
-/** Aplica los ajustes manuales del admin: precio, precio anterior (promo) y pares ocultos. */
+/** Aplica los ajustes manuales del admin: precio, precio anterior (promo), tallas y pares ocultos. */
 export function applyOverrides(products: Product[], overrides: Map<string, PriceOverride>): Product[] {
   if (overrides.size === 0) return products;
   const out: Product[] = [];
@@ -37,9 +37,9 @@ export function applyOverrides(products: Product[], overrides: Map<string, Price
       out.push(p);
       continue;
     }
-    if (o.hidden) continue;
+    if (o.hidden || o.sizes?.length === 0) continue;
     const priceBefore = o.priceBefore > o.price ? o.priceBefore : undefined;
-    out.push({ ...p, price: o.price, priceBefore, promo: priceBefore !== undefined });
+    out.push({ ...p, price: o.price, priceBefore, promo: priceBefore !== undefined, sizes: o.sizes ?? p.sizes });
   }
   return out;
 }
