@@ -63,6 +63,9 @@ workflows:
       android_signing:
         # Llave de firma subida en Codemagic → Teams → Code signing identities → Android keystores, con este nombre.
         - pitsneakers_upload
+      groups:
+        # Grupo creado en Codemagic → app → Environment variables; contiene GOOGLE_SERVICES_JSON.
+        - pitsneakers_android
     triggering:
       events: []
     scripts:

@@ -11,7 +11,7 @@ La compilación de Android se hace en la nube con Codemagic (flujo `android-play
    - *Configuración del proyecto → Cuentas de servicio → Generar nueva clave privada*: pega ese JSON en Vercel como `FCM_SERVICE_ACCOUNT` (así el servidor envía los avisos).
 3. **Codemagic** (ya lo usas para iPhone; si no, entra en codemagic.io con GitHub y elige este repositorio):
    - *Teams → Code signing identities → Android keystores → Generate keystore*. Nómbralo exactamente **`pitsneakers_upload`** (alias y contraseñas a tu gusto). **Descarga y guarda una copia** del keystore y sus contraseñas en dos sitios.
-   - En la app → *Environment variables*, agrega `GOOGLE_SERVICES_JSON` (marcada como *Secure*) con `google-services.json` en base64. En PowerShell, desde la carpeta del proyecto:
+   - En la app → *Environment variables*, crea el grupo `pitsneakers_android` (escribe el nombre en "Select group" y elige *Create*) y agrega en él `GOOGLE_SERVICES_JSON` (marcada como *Secret*) con `google-services.json` en base64. En PowerShell, desde la carpeta del proyecto:
      ```powershell
      [Convert]::ToBase64String([IO.File]::ReadAllBytes("mobile\android\app\google-services.json")) | Set-Clipboard
      ```
