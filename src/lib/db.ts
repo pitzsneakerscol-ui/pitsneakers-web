@@ -381,6 +381,18 @@ const SCHEMA = [
     payload TEXT NOT NULL,
     created_at INTEGER NOT NULL
   )`,
+  // Contactos para email marketing (importados de formularios y bases antiguas). unsubscribed = 1: pidió no recibir más correos y no sale en las exportaciones.
+  `CREATE TABLE IF NOT EXISTS marketing_contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+    name TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    city TEXT NOT NULL DEFAULT '',
+    notes TEXT NOT NULL DEFAULT '',
+    source TEXT NOT NULL DEFAULT '',
+    unsubscribed INTEGER NOT NULL DEFAULT 0,
+    created_at INTEGER NOT NULL
+  )`,
   // Siluetas que el admin fija (pinned = 1) o saca (pinned = 0) de la sección Destacados; por groupSlug.
   `CREATE TABLE IF NOT EXISTS catalog_featured (
     slug TEXT PRIMARY KEY,
