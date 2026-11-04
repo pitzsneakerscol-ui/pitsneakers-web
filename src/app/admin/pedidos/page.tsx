@@ -73,7 +73,10 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Pedidos web</h1>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Pedidos web</h1>
+          <Link href="/admin/pedidos/nuevo" className={btnPrimary}>Registrar venta por WhatsApp</Link>
+        </div>
         <p className="mt-2 max-w-2xl text-sm text-muted">
           Compras que los clientes pagaron en la página con Wompi. Confirma el stock, devuelve el pago desde el panel de Wompi si ya no hay y lleva aquí el envío: al despachar con guía, el cliente recibe el correo y puede ver en qué va su pedido.
         </p>
@@ -82,7 +85,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "registrado como venta pagada. Ya aparece abajo y el cliente puede seguirlo en su enlace." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}

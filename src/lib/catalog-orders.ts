@@ -235,6 +235,19 @@ export async function applyTransaction(tx: { reference: string; id: string; stat
   return { order: (await getOrderByRef(tx.reference))!, justPaid: paying };
 }
 
+/**
+ * Venta cerrada fuera de la página (por WhatsApp): deja el pedido ya pagado, con el medio de pago que dijo el equipo, y lo pone
+ * en el paso de envío donde esté el par hoy. Desde ahí sigue el mismo camino que una compra normal (guía, verificación, correos).
+ */
+export async function markManualPaid(id: number, method: string, step: "por_preparar" | "hacia_verificacion" | "preparando"): Promise<CatalogOrder | null> {
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET status = 'pagado', payment_method = ?, paid_at = ?, fulfillment = ? WHERE id = ? AND status <> 'pagado'",
+    args: [method.slice(0, 60), Date.now(), step, id],
+  });
+  return getOrderById(id);
+}
+
 /** Marca que ya se mandaron los correos de un pedido pagado (evita duplicados si Wompi repite el evento). */
 export async function markEmailed(orderId: number): Promise<boolean> {
   const db = await getDb();
