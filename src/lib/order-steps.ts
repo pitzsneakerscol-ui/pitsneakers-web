@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { DIRECT_CARRIER, shortDay } from "@/lib/fulfillment-shared";
+import { isVerified } from "@/lib/verification-shared";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 
 /** Pasos del pedido que ve el comprador (página de seguimiento y correos). Sin dependencias del servidor. */
@@ -52,6 +53,7 @@ export function stepsFor(o: CatalogOrder): Step[] {
         : f === "preparando"
           ? "Estamos revisando tu par y empacándolo con cuidado."
           : "Cada par pasa por revisión física y autenticación antes de salir.",
+      extra: o.verifAt && isVerified(o.verifChecks) ? `Verificado el ${shortDay(o.verifAt)} · ${o.verifChecks.length} puntos revisados` : undefined,
       done: shipped,
     },
     {

@@ -4,6 +4,7 @@ import { getDb } from "@/lib/db";
 import { consumeCredit } from "@/lib/trivia";
 import { markOfferPaid } from "@/lib/buyer-offers";
 import { DIRECT_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
+import { MAX_PHOTOS, parseChecks, type VerifKey } from "@/lib/verification-shared";
 
 export type OrderStatus = "pendiente" | "pagado" | "rechazado" | "anulado" | "error";
 
@@ -54,6 +55,12 @@ export interface CatalogOrder {
   /** último estado del recorrido según la transportadora ("" = sin datos todavía) */
   skyStatus: string;
   trackedAt: number | null;
+  /** puntos de la verificación marcados al recibir el par */
+  verifChecks: VerifKey[];
+  verifBy: string;
+  verifAt: number | null;
+  /** nota interna de la verificación (no se muestra al cliente) */
+  verifNote: string;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -96,13 +103,17 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   shipPostal: String(r.ship_postal ?? ""),
   skyStatus: String(r.sky_status ?? ""),
   trackedAt: r.tracked_at === null || r.tracked_at === undefined ? null : Number(r.tracked_at),
+  verifChecks: parseChecks(String(r.verif_checks ?? "")),
+  verifBy: String(r.verif_by ?? ""),
+  verifAt: r.verif_at === null || r.verif_at === undefined ? null : Number(r.verif_at),
+  verifNote: String(r.verif_note ?? ""),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -260,6 +271,55 @@ export async function saveGuide(id: number, g: GuideSave): Promise<void> {
     sql: "UPDATE catalog_orders SET sky_shipment_id = ?, carrier = ?, tracking = ?, label_url = ?, ship_cost = ?, ship_postal = ? WHERE id = ?",
     args: [g.shipmentId, g.carrier, g.tracking.slice(0, 60), g.labelUrl, g.cost, g.postal, id],
   });
+}
+
+/** Guarda la verificación del par: puntos marcados, quién la hizo, cuándo y la nota interna. La hora se conserva si ya existía. */
+export async function saveVerification(id: number, input: { checks: VerifKey[]; by: string; note: string }): Promise<void> {
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET verif_checks = ?, verif_by = ?, verif_at = COALESCE(verif_at, ?), verif_note = ? WHERE id = ?",
+    args: [input.checks.join(","), input.by.slice(0, 40), Date.now(), input.note.replace(/\s+/g, " ").trim().slice(0, 300), id],
+  });
+}
+
+/** Ids de las fotos de recepción de varios pedidos, en el orden en que se subieron. */
+export async function listOrderPhotos(orderIds: number[]): Promise<Map<number, number[]>> {
+  const map = new Map<number, number[]>();
+  if (orderIds.length === 0) return map;
+  const db = await getDb();
+  const r = await db.execute({ sql: `SELECT id, order_id FROM order_photos WHERE order_id IN (${orderIds.map(() => "?").join(",")}) ORDER BY id`, args: orderIds });
+  for (const row of r.rows) {
+    const k = Number(row.order_id);
+    map.set(k, [...(map.get(k) ?? []), Number(row.id)]);
+  }
+  return map;
+}
+
+/** Cuántas fotos más se pueden subir a un pedido. */
+export async function photoRoom(orderId: number): Promise<number> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT COUNT(*) AS n FROM order_photos WHERE order_id = ?", args: [orderId] });
+  return Math.max(0, MAX_PHOTOS - Number(r.rows[0]?.n ?? 0));
+}
+
+export async function addOrderPhoto(orderId: number, mime: string, data: Uint8Array): Promise<void> {
+  const db = await getDb();
+  await db.execute({ sql: "INSERT INTO order_photos (order_id, mime, data, created_at) VALUES (?, ?, ?, ?)", args: [orderId, mime, data, Date.now()] });
+}
+
+export async function getOrderPhoto(id: number): Promise<{ mime: string; data: Uint8Array } | null> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT mime, data FROM order_photos WHERE id = ?", args: [id] });
+  const row = r.rows[0];
+  if (!row) return null;
+  const raw = row.data as unknown;
+  const bytes = raw instanceof ArrayBuffer ? new Uint8Array(raw) : raw instanceof Uint8Array ? raw : new Uint8Array(0);
+  return { mime: String(row.mime), data: bytes };
+}
+
+export async function deleteOrderPhoto(id: number): Promise<void> {
+  const db = await getDb();
+  await db.execute({ sql: "DELETE FROM order_photos WHERE id = ?", args: [id] });
 }
 
 export interface FulfillmentInput {

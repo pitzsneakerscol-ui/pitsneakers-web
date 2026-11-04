@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { after } from "next/server";
 import { syncTracking, skyStatusLabel } from "@/lib/tracking-sync";
-import { listOrders, type OrderStatus } from "@/lib/catalog-orders";
+import { listOrderPhotos, listOrders, type OrderStatus } from "@/lib/catalog-orders";
 import { shippingLine } from "@/lib/shipping-shared";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
@@ -11,7 +11,9 @@ import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
-import { generateGuide, refreshGuide, saveFulfillment } from "./actions";
+import { generateGuide, refreshGuide, removePhoto, saveFulfillment, verifyOrder } from "./actions";
+import PhotoPicker from "@/components/admin/PhotoPicker";
+import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
 
 export const metadata: Metadata = { title: "Pedidos web" };
 
@@ -58,6 +60,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       default: return true;
     }
   });
+  const photos = await listOrderPhotos(rows.filter((o) => o.status === "pagado").map((o) => o.id));
   const paid = all.filter((o) => o.status === "pagado");
   const total = paid.reduce((s, o) => s + o.amount, 0);
   const toShip = paid.filter((o) => isToShip(o.fulfillment));
@@ -79,7 +82,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -213,6 +216,70 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                       </>
                     )}
                   </div>
+                ) : null}
+
+                {isPaid ? (
+                  <details className="mt-3 rounded-lg border border-line" open={isToShip(o.fulfillment) && !isVerified(o.verifChecks)}>
+                    <summary className="flex cursor-pointer flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2.5 text-sm">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Verificación del par</span>
+                      {isVerified(o.verifChecks) ? (
+                        <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Verificado · {o.verifChecks.length}/{VERIF_CHECKS.length} puntos</span>
+                      ) : (
+                        <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">{o.verifChecks.length > 0 ? `${o.verifChecks.length}/${VERIF_CHECKS.length} puntos, falta lo obligatorio` : "Sin verificar"}</span>
+                      )}
+                      {o.verifBy && o.verifAt ? <span className="text-xs text-muted">{o.verifBy} · {ago(o.verifAt)}</span> : null}
+                      {(photos.get(o.id) ?? []).length > 0 ? <span className="text-xs text-muted">{(photos.get(o.id) ?? []).length} foto{(photos.get(o.id) ?? []).length === 1 ? "" : "s"}</span> : null}
+                    </summary>
+                    <div className="space-y-3 border-t border-line p-3">
+                      {(photos.get(o.id) ?? []).length > 0 ? (
+                        <ul className="flex flex-wrap gap-2">
+                          {(photos.get(o.id) ?? []).map((pid) => (
+                            <li key={pid} className="relative">
+                              <a href={`/admin/pedidos/foto/${pid}`} target="_blank" rel="noreferrer">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={`/admin/pedidos/foto/${pid}`} alt="Foto de recepción" loading="lazy" className="h-20 w-20 rounded-lg border border-line object-cover" />
+                              </a>
+                              <form action={removePhoto} className="absolute -right-1.5 -top-1.5">
+                                <input type="hidden" name="photo" value={pid} />
+                                <input type="hidden" name="ref" value={o.reference} />
+                                <button type="submit" aria-label="Borrar foto" className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs font-bold text-white hover:bg-accent">×</button>
+                              </form>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                      <form action={verifyOrder} className="space-y-3">
+                        <input type="hidden" name="id" value={o.id} />
+                        <fieldset className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
+                          <legend className="sr-only">Puntos de la verificación</legend>
+                          {VERIF_CHECKS.map((c) => (
+                            <label key={c.key} className="flex items-start gap-2 text-sm">
+                              <input type="checkbox" name="check" value={c.key} defaultChecked={o.verifChecks.includes(c.key)} className="mt-0.5 h-4 w-4 flex-none accent-accent" />
+                              <span>
+                                <span className="font-semibold">{c.label}</span>
+                                {REQUIRED_CHECKS.includes(c.key) ? <span className="text-accent"> *</span> : null}
+                                <span className="block text-xs text-muted">{c.hint}</span>
+                              </span>
+                            </label>
+                          ))}
+                        </fieldset>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                            Nota de la verificación
+                            <input name="note" defaultValue={o.verifNote} maxLength={300} autoComplete="off" placeholder="Solo la ves tú. Ej: cordones cambiados" className={`${inputCls} mt-1 normal-case tracking-normal`} />
+                          </label>
+                          <div className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                            Fotos de recepción
+                            <div className="mt-1 normal-case tracking-normal"><PhotoPicker room={MAX_PHOTOS - (photos.get(o.id) ?? []).length} /></div>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <button type="submit" className={btnPrimary}>Guardar verificación</button>
+                          <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos son evidencia interna: el cliente no las ve.</p>
+                        </div>
+                      </form>
+                    </div>
+                  </details>
                 ) : null}
 
                 {isPaid ? (

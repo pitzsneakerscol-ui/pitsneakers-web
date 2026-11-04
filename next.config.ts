@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     ],
     minimumCacheTTL: 2592000,
   },
+  // Las fotos de verificación de un pedido (hasta 8, ya reducidas) viajan en un formulario del admin: el límite por defecto es 1 MB.
+  experimental: { serverActions: { bodySizeLimit: "4mb" } },
   // Las fotos del catálogo llevan una huella en el nombre (NOMBRE\.1a2b3c4d\.webp): si la foto cambia, cambia el nombre\.
   // Por eso el navegador puede guardarlas un año sin volver a preguntar (antes revalidaba cada una en cada visita)\.
   async headers() {

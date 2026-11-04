@@ -42,6 +42,15 @@ const SCHEMA = [
     count INTEGER NOT NULL,
     reset_at INTEGER NOT NULL
   )`,
+  // Fotos de recepción/verificación de un pedido (ya reducidas en el navegador): se guardan aquí para no depender de otro servicio.
+  `CREATE TABLE IF NOT EXISTS order_photos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id INTEGER NOT NULL,
+    mime TEXT NOT NULL,
+    data BLOB NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_order_photos ON order_photos(order_id)`,
   `CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -468,6 +477,11 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     // Último estado del recorrido que reportó la transportadora (Skydropx) y cuándo se consultó.
     ["sky_status", "TEXT NOT NULL DEFAULT ''"],
     ["tracked_at", "INTEGER"],
+    // Verificación del par al recibirlo: puntos marcados (claves separadas por coma), quién, cuándo y nota interna.
+    ["verif_checks", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_by", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_at", "INTEGER"],
+    ["verif_note", "TEXT NOT NULL DEFAULT ''"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

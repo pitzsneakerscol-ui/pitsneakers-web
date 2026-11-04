@@ -3,7 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { claimGuide, getOrderById, releaseGuide, saveGuide, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, saveVerification, updateFulfillment } from "@/lib/catalog-orders";
+import { MAX_PHOTO_BYTES, parseChecks } from "@/lib/verification-shared";
 import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { buyerDeliveredEmail, buyerShippedEmail } from "@/lib/order-emails";
@@ -12,6 +13,45 @@ import { sendEmail } from "@/lib/email";
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
 const back = (e: string): never => redirect("/admin/pedidos?e=" + encodeURIComponent(e));
+
+const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+/**
+ * Guarda la verificación del par al recibirlo: puntos marcados, nota y fotos de recepción (evidencia si hay un reclamo).
+ * Las fotos llegan ya reducidas desde el navegador; aquí solo se valida tipo, peso y cupo antes de guardar nada.
+ */
+export async function verifyOrder(fd: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  const order = await getOrderById(Number(fd.get("id")));
+  if (!order) back("No encontré ese pedido.");
+  const o = order!;
+  if (o.status !== "pagado") back("Solo se verifican pedidos pagados.");
+
+  const files = fd.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length > 0) {
+    if (files.length > (await photoRoom(o.id))) back("Ese pedido ya tiene el máximo de fotos. Borra alguna para subir otras.");
+    for (const f of files) {
+      if (!PHOTO_TYPES.includes(f.type)) back("Las fotos deben ser JPG, PNG o WebP.");
+      if (f.size > MAX_PHOTO_BYTES) back("Una foto pesa demasiado. Prueba con otra o súbela de nuevo.");
+    }
+  }
+
+  await saveVerification(o.id, { checks: parseChecks(fd.getAll("check").map(String).join(",")), by: admin.displayName || admin.username, note: text(fd, "note") });
+  for (const f of files) await addOrderPhoto(o.id, f.type, new Uint8Array(await f.arrayBuffer()));
+
+  revalidatePath("/admin/pedidos");
+  revalidatePath(`/pedido/${o.reference}`);
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=3#${o.reference}`);
+}
+
+/** Borra una foto de recepción de un pedido. */
+export async function removePhoto(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get("photo"));
+  if (Number.isInteger(id) && id > 0) await deleteOrderPhoto(id);
+  revalidatePath("/admin/pedidos");
+  redirect(`/admin/pedidos#${encodeURIComponent(text(fd, "ref"))}`);
+}
 
 /**
  * Compra la guía del pedido en Skydropx con Interrapidísimo (se paga con los créditos de la cuenta) y guarda número,
