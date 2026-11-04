@@ -1,5 +1,6 @@
 // Plantillas de correo, formato y reemplazo de variables. Seguro para cliente y servidor.
 import { siteConfig } from "@/config/site";
+import { CAMPAIGN_TEMPLATES } from "@/lib/campaign-templates";
 
 /* ---------- Variables ---------- */
 
@@ -232,7 +233,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 7;
+export const TEMPLATE_VERSION = 8;
 
 const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 
@@ -600,4 +601,8 @@ Escribe aquí tu mensaje.
 **Equipo {{tienda}}**`,
     builtin: true,
   },
+  // Flujo de Navidad (5 correos): el texto vive en campaign-templates.ts para que la pantalla de campañas use el mismo.
+  ...CAMPAIGN_TEMPLATES.filter((t) => t.key.startsWith("navidad-")).map(
+    (t): TemplateData => ({ key: t.key.replace("-", "_"), name: `🎄 ${t.name}`, subject: t.subject, body: t.body, builtin: true }),
+  ),
 ];
