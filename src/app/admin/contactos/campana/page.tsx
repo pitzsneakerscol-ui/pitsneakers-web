@@ -5,37 +5,16 @@ import { contactStats } from "@/lib/contacts";
 import { isEmailConfigured } from "@/lib/email";
 import { fmtDateTime } from "@/lib/admin-shared";
 import CampaignForm from "@/components/admin/CampaignForm";
+import { CAMPAIGN_TEMPLATES } from "@/lib/campaign-templates";
 import { btnGhost, cardCls } from "@/components/reseller/ui";
 
 export const metadata: Metadata = { title: "Campaña de correo" };
 export const dynamic = "force-dynamic";
 
-const DEFAULT_SUBJECT = "Ya puedes ver todo el catálogo de Pitsneakers en la web";
-const DEFAULT_BODY = `# Pitsneakers ya tiene página web
-
-Hola {{nombre}},
-
-Hace un tiempo te registraste en la comunidad de Pitsneakers. Hoy queremos que **entres a la página** y veas lo que hay disponible.
-
-> Sneakers y streetwear verificados, par a par.
-> Cada par se revisa y se autentica antes de publicarse.
-
-En la web puedes:
-
-- Ver el catálogo completo con fotos reales de cada par
-- Filtrar por marca, talla y precio
-- Ver los lanzamientos y los pares en oferta
-- Pedir por encargo el par que no encuentres
-
-[boton: Entrar a Pitsneakers | {{web}}]
-
-Cualquier duda, escríbenos por WhatsApp.
-
-— El equipo de Pitsneakers`;
-
 export default async function CampanaPage() {
   const [stats, summaries] = await Promise.all([contactStats(), campaignSummaries()]);
-  const defaultCampaign = "comunidad-web";
+  const first = CAMPAIGN_TEMPLATES[0];
+  const defaultCampaign = first.campaign;
   const pending = await pendingCount(defaultCampaign);
 
   return (
@@ -57,7 +36,7 @@ export default async function CampanaPage() {
       ) : (
         <>
           <p className="text-xs text-muted">{stats.active} contactos activos · {pending} pendientes en “{defaultCampaign}”</p>
-          <CampaignForm defaults={{ campaign: defaultCampaign, subject: DEFAULT_SUBJECT, body: DEFAULT_BODY }} active={stats.active} configured={isEmailConfigured()} />
+          <CampaignForm defaults={{ campaign: defaultCampaign, subject: first.subject, body: first.body }} active={stats.active} configured={isEmailConfigured()} />
         </>
       )}
 

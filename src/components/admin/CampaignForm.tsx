@@ -3,7 +3,8 @@
 import { useActionState, useState } from "react";
 import { sendCampaignAction, sendCampaignTest } from "@/app/admin/contactos/campana/actions";
 import { renderEmailHtml, renderTemplate, siteVars } from "@/lib/email-templates";
-import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
+import { CAMPAIGN_TEMPLATES } from "@/lib/campaign-templates";
+import { btnAccent, btnGhost, inputCls, labelCls, selectAutoCls, submitWith } from "@/components/reseller/ui";
 
 export interface CampaignDefaults {
   campaign: string;
@@ -15,6 +16,7 @@ export default function CampaignForm({ defaults, active, configured }: { default
   const [subject, setSubject] = useState(defaults.subject);
   const [body, setBody] = useState(defaults.body);
   const [campaign, setCampaign] = useState(defaults.campaign);
+  const [tplKey, setTplKey] = useState(CAMPAIGN_TEMPLATES.find((t) => t.subject === defaults.subject)?.key ?? "");
   const [limit, setLimit] = useState("30");
   const [testTo, setTestTo] = useState("");
   const [testState, testAction, testPending] = useActionState(sendCampaignTest, undefined);
@@ -24,8 +26,27 @@ export default function CampaignForm({ defaults, active, configured }: { default
   const preview = renderEmailHtml(renderTemplate(subject, vars), renderTemplate(body, vars), { unsubscribeUrl: "#" });
 
   // Un solo <form> con los campos del mensaje; los botones eligen la acción.
+  const tpl = CAMPAIGN_TEMPLATES.find((t) => t.key === tplKey);
+  const pickTemplate = (key: string) => {
+    const t = CAMPAIGN_TEMPLATES.find((x) => x.key === key);
+    if (!t) return;
+    setTplKey(key);
+    setSubject(t.subject);
+    setBody(t.body);
+    setCampaign(t.campaign);
+  };
+
   const fields = (
     <>
+      <div>
+        <label className={labelCls} htmlFor="cm-tpl">Plantilla</label>
+        <select id="cm-tpl" value={tplKey} onChange={(e) => pickTemplate(e.target.value)} className={selectAutoCls}>
+          {CAMPAIGN_TEMPLATES.map((t) => (
+            <option key={t.key} value={t.key}>{t.name}</option>
+          ))}
+        </select>
+        {tpl && <p className="mt-1.5 text-[11px] text-muted">Cuándo enviarla: {tpl.when} Al cambiar de plantilla se reemplaza el texto de abajo.</p>}
+      </div>
       <div>
         <label className={labelCls} htmlFor="cm-subject">Asunto</label>
         <input id="cm-subject" name="subject" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={160} required className={inputCls} />
