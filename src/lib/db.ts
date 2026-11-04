@@ -453,6 +453,13 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["ship_complement", "TEXT NOT NULL DEFAULT ''"],
     ["ship_document", "TEXT NOT NULL DEFAULT ''"],
     ["ship_notes", "TEXT NOT NULL DEFAULT ''"],
+    // Seguimiento del envío. fulfillment '' = pedido anterior al seguimiento; al pagarse pasa a 'por_preparar'.
+    ["fulfillment", "TEXT NOT NULL DEFAULT ''"],
+    ["carrier", "TEXT NOT NULL DEFAULT ''"],
+    ["tracking", "TEXT NOT NULL DEFAULT ''"],
+    ["ship_note", "TEXT NOT NULL DEFAULT ''"],
+    ["shipped_at", "INTEGER"],
+    ["delivered_at", "INTEGER"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

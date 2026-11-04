@@ -3,6 +3,7 @@ import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
 import { consumeCredit } from "@/lib/trivia";
 import { markOfferPaid } from "@/lib/buyer-offers";
+import { DIRECT_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 
 export type OrderStatus = "pendiente" | "pagado" | "rechazado" | "anulado" | "error";
 
@@ -36,6 +37,14 @@ export interface CatalogOrder {
   emailed: boolean;
   createdAt: number;
   paidAt: number | null;
+  /** seguimiento del envío ("" = pedido anterior al seguimiento) */
+  fulfillment: Fulfillment;
+  carrier: string;
+  tracking: string;
+  /** nota interna del equipo (no se muestra al cliente) */
+  shipNote: string;
+  shippedAt: number | null;
+  deliveredAt: number | null;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -66,13 +75,19 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   emailed: Number(r.emailed) === 1,
   createdAt: Number(r.created_at),
   paidAt: r.paid_at === null || r.paid_at === undefined ? null : Number(r.paid_at),
+  fulfillment: isFulfillment(String(r.fulfillment ?? "")) ? (String(r.fulfillment ?? "") as Fulfillment) : "",
+  carrier: String(r.carrier ?? ""),
+  tracking: String(r.tracking ?? ""),
+  shipNote: String(r.ship_note ?? ""),
+  shippedAt: r.shipped_at === null || r.shipped_at === undefined ? null : Number(r.shipped_at),
+  deliveredAt: r.delivered_at === null || r.delivered_at === undefined ? null : Number(r.delivered_at),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -93,15 +108,22 @@ export async function getOrderByRef(reference: string): Promise<CatalogOrder | n
   return r.rows[0] ? toOrder(r.rows[0]) : null;
 }
 
+export async function getOrderById(id: number): Promise<CatalogOrder | null> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE id = ?", args: [id] });
+  return r.rows[0] ? toOrder(r.rows[0]) : null;
+}
+
 export async function listOrders(): Promise<CatalogOrder[]> {
   const db = await getDb();
   const r = await db.execute("SELECT * FROM catalog_orders ORDER BY created_at DESC LIMIT 300");
   return r.rows.map(toOrder);
 }
 
+/** Pedidos pagados que todavía no salen (por preparar o en preparación). */
 export async function pendingPaidCount(): Promise<number> {
   const db = await getDb();
-  const r = await db.execute("SELECT COUNT(*) AS n FROM catalog_orders WHERE status = 'pagado'");
+  const r = await db.execute("SELECT COUNT(*) AS n FROM catalog_orders WHERE status = 'pagado' AND fulfillment IN ('por_preparar','preparando')");
   return Number(r.rows[0].n);
 }
 
@@ -124,6 +146,8 @@ export async function applyTransaction(tx: { reference: string; id: string; stat
     args: [next, tx.id, tx.method ?? "", paying ? Date.now() : null, order.id],
   });
   if (paying) {
+    // Un pedido recién pagado entra a la cola de "por preparar".
+    await db.execute({ sql: "UPDATE catalog_orders SET fulfillment = 'por_preparar' WHERE id = ? AND fulfillment = ''", args: [order.id] });
     await consumeCredit(order.creditCode, order.reference);
     await markOfferPaid(order.reference);
   }
@@ -135,4 +159,55 @@ export async function markEmailed(orderId: number): Promise<boolean> {
   const db = await getDb();
   const r = await db.execute({ sql: "UPDATE catalog_orders SET emailed = 1 WHERE id = ? AND emailed = 0", args: [orderId] });
   return r.rowsAffected > 0;
+}
+
+export interface FulfillmentInput {
+  step: Fulfillment;
+  carrier: string;
+  tracking: string;
+  note: string;
+}
+
+export type FulfillmentResult =
+  | { ok: true; order: CatalogOrder; justShipped: boolean; justDelivered: boolean; shipmentChanged: boolean }
+  | { ok: false; error: string };
+
+/**
+ * Cambia el paso de envío de un pedido pagado. Para "despachado" exige transportadora y número de guía
+ * (la guía no se pide en la entrega directa). Devuelve si es la primera vez que sale o se entrega, para avisar una sola vez.
+ */
+export async function updateFulfillment(id: number, input: FulfillmentInput): Promise<FulfillmentResult> {
+  const order = await getOrderById(id);
+  if (!order) return { ok: false, error: "No encontré ese pedido." };
+  if (order.status !== "pagado") return { ok: false, error: "Solo se puede dar seguimiento a pedidos pagados." };
+  if (!input.step) return { ok: false, error: "Elige el paso del envío." };
+
+  const carrier = input.carrier.trim().slice(0, 40);
+  const tracking = input.tracking.replace(/\s+/g, " ").trim().slice(0, 60);
+  const note = input.note.replace(/\s+/g, " ").trim().slice(0, 300);
+
+  if (input.step === "despachado") {
+    if (!carrier) return { ok: false, error: "Para marcarlo despachado elige la transportadora." };
+    if (carrier !== DIRECT_CARRIER && !tracking) return { ok: false, error: "Para marcarlo despachado escribe el número de guía." };
+  }
+
+  const now = Date.now();
+  const left = input.step === "por_preparar" || input.step === "preparando";
+  const shippedAt = left ? null : (order.shippedAt ?? (input.step === "despachado" || input.step === "entregado" ? now : null));
+  const deliveredAt = input.step === "entregado" ? (order.deliveredAt ?? now) : input.step === "incidencia" ? order.deliveredAt : null;
+  const keepShipment = input.step === "despachado" || input.step === "entregado" || input.step === "incidencia";
+
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET fulfillment = ?, carrier = ?, tracking = ?, ship_note = ?, shipped_at = ?, delivered_at = ? WHERE id = ?",
+    args: [input.step, keepShipment ? carrier : order.carrier, keepShipment ? tracking : order.tracking, note, shippedAt, deliveredAt, id],
+  });
+
+  return {
+    ok: true,
+    order: (await getOrderById(id))!,
+    justShipped: input.step === "despachado" && order.shippedAt === null,
+    justDelivered: input.step === "entregado" && order.deliveredAt === null,
+    shipmentChanged: order.carrier !== carrier || order.tracking !== tracking,
+  };
 }
