@@ -50,7 +50,7 @@ export const skyStatusLabel = (s: string) => SKY_STATUS_LABEL[s] ?? s;
 /** Si el cambio es válido desde el paso actual (nunca se retrocede ni se pisa una incidencia manual). */
 function allowed(from: Fulfillment, to: Target): boolean {
   if (from === "entregado" || from === "") return false;
-  if (to === "despachado") return from === "por_preparar" || from === "preparando";
+  if (to === "despachado") return from === "por_preparar" || from === "hacia_verificacion" || from === "preparando";
   if (to === "entregado") return true;
   return from !== "incidencia";
 }

@@ -25,7 +25,8 @@ export function stepsFor(o: CatalogOrder): Step[] {
   const f = o.fulfillment;
   const shipped = f === "despachado" || f === "entregado" || (f === "incidencia" && o.shippedAt !== null);
   const delivered = f === "entregado";
-  const preparing = f === "preparando" || shipped;
+  // El par ya llegó a nuestro punto de verificación (o ya estaba aquí) cuando se está revisando o ya salió.
+  const arrived = f === "preparando" || shipped;
   const direct = o.carrier === DIRECT_CARRIER;
 
   return [
@@ -36,10 +37,19 @@ export function stepsFor(o: CatalogOrder): Step[] {
       done: true,
     },
     {
+      title: "En camino a nuestro punto de verificación",
+      text: arrived
+        ? "Tu par ya está en nuestro punto de verificación."
+        : f === "hacia_verificacion"
+          ? "Tu par viene en camino a nuestro punto de verificación, donde lo revisamos antes de enviártelo."
+          : "Tu par llega a nuestro punto de verificación, donde lo revisamos antes de enviártelo.",
+      done: arrived,
+    },
+    {
       title: "Verificado y empacado",
       text: shipped
         ? "Revisamos tu par a fondo y lo dejamos empacado."
-        : preparing
+        : f === "preparando"
           ? "Estamos revisando tu par y empacándolo con cuidado."
           : "Cada par pasa por revisión física y autenticación antes de salir.",
       done: shipped,

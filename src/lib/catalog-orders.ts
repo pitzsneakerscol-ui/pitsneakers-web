@@ -148,7 +148,7 @@ export async function listTrackable(staleMs: number, limit: number): Promise<Cat
   const db = await getDb();
   const r = await db.execute({
     sql: `SELECT * FROM catalog_orders
-          WHERE status = 'pagado' AND sky_shipment_id NOT IN ('', 'pending') AND fulfillment IN ('por_preparar', 'preparando', 'despachado', 'incidencia')
+          WHERE status = 'pagado' AND sky_shipment_id NOT IN ('', 'pending') AND fulfillment IN ('por_preparar', 'hacia_verificacion', 'preparando', 'despachado', 'incidencia')
             AND (tracked_at IS NULL OR tracked_at < ?)
           ORDER BY COALESCE(tracked_at, 0) ASC LIMIT ?`,
     args: [Date.now() - staleMs, limit],
@@ -193,7 +193,7 @@ export async function listOrders(): Promise<CatalogOrder[]> {
 /** Pedidos pagados que todavía no salen (por preparar o en preparación). */
 export async function pendingPaidCount(): Promise<number> {
   const db = await getDb();
-  const r = await db.execute("SELECT COUNT(*) AS n FROM catalog_orders WHERE status = 'pagado' AND fulfillment IN ('por_preparar','preparando')");
+  const r = await db.execute("SELECT COUNT(*) AS n FROM catalog_orders WHERE status = 'pagado' AND fulfillment IN ('por_preparar','hacia_verificacion','preparando')");
   return Number(r.rows[0].n);
 }
 
@@ -293,7 +293,7 @@ export async function updateFulfillment(id: number, input: FulfillmentInput): Pr
   }
 
   const now = Date.now();
-  const left = input.step === "por_preparar" || input.step === "preparando";
+  const left = input.step === "por_preparar" || input.step === "hacia_verificacion" || input.step === "preparando";
   const shippedAt = left ? null : (order.shippedAt ?? (input.step === "despachado" || input.step === "entregado" ? now : null));
   const deliveredAt = input.step === "entregado" ? (order.deliveredAt ?? now) : input.step === "incidencia" ? order.deliveredAt : null;
   const keepShipment = input.step === "despachado" || input.step === "entregado" || input.step === "incidencia";
