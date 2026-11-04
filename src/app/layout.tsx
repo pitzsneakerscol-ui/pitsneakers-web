@@ -15,6 +15,7 @@ import NativeBridge from "@/components/NativeBridge";
 import FavSync from "@/components/cuenta/FavSync";
 import { siteConfig } from "@/config/site";
 import { isDbConfigured } from "@/lib/db";
+import { jsonLdString, organizationJsonLd } from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -70,6 +71,8 @@ export default async function RootLayout({
       <head>
         {/* Aplica el modo noche guardado antes de pintar la página (evita el destello blanco). */}
         <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('pits-theme')==='dark')document.documentElement.classList.add('site-dark')}catch(e){}" }} />
+        {/* Quién es la tienda, para Google (logo, contacto, redes). */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(organizationJsonLd()) }} />
       </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ChromeGate locked={locked}>
