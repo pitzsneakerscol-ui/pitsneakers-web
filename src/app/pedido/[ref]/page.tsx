@@ -5,6 +5,7 @@ import { refreshIfStale } from "@/lib/tracking-sync";
 import { getOrderByRef } from "@/lib/catalog-orders";
 import { shortDay } from "@/lib/fulfillment-shared";
 import { stepsFor } from "@/lib/order-steps";
+import { VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
 import { getAllGroups } from "@/lib/products";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
@@ -56,6 +57,7 @@ export default async function PedidoPage({ params }: { params: Promise<{ ref: st
   const tracked = order.fulfillment !== "";
   // El primer paso sin completar es el "actual".
   const currentIdx = steps.findIndex((s) => !s.done);
+  const verified = isVerified(order.verifChecks);
 
   return (
     <div className="mx-auto max-w-xl px-4 py-10 sm:px-6 sm:py-14">
@@ -130,6 +132,25 @@ export default async function PedidoPage({ params }: { params: Promise<{ ref: st
           Recibimos tu pago{order.paidAt ? ` el ${shortDay(order.paidAt)}` : ""}. Un asesor te escribe por WhatsApp para coordinar el envío.
         </p>
       )}
+
+      {verified ? (
+        <section className="mt-2 rounded-xl border border-line bg-paper-raised p-4 sm:p-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">Pits Enigma Verification Process</p>
+          <h2 className="mt-1 font-display text-2xl tracking-wide">Tu par fue verificado</h2>
+          {order.verifAt ? <p className="text-sm text-muted">{shortDay(order.verifAt)}</p> : null}
+          <ul className="mt-3 space-y-2">
+            {VERIF_CHECKS.filter((c) => order.verifChecks.includes(c.key)).map((c) => (
+              <li key={c.key} className="flex gap-2.5 text-sm">
+                <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">✓</span>
+                <span>
+                  <span className="font-semibold">{c.label}</span>
+                  {c.key === "autentico" ? null : <span className="block text-xs text-muted">{c.hint}</span>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <div className="mt-4 flex flex-wrap gap-3">
         <a href={wa} target="_blank" rel="noreferrer" className="inline-flex rounded-full bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white hover:bg-ink/85">
