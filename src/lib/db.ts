@@ -393,6 +393,16 @@ const SCHEMA = [
     unsubscribed INTEGER NOT NULL DEFAULT 0,
     created_at INTEGER NOT NULL
   )`,
+  // Registro de a quién se le envió cada campaña de marketing (evita repetir envíos). status: enviando | enviado | fallido.
+  `CREATE TABLE IF NOT EXISTS marketing_sends (
+    campaign TEXT NOT NULL,
+    contact_id INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    run TEXT NOT NULL DEFAULT '',
+    sent_at INTEGER NOT NULL,
+    PRIMARY KEY (campaign, contact_id)
+  )`,
   // Siluetas que el admin fija (pinned = 1) o saca (pinned = 0) de la sección Destacados; por groupSlug.
   `CREATE TABLE IF NOT EXISTS catalog_featured (
     slug TEXT PRIMARY KEY,
@@ -418,6 +428,8 @@ const SCHEMA = [
 const ADDED_COLUMNS: Record<string, [string, string][]> = {
   // Tallas que el admin dejó a mano para un par (lista JSON; NULL = las del archivo / del stock del revendedor).
   catalog_overrides: [["sizes", "TEXT"]],
+  // Código secreto de cada contacto para su enlace personal de baja ("" = todavía no se le generó).
+  marketing_contacts: [["token", "TEXT NOT NULL DEFAULT ''"]],
   reviews: [
     ["vip", "INTEGER NOT NULL DEFAULT 0"],
     // Referencia del pedido pagado que originó la reseña ("" = reseña abierta, sin pedido).

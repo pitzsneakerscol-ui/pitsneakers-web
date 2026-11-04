@@ -1,6 +1,7 @@
 import "server-only";
 import { getDb } from "@/lib/db";
 import { isEmail } from "@/lib/reseller-shared";
+import { newToken } from "@/lib/campaigns";
 
 export interface Contact {
   id: number;
@@ -164,8 +165,8 @@ export async function importContacts(contacts: ParsedContact[], source: string):
         }
         added++;
         return {
-          sql: "INSERT OR IGNORE INTO marketing_contacts (email, name, phone, city, notes, source, unsubscribed, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          args: [c.email, c.name, c.phone, c.city, c.notes, source, c.unsubscribed ? 1 : 0, now],
+          sql: "INSERT OR IGNORE INTO marketing_contacts (email, name, phone, city, notes, source, unsubscribed, created_at, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          args: [c.email, c.name, c.phone, c.city, c.notes, source, c.unsubscribed ? 1 : 0, now, newToken()],
         };
       }),
       "write",

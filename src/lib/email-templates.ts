@@ -165,7 +165,7 @@ function blocks(body: string): string {
 }
 
 /** Mensaje con formato → HTML de correo con la marca de Pitsneakers. Todo el contenido va escapado. */
-export function renderEmailHtml(subject: string, body: string): string {
+export function renderEmailHtml(subject: string, body: string, opts?: { unsubscribeUrl?: string }): string {
   const wa = `https://wa.me/${siteConfig.whatsappNumber}`;
   const base = siteConfig.siteUrl.replace(/\/$/, "");
   const logo = base ? `${base}/email/logo.png` : "";
@@ -202,7 +202,11 @@ ${
 <div style="font-family:${DISPLAY};font-size:22px;letter-spacing:1.5px;color:#ffffff;margin-bottom:4px">PIT<span style="color:${HOT}">SNEAKERS</span></div>
 <div style="margin-bottom:14px;color:#9a9a9a">${esc(siteConfig.city)} &middot; Sneakers y streetwear verificados par a par</div>
 <div>${pill(wa, "WhatsApp", "#25d366")}${pill(siteConfig.instagramUrl, "Instagram", "#ff6b9d", "#0a0a0a")}${pill(siteConfig.whatsappCommunityUrl, "Comunidad", "#4cc9f0", "#0a0a0a")}</div>
-<div style="margin-top:8px;color:#7a7a7a">Recibes este correo porque haces parte de la comunidad Pitsneakers. Si ya no quieres recibir mensajes, responde &ldquo;NO&rdquo; a este correo.</div>
+<div style="margin-top:8px;color:#7a7a7a">Recibes este correo porque haces parte de la comunidad Pitsneakers. ${
+    opts?.unsubscribeUrl
+      ? `Si ya no quieres recibir estos correos, <a href="${esc(opts.unsubscribeUrl)}" style="color:#ffffff;text-decoration:underline">date de baja aquí</a>.`
+      : "Si ya no quieres recibir mensajes, responde &ldquo;NO&rdquo; a este correo."
+  }</div>
 </td></tr>
 </table></td></tr></table></body></html>`;
 }

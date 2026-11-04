@@ -34,11 +34,14 @@ export default async function ContactosPage({ searchParams }: { searchParams: Pr
         <div>
           <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Contactos</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Correos y celulares de la comunidad, listos para email marketing. Descarga el CSV y súbelo en Resend (Audiences → Add contacts → Import CSV) para enviar con Broadcasts, que incluye el botón de darse de baja.
+            Correos y celulares de la comunidad. Escríbeles desde “Enviar campaña de correo” (cada correo lleva su enlace de baja) o descarga el CSV para usarlo en Resend.
           </p>
         </div>
         {stats.active > 0 && (
-          <a href="/admin/contactos/exportar" className={btnGhost}>Descargar CSV para Resend</a>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/contactos/campana" className={btnPrimary}>Enviar campaña de correo</Link>
+            <a href="/admin/contactos/exportar" className={btnGhost}>Descargar CSV para Resend</a>
+          </div>
         )}
       </header>
 
