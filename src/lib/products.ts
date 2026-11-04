@@ -46,8 +46,8 @@ export function applyOverrides(products: Product[], overrides: Map<string, Price
 
 export async function getAllProducts(): Promise<Product[]> {
   const base = await loadProducts();
-  const { live, hidden, overrides } = await loadLiveOverlay();
-  const products = applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live], overrides);
+  const { live, hidden, overrides, extras } = await loadLiveOverlay();
+  const products = applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live, ...extras], overrides);
   return [...products].sort(
     (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
   );

@@ -3,9 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser, requireAdmin } from "@/lib/auth";
-import { clearOverride, MAX_PRICE, MIN_PRICE, normalizeSizes, parsePesos, saveOverride } from "@/lib/catalog-prices";
-import { getStaticProducts } from "@/lib/products";
-import { loadLiveOverlay } from "@/lib/catalog-live";
+import { addVariant, clearOverride, deleteExtra, findBaseProduct, MAX_PRICE, MIN_PRICE, normalizeSizes, parsePesos, saveOverride } from "@/lib/catalog-prices";
 
 /** Vuelve a la misma lista (con su búsqueda y página) y deja el par que se editó a la vista. Solo acepta rutas del propio panel. */
 function backTo(fd: FormData, sku: string, status: string): never {
@@ -21,8 +19,7 @@ function backTo(fd: FormData, sku: string, status: string): never {
 export async function savePrice(fd: FormData): Promise<void> {
   await requireAdmin();
   const sku = String(fd.get("sku") ?? "");
-  const [statics, overlay] = await Promise.all([getStaticProducts(), loadLiveOverlay()]);
-  const base = statics.find((p) => p.id === sku) ?? overlay.live.find((p) => p.id === sku);
+  const base = await findBaseProduct(sku);
   if (!base) backTo(fd, sku, "err");
 
   const price = parsePesos(fd.get("price"));
@@ -45,8 +42,7 @@ export async function saveVariant(input: { sku: string; price: number; priceBefo
   const user = await getCurrentUser();
   if (!user?.isAdmin) return { ok: false, error: "Tu sesión de administrador venció. Ingresa de nuevo." };
 
-  const [statics, overlay] = await Promise.all([getStaticProducts(), loadLiveOverlay()]);
-  const base = statics.find((p) => p.id === input.sku) ?? overlay.live.find((p) => p.id === input.sku);
+  const base = await findBaseProduct(input.sku);
   if (!base) return { ok: false, error: "Ese par ya no está en el catálogo." };
 
   const price = Math.round(Number(input.price));
@@ -58,6 +54,34 @@ export async function saveVariant(input: { sku: string; price: number; priceBefo
   const hidden = Boolean(input.hidden) || (sizes.length === 0 && base.sizes.length > 0);
 
   await saveOverride(input.sku, base, { price, priceBefore: priceBefore > price ? priceBefore : 0, hidden, sizes });
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/** Agrega a la silueta otra opción con sus tallas y su precio (ej. la 11 a otro precio). */
+export async function addSiluetaVariant(input: { from: string; sizes: string[]; price: number; priceBefore: number; condition: string }): Promise<VariantResult> {
+  const user = await getCurrentUser();
+  if (!user?.isAdmin) return { ok: false, error: "Tu sesión de administrador venció. Ingresa de nuevo." };
+
+  const sizes = normalizeSizes(Array.isArray(input.sizes) ? input.sizes.slice(0, 40) : []);
+  if (sizes.length === 0) return { ok: false, error: "Escribe al menos una talla (por ejemplo 11 o 11, 11.5)." };
+  const price = Math.round(Number(input.price));
+  if (!Number.isSafeInteger(price) || price < MIN_PRICE || price > MAX_PRICE) return { ok: false, error: "Escribe un precio entre $1.000 y $99.999.999." };
+  const priceBefore = Math.round(Number(input.priceBefore)) || 0;
+  const condition = input.condition === "usado" ? "usado" : "nuevo";
+
+  const added = await addVariant(String(input.from), { sizes, price, priceBefore, condition });
+  if (!added) return { ok: false, error: "No se pudo agregar: ese par ya no está en el catálogo." };
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/** Elimina una variante que se agregó a mano. Los pares del archivo no se borran desde aquí (se ocultan). */
+export async function removeSiluetaVariant(sku: string): Promise<VariantResult> {
+  const user = await getCurrentUser();
+  if (!user?.isAdmin) return { ok: false, error: "Tu sesión de administrador venció. Ingresa de nuevo." };
+  const done = await deleteExtra(String(sku));
+  if (!done) return { ok: false, error: "Solo se pueden eliminar las opciones que agregaste desde aquí. Para sacar un par del catálogo, ocúltalo." };
   revalidatePath("/", "layout");
   return { ok: true };
 }

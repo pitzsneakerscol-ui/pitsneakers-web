@@ -13,6 +13,8 @@ export interface LiveOverlay {
   hidden: Set<string>;
   /** Ajustes manuales del admin por SKU (precio, precio anterior, oculto). */
   overrides: Map<string, PriceOverride>;
+  /** Variantes agregadas a mano a una silueta (otra talla a otro precio). */
+  extras: Product[];
 }
 
 export interface PriceOverride {
@@ -38,17 +40,19 @@ function parseSizes(v: unknown): string[] | null {
   }
 }
 
-const EMPTY =(): LiveOverlay => ({ live: [], hidden: new Set<string>(), overrides: new Map() });
+const EMPTY =(): LiveOverlay => ({ live: [], hidden: new Set<string>(), overrides: new Map(), extras: [] });
 
 async function query(db: Client): Promise<LiveOverlay> {
-  const [live, hidden, overrides] = await Promise.all([
+  const [live, hidden, overrides, extras] = await Promise.all([
     db.execute("SELECT payload FROM live_listings ORDER BY updated_at DESC, id"),
     db.execute("SELECT sku FROM catalog_hidden"),
     db.execute("SELECT sku, price, price_before, hidden, sizes FROM catalog_overrides"),
+    db.execute("SELECT payload FROM catalog_extras ORDER BY created_at, id"),
   ]);
   return {
     live: live.rows.map((r) => JSON.parse(String(r.payload)) as Product),
     hidden: new Set(hidden.rows.map((r) => String(r.sku))),
+    extras: extras.rows.map((r) => JSON.parse(String(r.payload)) as Product),
     overrides: new Map(
       overrides.rows.map((r) => [String(r.sku), { price: Number(r.price), priceBefore: Number(r.price_before), hidden: Number(r.hidden) === 1, sizes: parseSizes(r.sizes) }]),
     ),

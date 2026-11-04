@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { resetVariant, saveVariant } from "@/app/admin/precios/actions";
-import { btnGhost, btnPrimary, inputCls } from "@/components/reseller/ui";
+import { addSiluetaVariant, removeSiluetaVariant, resetVariant, saveVariant } from "@/app/admin/precios/actions";
+import { btnAccent, btnGhost, btnPrimary, inputCls } from "@/components/reseller/ui";
 
 export interface EditableVariant {
   id: string;
@@ -13,6 +13,8 @@ export interface EditableVariant {
   sizes: string[];
   /** Tiene un ajuste hecho a mano desde el panel. */
   adjusted: boolean;
+  /** Se agregó a mano desde este mismo editor (se puede eliminar). */
+  extra: boolean;
 }
 
 const pesos = (n: number) => n.toLocaleString("es-CO");
@@ -60,6 +62,7 @@ function VariantForm({ v }: { v: EditableVariant }) {
       <div className="flex flex-wrap items-center gap-2">
         <p className="text-sm font-semibold">{v.id}</p>
         <span className="text-xs capitalize text-muted">{v.condition}</span>
+        {v.extra && <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">Agregado por ti</span>}
         {v.adjusted && <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">Ajustado a mano</span>}
       </div>
 
@@ -131,6 +134,90 @@ function VariantForm({ v }: { v: EditableVariant }) {
             Volver al original
           </button>
         )}
+        {v.extra && (
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => {
+              if (window.confirm("¿Eliminar esta opción (tallas y precio) de la silueta?")) run(() => removeSiluetaVariant(v.id), "Eliminada.");
+            }}
+            className={btnGhost}
+          >
+            Eliminar esta opción
+          </button>
+        )}
+        {msg && (
+          <p role={msg.ok ? "status" : "alert"} className={`text-sm ${msg.ok ? "text-emerald-600" : "text-accent"}`}>
+            {msg.text}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Agrega a la silueta otra opción: una o varias tallas con su propio precio (ej. la 11 a otro precio). */
+function AddVariantForm({ from }: { from: string }) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const [sizes, setSizes] = useState("");
+  const [price, setPrice] = useState("");
+  const [before, setBefore] = useState("");
+  const [condition, setCondition] = useState("nuevo");
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  function add() {
+    setMsg(null);
+    start(async () => {
+      const r = await addSiluetaVariant({
+        from,
+        // Se separa por espacios o ";"; la coma decimal ("9,5") la normaliza el servidor y una coma al final ("11,") se ignora.
+        sizes: sizes.split(/[\s;]+/).map((s) => s.replace(/[,;.]+$/, "")).filter(Boolean),
+        price: digits(price),
+        priceBefore: digits(before),
+        condition,
+      });
+      if (r.ok) {
+        setMsg({ ok: true, text: "Agregada. Ya aparece en la silueta." });
+        setSizes("");
+        setPrice("");
+        setBefore("");
+        router.refresh();
+      } else {
+        setMsg({ ok: false, text: r.error });
+      }
+    });
+  }
+
+  return (
+    <div className="rounded-xl border border-dashed border-line bg-paper p-4">
+      <p className="text-sm font-semibold">Agregar otras tallas con otro precio</p>
+      <p className="mt-1 text-xs text-muted">Crea una opción nueva dentro de esta misma silueta. Varias tallas con el mismo precio se separan con espacios: 11 11.5 12.</p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <label htmlFor="ae-new-sizes" className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">Tallas</label>
+          <input id="ae-new-sizes" value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="Ej. 11 11.5" className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor="ae-new-price" className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">Precio</label>
+          <input id="ae-new-price" inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="1.200.000" className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor="ae-new-before" className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">Precio antes (promo)</label>
+          <input id="ae-new-before" inputMode="numeric" value={before} onChange={(e) => setBefore(e.target.value)} placeholder="Sin promo" className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor="ae-new-cond" className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">Condición</label>
+          <select id="ae-new-cond" value={condition} onChange={(e) => setCondition(e.target.value)} className={inputCls}>
+            <option value="nuevo">Nuevo</option>
+            <option value="usado">Usado</option>
+          </select>
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <button type="button" disabled={pending} onClick={add} className={btnAccent}>
+          {pending ? "Agregando…" : "Agregar a la silueta"}
+        </button>
         {msg && (
           <p role={msg.ok ? "status" : "alert"} className={`text-sm ${msg.ok ? "text-emerald-600" : "text-accent"}`}>
             {msg.text}
@@ -177,6 +264,7 @@ export default function AdminProductEditor({ variants }: { variants: EditableVar
           {variants.map((v) => (
             <VariantForm key={`${v.id}-${v.price}-${v.priceBefore}-${v.sizes.join(",")}-${v.adjusted}`} v={v} />
           ))}
+          {variants[0] && <AddVariantForm from={variants[0].id} />}
         </div>
       )}
     </section>

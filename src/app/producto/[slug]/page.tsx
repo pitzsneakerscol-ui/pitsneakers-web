@@ -50,7 +50,8 @@ export default async function ProductPage({
   }
 
   const related = await getRelatedGroups(group);
-  const { overrides } = await loadLiveOverlay();
+  const { overrides, extras } = await loadLiveOverlay();
+  const extraIds = new Set(extras.map((p) => p.id));
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
@@ -67,6 +68,7 @@ export default async function ProductPage({
           priceBefore: v.priceBefore && v.priceBefore > v.price ? v.priceBefore : 0,
           sizes: v.sizes,
           adjusted: overrides.has(v.id),
+          extra: extraIds.has(v.id),
         }))}
       />
 

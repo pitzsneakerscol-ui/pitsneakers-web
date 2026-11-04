@@ -1,6 +1,9 @@
 import "server-only";
+import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
-import { resetLiveOverlay } from "@/lib/catalog-live";
+import { loadLiveOverlay, resetLiveOverlay } from "@/lib/catalog-live";
+import { getStaticProducts } from "@/lib/products";
+import type { Product, ProductCondition } from "@/types/product";
 
 /** "1.100.000", "$ 1100000" o "1,100,000" → 1100000. Devuelve 0 si no hay un número. */
 export function parsePesos(v: FormDataEntryValue | null): number {
@@ -69,6 +72,61 @@ export async function saveOverride(sku: string, base: { price: number; priceBefo
     });
   }
   resetLiveOverlay();
+}
+
+/** El par tal como viene del archivo, del stock del revendedor o de una variante agregada, sin los ajustes manuales encima. */
+export async function findBaseProduct(sku: string): Promise<Product | undefined> {
+  const [statics, overlay] = await Promise.all([getStaticProducts(), loadLiveOverlay()]);
+  return statics.find((p) => p.id === sku) ?? overlay.live.find((p) => p.id === sku) ?? overlay.extras.find((p) => p.id === sku);
+}
+
+// Sin 0/O/1/I para que el código se pueda dictar sin confundirse.
+const ID_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+/**
+ * Agrega a una silueta otra opción con sus propias tallas y su propio precio (ej. la 11 a otro precio).
+ * Copia los datos del par `fromSku`: al tener la misma marca, nombre y colorway, el catálogo la une sola a esa silueta.
+ */
+export async function addVariant(fromSku: string, v: { sizes: string[]; price: number; priceBefore: number; condition: ProductCondition }): Promise<{ id: string } | null> {
+  const sibling = await findBaseProduct(fromSku);
+  if (!sibling) return null;
+
+  const db = await getDb();
+  const root = sibling.id.replace(/-X[A-Z0-9]{3,4}$/, "");
+  let id = "";
+  for (let i = 0; i < 20 && !id; i++) {
+    const code = Array.from(randomBytes(3), (b) => ID_ALPHABET[b % ID_ALPHABET.length]).join("");
+    const candidate = `${root}-X${code}`;
+    if (!(await findBaseProduct(candidate))) id = candidate;
+  }
+  if (!id) return null;
+
+  const priceBefore = v.priceBefore > v.price ? v.priceBefore : undefined;
+  const product: Product = {
+    ...sibling,
+    id,
+    sizes: v.sizes,
+    price: v.price,
+    priceBefore,
+    promo: priceBefore !== undefined,
+    condition: v.condition,
+    // Las fotos ya salen en la silueta (las de los demás pares); la fecha se conserva para no mover la silueta en las listas.
+    images: [],
+    featured: false,
+    isNew: false,
+  };
+  await db.execute({ sql: "INSERT INTO catalog_extras (id, payload, created_at) VALUES (?, ?, ?)", args: [id, JSON.stringify(product), Date.now()] });
+  resetLiveOverlay();
+  return { id };
+}
+
+/** Borra una variante agregada a mano (y su ajuste, si lo tenía). Solo toca la tabla de variantes agregadas: nunca pares del archivo. */
+export async function deleteExtra(sku: string): Promise<boolean> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "DELETE FROM catalog_extras WHERE id = ?", args: [sku] });
+  if (r.rowsAffected > 0) await db.execute({ sql: "DELETE FROM catalog_overrides WHERE sku = ?", args: [sku] });
+  resetLiveOverlay();
+  return r.rowsAffected > 0;
 }
 
 export async function clearOverride(sku: string): Promise<void> {

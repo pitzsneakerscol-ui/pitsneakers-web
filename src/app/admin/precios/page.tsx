@@ -22,8 +22,9 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
   const [statics, overlay] = await Promise.all([getStaticProducts(), loadLiveOverlay()]);
 
   // Los SKU que la sincronización oculta (el revendedor ya no los tiene) no están a la venta: no se listan.
-  const base = [...statics.filter((p) => !overlay.hidden.has(p.id)), ...overlay.live];
+  const base = [...statics.filter((p) => !overlay.hidden.has(p.id)), ...overlay.live, ...overlay.extras];
   const liveIds = new Set(overlay.live.map((p) => p.id));
+  const extraIds = new Set(overlay.extras.map((p) => p.id));
   const query = loose(q.trim().slice(0, 60));
   const filtered = base
     .filter((p) => {
@@ -109,6 +110,7 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
                       <p className="text-xs text-muted">
                         {p.id} · talla {(o?.sizes ?? p.sizes).join(", ") || "—"} · {p.condition}
                         {liveIds.has(p.id) && " · del stock de un revendedor"}
+                        {extraIds.has(p.id) && " · opción agregada a mano"}
                       </p>
                       {o && (
                         <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
