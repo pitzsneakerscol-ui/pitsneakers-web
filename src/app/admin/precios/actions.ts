@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser, requireAdmin } from "@/lib/auth";
-import { addVariant, clearOverride, deleteExtra, findBaseProduct, MAX_PRICE, MIN_PRICE, normalizeSizes, parsePesos, saveOverride } from "@/lib/catalog-prices";
+import { addVariant, clearOverride, deleteExtra, findBaseProduct, MAX_PRICE, MIN_PRICE, normalizeSizes, parsePesos, saveOverride, setFeatured } from "@/lib/catalog-prices";
 
 /** Vuelve a la misma lista (con su búsqueda y página) y deja el par que se editó a la vista. Solo acepta rutas del propio panel. */
 function backTo(fd: FormData, sku: string, status: string): never {
@@ -72,6 +72,17 @@ export async function addSiluetaVariant(input: { from: string; sizes: string[]; 
 
   const added = await addVariant(String(input.from), { sizes, price, priceBefore, condition });
   if (!added) return { ok: false, error: "No se pudo agregar: ese par ya no está en el catálogo." };
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/** Deja la silueta en Destacados (portada) o la saca. Solo se muestran sneakers con foto. */
+export async function setSiluetaFeatured(slug: string, on: boolean): Promise<VariantResult> {
+  const user = await getCurrentUser();
+  if (!user?.isAdmin) return { ok: false, error: "Tu sesión de administrador venció. Ingresa de nuevo." };
+  const s = String(slug);
+  if (!/^[a-z0-9-]{1,120}$/.test(s)) return { ok: false, error: "Silueta no válida." };
+  await setFeatured(s, Boolean(on));
   revalidatePath("/", "layout");
   return { ok: true };
 }

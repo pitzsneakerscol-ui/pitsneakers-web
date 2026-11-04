@@ -381,6 +381,12 @@ const SCHEMA = [
     payload TEXT NOT NULL,
     created_at INTEGER NOT NULL
   )`,
+  // Siluetas que el admin fija (pinned = 1) o saca (pinned = 0) de la sección Destacados; por groupSlug.
+  `CREATE TABLE IF NOT EXISTS catalog_featured (
+    slug TEXT PRIMARY KEY,
+    pinned INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL
+  )`,
   // SKU del catálogo del archivo que se ocultan porque el revendedor ya no los tiene en stock.
   `CREATE TABLE IF NOT EXISTS catalog_hidden (
     sku TEXT PRIMARY KEY,

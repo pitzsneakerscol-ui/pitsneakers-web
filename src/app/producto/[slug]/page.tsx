@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   getAllGroups,
+  getFeaturedGroups,
   getGroupBySlug,
   getRelatedGroups,
 } from "@/lib/products";
@@ -52,6 +53,9 @@ export default async function ProductPage({
   const related = await getRelatedGroups(group);
   const { overrides, extras } = await loadLiveOverlay();
   const extraIds = new Set(extras.map((p) => p.id));
+  // Destacados solo muestra sneakers con foto; si esta silueta no cumple, el editor avisa en vez de ofrecer el interruptor.
+  const canFeature = group.category === "sneakers" && group.images.length > 0;
+  const featured = canFeature && (await getFeaturedGroups(6)).some((g) => g.groupSlug === group.groupSlug);
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
@@ -61,6 +65,9 @@ export default async function ProductPage({
       </div>
 
       <AdminProductEditor
+        slug={group.groupSlug}
+        featured={featured}
+        canFeature={canFeature}
         variants={group.variants.map((v) => ({
           id: v.id,
           condition: v.condition,

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { addSiluetaVariant, removeSiluetaVariant, resetVariant, saveVariant } from "@/app/admin/precios/actions";
+import { addSiluetaVariant, removeSiluetaVariant, resetVariant, saveVariant, setSiluetaFeatured } from "@/app/admin/precios/actions";
 import { btnAccent, btnGhost, btnPrimary, inputCls } from "@/components/reseller/ui";
 
 export interface EditableVariant {
@@ -156,6 +156,55 @@ function VariantForm({ v }: { v: EditableVariant }) {
   );
 }
 
+/** Interruptor de Destacados: se guarda al tocarlo. Destacados (portada) muestra 6 siluetas y solo sneakers con foto. */
+function FeaturedToggle({ slug, featured, canFeature }: { slug: string; featured: boolean; canFeature: boolean }) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const [on, setOn] = useState(featured);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  function toggle(next: boolean) {
+    setMsg(null);
+    setOn(next);
+    start(async () => {
+      const r = await setSiluetaFeatured(slug, next);
+      if (r.ok) {
+        setMsg({ ok: true, text: next ? "Listo: quedó en Destacados." : "Listo: salió de Destacados." });
+        router.refresh();
+      } else {
+        setOn(!next);
+        setMsg({ ok: false, text: r.error });
+      }
+    });
+  }
+
+  if (!canFeature) {
+    return (
+      <div className="rounded-xl border border-line bg-paper p-4 text-sm text-muted">
+        <p className="font-semibold text-ink">Destacados</p>
+        <p className="mt-1">Esta silueta no puede ir en Destacados: ahí solo se muestran sneakers que tengan foto.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl border border-line bg-paper p-4">
+      <label className="flex cursor-pointer items-start gap-3">
+        <input type="checkbox" checked={on} disabled={pending} onChange={(e) => toggle(e.target.checked)} className="mt-1 h-4 w-4 accent-[var(--color-accent)]" />
+        <span>
+          <span className="block text-sm font-semibold">Dejar en Destacados</span>
+          <span className="block text-xs text-muted">Aparece en la portada, en “Destacados”. Ahí caben 6: los que fijas tú van primero (el último que fijas, de primero) y el resto se completa con los más costosos. Si lo desmarcas, no vuelve a salir ahí.</span>
+        </span>
+      </label>
+      {msg && (
+        <p role={msg.ok ? "status" : "alert"} className={`mt-2 text-sm ${msg.ok ? "text-emerald-600" : "text-accent"}`}>
+          {msg.text}
+        </p>
+      )}
+    </div>
+  );
+}
+
 /** Agrega a la silueta otra opción: una o varias tallas con su propio precio (ej. la 11 a otro precio). */
 function AddVariantForm({ from }: { from: string }) {
   const router = useRouter();
@@ -232,7 +281,7 @@ function AddVariantForm({ from }: { from: string }) {
  * Editor de la página del producto. Solo aparece si quien mira tiene la sesión del dueño: la página es pública y estática,
  * así que se pregunta al navegador (/api/sesion) y, al guardar, el servidor vuelve a comprobar el permiso.
  */
-export default function AdminProductEditor({ variants }: { variants: EditableVariant[] }) {
+export default function AdminProductEditor({ variants, slug, featured, canFeature }: { variants: EditableVariant[]; slug: string; featured: boolean; canFeature: boolean }) {
   const [admin, setAdmin] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -261,6 +310,7 @@ export default function AdminProductEditor({ variants }: { variants: EditableVar
       {open && (
         <div className="mt-4 space-y-4">
           <p className="text-sm text-muted">Cambia el precio, quita o agrega tallas y guarda. El cambio se ve al instante en la tienda y en el pago.</p>
+          <FeaturedToggle slug={slug} featured={featured} canFeature={canFeature} />
           {variants.map((v) => (
             <VariantForm key={`${v.id}-${v.price}-${v.priceBefore}-${v.sizes.join(",")}-${v.adjusted}`} v={v} />
           ))}

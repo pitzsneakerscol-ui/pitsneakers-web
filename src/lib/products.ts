@@ -83,16 +83,20 @@ function photosFirst(groups: ProductGroup[]): ProductGroup[] {
   return [...groups.filter((g) => g.images.length > 0), ...groups.filter((g) => g.images.length === 0)];
 }
 
-// Pares que el dueño fija al inicio de Destacados (por el groupSlug del modelo), antes de los más costosos.
+// Pares fijados desde el código al inicio de Destacados (por el groupSlug del modelo); el admin puede sacarlos desde la página del producto.
 const FEATURED_PINNED = ["adidas-jellyfish-red", "adidas-jellyfish-storm"];
 
-/** Destacados: primero los fijados a mano y luego los pares más costosos (por el precio de su talla más cara), solo sneakers y con foto. */
+/**
+ * Destacados: primero los que el admin fijó (el último fijado va primero), luego los fijados en el código y al final los pares
+ * más costosos (por el precio de su talla más cara). Solo sneakers con foto, y nunca los que el admin sacó de la lista.
+ */
 export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
-  const groups = await getAllGroups();
-  const pool = groups.filter((g) => g.category === "sneakers" && g.images.length > 0);
-  const pinned = FEATURED_PINNED.map((slug) => pool.find((g) => g.groupSlug === slug)).filter(
-    (g): g is ProductGroup => g !== undefined
-  );
+  const [groups, { featured }] = await Promise.all([getAllGroups(), loadLiveOverlay()]);
+  const pool = groups.filter((g) => g.category === "sneakers" && g.images.length > 0 && !featured.out.has(g.groupSlug));
+  const order = [...featured.pinned, ...FEATURED_PINNED.filter((s) => !featured.pinned.includes(s))];
+  const pinned = order
+    .map((slug) => pool.find((g) => g.groupSlug === slug))
+    .filter((g): g is ProductGroup => g !== undefined);
   const rest = pool
     .filter((g) => !pinned.includes(g))
     .sort((a, b) => groupPriceRange(b).max - groupPriceRange(a).max);

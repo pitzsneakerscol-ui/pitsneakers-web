@@ -129,6 +129,17 @@ export async function deleteExtra(sku: string): Promise<boolean> {
   return r.rowsAffected > 0;
 }
 
+/** Deja una silueta en Destacados (fijada) o la saca (excluida, aunque sea de las más caras). */
+export async function setFeatured(slug: string, on: boolean): Promise<void> {
+  const db = await getDb();
+  await db.execute({
+    sql: `INSERT INTO catalog_featured (slug, pinned, updated_at) VALUES (?, ?, ?)
+          ON CONFLICT(slug) DO UPDATE SET pinned = excluded.pinned, updated_at = excluded.updated_at`,
+    args: [slug, on ? 1 : 0, Date.now()],
+  });
+  resetLiveOverlay();
+}
+
 export async function clearOverride(sku: string): Promise<void> {
   const db = await getDb();
   await db.execute({ sql: "DELETE FROM catalog_overrides WHERE sku = ?", args: [sku] });
