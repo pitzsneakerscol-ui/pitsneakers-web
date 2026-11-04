@@ -15,6 +15,7 @@ import { getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
 import { groupPriceRange } from "@/lib/grouping";
 import { formatPrice } from "@/lib/format";
 import type { ChatPair } from "@/components/CTASection";
+import { jsonLdString, websiteJsonLd } from "@/lib/seo";
 
 export default async function Home() {
   const [featured, arrivals] = await Promise.all([
@@ -43,6 +44,8 @@ export default async function Home() {
 
   return (
     <>
+      {/* Nombre del sitio para Google (aparece arriba del resultado en vez de la dirección). */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(websiteJsonLd()) }} />
       <Hero />
       <NewArrivalsStrip groups={arrivals} />
       <PromoSection />

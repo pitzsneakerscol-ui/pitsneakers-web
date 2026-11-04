@@ -98,6 +98,17 @@ export function organizationJsonLd() {
   };
 }
 
+/** Nombre del sitio para Google: es lo que aparece arriba del resultado en lugar de la dirección (solo se pone en la página principal). */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "PITSNEAKERS",
+    alternateName: [siteConfig.name, "Pits Sneakers"],
+    url: `${siteBase()}/`,
+  };
+}
+
 /** JSON para meter dentro de <script>: se escapa "<" para que ningún texto pueda cerrar la etiqueta. */
 export const jsonLdString = (data: unknown) => JSON.stringify(data).replace(/</g, "\\u003c");
 
