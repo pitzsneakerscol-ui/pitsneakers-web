@@ -75,10 +75,14 @@ export function buildMail(subject: string, body: string, c: { email: string; nam
 
 /* ---------- Envío por lotes (Resend /emails/batch: hasta 100 correos por llamada) ---------- */
 
-export type BatchResult = { ok: true } | { ok: false; error: string };
+/** `rejected`: Resend rechazó el contenido o una dirección (400/422); reintentar igual no sirve. Otros fallos (red, límite, 5xx) sí se pueden reintentar. */
+export type BatchResult = { ok: true } | { ok: false; error: string; rejected: boolean };
+
+/** Resend solo acepta direcciones con caracteres ASCII (sin tildes ni ñ). */
+export const isSendableEmail = (e: string) => /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/.test(e) && e.length <= 120;
 
 export async function sendBatch(mails: CampaignMail[]): Promise<BatchResult> {
-  if (!isEmailConfigured()) return { ok: false, error: "Correo no configurado." };
+  if (!isEmailConfigured()) return { ok: false, error: "Correo no configurado.", rejected: false };
   const single = process.env.RESEND_API_URL || "https://api.resend.com/emails";
   const replyTo = process.env.EMAIL_REPLY_TO;
   try {
@@ -104,10 +108,24 @@ export async function sendBatch(mails: CampaignMail[]): Promise<BatchResult> {
     });
     if (res.ok) return { ok: true };
     const data = (await res.json().catch(() => null)) as { message?: string } | null;
-    return { ok: false, error: (data?.message ?? `Error ${res.status}`).slice(0, 200) };
+    return { ok: false, error: (data?.message ?? `Error ${res.status}`).slice(0, 200), rejected: res.status === 400 || res.status === 422 };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message.slice(0, 200) : "Fallo de red." };
+    return { ok: false, error: e instanceof Error ? e.message.slice(0, 200) : "Fallo de red.", rejected: false };
   }
+}
+
+type Outcome = { ok: true } | { ok: false; error: string; rejected: boolean };
+
+/**
+ * Resend rechaza el lote entero si una sola dirección es inválida. Si pasa, se parte el lote a la mitad
+ * hasta aislar la dirección mala: las demás salen y solo la culpable queda marcada.
+ */
+export async function sendIsolating(mails: CampaignMail[]): Promise<Outcome[]> {
+  const r = await sendBatch(mails);
+  if (r.ok) return mails.map(() => ({ ok: true }) as Outcome);
+  if (!r.rejected || mails.length === 1) return mails.map(() => r);
+  const mid = Math.ceil(mails.length / 2);
+  return [...(await sendIsolating(mails.slice(0, mid))), ...(await sendIsolating(mails.slice(mid)))];
 }
 
 /* ---------- Campañas ---------- */
@@ -155,6 +173,8 @@ export interface SendReport {
   claimed: number;
   sent: number;
   failed: number;
+  /** Direcciones que Resend no acepta; se apartan y no se reintentan. */
+  invalid: number;
   firstError: string;
 }
 
@@ -197,21 +217,36 @@ export async function sendCampaign(campaign: string, subject: string, body: stri
 
   let sent = 0;
   let failed = 0;
+  let invalid = 0;
   let firstError = "";
-  for (let i = 0; i < rows.length; i += BATCH_SIZE) {
-    const chunk = rows.slice(i, i + BATCH_SIZE);
-    const result = await sendBatch(chunk.map((c) => buildMail(subject, body, c)));
-    const status = result.ok ? "enviado" : "fallido";
-    const error = result.ok ? "" : result.error;
+  const mark = (c: { id: number }, status: string, error: string) =>
+    ({ sql: "UPDATE marketing_sends SET status = ?, error = ?, sent_at = ? WHERE campaign = ? AND contact_id = ?", args: [status, error, Date.now(), campaign, c.id] });
+
+  // Las direcciones con tildes, ñ u otros caracteres raros no se pueden enviar: se apartan y no se reintentan.
+  const bad = rows.filter((c) => !isSendableEmail(c.email));
+  const good = rows.filter((c) => isSendableEmail(c.email));
+  if (bad.length) {
+    await db.batch(bad.map((c) => mark(c, "invalido", "Correo con caracteres no válidos")), "write");
+    invalid += bad.length;
+  }
+
+  for (let i = 0; i < good.length; i += BATCH_SIZE) {
+    const chunk = good.slice(i, i + BATCH_SIZE);
+    const outcomes = await sendIsolating(chunk.map((c) => buildMail(subject, body, c)));
     await db.batch(
-      chunk.map((c) => ({ sql: "UPDATE marketing_sends SET status = ?, error = ?, sent_at = ? WHERE campaign = ? AND contact_id = ?", args: [status, error, Date.now(), campaign, c.id] })),
+      chunk.map((c, j) => {
+        const o = outcomes[j];
+        if (o.ok) return mark(c, "enviado", "");
+        return mark(c, o.rejected ? "invalido" : "fallido", o.error);
+      }),
       "write",
     );
-    if (result.ok) sent += chunk.length;
-    else {
-      failed += chunk.length;
-      firstError ||= error;
-    }
+    outcomes.forEach((o) => {
+      if (o.ok) sent++;
+      else if (o.rejected) invalid++;
+      else failed++;
+      if (!o.ok) firstError ||= o.error;
+    });
   }
-  return { claimed: rows.length, sent, failed, firstError };
+  return { claimed: rows.length, sent, failed, invalid, firstError };
 }

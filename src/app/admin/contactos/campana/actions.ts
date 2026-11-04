@@ -50,6 +50,7 @@ export async function sendCampaignAction(_prev: ActionState, fd: FormData): Prom
   const r = await sendCampaign(campaign, msg.subject, msg.body, limit);
   revalidatePath("/admin/contactos/campana");
   const left = await pendingCount(campaign);
-  if (r.failed === 0) return { ok: true, message: `Enviamos ${r.sent} correo${r.sent === 1 ? "" : "s"}. Quedan ${left} pendientes en esta campaña.` };
-  return { error: `Enviados ${r.sent} de ${r.claimed}. ${r.failed} fallaron (${r.firstError}). Puedes volver a enviar: solo se reintentan los que fallaron y los pendientes.` };
+  const skipped = r.invalid ? ` ${r.invalid} correo${r.invalid === 1 ? "" : "s"} con dirección no válida se apartaron (revísalos en Contactos).` : "";
+  if (r.failed === 0) return { ok: true, message: `Enviamos ${r.sent} correo${r.sent === 1 ? "" : "s"}.${skipped} Quedan ${left} pendientes en esta campaña.` };
+  return { error: `Enviados ${r.sent} de ${r.claimed}. ${r.failed} fallaron (${r.firstError}).${skipped} Puedes volver a enviar: solo se reintentan los que fallaron y los pendientes.` };
 }

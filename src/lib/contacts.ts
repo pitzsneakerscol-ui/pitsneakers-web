@@ -1,7 +1,7 @@
 import "server-only";
 import { getDb } from "@/lib/db";
 import { isEmail } from "@/lib/reseller-shared";
-import { newToken } from "@/lib/campaigns";
+import { isSendableEmail, newToken } from "@/lib/campaigns";
 
 export interface Contact {
   id: number;
@@ -111,8 +111,8 @@ export function contactsFromCsv(text: string): { contacts: ParsedContact[]; skip
   rows.slice(1).forEach((r, i) => {
     const get = (k: string) => (idx[k] >= 0 ? r[idx[k]] ?? "" : "");
     const email = clean(get("email"), 120).toLowerCase().replace(/\s/g, "");
-    if (!isEmail(email)) {
-      skipped.push({ line: i + 2, reason: email ? "correo no válido" : "sin correo" });
+    if (!isEmail(email) || !isSendableEmail(email)) {
+      skipped.push({ line: i + 2, reason: email ? "correo no válido (¿tilde o ñ?)" : "sin correo" });
       return;
     }
     const name = clean(get("name") || `${get("first")} ${get("last")}`, 80);
