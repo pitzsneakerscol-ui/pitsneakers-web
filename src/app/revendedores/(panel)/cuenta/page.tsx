@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { requireUser } from "@/lib/auth";
-import { PasswordForm, ProfileForm } from "@/components/reseller/AccountForms";
+import { DeleteAccountForm, PasswordForm, ProfileForm } from "@/components/reseller/AccountForms";
 
 export const metadata: Metadata = { title: "Mi cuenta" };
 
@@ -17,6 +17,7 @@ export default async function CuentaPage() {
       </header>
       <ProfileForm username={user.username} displayName={user.displayName} whatsapp={user.whatsapp} email={user.email} />
       <PasswordForm />
+      <DeleteAccountForm />
     </div>
   );
 }

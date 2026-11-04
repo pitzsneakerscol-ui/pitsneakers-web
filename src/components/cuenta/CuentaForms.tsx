@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
-import { addPair, changePassword, resendVerification, saveProfile } from "@/app/cuenta/actions";
+import { addPair, changePassword, deleteAccount, resendVerification, saveProfile } from "@/app/cuenta/actions";
 import { payOffer } from "@/app/cuenta/offer-actions";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 import ShippingFields from "@/components/ShippingFields";
@@ -53,6 +53,29 @@ export function PasswordForm({ hasPassword }: { hasPassword: boolean }) {
       </div>
       {msg(state)}
       <button type="submit" disabled={pending} className={btnGhost}>{pending ? "Guardando…" : hasPassword ? "Cambiar contraseña" : "Crear contraseña"}</button>
+    </form>
+  );
+}
+
+/** Eliminar la cuenta: pide escribir ELIMINAR (y la contraseña si la cuenta tiene una). */
+export function DeleteAccountForm({ hasPassword }: { hasPassword: boolean }) {
+  const [state, action, pending] = useActionState(deleteAccount, undefined);
+  return (
+    <form onSubmit={submitWith(action)} className="space-y-4">
+      {hasPassword && (
+        <div>
+          <label htmlFor="del-pw" className={labelCls}>Tu contraseña</label>
+          <input id="del-pw" name="password" type="password" autoComplete="current-password" required className={inputCls} />
+        </div>
+      )}
+      <div>
+        <label htmlFor="del-confirm" className={labelCls}>Escribe ELIMINAR para confirmar</label>
+        <input id="del-confirm" name="confirm" autoComplete="off" required className={inputCls} />
+      </div>
+      {msg(state)}
+      <button type="submit" disabled={pending} className={`${btnGhost} border-accent text-accent hover:bg-accent hover:text-white`}>
+        {pending ? "Eliminando…" : "Eliminar mi cuenta"}
+      </button>
     </form>
   );
 }

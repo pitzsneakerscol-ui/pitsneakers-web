@@ -1,0 +1,54 @@
+# Compilación de la app de iPhone en la nube (Codemagic), sin necesitar un Mac propio.
+# Pasos para activarla: docs/app-store/README.md
+workflows:
+  ios-app-store:
+    name: Pitsneakers iOS (App Store)
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    integrations:
+      # Llave de la API de App Store Connect, agregada en Codemagic → Teams → Integrations con este nombre.
+      app_store_connect: pitsneakers_asc
+    environment:
+      xcode: latest
+      node: 22
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.pitsneakers.app
+      vars:
+        XCODE_PROJECT: ios/App/App.xcodeproj
+        XCODE_SCHEME: App
+        BUNDLE_ID: com.pitsneakers.app
+    triggering:
+      events: []
+    scripts:
+      - name: Instalar plugins de Capacitor y sincronizar iOS
+        script: |
+          cd mobile
+          npm ci
+          npx cap sync ios
+      - name: Número de compilación automático
+        script: |
+          cd mobile
+          LATEST=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          NEXT=$((LATEST + 1))
+          cd ios/App
+          agvtool new-version -all "$NEXT"
+      - name: Preparar firma (certificado y perfil de App Store)
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+          keychain add-certificates
+          xcode-project use-profiles --project "mobile/$XCODE_PROJECT"
+      - name: Compilar el .ipa
+        script: |
+          cd mobile
+          xcode-project build-ipa --project "$XCODE_PROJECT" --scheme "$XCODE_SCHEME"
+    artifacts:
+      - mobile/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        # false = sube a TestFlight y tú decides cuándo enviar a revisión desde App Store Connect.
+        submit_to_testflight: true
+        submit_to_app_store: false

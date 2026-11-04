@@ -89,6 +89,25 @@ export async function upsertGoogleBuyer(opts: { email: string; name: string; sub
   return (await findBuyerByEmail(opts.email))!;
 }
 
+/**
+ * Borra la cuenta de un comprador y lo que es solo suyo (sesiones, enlaces, favoritos, colección y ofertas).
+ * Los pedidos pagados NO se tocan: son registro de una venta y se conservan por obligación contable.
+ */
+export async function deleteBuyer(id: number): Promise<void> {
+  const db = await getDb();
+  await db.batch(
+    [
+      "DELETE FROM buyer_sessions WHERE buyer_id = ?",
+      "DELETE FROM buyer_tokens WHERE buyer_id = ?",
+      "DELETE FROM buyer_favorites WHERE buyer_id = ?",
+      "DELETE FROM buyer_collection WHERE buyer_id = ?",
+      "DELETE FROM buyer_offers WHERE buyer_id = ?",
+      "DELETE FROM buyers WHERE id = ?",
+    ].map((sql) => ({ sql, args: [id] })),
+    "write"
+  );
+}
+
 export async function setBuyerPassword(id: number, password: string): Promise<void> {
   const db = await getDb();
   await db.execute({ sql: "UPDATE buyers SET password_hash = ? WHERE id = ?", args: [await hashPassword(password), id] });

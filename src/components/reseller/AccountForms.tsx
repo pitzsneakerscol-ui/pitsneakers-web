@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { changePassword, updateProfile } from "@/app/revendedores/actions";
+import { changePassword, deleteAccount, updateProfile } from "@/app/revendedores/actions";
 import type { ActionState } from "@/lib/reseller-shared";
 import { btnPrimary, cardCls, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
@@ -84,6 +84,33 @@ export function PasswordForm() {
       <Status state={state} />
       <button type="submit" disabled={pending} className={btnPrimary}>
         {pending ? "Cambiando…" : "Cambiar contraseña"}
+      </button>
+    </form>
+  );
+}
+
+/** Eliminar la cuenta y todo lo que hay en ella: pide la contraseña y escribir ELIMINAR. */
+export function DeleteAccountForm() {
+  const [state, action, pending] = useActionState(deleteAccount, undefined);
+  return (
+    <form onSubmit={submitWith(action)} className={`${cardCls} space-y-4 p-5 sm:p-6`}>
+      <h2 className="font-display text-2xl tracking-wide">Eliminar mi cuenta</h2>
+      <p className="text-sm text-muted">
+        Borramos tu cuenta y todo lo que hay en ella: inventario, avisos, preguntas, ofertas y accesos. No se puede deshacer. Descarga antes un respaldo desde Inventario si lo necesitas.
+      </p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={labelCls} htmlFor="del-pw">Tu contraseña</label>
+          <input id="del-pw" name="password" type="password" autoComplete="current-password" required className={inputCls} />
+        </div>
+        <div>
+          <label className={labelCls} htmlFor="del-confirm">Escribe ELIMINAR</label>
+          <input id="del-confirm" name="confirm" autoComplete="off" required className={inputCls} />
+        </div>
+      </div>
+      <Status state={state} />
+      <button type="submit" disabled={pending} className="inline-flex items-center justify-center rounded-full border border-accent px-6 py-3 text-xs font-semibold uppercase tracking-wide text-accent transition hover:bg-accent hover:text-white disabled:opacity-50">
+        {pending ? "Eliminando…" : "Eliminar mi cuenta"}
       </button>
     </form>
   );

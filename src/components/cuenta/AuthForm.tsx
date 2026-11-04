@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useSyncExternalStore } from "react";
 import { login, register } from "@/app/cuenta/actions";
+import { isNativeApp } from "@/lib/native";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 const GoogleLogo = () => (
@@ -18,6 +19,13 @@ export default function AuthForm({ next, googleEnabled, startOnLogin = true }: {
   const [tab, setTab] = useState<"login" | "register">(startOnLogin ? "login" : "register");
   const [loginState, loginAction, loginPending] = useActionState(login, undefined);
   const [regState, regAction, regPending] = useActionState(register, undefined);
+  // Dentro de la app móvil no se ofrece Google: Google bloquea su inicio de sesión en vistas web embebidas y Apple pide
+  // ofrecer también "Iniciar con Apple" cuando hay un inicio de sesión de terceros. Ahí se entra con correo y contraseña.
+  const inApp = useSyncExternalStore(
+    () => () => {},
+    () => isNativeApp(),
+    () => false
+  );
 
   return (
     <div className="rounded-2xl border border-line bg-paper-raised p-6 shadow-sm sm:p-8">
@@ -34,7 +42,7 @@ export default function AuthForm({ next, googleEnabled, startOnLogin = true }: {
         ))}
       </div>
 
-      {googleEnabled && (
+      {googleEnabled && !inApp && (
         <>
           <a href={`/api/cuenta/google?next=${encodeURIComponent(next)}`} className="flex w-full items-center justify-center gap-3 rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold text-neutral-800 transition hover:border-ink">
             <GoogleLogo /> Continuar con Google

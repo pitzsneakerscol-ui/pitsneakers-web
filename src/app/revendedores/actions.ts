@@ -230,6 +230,42 @@ export async function changePassword(
   return { ok: true, message: "Contraseña cambiada. Cerramos tus otras sesiones." };
 }
 
+/**
+ * Elimina la cuenta del revendedor y todo lo suyo (inventario, avisos, preguntas, ofertas, dispositivos y sesiones).
+ * Lo pide la App Store dentro de la propia app. Pide escribir ELIMINAR y la contraseña.
+ */
+export async function deleteAccount(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const user = await requireUser();
+  if (user.isAdmin) return { error: "La cuenta del dueño no se elimina desde aquí." };
+  if (String(fd.get("confirm") ?? "").trim().toUpperCase() !== "ELIMINAR") return { error: "Escribe ELIMINAR para confirmar." };
+
+  const key = `accdel:${user.id}`;
+  if (await rateLimitBlocked(key, 5)) return { error: "Demasiados intentos. Espera 15 minutos." };
+  const db = await getDb();
+  const res = await db.execute({ sql: "SELECT password_hash FROM users WHERE id = ?", args: [user.id] });
+  const hash = res.rows[0] ? String(res.rows[0].password_hash) : null;
+  if (!(await verifyPassword(String(fd.get("password") ?? ""), hash))) {
+    await rateLimitHit(key, 5, 15 * MIN);
+    return { error: "La contraseña no es correcta." };
+  }
+
+  await db.batch(
+    [
+      "DELETE FROM sessions WHERE user_id = ?",
+      "DELETE FROM items WHERE user_id = ?",
+      "DELETE FROM notifications WHERE user_id = ?",
+      "DELETE FROM market_questions WHERE user_id = ?",
+      "DELETE FROM password_resets WHERE user_id = ?",
+      "DELETE FROM offers WHERE user_id = ?",
+      "DELETE FROM devices WHERE user_id = ?",
+      "DELETE FROM users WHERE id = ?",
+    ].map((sql) => ({ sql, args: [user.id] })),
+    "write"
+  );
+  await destroySession();
+  redirect("/revendedores");
+}
+
 /* ---------- Inventario ---------- */
 
 export async function addItems(

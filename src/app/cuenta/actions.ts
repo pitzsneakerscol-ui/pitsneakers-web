@@ -16,6 +16,7 @@ import {
   createBuyer,
   createBuyerSession,
   createToken,
+  deleteBuyer,
   destroyBuyerSession,
   findBuyerByEmail,
   findToken,
@@ -169,6 +170,23 @@ export async function changePassword(_prev: CuentaState, fd: FormData): Promise<
   }
   await setBuyerPassword(buyer.id, password);
   return { ok: true, message: "Contraseña actualizada." };
+}
+
+/**
+ * Elimina la cuenta del comprador (la app de Apple lo exige dentro de la propia app). Pide escribir ELIMINAR y, si la cuenta
+ * tiene contraseña, la contraseña. Los pedidos ya pagados se conservan como registro de la venta.
+ */
+export async function deleteAccount(_prev: CuentaState, fd: FormData): Promise<CuentaState> {
+  const buyer = await getBuyer();
+  if (!buyer) redirect("/cuenta/ingresar");
+  if (clean(fd, "confirm", 20).toUpperCase() !== "ELIMINAR") return { error: "Escribe ELIMINAR para confirmar." };
+  if (!(await rateLimitHit(`cuenta-del:${buyer.id}`, 6, 60 * 60 * 1000))) return { error: "Muchos intentos. Espera un rato." };
+  if (buyer.hasPassword && !(await checkLogin(buyer.email, String(fd.get("password") ?? "").slice(0, 200)))) {
+    return { error: "La contraseña no es correcta." };
+  }
+  await deleteBuyer(buyer.id);
+  await destroyBuyerSession();
+  redirect("/?cuenta=eliminada");
 }
 
 export async function addPair(_prev: CuentaState, fd: FormData): Promise<CuentaState> {
