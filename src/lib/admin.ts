@@ -180,6 +180,8 @@ export async function listAllItems(filters: {
     saleFees: n(r.sale_fees),
     buyer: String(r.buyer),
     createdAt: n(r.created_at),
+    purchasePrice: n(r.purchase_price),
+    purchaseConfirmedAt: r.purchase_confirmed_at == null ? null : n(r.purchase_confirmed_at),
     ownerId: n(r.user_id),
     ownerName: String(r.owner_display || r.owner_username),
     ownerWhatsapp: String(r.owner_whatsapp ?? ""),

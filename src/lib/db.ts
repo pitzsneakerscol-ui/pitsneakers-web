@@ -522,7 +522,12 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["last_login", "INTEGER"],
   ],
   email_templates: [["tpl_version", "INTEGER NOT NULL DEFAULT 0"]],
-  items: [["kind", "TEXT NOT NULL DEFAULT 'tenis'"]],
+  items: [
+    ["kind", "TEXT NOT NULL DEFAULT 'tenis'"],
+    // Compra confirmada por el dueño: precio pactado y cuándo (NULL = sin confirmar).
+    ["purchase_price", "INTEGER NOT NULL DEFAULT 0"],
+    ["purchase_confirmed_at", "INTEGER"],
+  ],
   buyer_offers: [
     ["pay_hours", "INTEGER NOT NULL DEFAULT 24"],
     ["priority", "INTEGER NOT NULL DEFAULT 0"],

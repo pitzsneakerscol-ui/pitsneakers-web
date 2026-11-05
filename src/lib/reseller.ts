@@ -44,6 +44,8 @@ function rowToItem(r: Row): Item {
     saleFees: Number(r.sale_fees),
     buyer: String(r.buyer),
     createdAt: Number(r.created_at),
+    purchasePrice: Number(r.purchase_price ?? 0),
+    purchaseConfirmedAt: r.purchase_confirmed_at == null ? null : Number(r.purchase_confirmed_at),
   };
 }
 
@@ -176,9 +178,12 @@ export async function setItemStatus(
 ): Promise<boolean> {
   const db = await getDb();
   const res = await db.execute({
+    // Un par con la compra confirmada por el dueño no se puede liberar; si estaba vendido y se reabre, la confirmación se borra.
     sql: `UPDATE items SET status=?, sold_price=NULL, sold_date=NULL,
-          sold_channel='', sale_fees=0, buyer=''
-          WHERE id=? AND user_id=?`,
+          sold_channel='', sale_fees=0, buyer='',
+          purchase_price = CASE WHEN status='vendido' THEN 0 ELSE purchase_price END,
+          purchase_confirmed_at = CASE WHEN status='vendido' THEN NULL ELSE purchase_confirmed_at END
+          WHERE id=? AND user_id=? AND (purchase_confirmed_at IS NULL OR status='vendido')`,
     args: [status, id, userId],
   });
   return res.rowsAffected > 0;

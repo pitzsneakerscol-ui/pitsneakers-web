@@ -51,6 +51,10 @@ export interface Item {
   saleFees: number;
   buyer: string;
   createdAt: number;
+  /** Lo que el dueño pactó pagarle por el par al confirmar la compra (0 = sin confirmar). */
+  purchasePrice: number;
+  /** Cuándo el dueño confirmó la compra (null = sin confirmar). */
+  purchaseConfirmedAt: number | null;
 }
 
 export const SALE_CHANNELS = [

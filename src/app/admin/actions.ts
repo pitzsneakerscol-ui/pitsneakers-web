@@ -657,8 +657,11 @@ export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise
   const seller = String(row.display_name || row.username);
   const price = formatPrice(amount);
 
-  // Comprado: sale de lo que se puede ofrecer y queda marcado como reservado en su inventario.
-  await db.execute({ sql: "UPDATE items SET status = 'reservado' WHERE id = ? AND status = 'stock'", args: [itemId] });
+  // Comprado: queda reservado en su inventario con el precio pactado, y él lo ve como "Compra confirmada".
+  await db.execute({
+    sql: "UPDATE items SET status = 'reservado', purchase_price = ?, purchase_confirmed_at = ? WHERE id = ? AND status != 'vendido'",
+    args: [amount, Date.now(), itemId],
+  });
 
   const res = await confirmPurchaseToSeller(Number(row.user_id), { name: par, size, imageUrl: String(row.image_url ?? ""), amount, note }, { email });
   const mail =

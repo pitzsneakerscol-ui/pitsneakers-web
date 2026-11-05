@@ -131,7 +131,16 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                     <td className="px-3 py-2.5 text-right tabular-nums">{i.expectedPrice > 0 ? formatPrice(i.expectedPrice) : "—"}</td>
                     <td className={`px-3 py-2.5 text-right tabular-nums ${profit !== null && profit < 0 ? "text-accent" : "text-emerald-700"}`}>{profit === null ? "—" : formatPrice(profit)}</td>
                     <td className={`px-3 py-2.5 ${days >= STALE_DAYS ? "font-semibold text-accent" : ""}`}>{days}d</td>
-                    <td className="px-3 py-2.5 capitalize">{i.status}</td>
+                    <td className="px-3 py-2.5">
+                      {i.purchaseConfirmedAt ? (
+                        <>
+                          <span className="font-semibold text-emerald-700">Compra confirmada</span>
+                          <span className="block text-xs text-muted">{formatPrice(i.purchasePrice)}</span>
+                        </>
+                      ) : (
+                        <span className="capitalize">{i.status}</span>
+                      )}
+                    </td>
                     <td className="py-2.5 pl-3">
                       <div className="flex flex-wrap items-start gap-2">
                         <OfferForm itemId={i.id} />

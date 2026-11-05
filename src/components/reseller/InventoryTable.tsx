@@ -13,6 +13,7 @@ import {
   itemTotalCost,
   type Item,
 } from "@/lib/reseller-shared";
+import { sellerRules, verificationPointLines } from "@/lib/seller-confirm-shared";
 import EditItemForm from "@/components/reseller/EditItemForm";
 import SellForm from "@/components/reseller/SellForm";
 import type { CatalogEntry } from "@/components/reseller/ItemFields";
@@ -141,7 +142,7 @@ export default function InventoryTable({
         {rows.length} par{rows.length === 1 ? "" : "es"} · {formatPrice(invested)} invertidos
       </p>
 
-      <div className="mt-3 overflow-x-auto">
+      <div className="@container mt-3 overflow-x-auto">
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead>
             <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
@@ -205,9 +206,15 @@ export default function InventoryTable({
                       <span className={days >= STALE_DAYS ? "font-semibold text-accent" : ""}>{days}d</span>
                     </td>
                     <td className="px-3 py-3">
-                      <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${i.status === "reservado" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>
-                        {i.status === "reservado" ? "Reservado" : "En stock"}
-                      </span>
+                      {i.purchaseConfirmedAt ? (
+                        <span className="whitespace-nowrap rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                          Compra confirmada
+                        </span>
+                      ) : (
+                        <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${i.status === "reservado" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"}`}>
+                          {i.status === "reservado" ? "Reservado" : "En stock"}
+                        </span>
+                      )}
                     </td>
                     <td className="py-3 pl-3">
                       <div className="flex flex-wrap justify-end gap-1.5">
@@ -217,13 +224,15 @@ export default function InventoryTable({
                         <button type="button" onClick={() => setPanel(isOpen && panel?.mode === "edit" ? null : { id: i.id, mode: "edit" })} className="rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide hover:border-ink">
                           Editar
                         </button>
-                        <form action={setStatus}>
-                          <input type="hidden" name="id" value={i.id} />
-                          <input type="hidden" name="status" value={i.status === "reservado" ? "stock" : "reservado"} />
-                          <button type="submit" className="rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide hover:border-ink">
-                            {i.status === "reservado" ? "Liberar" : "Reservar"}
-                          </button>
-                        </form>
+                        {!i.purchaseConfirmedAt && (
+                          <form action={setStatus}>
+                            <input type="hidden" name="id" value={i.id} />
+                            <input type="hidden" name="status" value={i.status === "reservado" ? "stock" : "reservado"} />
+                            <button type="submit" className="rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide hover:border-ink">
+                              {i.status === "reservado" ? "Liberar" : "Reservar"}
+                            </button>
+                          </form>
+                        )}
                         <form
                           action={deleteItem}
                           onSubmit={(e) => {
@@ -238,6 +247,37 @@ export default function InventoryTable({
                       </div>
                     </td>
                   </tr>
+                  {i.purchaseConfirmedAt && (
+                    <tr className="border-b border-line/70">
+                      <td colSpan={8} className="pb-4 pt-0">
+                        {/* Ocupa solo el ancho visible (no el de toda la tabla) y se queda quieta al desplazarla. */}
+                        <div style={{ width: "100cqw" }} className="sticky left-0 rounded-xl border border-emerald-600/40 bg-emerald-600/5 p-4">
+                          <p className="font-semibold">Compra confirmada: te pagamos {formatPrice(i.purchasePrice)}</p>
+                          <p className="mt-0.5 text-xs text-muted">
+                            Confirmada el {new Date(i.purchaseConfirmedAt).toLocaleDateString("es-CO", { day: "numeric", month: "long", timeZone: "America/Bogota" })}. El pago se ve reflejado cuando el par pase todo el proceso de verificación.
+                          </p>
+                          <div className="mt-3 grid gap-4 text-sm sm:grid-cols-2">
+                            <div>
+                              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Déjalo aquí</p>
+                              <address className="mt-1 not-italic leading-relaxed">
+                                {verificationPointLines().map((l, n) => (
+                                  <span key={l} className={n === 1 ? "block font-semibold" : "block"}>{l}</span>
+                                ))}
+                              </address>
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Ten en cuenta</p>
+                              <ul className="mt-1 list-disc space-y-1.5 pl-5 text-muted">
+                                {sellerRules().map((r) => (
+                                  <li key={r}>{r}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                   {isOpen && panel && (
                     <tr className="bg-paper/60">
                       <td colSpan={8} className="p-4 sm:p-6">
