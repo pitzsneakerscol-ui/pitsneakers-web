@@ -21,6 +21,7 @@ import Kpi from "@/components/admin/Kpi";
 import ConfirmForm from "@/components/admin/ConfirmForm";
 import ResetPassword from "@/components/admin/ResetPassword";
 import OfferForm from "@/components/admin/OfferForm";
+import PurchaseForm from "@/components/admin/PurchaseForm";
 
 export const metadata: Metadata = { title: "Revendedor" };
 
@@ -102,7 +103,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
         {active.length === 0 ? (
           <p className="mt-3 text-sm text-muted">Sin pares en stock.</p>
         ) : (
-          <table className="mt-3 w-full min-w-[900px] text-left text-sm">
+          <table className="mt-3 w-full min-w-[1100px] text-left text-sm">
             <thead>
               <tr className="border-b border-line text-[11px] uppercase tracking-wider text-muted">
                 <th className="py-2 pr-3 font-semibold">Par</th>
@@ -131,7 +132,12 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                     <td className={`px-3 py-2.5 text-right tabular-nums ${profit !== null && profit < 0 ? "text-accent" : "text-emerald-700"}`}>{profit === null ? "—" : formatPrice(profit)}</td>
                     <td className={`px-3 py-2.5 ${days >= STALE_DAYS ? "font-semibold text-accent" : ""}`}>{days}d</td>
                     <td className="px-3 py-2.5 capitalize">{i.status}</td>
-                    <td className="py-2.5 pl-3"><OfferForm itemId={i.id} /></td>
+                    <td className="py-2.5 pl-3">
+                      <div className="flex flex-wrap items-start gap-2">
+                        <OfferForm itemId={i.id} />
+                        <PurchaseForm itemId={i.id} />
+                      </div>
+                    </td>
                   </tr>
                 );
               })}

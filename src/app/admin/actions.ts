@@ -9,6 +9,7 @@ import { runSync } from "@/lib/seller-sync";
 import { notifyInventory } from "@/lib/seller-notify";
 import { createNotification } from "@/lib/notifications";
 import { createOffer } from "@/lib/offers";
+import { confirmPurchaseToSeller } from "@/lib/seller-confirm";
 import { getQuestion, saveAnswer, type Verdict } from "@/lib/market";
 import { answerEmail, verdictLabel } from "@/lib/market-emails";
 import { cleanUsername, usernameError } from "@/lib/username";
@@ -623,4 +624,50 @@ export async function notifyOffer(_prev: ActionState, fd: FormData): Promise<Act
   }
   refresh();
   return { ok: true, message: `Aviso enviado a ${seller}: oferta de ${price} por ${par}.${mail}` };
+}
+
+/**
+ * El dueño le confirma al revendedor que le compra uno de sus pares, al precio pactado. El par queda reservado y al
+ * revendedor le llega dónde dejarlo (punto de verificación en Bogotá) y las reglas: por la campana de su panel y, si se pide, por correo.
+ */
+export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const itemId = int(fd, "itemId");
+  const amount = money(fd, "monto");
+  const note = text(fd, "nota", 300);
+  const email = fd.get("email") === "on";
+  if (!itemId) return { error: "Par inválido." };
+  if (!amount) return { error: "Escribe el precio al que les compramos el par." };
+
+  const db = await getDb();
+  const r = await db.execute({
+    sql: `SELECT i.name AS name, i.brand AS brand, i.size AS size, i.status AS status, i.image_url AS image_url, i.user_id AS user_id,
+                 u.username AS username, u.display_name AS display_name
+          FROM items i JOIN users u ON u.id = i.user_id WHERE i.id = ? AND u.role != 'admin'`,
+    args: [itemId],
+  });
+  const row = r.rows[0];
+  if (!row) return { error: "No se encontró el par." };
+  if (String(row.status) === "vendido") return { error: "Ese par ya está marcado como vendido." };
+
+  const brand = String(row.brand ?? "");
+  const name = String(row.name);
+  const par = brand && !name.toLowerCase().startsWith(brand.toLowerCase()) ? `${brand} ${name}` : name;
+  const size = String(row.size ?? "");
+  const seller = String(row.display_name || row.username);
+  const price = formatPrice(amount);
+
+  // Comprado: sale de lo que se puede ofrecer y queda marcado como reservado en su inventario.
+  await db.execute({ sql: "UPDATE items SET status = 'reservado' WHERE id = ? AND status = 'stock'", args: [itemId] });
+
+  const res = await confirmPurchaseToSeller(Number(row.user_id), { name: par, size, imageUrl: String(row.image_url ?? ""), amount, note }, { email });
+  const mail =
+    res === "sent" ? " ✉️ También le llegó por correo."
+    : res === "no-email" ? " No tiene correo registrado: solo le salió el aviso en su panel."
+    : res === "off" ? " El correo aún no está configurado: solo le salió el aviso en su panel."
+    : res === "fail" ? " No pudimos enviarle el correo, pero ya le salió el aviso en su panel."
+    : "";
+  refresh();
+  revalidatePath("/revendedores/inventario");
+  return { ok: true, message: `Compra confirmada a ${seller}: ${par} por ${price}. El par quedó reservado.${mail}` };
 }
