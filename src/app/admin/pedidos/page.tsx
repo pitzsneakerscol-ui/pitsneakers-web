@@ -29,10 +29,13 @@ const FILTERS = [
   ["todos", "Todos"],
   ["por-despachar", "Por despachar"],
   ["despachado", "En camino"],
-  ["entregado", "Entregados"],
   ["incidencia", "Incidencias"],
   ["pendiente", "Sin pagar"],
+  ["archivados", "Archivados"],
 ] as const;
+
+/** Un pedido pagado y entregado se archiva solo: sale de la lista principal y queda en el filtro "Archivados". */
+const isArchived = (o: { status: OrderStatus; fulfillment: string }) => o.status === "pagado" && o.fulfillment === "entregado";
 
 type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string };
 
@@ -54,12 +57,13 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
     switch (filter) {
       case "por-despachar": return o.status === "pagado" && isToShip(o.fulfillment);
       case "despachado": return o.status === "pagado" && o.fulfillment === "despachado";
-      case "entregado": return o.status === "pagado" && o.fulfillment === "entregado";
+      case "archivados": return isArchived(o);
       case "incidencia": return o.status === "pagado" && o.fulfillment === "incidencia";
       case "pendiente": return o.status === "pendiente";
-      default: return true;
+      default: return !isArchived(o);
     }
   });
+  const archivedCount = all.filter(isArchived).length;
   const photos = await listOrderPhotos(rows.filter((o) => o.status === "pagado").map((o) => o.id));
   const paid = all.filter((o) => o.status === "pagado");
   const total = paid.reduce((s, o) => s + o.amount, 0);
@@ -85,7 +89,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -141,13 +145,13 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       <nav aria-label="Filtrar" className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
         {FILTERS.map(([k, label]) => (
           <Link key={k} href={k === "todos" ? "/admin/pedidos" : `/admin/pedidos?f=${k}`} className={`rounded-full px-4 py-2 ${filter === k ? "bg-ink text-white" : "border border-line hover:border-ink"}`}>
-            {label}
+            {label}{k === "archivados" ? ` (${archivedCount})` : ""}
           </Link>
         ))}
       </nav>
 
       {rows.length === 0 ? (
-        <div className={`${cardCls} px-6 py-14 text-center text-sm text-muted`}>{filter === "todos" ? "Sin pedidos todavía." : "No hay pedidos en esta vista."}</div>
+        <div className={`${cardCls} px-6 py-14 text-center text-sm text-muted`}>{filter === "todos" ? (archivedCount > 0 ? "No hay pedidos activos. Los entregados están en “Archivados”." : "Sin pedidos todavía.") : filter === "archivados" ? "Aún no hay pedidos entregados." : "No hay pedidos en esta vista."}</div>
       ) : (
         <ul className="space-y-3">
           {rows.map((o) => {

@@ -167,5 +167,5 @@ export async function saveFulfillment(fd: FormData): Promise<void> {
 
   revalidatePath("/admin/pedidos");
   revalidatePath(`/pedido/${res.order.reference}`);
-  redirect(`/admin/pedidos?ok=${encodeURIComponent(res.order.reference)}${emailed ? `&m=${emailed}` : ""}`);
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(res.order.reference)}${res.order.fulfillment === "entregado" ? "&g=5" : ""}${emailed ? `&m=${emailed}` : ""}`);
 }
