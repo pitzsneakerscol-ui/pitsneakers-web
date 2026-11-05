@@ -5,6 +5,8 @@ import { listNotifications } from "@/lib/notifications";
 import { readAllNotifications } from "@/app/revendedores/market-actions";
 import { ago } from "@/lib/admin-shared";
 import { cardCls } from "@/components/reseller/ui";
+import { webPushPublicKey } from "@/lib/web-push";
+import WebPushToggle from "@/components/reseller/WebPushToggle";
 
 export const metadata: Metadata = { title: "Avisos" };
 
@@ -14,6 +16,7 @@ export default async function AvisosPage() {
   const user = await requireUser();
   const items = user.isAdmin ? [] : await listNotifications(user.id);
   const unread = items.filter((i) => !i.read).length;
+  const pushKey = webPushPublicKey();
 
   return (
     <div className="space-y-6">
@@ -30,6 +33,8 @@ export default async function AvisosPage() {
           </form>
         )}
       </header>
+
+      {!user.isAdmin && pushKey ? <WebPushToggle publicKey={pushKey} /> : null}
 
       {items.length === 0 ? (
         <div className={`${cardCls} px-6 py-14 text-center`}>

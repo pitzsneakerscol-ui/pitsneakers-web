@@ -1,6 +1,7 @@
 import "server-only";
 import { getDb } from "@/lib/db";
 import { sendPush } from "@/lib/push";
+import { sendWebPush } from "@/lib/web-push";
 
 export type NotificationKind = "inventario" | "consulta" | "info";
 
@@ -16,7 +17,7 @@ export interface AppNotification {
 
 /**
  * Crea un aviso para el vendedor: queda en la campana del panel y, además, le llega como aviso al celular
- * si tiene la app instalada con los avisos activados (así no depende solo del correo).
+ * (app instalada) y al navegador (si activó los avisos del navegador), así no depende solo del correo.
  * Nunca debe romper la acción que lo origina.
  */
 export async function createNotification(
@@ -33,11 +34,9 @@ export async function createNotification(
     console.error("[notifications] no se pudo crear el aviso:", e);
     return;
   }
-  // sendPush no lanza errores y no hace nada si los avisos al celular no están configurados.
-  await sendPush(
-    { userIds: [userId] },
-    { title: data.title, body: data.body?.trim() || "Toca para verlo en tu panel.", url: data.href || "/revendedores/avisos" }
-  );
+  // Ninguno de los dos lanza errores ni hace nada si ese canal no está configurado.
+  const msg = { title: data.title, body: data.body?.trim() || "Toca para verlo en tu panel.", url: data.href || "/revendedores/avisos" };
+  await Promise.all([sendPush({ userIds: [userId] }, msg), sendWebPush(userId, msg)]);
 }
 
 export async function unreadCount(userId: number): Promise<number> {

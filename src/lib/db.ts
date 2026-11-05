@@ -276,6 +276,15 @@ const SCHEMA = [
     created_at INTEGER NOT NULL,
     last_seen INTEGER NOT NULL
   )`,
+  // Navegadores de revendedores que activaron los avisos del navegador (Web Push). Un navegador = un "endpoint".
+  `CREATE TABLE IF NOT EXISTS web_push_subs (
+    endpoint TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    p256dh TEXT NOT NULL,
+    auth TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_web_push_user ON web_push_subs(user_id)`,
   `CREATE TABLE IF NOT EXISTS credit_codes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL UNIQUE,
