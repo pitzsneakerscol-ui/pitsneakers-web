@@ -10,6 +10,7 @@ import { getBuyer, updateProfile } from "@/lib/buyers";
 import { getAllProducts } from "@/lib/products";
 import { acceptCounter, attachOrder, createBuyerOffer, getBuyerOffer, withdrawOffer } from "@/lib/buyer-offers";
 import { counterAnsweredTeamEmail, offerToTeamEmail } from "@/lib/buyer-emails";
+import { notifySellerOfBuyerOffer } from "@/lib/offer-seller";
 import { createOrder } from "@/lib/catalog-orders";
 import { processingFee } from "@/lib/fees";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
@@ -46,6 +47,8 @@ export async function makeOffer(_prev: OfferState, fd: FormData): Promise<OfferS
     if (!res.ok) return { error: res.error };
     const team = offerToTeamEmail(res.offer);
     await sendEmail({ to: siteConfig.contactEmail, subject: team.subject, body: team.body, replyTo: buyer.email }).catch(() => undefined);
+    // Si el par es de un revendedor, él también se entera (campana, celular y navegador).
+    await notifySellerOfBuyerOffer(res.offer, product);
     revalidatePath("/cuenta/ofertas");
     return { ok: true, message: `Oferta enviada. Te respondemos en máximo ${siteConfig.offers.replyHours} horas; la ves en Mi cuenta → Ofertas.` };
   } catch (e) {
