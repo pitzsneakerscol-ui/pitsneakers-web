@@ -24,6 +24,7 @@ export const BellIcon = svg(<><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2H4.5l1
 export const UserIcon = svg(<><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c.9-3.6 3.8-5.4 7.5-5.4s6.6 1.8 7.5 5.4" /></>);
 export const MoreIcon = svg(<><circle cx="5" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="19" cy="12" r="1.2" /></>);
 export const TagIcon = svg(<><path d="M3.5 12.5V4.5h8l9 9-8 8-9-9Z" /><circle cx="8" cy="9" r="1.3" /></>);
+export const TruckIcon = svg(<><path d="M2.5 6.5h11v10h-11v-10Z" /><path d="M13.5 10h4l3 3v3.5h-7V10Z" /><circle cx="7" cy="17.5" r="1.7" /><circle cx="17" cy="17.5" r="1.7" /></>);
 export const OutIcon = svg(<><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" /></>);
 
 interface Item {
@@ -35,10 +36,11 @@ interface Item {
 const MAIN: Item[] = [
   { href: "/revendedores/panel", label: "Inicio", Icon: HomeIcon },
   { href: "/revendedores/inventario", label: "Inventario", Icon: BoxIcon },
+  { href: "/revendedores/pedidos", label: "Pedidos", Icon: TruckIcon },
   { href: "/revendedores/ventas", label: "Ventas", Icon: ChartIcon },
-  { href: "/revendedores/consultas", label: "Mercado", Icon: ChatIcon },
 ];
 const MORE: Item[] = [
+  { href: "/revendedores/consultas", label: "Mercado", Icon: ChatIcon },
   { href: "/revendedores/ofertas", label: "Ofertas", Icon: TagIcon },
   { href: "/revendedores/ranking", label: "Ranking", Icon: TrophyIcon },
   { href: "/revendedores/avisos", label: "Avisos", Icon: BellIcon },
@@ -48,6 +50,7 @@ const MORE: Item[] = [
 const TITLES: Record<string, string> = {
   panel: "Inicio",
   inventario: "Inventario",
+  pedidos: "Pedidos",
   ventas: "Ventas",
   consultas: "Pregunta al mercado",
   ofertas: "Ofertas",

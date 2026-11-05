@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { after } from "next/server";
 import { syncTracking, skyStatusLabel } from "@/lib/tracking-sync";
-import { listOrderPhotos, listOrders, type OrderStatus } from "@/lib/catalog-orders";
+import { backfillSellers, listOrderPhotos, listOrders, type OrderStatus } from "@/lib/catalog-orders";
+import { getPayoutInfos, sellerNames } from "@/lib/seller-payout";
+import { PAYOUT_CLS, PAYOUT_LABEL, PAYOUT_STATUSES, PAYOUT_WINDOW, payoutDestination } from "@/lib/payout-shared";
 import { shippingLine } from "@/lib/shipping-shared";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
@@ -11,7 +13,7 @@ import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
-import { generateGuide, refreshGuide, removePhoto, saveFulfillment, verifyOrder } from "./actions";
+import { generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, verifyOrder } from "./actions";
 import PhotoPicker from "@/components/admin/PhotoPicker";
 import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
 
@@ -31,11 +33,15 @@ const FILTERS = [
   ["despachado", "En camino"],
   ["incidencia", "Incidencias"],
   ["pendiente", "Sin pagar"],
+  ["por-pagar", "Pagos a revendedores"],
   ["archivados", "Archivados"],
 ] as const;
 
-/** Un pedido pagado y entregado se archiva solo: sale de la lista principal y queda en el filtro "Archivados". */
-const isArchived = (o: { status: OrderStatus; fulfillment: string }) => o.status === "pagado" && o.fulfillment === "entregado";
+/** Pedido de un par de revendedor cuyo pago todavía no se le hace completo. */
+const owesSeller = (o: { status: OrderStatus; sellerId: number | null; payoutStatus: string }) => o.status === "pagado" && Boolean(o.sellerId) && o.payoutStatus !== "pagado";
+
+/** Un pedido pagado y entregado se archiva solo (si era de un revendedor, cuando ya se le pagó): sale de la lista principal y queda en el filtro "Archivados". */
+const isArchived = (o: { status: OrderStatus; fulfillment: string; sellerId: number | null; payoutStatus: string }) => o.status === "pagado" && o.fulfillment === "entregado" && !owesSeller(o);
 
 type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string };
 
@@ -52,6 +58,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
   if (sky) after(() => syncTracking({ staleMs: 10 * 60_000, limit: 10 }).catch(() => undefined));
   const credits = await skySaldo();
   const filter = FILTERS.some(([k]) => k === f) ? (f as (typeof FILTERS)[number][0]) : "todos";
+  await backfillSellers().catch(() => undefined);
   const all = await listOrders();
   const rows = all.filter((o) => {
     switch (filter) {
@@ -60,10 +67,15 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       case "archivados": return isArchived(o);
       case "incidencia": return o.status === "pagado" && o.fulfillment === "incidencia";
       case "pendiente": return o.status === "pendiente";
+      case "por-pagar": return owesSeller(o);
       default: return !isArchived(o);
     }
   });
   const archivedCount = all.filter(isArchived).length;
+  const owed = all.filter(owesSeller);
+  const owedTotal = owed.reduce((sum, o) => sum + o.payoutAmount, 0);
+  const sellerIds = [...new Set(rows.map((o) => o.sellerId).filter((id): id is number => Boolean(id)))];
+  const [names, payInfos] = await Promise.all([sellerNames(sellerIds), getPayoutInfos(sellerIds)]);
   const photos = await listOrderPhotos(rows.filter((o) => o.status === "pagado").map((o) => o.id));
   const paid = all.filter((o) => o.status === "pagado");
   const total = paid.reduce((s, o) => s + o.amount, 0);
@@ -89,7 +101,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : "actualizado."}
           {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -120,7 +132,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
         )}
       </section>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className={`${cardCls} p-4`}>
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Por despachar</p>
           <p className="font-display text-4xl tracking-wide text-accent">{toShip.length}</p>
@@ -139,6 +151,11 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
         <div className={`${cardCls} p-4`}>
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Sin pagar</p>
           <p className="font-display text-4xl tracking-wide">{all.filter((o) => o.status === "pendiente").length}</p>
+        </div>
+        <div className={`${cardCls} p-4`}>
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Por pagar a revendedores</p>
+          <p className="font-display text-4xl tracking-wide">{owed.length}</p>
+          <p className="mt-1 text-xs text-muted">{formatPrice(owedTotal)}</p>
         </div>
       </div>
 
@@ -293,6 +310,46 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     </div>
                   </details>
                 ) : null}
+
+                {isPaid && o.sellerId ? (() => {
+                  const info = payInfos.get(o.sellerId);
+                  return (
+                    <div className="mt-3 rounded-lg border border-line p-3">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Pago al revendedor</span>
+                        <strong>{names.get(o.sellerId) ?? `Revendedor #${o.sellerId}`}</strong>
+                        <span>recibe <strong>{formatPrice(o.payoutAmount)}</strong></span>
+                        <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${PAYOUT_CLS[o.payoutStatus]}`}>{PAYOUT_LABEL[o.payoutStatus]}{o.payoutPaidAt ? ` · ${ago(o.payoutPaidAt)}` : o.payoutStartedAt ? ` · desde ${ago(o.payoutStartedAt)}` : ""}</span>
+                      </div>
+                      {info ? (
+                        <p className="mt-2 rounded-lg bg-paper px-3 py-2 text-sm">
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Consignar a </span>
+                          <strong className="select-all">{payoutDestination(info, true)}</strong>
+                          <span className="select-all"> · {info.holder} · CC/NIT {info.document}</span>
+                        </p>
+                      ) : (
+                        <p className="mt-2 rounded-lg bg-amber-100 px-3 py-2 text-sm text-amber-900">Este revendedor todavía no dejó sus datos de pago. Pídeselos: los agrega en Cuenta → Datos de pago.</p>
+                      )}
+                      <form action={savePayoutStatus} className="mt-2 flex flex-wrap items-end gap-3">
+                        <input type="hidden" name="id" value={o.id} />
+                        <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                          Estado del pago
+                          <select name="payout" defaultValue={o.payoutStatus} className={`${selectAutoCls} mt-1 block normal-case tracking-normal`}>
+                            {PAYOUT_STATUSES.map((st) => (
+                              <option key={st} value={st}>{PAYOUT_LABEL[st]}</option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="flex items-center gap-2 pb-2.5 text-xs text-muted">
+                          <input type="checkbox" name="notify" defaultChecked className="h-4 w-4 accent-accent" />
+                          Avisar al revendedor
+                        </label>
+                        <button type="submit" className={btnPrimary}>Guardar pago</button>
+                        <p className="basis-full text-xs text-muted">Pasa a “en proceso” al empezar la consignación y a “pagado” cuando ya la hiciste. El revendedor ve cada cambio en su panel; el pago tarda {PAYOUT_WINDOW}.</p>
+                      </form>
+                    </div>
+                  );
+                })() : null}
 
                 {isPaid ? (
                   <form action={saveFulfillment} className="mt-3 grid gap-2 rounded-lg border border-line p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.2fr_1.4fr_auto] lg:items-end">

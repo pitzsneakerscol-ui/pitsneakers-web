@@ -5,6 +5,9 @@ import { consumeCredit } from "@/lib/trivia";
 import { markOfferPaid } from "@/lib/buyer-offers";
 import { DIRECT_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { MAX_PHOTOS, parseChecks, type VerifKey } from "@/lib/verification-shared";
+import { parsePayoutStatus, type PayoutStatus } from "@/lib/payout-shared";
+import { sellerBreakdown } from "@/lib/payout";
+import { sellerForProductId } from "@/lib/offer-seller";
 
 export type OrderStatus = "pendiente" | "pagado" | "rechazado" | "anulado" | "error";
 
@@ -61,6 +64,13 @@ export interface CatalogOrder {
   verifAt: number | null;
   /** nota interna de la verificación (no se muestra al cliente) */
   verifNote: string;
+  /** revendedor dueño del par (null = todavía no se averiguó, 0 = par de la casa) */
+  sellerId: number | null;
+  /** lo que recibe el revendedor (precio del par menos comisión y envío) */
+  payoutAmount: number;
+  payoutStatus: PayoutStatus;
+  payoutStartedAt: number | null;
+  payoutPaidAt: number | null;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -107,13 +117,18 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   verifBy: String(r.verif_by ?? ""),
   verifAt: r.verif_at === null || r.verif_at === undefined ? null : Number(r.verif_at),
   verifNote: String(r.verif_note ?? ""),
+  sellerId: r.seller_id === null || r.seller_id === undefined ? null : Number(r.seller_id),
+  payoutAmount: Number(r.payout_amount ?? 0),
+  payoutStatus: parsePayoutStatus(String(r.payout_status ?? "")),
+  payoutStartedAt: r.payout_started_at === null || r.payout_started_at === undefined ? null : Number(r.payout_started_at),
+  payoutPaidAt: r.payout_paid_at === null || r.payout_paid_at === undefined ? null : Number(r.payout_paid_at),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -123,9 +138,63 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
     });
-    if (r.rowsAffected > 0) return (await getOrderByRef(reference))!;
+    if (r.rowsAffected > 0) {
+      const created = (await getOrderByRef(reference))!;
+      // Saber de quién es el par no debe frenar la compra: si falla, se reintenta al abrir los pedidos del revendedor.
+      await attachSeller(created).catch((e) => console.error("[pedidos] no se pudo asignar el vendedor:", e));
+      return (await getOrderById(created.id)) ?? created;
+    }
   }
   throw new Error("No se pudo generar la referencia del pedido.");
+}
+
+/** Precio del par sin el costo de pago en línea y sin el crédito: sobre eso se calcula lo que recibe el vendedor. */
+const basePrice = (o: Pick<CatalogOrder, "amount" | "discount" | "fee">) => Math.max(0, o.amount + o.discount - o.fee);
+
+/** Guarda de quién es el par del pedido y cuánto recibe. Un par que no es de un revendedor queda en 0 (de la casa). */
+export async function attachSeller(order: CatalogOrder): Promise<void> {
+  const seller = await sellerForProductId(order.productId);
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET seller_id = ?, payout_amount = ? WHERE id = ? AND seller_id IS NULL",
+    args: [seller?.userId ?? 0, seller ? sellerBreakdown(basePrice(order), seller.kind).receives : 0, order.id],
+  });
+}
+
+/** Pedidos pagados anteriores a esta función (o que fallaron al asignarse): se les busca el vendedor. */
+export async function backfillSellers(limit = 40): Promise<void> {
+  const db = await getDb();
+  const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE status = 'pagado' AND seller_id IS NULL ORDER BY id DESC LIMIT ?", args: [limit] });
+  for (const row of r.rows) await attachSeller(toOrder(row)).catch((e) => console.error("[pedidos] vendedor:", e));
+}
+
+/** Pedidos pagados de los pares de un revendedor, del más reciente al más antiguo. */
+export async function listSellerOrders(userId: number): Promise<CatalogOrder[]> {
+  const db = await getDb();
+  const r = await db.execute({
+    sql: "SELECT * FROM catalog_orders WHERE seller_id = ? AND status = 'pagado' ORDER BY COALESCE(paid_at, created_at) DESC LIMIT 200",
+    args: [userId],
+  });
+  return r.rows.map(toOrder);
+}
+
+/**
+ * Cambia el estado del pago al revendedor. Devuelve el pedido y si el estado realmente cambió
+ * (para avisar una sola vez). "pagado" guarda la fecha; volver a "pendiente" borra las dos fechas.
+ */
+export async function setPayoutStatus(id: number, status: PayoutStatus): Promise<{ order: CatalogOrder; changed: boolean } | null> {
+  const before = await getOrderById(id);
+  if (!before || !before.sellerId) return null;
+  if (before.payoutStatus === status) return { order: before, changed: false };
+  const now = Date.now();
+  const started = status === "pendiente" ? null : (before.payoutStartedAt ?? now);
+  const paid = status === "pagado" ? now : null;
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET payout_status = ?, payout_started_at = ?, payout_paid_at = ? WHERE id = ?",
+    args: [status === "pendiente" ? "" : status, started, paid, id],
+  });
+  return { order: (await getOrderById(id))!, changed: true };
 }
 
 export async function getOrderByRef(reference: string): Promise<CatalogOrder | null> {

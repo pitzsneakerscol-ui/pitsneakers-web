@@ -2,6 +2,8 @@ import "server-only";
 import { getDb } from "@/lib/db";
 import { sendPush } from "@/lib/push";
 import { formatPrice } from "@/lib/format";
+import { createNotification } from "@/lib/notifications";
+import { PAYOUT_WINDOW, type PayoutStatus } from "@/lib/payout-shared";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 import type { BuyerOffer } from "@/lib/buyer-offers";
 
@@ -18,8 +20,47 @@ const ORDER_TEXT: Record<OrderPushStep, (name: string) => { title: string; body:
   entregado: (n) => ({ title: "Tu pedido llegó 🎉", body: `${n} fue entregado. ¡A estrenar!` }),
 };
 
-/** Avisa al comprador de un pedido, si tiene cuenta y la app instalada (se liga por el correo del pedido). */
+const SELLER_TEXT: Record<OrderPushStep, (n: string, pay: string) => { title: string; body: string }> = {
+  confirmada: (n, pay) => ({ title: `¡Vendiste tu ${n}! 🎉`, body: `El cliente ya pagó. Recibes ${pay}, una vez entregado el pedido (${PAYOUT_WINDOW}).` }),
+  en_camino: (n) => ({ title: "Tu par va a verificación", body: `${n} va en camino a nuestro punto de verificación.` }),
+  recibido: (n) => ({ title: "Recibimos tu par 📦", body: `${n} ya está en nuestro punto de verificación.` }),
+  verificado: (n) => ({ title: "Tu par fue verificado ✅", body: `${n} pasó el Pits Enigma Verification Process.` }),
+  despachado: (n) => ({ title: "Tu par va en camino al comprador 🚚", body: `${n} ya salió con la transportadora.` }),
+  entregado: (n, pay) => ({ title: "Tu par llegó al comprador 🎉", body: `${n} fue entregado. Tu pago de ${pay} llega en ${PAYOUT_WINDOW}.` }),
+};
+
+const orderName = (o: CatalogOrder) => `${o.brand} ${o.productName}`.trim().replace(/^(\S+) \1 /, "$1 ");
+
+/** Avisa al revendedor dueño del par (campana, celular y navegador) de en qué paso va su pedido. Nunca lanza error. */
+async function notifySellerOfOrderStep(order: CatalogOrder, step: OrderPushStep): Promise<void> {
+  try {
+    if (!order.sellerId) return;
+    const msg = SELLER_TEXT[step](orderName(order), formatPrice(order.payoutAmount));
+    await createNotification(order.sellerId, { kind: "info", ...msg, href: "/revendedores/pedidos" });
+  } catch (e) {
+    console.error("[push] pedido (vendedor):", e);
+  }
+}
+
+/** Avisa al revendedor de que cambió el estado del pago de un pedido suyo. Nunca lanza error. */
+export async function notifySellerPayout(order: CatalogOrder, status: PayoutStatus): Promise<void> {
+  try {
+    if (!order.sellerId || status === "pendiente") return;
+    const name = orderName(order);
+    const pay = formatPrice(order.payoutAmount);
+    const msg =
+      status === "en_proceso"
+        ? { title: "Estamos haciendo tu pago", body: `${name}: ${pay}. Llega a tu cuenta en ${PAYOUT_WINDOW} desde que lo iniciamos.` }
+        : { title: "Te pagamos ✅", body: `${name}: te consignamos ${pay}.` };
+    await createNotification(order.sellerId, { kind: "info", ...msg, href: "/revendedores/pedidos" });
+  } catch (e) {
+    console.error("[push] pago (vendedor):", e);
+  }
+}
+
+/** Avisa al comprador de un pedido, si tiene cuenta y la app instalada (se liga por el correo del pedido); y al revendedor dueño del par. */
 export async function pushOrderStep(order: CatalogOrder, step: OrderPushStep): Promise<void> {
+  await notifySellerOfOrderStep(order, step);
   try {
     const db = await getDb();
     const r = await db.execute({ sql: "SELECT id FROM buyers WHERE email = ?", args: [order.buyerEmail.trim().toLowerCase()] });

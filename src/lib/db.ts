@@ -440,6 +440,17 @@ const SCHEMA = [
     hidden INTEGER NOT NULL DEFAULT 0,
     pending INTEGER NOT NULL DEFAULT 0
   )`,
+  // Datos de pago de cada revendedor: a dónde le consignamos lo que vendió. Solo los ve él y el equipo.
+  `CREATE TABLE IF NOT EXISTS seller_payout_info (
+    user_id INTEGER PRIMARY KEY,
+    method TEXT NOT NULL,
+    bank TEXT NOT NULL DEFAULT '',
+    account_type TEXT NOT NULL DEFAULT '',
+    account_number TEXT NOT NULL,
+    holder TEXT NOT NULL,
+    document TEXT NOT NULL,
+    updated_at INTEGER NOT NULL
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.
@@ -494,6 +505,13 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["verif_by", "TEXT NOT NULL DEFAULT ''"],
     ["verif_at", "INTEGER"],
     ["verif_note", "TEXT NOT NULL DEFAULT ''"],
+    // Revendedor dueño del par (NULL = todavía no se averiguó, 0 = par de la casa), lo que recibe y el estado de su pago
+    // ('' = pendiente, 'en_proceso', 'pagado') con las fechas en que cambió.
+    ["seller_id", "INTEGER"],
+    ["payout_amount", "INTEGER NOT NULL DEFAULT 0"],
+    ["payout_status", "TEXT NOT NULL DEFAULT ''"],
+    ["payout_started_at", "INTEGER"],
+    ["payout_paid_at", "INTEGER"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

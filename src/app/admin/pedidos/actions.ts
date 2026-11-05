@@ -3,14 +3,15 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, saveVerification, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks } from "@/lib/verification-shared";
 import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
 import { sendEmail } from "@/lib/email";
 import { after } from "next/server";
-import { pushOrderStep, type OrderPushStep } from "@/lib/push-events";
+import { notifySellerPayout, pushOrderStep, type OrderPushStep } from "@/lib/push-events";
+import { isPayoutStatus, type PayoutStatus } from "@/lib/payout-shared";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
@@ -168,4 +169,22 @@ export async function saveFulfillment(fd: FormData): Promise<void> {
   revalidatePath("/admin/pedidos");
   revalidatePath(`/pedido/${res.order.reference}`);
   redirect(`/admin/pedidos?ok=${encodeURIComponent(res.order.reference)}${res.order.fulfillment === "entregado" ? "&g=5" : ""}${emailed ? `&m=${emailed}` : ""}`);
+}
+
+/**
+ * Cambia el estado del pago al revendedor dueño del par (pendiente → en proceso → pagado). Si el equipo lo pide,
+ * le avisa al revendedor (campana, celular y navegador) cuando pasa a "en proceso" o "pagado".
+ */
+export async function savePayoutStatus(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get("id"));
+  const status = text(fd, "payout");
+  if (!Number.isInteger(id) || id <= 0 || !isPayoutStatus(status)) back("Pedido o estado de pago no válido.");
+  const res = await setPayoutStatus(id, status as PayoutStatus);
+  if (!res) back("Ese pedido no tiene un revendedor al que pagarle.");
+  const { order, changed } = res!;
+  if (changed && fd.get("notify") === "on") after(() => notifySellerPayout(order, status as PayoutStatus));
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/revendedores/pedidos");
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(order.reference)}&g=6#${order.reference}`);
 }

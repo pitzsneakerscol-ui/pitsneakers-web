@@ -1,6 +1,8 @@
 import { siteConfig } from "@/config/site";
 import { DIRECT_CARRIER, shortDay } from "@/lib/fulfillment-shared";
 import { isVerified } from "@/lib/verification-shared";
+import { PAYOUT_WINDOW } from "@/lib/payout-shared";
+import { formatPrice } from "@/lib/format";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 
 /** Pasos del pedido que ve el comprador (página de seguimiento y correos). Sin dependencias del servidor. */
@@ -73,6 +75,81 @@ export function stepsFor(o: CatalogOrder): Step[] {
       text: delivered ? "Tu pedido llegó. ¡A estrenar!" : `Cuando lo tengas, etiquétanos en Instagram ${siteConfig.instagramHandle}: nos encanta ver tus pares.`,
       extra: delivered && o.deliveredAt ? shortDay(o.deliveredAt) : undefined,
       done: delivered,
+    },
+  ];
+}
+
+/**
+ * Los mismos pasos, vistos por el revendedor dueño del par: sin datos del comprador y con un último paso, el pago a él.
+ * `hasPayoutInfo` indica si ya dejó dónde consignarle (sin eso no se le puede pagar).
+ */
+export function sellerStepsFor(o: CatalogOrder, hasPayoutInfo: boolean): Step[] {
+  const f = o.fulfillment;
+  const shipped = f === "despachado" || f === "entregado" || (f === "incidencia" && o.shippedAt !== null);
+  const delivered = f === "entregado";
+  const arrived = f === "preparando" || shipped;
+  const packed = shipped || (f === "preparando" && isVerified(o.verifChecks));
+  const direct = o.carrier === DIRECT_CARRIER;
+  const paidOut = o.payoutStatus === "pagado";
+  const inProcess = o.payoutStatus === "en_proceso";
+
+  return [
+    {
+      title: "Venta confirmada",
+      text: "El cliente ya pagó tu par. Es una venta segura.",
+      extra: o.paidAt ? shortDay(o.paidAt) : undefined,
+      done: true,
+    },
+    {
+      title: "En camino a nuestro punto de verificación",
+      text: arrived
+        ? "Tu par ya está en nuestro punto de verificación."
+        : f === "hacia_verificacion"
+          ? "Tu par va en camino a nuestro punto de verificación, donde lo revisamos antes de enviarlo."
+          : "Tu par llega a nuestro punto de verificación, donde lo revisamos antes de enviarlo.",
+      done: arrived,
+    },
+    {
+      title: "Verificado y empacado",
+      text: packed
+        ? "Revisamos el par a fondo y quedó empacado."
+        : f === "preparando"
+          ? "Estamos revisando tu par y empacándolo con cuidado."
+          : "Cada par pasa por revisión física y autenticación antes de salir.",
+      extra: o.verifAt && isVerified(o.verifChecks) ? `Verificado el ${shortDay(o.verifAt)} · ${o.verifChecks.length} puntos revisados` : undefined,
+      done: packed,
+    },
+    {
+      title: direct ? "Entrega coordinada" : "Entregado a la transportadora",
+      text: shipped
+        ? direct
+          ? "Lo entregamos directamente al comprador."
+          : `El pedido salió con ${o.carrier || "la transportadora"}.`
+        : "Cuando salga lo verás aquí.",
+      extra: shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : "", !direct && !delivered ? (LIVE[o.skyStatus] ?? "") : ""].filter(Boolean).join(" · ") || undefined : undefined,
+      done: shipped,
+    },
+    {
+      title: "Entregado al comprador",
+      text: delivered ? "El comprador ya recibió su par." : "Cuando llegue a su destino lo marcamos aquí.",
+      extra: delivered && o.deliveredAt ? shortDay(o.deliveredAt) : undefined,
+      done: delivered,
+    },
+    {
+      title: "Pago a ti",
+      text: paidOut
+        ? "Ya te consignamos lo de esta venta."
+        : inProcess
+          ? `Estamos haciendo tu pago. Llega a tu cuenta en ${PAYOUT_WINDOW} desde que lo iniciamos.`
+          : hasPayoutInfo
+            ? `Pago pendiente. Te consignamos en ${PAYOUT_WINDOW} desde que se entrega el pedido.`
+            : "Pago pendiente. Necesitamos tus datos de pago para consignarte: agrégalos en Cuenta.",
+      extra: paidOut
+        ? `${o.payoutPaidAt ? `${shortDay(o.payoutPaidAt)} · ` : ""}${formatPrice(o.payoutAmount)}`
+        : o.payoutAmount > 0
+          ? `Recibes ${formatPrice(o.payoutAmount)}`
+          : undefined,
+      done: paidOut,
     },
   ];
 }

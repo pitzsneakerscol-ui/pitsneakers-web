@@ -7,6 +7,7 @@ import { logout } from "@/app/revendedores/actions";
 const TABS = [
   { href: "/revendedores/panel", label: "Panel" },
   { href: "/revendedores/inventario", label: "Inventario" },
+  { href: "/revendedores/pedidos", label: "Pedidos" },
   { href: "/revendedores/ventas", label: "Ventas" },
   { href: "/revendedores/ranking", label: "Ranking" },
   { href: "/revendedores/cuenta", label: "Cuenta" },

@@ -3,6 +3,8 @@ import assignmentsJson from "@/data/assignments.json";
 import { getDb } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
 import { formatPrice } from "@/lib/format";
+import { getAllProducts } from "@/lib/products";
+import { parseKind, type ItemKind } from "@/lib/reseller-shared";
 import type { BuyerOffer } from "@/lib/buyer-offers";
 import type { SellerAssignment } from "@/lib/sheet-source";
 import type { Product } from "@/types/product";
@@ -35,6 +37,27 @@ export async function sellerIdForProduct(product: Product): Promise<number | nul
     if ([u.username, u.email, u.display_name].some((k) => k && loose(String(k)) === want)) return Number(u.id);
   }
   return null;
+}
+
+/**
+ * Dueño de un par a partir del id del producto de un pedido, con el tipo de artículo (decide la comisión).
+ * Un par "en vivo" se resuelve aunque ya no esté publicado (se acaba de vender); uno del catálogo debe seguir en la lista.
+ */
+export async function sellerForProductId(productId: string): Promise<{ userId: number; kind: ItemKind } | null> {
+  const db = await getDb();
+  const live = /^LIVE-(\d+)$/.exec(productId);
+  if (live) {
+    const r = await db.execute({
+      sql: "SELECT i.user_id AS user_id, i.kind AS kind FROM items i JOIN users u ON u.id = i.user_id WHERE i.id = ? AND u.role != 'admin' AND u.suspended = 0",
+      args: [Number(live[1])],
+    });
+    return r.rows[0] ? { userId: Number(r.rows[0].user_id), kind: parseKind(r.rows[0].kind) } : null;
+  }
+  const product = (await getAllProducts()).find((p) => p.id === productId);
+  if (!product) return null;
+  const userId = await sellerIdForProduct(product);
+  if (!userId) return null;
+  return { userId, kind: parseKind(assignments.find((x) => x.slug === product.slug)?.kind) };
 }
 
 /**
