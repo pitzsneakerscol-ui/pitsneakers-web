@@ -106,7 +106,10 @@ export function sellerStepsFor(o: CatalogOrder, hasPayoutInfo: boolean): Step[] 
         ? "Tu par ya está en nuestro punto de verificación."
         : f === "hacia_verificacion"
           ? "Tu par va en camino a nuestro punto de verificación, donde lo revisamos antes de enviarlo."
-          : "Tu par llega a nuestro punto de verificación, donde lo revisamos antes de enviarlo.",
+          : o.sellerConfirmedAt
+            ? "Confirmamos tu venta: deja tu par en nuestro punto de verificación. El envío tiene que llegar pago."
+            : "Estamos confirmando tu venta. Te avisamos con la dirección del punto de verificación donde dejar el par.",
+      extra: !arrived && o.sellerConfirmedAt ? `Confirmada el ${shortDay(o.sellerConfirmedAt)}` : undefined,
       done: arrived,
     },
     {

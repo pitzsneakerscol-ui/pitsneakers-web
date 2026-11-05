@@ -71,6 +71,8 @@ export interface CatalogOrder {
   payoutStatus: PayoutStatus;
   payoutStartedAt: number | null;
   payoutPaidAt: number | null;
+  /** cuándo se le confirmó el pedido al revendedor (null = todavía no) */
+  sellerConfirmedAt: number | null;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -122,13 +124,14 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   payoutStatus: parsePayoutStatus(String(r.payout_status ?? "")),
   payoutStartedAt: r.payout_started_at === null || r.payout_started_at === undefined ? null : Number(r.payout_started_at),
   payoutPaidAt: r.payout_paid_at === null || r.payout_paid_at === undefined ? null : Number(r.payout_paid_at),
+  sellerConfirmedAt: r.seller_confirmed_at === null || r.seller_confirmed_at === undefined ? null : Number(r.seller_confirmed_at),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt">): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -166,6 +169,15 @@ export async function backfillSellers(limit = 40): Promise<void> {
   const db = await getDb();
   const r = await db.execute({ sql: "SELECT * FROM catalog_orders WHERE status = 'pagado' AND seller_id IS NULL ORDER BY id DESC LIMIT ?", args: [limit] });
   for (const row of r.rows) await attachSeller(toOrder(row)).catch((e) => console.error("[pedidos] vendedor:", e));
+}
+
+/** Marca que el equipo le confirmó el pedido al revendedor (la primera fecha se conserva si se reenvía). */
+export async function markSellerConfirmed(id: number): Promise<CatalogOrder | null> {
+  const before = await getOrderById(id);
+  if (!before || !before.sellerId) return null;
+  const db = await getDb();
+  await db.execute({ sql: "UPDATE catalog_orders SET seller_confirmed_at = COALESCE(seller_confirmed_at, ?) WHERE id = ?", args: [Date.now(), id] });
+  return getOrderById(id);
 }
 
 /** Pedidos pagados de los pares de un revendedor, del más reciente al más antiguo. */

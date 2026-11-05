@@ -9,6 +9,7 @@ import { FULFILLMENT_CLS, FULFILLMENT_LABEL } from "@/lib/fulfillment-shared";
 import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import OrderTimeline from "@/components/reseller/OrderTimeline";
+import { sellerRules, verificationPointLines } from "@/lib/seller-confirm-shared";
 
 export const metadata: Metadata = { title: "Pedidos" };
 
@@ -115,6 +116,22 @@ export default async function PedidosPage() {
                       <p className="font-display text-2xl tracking-wide">{formatPrice(o.payoutAmount)}</p>
                     </div>
                   </div>
+
+                  {o.sellerConfirmedAt && !steps[1].done ? (
+                    <div className="mt-4 rounded-xl border border-emerald-600/40 bg-emerald-600/5 p-4">
+                      <p className="font-semibold">Confirmamos tu venta: deja tu par aquí</p>
+                      <address className="mt-2 text-sm not-italic leading-relaxed">
+                        {verificationPointLines().map((l, i) => (
+                          <span key={l} className={i === 1 ? "block font-semibold" : "block"}>{l}</span>
+                        ))}
+                      </address>
+                      <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-muted">
+                        {sellerRules().map((r) => (
+                          <li key={r}>{r}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
 
                   {incident ? (
                     <p className="mt-3 rounded-xl bg-accent/10 px-4 py-3 text-sm">Hay algo por resolver con el envío de este pedido. El equipo te escribe por WhatsApp.</p>

@@ -4,6 +4,7 @@ import { after } from "next/server";
 import { syncTracking, skyStatusLabel } from "@/lib/tracking-sync";
 import { backfillSellers, listOrderPhotos, listOrders, type OrderStatus } from "@/lib/catalog-orders";
 import { getPayoutInfos, sellerNames } from "@/lib/seller-payout";
+import { verificationPointLines } from "@/lib/seller-confirm-shared";
 import { PAYOUT_CLS, PAYOUT_LABEL, PAYOUT_STATUSES, PAYOUT_WINDOW, payoutDestination } from "@/lib/payout-shared";
 import { shippingLine } from "@/lib/shipping-shared";
 import { ago } from "@/lib/admin-shared";
@@ -13,7 +14,7 @@ import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
-import { generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, verifyOrder } from "./actions";
+import { generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
 import PhotoPicker from "@/components/admin/PhotoPicker";
 import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
 
@@ -43,7 +44,7 @@ const owesSeller = (o: { status: OrderStatus; sellerId: number | null; payoutSta
 /** Un pedido pagado y entregado se archiva solo (si era de un revendedor, cuando ya se le pagó): sale de la lista principal y queda en el filtro "Archivados". */
 const isArchived = (o: { status: OrderStatus; fulfillment: string; sellerId: number | null; payoutStatus: string }) => o.status === "pagado" && o.fulfillment === "entregado" && !owesSeller(o);
 
-type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string };
+type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string; s?: string };
 
 /** Saldo de créditos de Skydropx (null si no está conectado o no respondió: el panel sigue funcionando). */
 async function skySaldo(): Promise<{ balance: number; currency: string } | null> {
@@ -52,7 +53,7 @@ async function skySaldo(): Promise<{ balance: number; currency: string } | null>
 }
 
 export default async function PedidosPage({ searchParams }: { searchParams: Promise<SP> }) {
-  const { f, e, ok, m, g } = await searchParams;
+  const { f, e, ok, m, g, s } = await searchParams;
   const sky = isSkydropxConfigured();
   // Pone al día el rastreo de los pedidos en camino sin hacer esperar la página (se ve al recargar).
   if (sky) after(() => syncTracking({ staleMs: 10 * 60_000, limit: 10 }).catch(() => undefined));
@@ -101,8 +102,8 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : "actualizado."}
-          {m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : g === "7" ? "confirmado al revendedor: le llegó el aviso al panel y al celular con la dirección del punto de verificación." : "actualizado."}
+          {s === "1" ? (m === "1" ? " También le mandamos el correo." : " No se pudo mandar el correo (sin correo registrado o sin configurar): el aviso del panel sí le llegó.") : m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
 
@@ -190,6 +191,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     {isPaid ? <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider ${FULFILLMENT_CLS[o.fulfillment]}`}>{FULFILLMENT_LABEL[o.fulfillment]}</span> : null}
                     {o.paymentMethod.startsWith("WhatsApp") ? <span className="rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">WhatsApp</span> : null}
                     {late48 ? <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Atrasado</span> : null}
+                    {isPaid && o.sellerId && !o.sellerConfirmedAt ? <span className="rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Sin confirmar al revendedor</span> : null}
                   </div>
                 </div>
                 <p className="mt-2 text-sm">
@@ -316,11 +318,26 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   return (
                     <div className="mt-3 rounded-lg border border-line p-3">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Pago al revendedor</span>
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Revendedor</span>
                         <strong>{names.get(o.sellerId) ?? `Revendedor #${o.sellerId}`}</strong>
                         <span>recibe <strong>{formatPrice(o.payoutAmount)}</strong></span>
                         <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${PAYOUT_CLS[o.payoutStatus]}`}>{PAYOUT_LABEL[o.payoutStatus]}{o.payoutPaidAt ? ` · ${ago(o.payoutPaidAt)}` : o.payoutStartedAt ? ` · desde ${ago(o.payoutStartedAt)}` : ""}</span>
                       </div>
+                      <form action={confirmSellerOrder} className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg bg-paper px-3 py-2 text-sm">
+                        <input type="hidden" name="id" value={o.id} />
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Confirmación</span>
+                        {o.sellerConfirmedAt ? (
+                          <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Confirmado · {ago(o.sellerConfirmedAt)}</span>
+                        ) : (
+                          <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Sin confirmar</span>
+                        )}
+                        <label className="flex items-center gap-2 text-xs text-muted">
+                          <input type="checkbox" name="email" defaultChecked className="h-4 w-4 accent-accent" />
+                          También por correo
+                        </label>
+                        <button type="submit" className={btnPrimary}>{o.sellerConfirmedAt ? "Reenviar confirmación" : "Confirmar pedido al revendedor"}</button>
+                        <p className="basis-full text-xs text-muted">Le dice dónde dejar el par ({verificationPointLines().slice(0, 4).join(" · ")}…) y las tres reglas: el envío llega pago, la comisión si no pasa la verificación y el pago solo tras verificar.</p>
+                      </form>
                       {info ? (
                         <p className="mt-2 rounded-lg bg-paper px-3 py-2 text-sm">
                           <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Consignar a </span>

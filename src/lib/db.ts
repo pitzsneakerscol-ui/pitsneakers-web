@@ -512,6 +512,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["payout_status", "TEXT NOT NULL DEFAULT ''"],
     ["payout_started_at", "INTEGER"],
     ["payout_paid_at", "INTEGER"],
+    // Cuándo el equipo le confirmó el pedido al revendedor (le dijo dónde dejar el par). NULL = todavía no.
+    ["seller_confirmed_at", "INTEGER"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

@@ -34,6 +34,11 @@ export const siteConfig = {
     payHours: 24,
     maxActive: 5,
   },
+  // Punto de verificación donde los revendedores dejan el par vendido (va en la confirmación que se les manda desde el admin).
+  verificationPoint: {
+    city: "Bogotá",
+    lines: ["PITSNEAKERS SAS", "Tel. 3115609644", "Calle 134A #55A-20", "Apto 601", "Boca Reserva", "Barrio Colina"],
+  },
   // Lo que se le descuenta al vendedor. Pares: comisión fija + envío aproximado. Ropa y accesorios: un porcentaje.
   commission: {
     tenis: { fixed: 50000, shipping: 20000 },

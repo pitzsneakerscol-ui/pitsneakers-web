@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks } from "@/lib/verification-shared";
 import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
@@ -12,6 +12,7 @@ import { sendEmail } from "@/lib/email";
 import { after } from "next/server";
 import { notifySellerPayout, pushOrderStep, type OrderPushStep } from "@/lib/push-events";
 import { isPayoutStatus, type PayoutStatus } from "@/lib/payout-shared";
+import { confirmOrderToSeller } from "@/lib/seller-confirm";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
@@ -187,4 +188,23 @@ export async function savePayoutStatus(fd: FormData): Promise<void> {
   revalidatePath("/admin/pedidos");
   revalidatePath("/revendedores/pedidos");
   redirect(`/admin/pedidos?ok=${encodeURIComponent(order.reference)}&g=6#${order.reference}`);
+}
+
+/**
+ * Le confirma el pedido al revendedor dueño del par: le dice dónde dejar el par (punto de verificación de Bogotá) y las reglas.
+ * Siempre le llega el aviso al panel y al celular; el correo es opcional. Se puede reenviar.
+ */
+export async function confirmSellerOrder(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get("id"));
+  if (!Number.isInteger(id) || id <= 0) back("Pedido no válido.");
+  const current = await getOrderById(id);
+  if (!current || current.status !== "pagado") back("Solo se confirman pedidos pagados.");
+  const order = await markSellerConfirmed(id);
+  if (!order) back("Ese pedido no tiene un revendedor al que confirmarle.");
+  const sent = await confirmOrderToSeller(order!, { email: fd.get("email") === "on" });
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/revendedores/pedidos");
+  const m = sent === "sent" ? "1" : sent === "skipped" ? "" : "0";
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(order!.reference)}&g=7${m ? `&m=${m}&s=1` : ""}#${order!.reference}`);
 }
