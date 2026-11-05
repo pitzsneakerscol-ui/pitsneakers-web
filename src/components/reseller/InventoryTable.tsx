@@ -252,9 +252,14 @@ export default function InventoryTable({
                       <td colSpan={8} className="pb-4 pt-0">
                         {/* Ocupa solo el ancho visible (no el de toda la tabla) y se queda quieta al desplazarla. */}
                         <div style={{ width: "100cqw" }} className="sticky left-0 rounded-xl border border-emerald-600/40 bg-emerald-600/5 p-4">
-                          <p className="font-semibold">Compra confirmada: te pagamos {formatPrice(i.purchasePrice)}</p>
+                          <p className="font-semibold">Compra confirmada: recibes {formatPrice(i.purchasePayout || i.purchasePrice)}</p>
+                          {i.purchasePayout > 0 && (
+                            <p className="mt-1 text-sm">
+                              Precio {formatPrice(i.purchasePrice)} − comisión {formatPrice(i.purchasePrice - i.purchasePayout)} = <strong>{formatPrice(i.purchasePayout)}</strong>
+                            </p>
+                          )}
                           <p className="mt-0.5 text-xs text-muted">
-                            Confirmada el {new Date(i.purchaseConfirmedAt).toLocaleDateString("es-CO", { day: "numeric", month: "long", timeZone: "America/Bogota" })}. El pago se ve reflejado cuando el par pase todo el proceso de verificación.
+                            Confirmada el {new Date(i.purchaseConfirmedAt).toLocaleDateString("es-CO", { day: "numeric", month: "long", timeZone: "America/Bogota" })}. El envío lo pagas tú por tu cuenta (no se descuenta). El pago se ve reflejado cuando el par pase todo el proceso de verificación.
                           </p>
                           <div className="mt-3 grid gap-4 text-sm sm:grid-cols-2">
                             <div>

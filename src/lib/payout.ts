@@ -25,6 +25,19 @@ export function sellerBreakdown(price: number, kind: ItemKind = "tenis"): Payout
   return { price: p, commission, shipping, receives: Math.max(0, p - commission - shipping), commissionLabel: `Comisión de Pitsneakers (${c.percent}%)` };
 }
 
+export interface PurchaseBreakdown {
+  price: number;
+  commission: number;
+  /** lo que recibe el vendedor: precio - comisión (el envío lo paga el vendedor por su cuenta y no se descuenta) */
+  receives: number;
+}
+
+/** Compra directa de un par al vendedor: se descuenta solo la comisión; el envío corre por cuenta del vendedor. */
+export function purchaseBreakdown(price: number, kind: ItemKind = "tenis"): PurchaseBreakdown {
+  const { price: p, commission } = sellerBreakdown(price, kind);
+  return { price: p, commission, receives: Math.max(0, p - commission) };
+}
+
 const money = (v: number) => `$${v.toLocaleString("es-CO")}`;
 
 /** Regla de cobro en una frase, según el tipo de artículo. */

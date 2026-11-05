@@ -51,8 +51,10 @@ export interface Item {
   saleFees: number;
   buyer: string;
   createdAt: number;
-  /** Lo que el dueño pactó pagarle por el par al confirmar la compra (0 = sin confirmar). */
+  /** Precio de compra que el dueño confirmó por el par (0 = sin confirmar). */
   purchasePrice: number;
+  /** Lo que se le paga al vendedor: ese precio menos la comisión (0 = confirmada antes del cálculo: el precio ya era lo que recibe). */
+  purchasePayout: number;
   /** Cuándo el dueño confirmó la compra (null = sin confirmar). */
   purchaseConfirmedAt: number | null;
 }

@@ -16,7 +16,8 @@ import { cleanUsername, usernameError } from "@/lib/username";
 import { accessEmail, waLink, waNumber, welcomeMessage } from "@/lib/admin-shared";
 import { siteConfig } from "@/config/site";
 import { parseSizes, readItem } from "@/lib/item-form";
-import { isEmail, isValidDate, kindsPhrase, todayBogota, type ActionState } from "@/lib/reseller-shared";
+import { isEmail, isValidDate, kindsPhrase, parseKind, todayBogota, type ActionState } from "@/lib/reseller-shared";
+import { purchaseBreakdown } from "@/lib/payout";
 import { PAYMENT_METHODS, listTemplates } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, missingVars, renderTemplate, siteVars, type Vars } from "@/lib/email-templates";
@@ -637,11 +638,11 @@ export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise
   const note = text(fd, "nota", 300);
   const email = fd.get("email") === "on";
   if (!itemId) return { error: "Par inválido." };
-  if (!amount) return { error: "Escribe el precio al que les compramos el par." };
+  if (!amount) return { error: "Escribe el precio de compra del par." };
 
   const db = await getDb();
   const r = await db.execute({
-    sql: `SELECT i.name AS name, i.brand AS brand, i.size AS size, i.status AS status, i.image_url AS image_url, i.user_id AS user_id,
+    sql: `SELECT i.name AS name, i.brand AS brand, i.size AS size, i.kind AS kind, i.status AS status, i.image_url AS image_url, i.user_id AS user_id,
                  u.username AS username, u.display_name AS display_name
           FROM items i JOIN users u ON u.id = i.user_id WHERE i.id = ? AND u.role != 'admin'`,
     args: [itemId],
@@ -655,15 +656,17 @@ export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise
   const par = brand && !name.toLowerCase().startsWith(brand.toLowerCase()) ? `${brand} ${name}` : name;
   const size = String(row.size ?? "");
   const seller = String(row.display_name || row.username);
+  // El precio es el de compra: se descuenta la comisión según el tipo de artículo; el envío lo paga el vendedor por su cuenta.
+  const { commission, receives } = purchaseBreakdown(amount, parseKind(row.kind));
   const price = formatPrice(amount);
 
-  // Comprado: queda reservado en su inventario con el precio pactado, y él lo ve como "Compra confirmada".
+  // Comprado: queda reservado en su inventario con el precio y lo que recibe, y él lo ve como "Compra confirmada".
   await db.execute({
-    sql: "UPDATE items SET status = 'reservado', purchase_price = ?, purchase_confirmed_at = ? WHERE id = ? AND status != 'vendido'",
-    args: [amount, Date.now(), itemId],
+    sql: "UPDATE items SET status = 'reservado', purchase_price = ?, purchase_payout = ?, purchase_confirmed_at = ? WHERE id = ? AND status != 'vendido'",
+    args: [amount, receives, Date.now(), itemId],
   });
 
-  const res = await confirmPurchaseToSeller(Number(row.user_id), { name: par, size, imageUrl: String(row.image_url ?? ""), amount, note }, { email });
+  const res = await confirmPurchaseToSeller(Number(row.user_id), { name: par, size, imageUrl: String(row.image_url ?? ""), amount, commission, receives, note }, { email });
   const mail =
     res === "sent" ? " ✉️ También le llegó por correo."
     : res === "no-email" ? " No tiene correo registrado: solo le salió el aviso en su panel."
@@ -672,5 +675,5 @@ export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise
     : "";
   refresh();
   revalidatePath("/revendedores/inventario");
-  return { ok: true, message: `Compra confirmada a ${seller}: ${par} por ${price}. El par quedó reservado.${mail}` };
+  return { ok: true, message: `Compra confirmada a ${seller}: ${par} por ${price}. Comisión ${formatPrice(commission)}: recibe ${formatPrice(receives)}. El par quedó reservado.${mail}` };
 }

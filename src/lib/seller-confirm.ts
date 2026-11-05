@@ -57,27 +57,38 @@ export interface PurchaseConfirm {
   name: string;
   size: string;
   imageUrl: string;
-  /** Lo que le pagamos por el par. */
+  /** Precio de compra confirmado por el par. */
   amount: number;
+  /** Comisión de Pitsneakers sobre ese precio. */
+  commission: number;
+  /** Lo que recibe el vendedor: precio menos comisión (el envío lo paga él por su cuenta). */
+  receives: number;
   note: string;
 }
 
 /** Correo de compra confirmada: el precio pactado, dónde dejar el par y las reglas. */
 function purchaseEmail(p: PurchaseConfirm, firstName: string): { subject: string; body: string } {
   const price = formatPrice(p.amount);
+  const receives = formatPrice(p.receives);
   const base = siteConfig.siteUrl.replace(/\/$/, "");
   const detail = p.size ? `Talla: ${p.size}` : "Talla única";
   return {
-    subject: `Confirmamos la compra de tu ${p.name}: ${price} 🔥`,
+    subject: `Confirmamos la compra de tu ${p.name}: recibes ${receives} 🔥`,
     body: [
       "# ¡Compra ==confirmada==!",
       "",
-      `Hola ${firstName}, confirmamos la compra de tu par por **${price}**. Ahora déjalo en nuestro punto de verificación.`,
+      `Hola ${firstName}, confirmamos la compra de tu par. Ahora déjalo en nuestro punto de verificación.`,
       "",
       `[producto: ${clean(emailImage(p.imageUrl))} | ${clean(p.name)} | ${clean(detail)}]`,
       "",
       ...(p.note ? [`> **Comentario:** ${p.note}`, ""] : []),
-      `Te pagamos ${price} cuando el par pase todo el proceso de verificación.`,
+      `> **Precio de compra:** ${price}`,
+      `> **Comisión de Pitsneakers:** −${formatPrice(p.commission)}`,
+      `> **Recibes:** ${receives}`,
+      "",
+      "El envío del par lo pagas tú por tu cuenta: no se descuenta de lo que recibes, pero tiene que llegar pago.",
+      "",
+      `Te consignamos ${receives} cuando el par pase todo el proceso de verificación.`,
       "",
       "## Dónde dejarlo",
       "",
@@ -102,11 +113,10 @@ function purchaseEmail(p: PurchaseConfirm, firstName: string): { subject: string
 export async function confirmPurchaseToSeller(userId: number, p: PurchaseConfirm, opts: { email: boolean }): Promise<ConfirmResult> {
   try {
     const point = siteConfig.verificationPoint;
-    const price = formatPrice(p.amount);
     await createNotification(userId, {
       kind: "inventario",
-      title: `Confirmamos la compra de tu ${p.name}: ${price}`,
-      body: `${p.size ? `Talla ${p.size}. ` : ""}Déjalo en nuestro punto de verificación en ${point.city}: ${point.lines[2]}. El envío debe llegar pago.${p.note ? ` ${p.note}` : ""}`,
+      title: `Confirmamos la compra de tu ${p.name}: recibes ${formatPrice(p.receives)}`,
+      body: `${p.size ? `Talla ${p.size}. ` : ""}Precio ${formatPrice(p.amount)} − comisión ${formatPrice(p.commission)}. Déjalo en nuestro punto de verificación en ${point.city}: ${point.lines[2]}. El envío debe llegar pago.${p.note ? ` ${p.note}` : ""}`,
       href: "/revendedores/inventario",
     });
     if (!opts.email) return "skipped";

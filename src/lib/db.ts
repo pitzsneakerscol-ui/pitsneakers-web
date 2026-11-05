@@ -526,6 +526,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["kind", "TEXT NOT NULL DEFAULT 'tenis'"],
     // Compra confirmada por el dueño: precio pactado y cuándo (NULL = sin confirmar).
     ["purchase_price", "INTEGER NOT NULL DEFAULT 0"],
+    // Lo que se le paga al vendedor: precio de compra menos la comisión (0 = confirmada antes del cálculo: el precio ya era neto).
+    ["purchase_payout", "INTEGER NOT NULL DEFAULT 0"],
     ["purchase_confirmed_at", "INTEGER"],
   ],
   buyer_offers: [

@@ -135,7 +135,9 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                       {i.purchaseConfirmedAt ? (
                         <>
                           <span className="font-semibold text-emerald-700">Compra confirmada</span>
-                          <span className="block text-xs text-muted">{formatPrice(i.purchasePrice)}</span>
+                          <span className="block text-xs text-muted">
+                            {i.purchasePayout > 0 ? `${formatPrice(i.purchasePrice)} · recibe ${formatPrice(i.purchasePayout)}` : formatPrice(i.purchasePrice)}
+                          </span>
                         </>
                       ) : (
                         <span className="capitalize">{i.status}</span>
@@ -144,7 +146,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                     <td className="py-2.5 pl-3">
                       <div className="flex flex-wrap items-start gap-2">
                         <OfferForm itemId={i.id} />
-                        <PurchaseForm itemId={i.id} />
+                        <PurchaseForm itemId={i.id} kind={i.kind} />
                       </div>
                     </td>
                   </tr>

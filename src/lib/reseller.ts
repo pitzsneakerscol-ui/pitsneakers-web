@@ -45,6 +45,7 @@ function rowToItem(r: Row): Item {
     buyer: String(r.buyer),
     createdAt: Number(r.created_at),
     purchasePrice: Number(r.purchase_price ?? 0),
+    purchasePayout: Number(r.purchase_payout ?? 0),
     purchaseConfirmedAt: r.purchase_confirmed_at == null ? null : Number(r.purchase_confirmed_at),
   };
 }
@@ -182,6 +183,7 @@ export async function setItemStatus(
     sql: `UPDATE items SET status=?, sold_price=NULL, sold_date=NULL,
           sold_channel='', sale_fees=0, buyer='',
           purchase_price = CASE WHEN status='vendido' THEN 0 ELSE purchase_price END,
+          purchase_payout = CASE WHEN status='vendido' THEN 0 ELSE purchase_payout END,
           purchase_confirmed_at = CASE WHEN status='vendido' THEN NULL ELSE purchase_confirmed_at END
           WHERE id=? AND user_id=? AND (purchase_confirmed_at IS NULL OR status='vendido')`,
     args: [status, id, userId],
