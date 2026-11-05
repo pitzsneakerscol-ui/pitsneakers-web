@@ -78,7 +78,17 @@ workflows:
       - name: Poner google-services.json (avisos push; variable GOOGLE_SERVICES_JSON de Codemagic)
         script: |
           if [ -n "$GOOGLE_SERVICES_JSON" ]; then
-            echo "$GOOGLE_SERVICES_JSON" | base64 --decode > mobile/android/app/google-services.json
+            # Acepta el JSON pegado tal cual o codificado en base64.
+            first=$(printf '%s' "$GOOGLE_SERVICES_JSON" | tr -d '[:space:]' | head -c 1)
+            if [ "$first" = "{" ]; then
+              printf '%s' "$GOOGLE_SERVICES_JSON" > mobile/android/app/google-services.json
+            else
+              printf '%s' "$GOOGLE_SERVICES_JSON" | base64 --decode > mobile/android/app/google-services.json
+            fi
+            if ! python3 -c "import json,sys; json.load(open('mobile/android/app/google-services.json'))"; then
+              echo "ERROR: GOOGLE_SERVICES_JSON no es un JSON valido. Vuelve a pegar el contenido de google-services.json en el grupo pitsneakers_android."
+              exit 1
+            fi
             echo "google-services.json listo"
           else
             echo "AVISO: falta GOOGLE_SERVICES_JSON; la app se compila pero no recibirá avisos push."
