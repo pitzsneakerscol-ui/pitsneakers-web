@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Product, ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
@@ -20,6 +21,24 @@ interface Option {
   /** Esta talla está en rebaja (precio "antes" mayor al actual). */
   sale: boolean;
   variant: Product;
+}
+
+/** Fila desplegable (como "Buyer Promise" en StockX). */
+function InfoRow({ title, aside, children }: { title: string; aside?: string; children: React.ReactNode }) {
+  return (
+    <details className="group border-b border-line">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+        <span>{title}</span>
+        <span className="flex items-center gap-3 font-normal text-muted">
+          {aside && <span className="text-xs capitalize">{aside}</span>}
+          <svg viewBox="0 0 24 24" className="h-4 w-4 transition group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </span>
+      </summary>
+      <div className="pb-4 text-sm leading-relaxed text-muted">{children}</div>
+    </details>
+  );
 }
 
 function onSale(variant: Product): boolean {
@@ -113,6 +132,7 @@ export default function ProductPurchasePanel({
       ? `Desde ${formatPrice(min)}`
       : formatPrice(options[0]?.price ?? min);
   const ready = !multiVariant || Boolean(selected);
+  const showWhatsApp = (selected?.condition ?? options[0]?.condition) === "usado" || !payEnabled;
 
   return (
     <div>
@@ -135,36 +155,7 @@ export default function ProductPurchasePanel({
         Compartir
       </button>
 
-      <div className="mt-4 flex items-center gap-3">
-        {activePromo && (
-          <p className="text-lg text-muted line-through">
-            {formatPrice(activePromo.priceBefore!)}
-          </p>
-        )}
-        <p className={`text-2xl font-semibold ${activePromo ? "text-accent" : ""}`}>
-          {selected
-            ? formatPrice(selected.price)
-            : multiVariant
-              ? `Desde ${formatPrice(min)}`
-              : formatPrice(options[0]?.price ?? min)}
-        </p>
-        {(!multiVariant || selected) && (
-          <span
-            className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
-              (selected?.condition ?? options[0]?.condition) === "nuevo"
-                ? "bg-ink text-white"
-                : "bg-line text-ink"
-            }`}
-          >
-            {selected?.condition ?? options[0]?.condition}
-          </span>
-        )}
-        {multiVariant && !selected && max !== min && (
-          <span className="text-sm text-muted">hasta {formatPrice(max)}</span>
-        )}
-      </div>
-
-      <div className="mt-8">
+      <div className="mt-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           {multiVariant ? "Elige talla y estado" : "Talla"}
           {selected
@@ -225,49 +216,106 @@ export default function ProductPurchasePanel({
         </div>
       </div>
 
-      <div className={`mt-8 ${sticky && !payEnabled ? "hidden lg:block" : ""}`}>
+      {/* Tarjeta de compra (como StockX): precio, "Hacer oferta" y "Comprar ahora" lado a lado, y WhatsApp debajo. */}
+      <div className={`mt-6 rounded-2xl border border-line bg-paper-raised p-4 sm:p-5 ${sticky && !payEnabled ? "hidden lg:block" : ""}`}>
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+          {ready && payEnabled ? "Comprar ahora por" : "Precio"}
+        </p>
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+          {activePromo && (
+            <p className="text-lg text-muted line-through">
+              {formatPrice(activePromo.priceBefore!)}
+            </p>
+          )}
+          <p className={`text-3xl font-semibold ${activePromo ? "text-accent" : ""}`}>
+            {selected
+              ? formatPrice(selected.price)
+              : multiVariant
+                ? `Desde ${formatPrice(min)}`
+                : formatPrice(options[0]?.price ?? min)}
+          </p>
+          {(!multiVariant || selected) && (
+            <span
+              className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
+                (selected?.condition ?? options[0]?.condition) === "nuevo"
+                  ? "bg-ink text-white"
+                  : "bg-line text-ink"
+              }`}
+            >
+              {selected?.condition ?? options[0]?.condition}
+            </span>
+          )}
+          {multiVariant && !selected && max !== min && (
+            <span className="text-sm text-muted">hasta {formatPrice(max)}</span>
+          )}
+        </div>
+
         {!multiVariant || selected ? (
           <>
-            {payEnabled && (
-              <div id="comprar-ahora" className="mb-3 scroll-mt-24">
-                <CheckoutForm
-                  key={selected?.key ?? "unico"}
+            {/* Lado a lado; el que se abre (formulario o aviso) pasa al frente y ocupa todo el ancho. */}
+            <div className="mt-4 flex flex-wrap gap-3">
+              <div className="min-w-[140px] flex-1 empty:hidden has-[form]:order-first has-[form]:basis-full has-[[role=status]]:order-first has-[[role=status]]:basis-full">
+                <OfferBox
+                  key={`of-${selected?.key ?? "unico"}`}
                   productId={(selected ? selected.variant : options[0].variant).id}
                   size={selected ? selected.size : options[0].size}
                   name={`${group.brand} ${group.name}`}
                   price={selected ? selected.price : options[0].price}
-                  test={payTest}
+                  slug={group.groupSlug}
                 />
               </div>
-            )}
-            <div className="mb-3">
-              <OfferBox
-                key={`of-${selected?.key ?? "unico"}`}
-                productId={(selected ? selected.variant : options[0].variant).id}
-                size={selected ? selected.size : options[0].size}
-                name={`${group.brand} ${group.name}`}
-                price={selected ? selected.price : options[0].price}
-                slug={group.groupSlug}
-              />
+              {payEnabled && (
+                <div id="comprar-ahora" className="min-w-[140px] flex-1 scroll-mt-24 has-[form]:order-first has-[form]:basis-full">
+                  <CheckoutForm
+                    key={selected?.key ?? "unico"}
+                    productId={(selected ? selected.variant : options[0].variant).id}
+                    size={selected ? selected.size : options[0].size}
+                    name={`${group.brand} ${group.name}`}
+                    price={selected ? selected.price : options[0].price}
+                    test={payTest}
+                  />
+                </div>
+              )}
             </div>
-            <WhatsAppButtonLarge
-              product={selected ? selected.variant : options[0].variant}
-              size={selected ? selected.size : undefined}
-            />
-            <p className="mt-3 text-xs text-muted">
-              Te lleva directo a WhatsApp con el producto
-              {selected ? ` y la talla ${selected.size}` : ""} ya escrito en el
-              mensaje.
-            </p>
+            {/* WhatsApp solo en los usados (ahí se coordina el estado del par). Si el pago en línea está apagado, queda como único camino para comprar. */}
+            {showWhatsApp && (
+              <>
+                <div className="mt-3">
+                  <WhatsAppButtonLarge
+                    product={selected ? selected.variant : options[0].variant}
+                    size={selected ? selected.size : undefined}
+                  />
+                </div>
+                <p className="mt-3 text-xs text-muted">
+                  Te lleva directo a WhatsApp con el producto
+                  {selected ? ` y la talla ${selected.size}` : ""} ya escrito en el
+                  mensaje.
+                </p>
+              </>
+            )}
           </>
         ) : (
-          <div className="rounded-full border border-dashed border-line px-8 py-4 text-center text-sm text-muted">
-            Selecciona una talla y estado para continuar por WhatsApp
+          <div className="mt-4 rounded-full border border-dashed border-line px-8 py-4 text-center text-sm text-muted">
+            Selecciona una talla y estado para continuar
           </div>
         )}
       </div>
 
-      <div className="mt-10 border-t border-line pt-6">
+      {/* Desplegables como en StockX, con lo que dicen nuestras políticas. */}
+      <div className="mt-4 border-t border-line">
+        <InfoRow title="Compra segura">
+          <p>Los precios están en pesos colombianos e incluyen la comisión de Pitsneakers. Lo único que puede sumarse es el envío y, si pagas en línea, el costo de procesar el pago (Wompi). Ambos los ves antes de pagar.</p>
+        </InfoRow>
+        <InfoRow title="Envíos y devoluciones">
+          <p>Después de pagar, un asesor te escribe por WhatsApp para confirmar tu dirección, el valor del envío y el tiempo de entrega. En Bogotá podemos coordinar entrega directa.</p>
+          <p className="mt-2">En compras a distancia puedes devolver el par dentro de los 5 días hábiles siguientes a recibirlo y te reembolsamos el dinero (derecho de retracto, Ley 1480 de 2011). <Link href="/politicas" className="font-semibold underline underline-offset-4">Ver políticas</Link></p>
+        </InfoRow>
+        <InfoRow title="Verificado por Pitsneakers" aside={ready ? `Estado: ${selected?.condition ?? options[0]?.condition}` : undefined}>
+          <p>Cada par o prenda pasa por revisión física y autenticación antes de publicarse, y queda bajo nuestra intermediación hasta que la venta se cierra con el comprador. <Link href="/verificacion" className="font-semibold underline underline-offset-4">Cómo verificamos</Link></p>
+        </InfoRow>
+      </div>
+
+      <div className="mt-8 border-t border-line pt-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide">
           Descripción
         </h2>

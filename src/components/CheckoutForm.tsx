@@ -38,8 +38,8 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
 
   if (!open) {
     return (
-      <button type="button" onClick={() => setOpen(true)} className={`${btnAccent} w-full !py-4 !text-sm`}>
-        Comprar ahora · {formatPrice(price)}
+      <button type="button" onClick={() => setOpen(true)} aria-label={`Comprar ahora por ${formatPrice(price)}`} className={`${btnAccent} w-full whitespace-nowrap !px-3 !py-4 !text-sm`}>
+        Comprar ahora
       </button>
     );
   }

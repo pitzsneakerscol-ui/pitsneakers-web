@@ -34,15 +34,19 @@ export default function OfferBox({ productId, size, name, price, slug }: { produ
 
   if (!me.in) {
     return (
-      <Link href={`/cuenta/ingresar?next=${encodeURIComponent(`/producto/${slug}`)}`} className={`${btnGhost} mt-3 w-full !py-3.5 !text-sm`}>
-        Inicia sesión para hacer una oferta
+      <Link
+        href={`/cuenta/ingresar?next=${encodeURIComponent(`/producto/${slug}`)}`}
+        aria-label="Inicia sesión para hacer una oferta"
+        className={`${btnGhost} w-full whitespace-nowrap !px-3 !py-4 !text-sm`}
+      >
+        Hacer oferta
       </Link>
     );
   }
 
   if (state?.ok) {
     return (
-      <div className="mt-3 rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-sm text-emerald-900" role="status">
+      <div className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-sm text-emerald-900" role="status">
         <p className="font-semibold">¡Oferta enviada!</p>
         <p className="mt-1">{state.message}</p>
         <Link href="/cuenta/ofertas" className="mt-2 inline-block font-semibold underline underline-offset-4">Ver mis ofertas</Link>
@@ -52,14 +56,14 @@ export default function OfferBox({ productId, size, name, price, slug }: { produ
 
   if (!open) {
     return (
-      <button type="button" onClick={() => setOpen(true)} className={`${btnGhost} mt-3 w-full !py-3.5 !text-sm`}>
-        Hacer una oferta
+      <button type="button" onClick={() => setOpen(true)} className={`${btnGhost} w-full whitespace-nowrap !px-3 !py-4 !text-sm`}>
+        Hacer oferta
       </button>
     );
   }
 
   return (
-    <form onSubmit={submitWith(action)} className="mt-3 space-y-3 rounded-2xl border border-ink/20 bg-paper-raised p-4 sm:p-5">
+    <form onSubmit={submitWith(action)} className="space-y-3 rounded-2xl border border-ink/20 bg-paper-raised p-4 sm:p-5">
       <input type="hidden" name="productId" value={productId} />
       <input type="hidden" name="size" value={size} />
       <div className="flex items-start justify-between gap-3">
