@@ -32,6 +32,44 @@ interface NavLink {
   short?: string;
 }
 
+interface Purchase {
+  name: string;
+  product: string;
+  brand: string;
+  image: string;
+  size: string;
+  at: number;
+  ago: string;
+}
+
+/** "hace 3 h", "ayer", "hace 4 días". */
+function agoLabel(at: number): string {
+  const min = Math.max(0, Math.floor((Date.now() - at) / 60000));
+  if (min < 60) return "hace menos de 1 hora";
+  const h = Math.floor(min / 60);
+  if (h < 24) return `hace ${h} ${h === 1 ? "hora" : "horas"}`;
+  const d = Math.floor(h / 24);
+  return d === 1 ? "ayer" : `hace ${d} días`;
+}
+
+function Chevron() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/40" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="m9 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+// Menú del celular: lo que más se mira va en mosaicos y lo demás en una lista corta con una frase de ayuda.
+const TILE_HREFS = ["/sale", "/sneakers", "/streetwear", "/lanzamientos"];
+const SERVICE_HREFS = ["/encargos", "/verificacion", "/revendedores", "/contacto"];
+const MENU_HINTS: Record<string, string> = {
+  "/encargos": "¿No encuentras tu par? Pídelo",
+  "/verificacion": "Cómo revisamos cada par",
+  "/revendedores": "Consigna tus pares",
+  "/contacto": "Escríbenos o visítanos",
+};
+
 const baseLinks: NavLink[] = [
   { href: "/sneakers", label: "Sneakers", glow: "#ff5a3c" },
   { href: "/streetwear", label: "Streetwear", glow: "#ffd23f" },
@@ -48,7 +86,11 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false }:
   const links: NavLink[] = resellerEnabled
     ? [...withSale, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]
     : withSale;
+  const tiles = TILE_HREFS.map((h) => links.find((l) => l.href === h)).filter((l): l is NavLink => Boolean(l));
+  const services = SERVICE_HREFS.map((h) => links.find((l) => l.href === h)).filter((l): l is NavLink => Boolean(l));
   const [open, setOpen] = useState(false);
+  const [recent, setRecent] = useState<Purchase[] | null>(null);
+  const [ri, setRi] = useState(0);
   const [session, setSession] = useState<Session | null>(null);
   const pathname = usePathname();
 
@@ -71,6 +113,30 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false }:
 
   const accountHref = session ? (session.admin ? "/admin" : session.buyer ? "/cuenta" : "/revendedores/panel") : "/cuenta/ingresar";
   const accountLabel = session ? (session.buyer ? "Mi cuenta" : "Mi panel") : "Ingresar";
+
+  // Últimas compras reales: se piden la primera vez que se abre el menú y se van mostrando de a una.
+  useEffect(() => {
+    if (!open || recent !== null) return;
+    let alive = true;
+    fetch("/api/compras-recientes")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { items?: Omit<Purchase, "ago">[] } | null) => {
+        if (!alive) return;
+        setRecent((Array.isArray(d?.items) ? d.items : []).map((p) => ({ ...p, ago: agoLabel(p.at) })));
+      })
+      .catch(() => {
+        if (alive) setRecent([]);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [open, recent]);
+  useEffect(() => {
+    if (!open || !recent || recent.length < 2) return;
+    const t = setInterval(() => setRi((i) => (i + 1) % recent.length), 4500);
+    return () => clearInterval(t);
+  }, [open, recent]);
+  const shown = recent && recent.length > 0 ? recent[ri % recent.length] : null;
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -171,54 +237,126 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false }:
             </button>
             </div>
           </div>
-          <nav className="flex flex-1 flex-col gap-1">
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-              aria-current={pathname === "/" ? "page" : undefined}
-              className="menu-item flex items-center gap-3 border-b border-white/10 py-4 font-display text-2xl tracking-wide"
-              style={{ "--glow": "#ffffff", "--i": 0 } as React.CSSProperties}
-            >
-              <span aria-hidden="true" className="menu-bar" />
-              <span className="nav-glow">Inicio</span>
-            </Link>
-            {links.map((link, i) => (
+          {/* Menú en tres bloques: tu cuenta, lo que más se mira (mosaicos) y lo secundario (lista corta). */}
+          <nav className="flex flex-1 flex-col gap-5 pt-4" aria-label="Menú principal">
+            {resellerEnabled && (
               <Link
-                key={link.href}
-                href={link.href}
+                href={accountHref}
                 onClick={() => setOpen(false)}
-                aria-current={pathname === link.href ? "page" : undefined}
-                className="menu-item flex items-center gap-3 border-b border-white/10 py-4 font-display text-2xl tracking-wide"
-                style={{ "--glow": link.glow, "--i": i } as React.CSSProperties}
+                className="menu-item flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition active:scale-[0.99]"
+                style={{ "--i": 0 } as React.CSSProperties}
               >
-                <span aria-hidden="true" className="menu-bar" />
-                <span className="nav-glow">{link.label}</span>
-                {link.href === "/revendedores" && <span aria-hidden="true" className="nav-dot" />}
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+                  <UserIcon />
+                </span>
+                <span className="min-w-0 flex-1 leading-tight">
+                  <span className="block truncate text-base font-semibold">
+                    {session ? `Hola, ${session.name.split(" ")[0] || "tú"}` : "Ingresar"}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-white/60">
+                    {session ? (session.buyer ? "Mi cuenta" : "Mi panel") : "Crea tu cuenta, guarda favoritos y haz ofertas"}
+                  </span>
+                </span>
+                <Chevron />
               </Link>
-            ))}
-          </nav>
-          {resellerEnabled && (
-            <Link
-              href={accountHref}
-              onClick={() => setOpen(false)}
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
-            >
-              <UserIcon />
-              {session ? `${session.buyer ? "Mi cuenta" : "Mi panel"} · ${session.name}` : "Ingresar o crear cuenta"}
-            </Link>
-          )}
-          <a
-            href={buildGeneralWhatsAppLink(
-              "Hola! Quiero más información sobre Pitsneakers"
             )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center justify-center rounded-full bg-whatsapp px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white"
-          >
-            Escríbenos por WhatsApp
-          </a>
-          <p className="mt-4 text-center text-xs text-white/50">
-            {siteConfig.instagramHandle} · {siteConfig.city}
+
+            <ul className="grid grid-cols-2 gap-3">
+              {tiles.map((link, i) => (
+                <li key={link.href} className="[&:nth-child(odd):last-child]:col-span-2">
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={pathname === link.href ? "page" : undefined}
+                    className="menu-item flex h-28 flex-col justify-between rounded-2xl border border-white/10 p-4 transition active:scale-[0.98] aria-[current=page]:border-white/40"
+                    style={
+                      {
+                        "--glow": link.glow,
+                        "--i": i + 1,
+                        backgroundImage: "linear-gradient(150deg, color-mix(in srgb, var(--glow) 26%, transparent) 0%, transparent 70%)",
+                      } as React.CSSProperties
+                    }
+                  >
+                    <span aria-hidden="true" className="menu-bar" />
+                    <span className="font-display leading-none tracking-wide" style={{ fontSize: "clamp(1rem, 5vw, 1.25rem)" }}>{link.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <ul className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+              {services.map((link, i) => (
+                <li key={link.href} className="border-b border-white/10 last:border-b-0">
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={pathname === link.href ? "page" : undefined}
+                    className="menu-item flex items-center gap-3 px-4 py-3.5 transition active:bg-white/5"
+                    style={{ "--glow": link.glow, "--i": tiles.length + i + 1 } as React.CSSProperties}
+                  >
+                    <span className="min-w-0 flex-1 leading-tight">
+                      <span className="flex items-center gap-2 text-base font-semibold">
+                        {link.short ?? link.label}
+                        {link.href === "/revendedores" && <span aria-hidden="true" className="nav-dot" />}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-white/50">{MENU_HINTS[link.href]}</span>
+                    </span>
+                    <Chevron />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {/* Prueba social: las últimas compras reales, una a la vez. Si todavía no hay ninguna que mostrar, queda el botón de Instagram. */}
+          {recent && recent.length > 0 ? (
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4" aria-live="polite">
+              <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
+                <span aria-hidden="true" className="nav-dot" />
+                Compras recientes
+              </p>
+              <div key={ri} className="menu-item mt-3 flex items-center gap-3" style={{ "--i": 0 } as React.CSSProperties}>
+                <span className="h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-white">
+                  {shown?.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={shown.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  )}
+                </span>
+                <span className="min-w-0 flex-1 leading-tight">
+                  <span className="block text-sm text-white/70">
+                    <strong className="font-semibold text-white">{shown?.name}</strong> compró
+                  </span>
+                  <span className="block truncate text-base font-semibold">{shown?.product}</span>
+                  <span className="block text-xs text-white/50">{shown?.ago}</span>
+                </span>
+              </div>
+              {recent.length > 1 && (
+                <div className="mt-3 flex justify-center gap-1.5" aria-hidden="true">
+                  {recent.map((_, i) => (
+                    <span key={i} className={`h-1.5 rounded-full transition-all ${i === ri ? "w-5 bg-accent" : "w-1.5 bg-white/20"}`} />
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <a
+              href={siteConfig.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-4 text-sm font-semibold tracking-wide text-white transition active:bg-white/10"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" />
+              </svg>
+              Síguenos en {siteConfig.instagramHandle}
+            </a>
+          )}
+          <p className="mt-4 flex flex-wrap justify-center gap-x-1.5 text-center text-xs text-white/50">
+            <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+              {siteConfig.instagramHandle}
+            </a>
+            <span>· {siteConfig.stats.instagramFollowers} seguidores · {siteConfig.city}</span>
           </p>
         </div>
       )}
