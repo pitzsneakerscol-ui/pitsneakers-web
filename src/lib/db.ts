@@ -393,6 +393,13 @@ const SCHEMA = [
     hidden INTEGER NOT NULL DEFAULT 0,
     updated_at INTEGER NOT NULL
   )`,
+  // Precio de Black Friday que cada revendedor pone a sus pares (por SKU). Solo se aplica mientras corre una campaña con precios (ver siteConfig.campaigns).
+  `CREATE TABLE IF NOT EXISTS bf_prices (
+    sku TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    price INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL
+  )`,
   // Variantes que el admin agrega a una silueta desde la página del producto (otras tallas a otro precio). Se suman al catálogo y la sincronización no las toca.
   `CREATE TABLE IF NOT EXISTS catalog_extras (
     id TEXT PRIMARY KEY,
@@ -517,6 +524,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["payout_paid_at", "INTEGER"],
     // Cuándo el equipo le confirmó el pedido al revendedor (le dijo dónde dejar el par). NULL = todavía no.
     ["seller_confirmed_at", "INTEGER"],
+    // Cuándo el revendedor avisó desde su panel que ya dejó el par en el punto de verificación. NULL = todavía no.
+    ["seller_dropped_at", "INTEGER"],
   ],
   users: [
     ["email", "TEXT NOT NULL DEFAULT ''"],

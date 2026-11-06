@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
 import { groupPriceRange, groupProducts, groupPromo } from "@/lib/grouping";
 import { loadLiveOverlay, type PriceOverride } from "@/lib/catalog-live";
+import { bfPricesLive } from "@/lib/sale";
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -44,13 +45,32 @@ export function applyOverrides(products: Product[], overrides: Map<string, Price
   return out;
 }
 
-export async function getAllProducts(): Promise<Product[]> {
+/** Precio de Black Friday: el que puso el revendedor, solo si es menor al actual. El precio de antes pasa a ser el "antes" de la oferta. */
+export function applyBfPrices(products: Product[], bf: Map<string, number>): Product[] {
+  if (bf.size === 0) return products;
+  return products.map((p) => {
+    const price = bf.get(p.id);
+    if (!price || price >= p.price) return p;
+    return { ...p, price, priceBefore: Math.max(p.priceBefore ?? 0, p.price), promo: true };
+  });
+}
+
+async function loadCatalog(): Promise<{ products: Product[]; bf: Map<string, number> }> {
   const base = await loadProducts();
-  const { live, hidden, overrides, extras } = await loadLiveOverlay();
-  const products = applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live, ...extras], overrides);
-  return [...products].sort(
-    (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-  );
+  const { live, hidden, overrides, extras, bf } = await loadLiveOverlay();
+  return { products: applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live, ...extras], overrides), bf };
+}
+
+const byNewest = (a: Product, b: Product) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+
+/** El catálogo con sus precios normales (sin el precio de Black Friday): lo que ven los revendedores para poner su oferta. */
+export async function getRegularProducts(): Promise<Product[]> {
+  return [...(await loadCatalog()).products].sort(byNewest);
+}
+
+export async function getAllProducts(): Promise<Product[]> {
+  const { products, bf } = await loadCatalog();
+  return [...applyBfPrices(products, bfPricesLive() ? bf : new Map())].sort(byNewest);
 }
 
 export async function getAllGroups(): Promise<ProductGroup[]> {

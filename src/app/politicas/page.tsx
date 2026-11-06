@@ -148,6 +148,7 @@ const sections: Section[] = [
         <UL>
           <li>Al comprar: nombre, correo, celular, ciudad y dirección de entrega.</li>
           <li>Al inscribirte en la lista de espera, la subasta o la trivia: tu correo y el pase que se te asigna.</li>
+          <li>Al entrar a campañas como Black Friday: tu correo. Lo usamos para darte acceso a las ofertas y para escribirte con novedades y promociones; cada correo trae un enlace para darte de baja.</li>
           <li>Si creas una cuenta: nombre, correo, celular y ciudad, tu lista de deseos, tus ofertas y los pares que agregues a tu colección. Si entras con Google, recibimos tu nombre y correo.</li>
           <li>Si eres revendedor: usuario, nombre, correo, WhatsApp y la información de tu inventario y ventas.</li>
           <li>Si usas la app y activas los avisos: un identificador técnico de tu celular (token de notificaciones) y su sistema (iPhone o Android), ligado a tu cuenta si tienes sesión iniciada. No usamos tu ubicación ni tus contactos, ni te rastreamos entre otras apps.</li>

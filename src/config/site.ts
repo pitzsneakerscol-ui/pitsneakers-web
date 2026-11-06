@@ -82,6 +82,7 @@ export const siteConfig = {
       subtitle: "Tres días de precios especiales en sneakers y streetwear verificados. Cuando se acaba el par, se acaba la oferta.",
       startsAt: "2026-11-27T00:00:00-05:00",
       endsAt: "2026-11-30T00:00:00-05:00",
+      prices: true,
     },
     {
       id: "cyber-monday",
@@ -91,6 +92,7 @@ export const siteConfig = {
       subtitle: "Las últimas 24 horas de Black Friday: lo que queda, al mismo precio de la oferta.",
       startsAt: "2026-11-30T00:00:00-05:00",
       endsAt: "2026-12-01T00:00:00-05:00",
+      prices: true,
     },
   ] as Campaign[],
 };
@@ -105,4 +107,6 @@ export interface Campaign {
   subtitle: string;
   startsAt: string;
   endsAt: string;
+  /** Si es true, mientras corre se aplican los precios que pusieron los revendedores (Black Friday). */
+  prices?: boolean;
 }

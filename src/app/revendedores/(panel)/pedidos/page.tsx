@@ -10,6 +10,7 @@ import { formatPrice } from "@/lib/format";
 import { cardCls } from "@/components/reseller/ui";
 import OrderTimeline from "@/components/reseller/OrderTimeline";
 import { sellerRules, verificationPointLines } from "@/lib/seller-confirm-shared";
+import { confirmDropOff } from "@/app/revendedores/drop-actions";
 
 export const metadata: Metadata = { title: "Pedidos" };
 
@@ -130,6 +131,19 @@ export default async function PedidosPage() {
                           <li key={r}>{r}</li>
                         ))}
                       </ul>
+                      {o.sellerDroppedAt ? (
+                        <p className="mt-4 rounded-lg bg-emerald-600/10 px-3 py-2.5 text-sm font-semibold text-emerald-800">
+                          ✓ Avisaste que ya lo dejaste ({new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "America/Bogota" }).format(new Date(o.sellerDroppedAt))}). El equipo lo revisa y te avisa cuando esté verificado.
+                        </p>
+                      ) : (
+                        <form action={confirmDropOff} className="mt-4">
+                          <input type="hidden" name="id" value={o.id} />
+                          <button type="submit" className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110">
+                            Ya dejé el par en el punto
+                          </button>
+                          <p className="mt-2 text-xs text-muted">Pulsa solo cuando ya lo hayas entregado: le avisamos al equipo para que lo reciba y lo verifique.</p>
+                        </form>
+                      )}
                     </div>
                   ) : null}
 

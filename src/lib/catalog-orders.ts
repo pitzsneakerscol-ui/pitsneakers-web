@@ -78,6 +78,8 @@ export interface CatalogOrder {
   payoutPaidAt: number | null;
   /** cuándo se le confirmó el pedido al revendedor (null = todavía no) */
   sellerConfirmedAt: number | null;
+  /** cuándo el revendedor avisó que ya dejó el par en el punto de verificación (null = todavía no) */
+  sellerDroppedAt: number | null;
 }
 
 const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
@@ -132,13 +134,14 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   payoutStartedAt: r.payout_started_at === null || r.payout_started_at === undefined ? null : Number(r.payout_started_at),
   payoutPaidAt: r.payout_paid_at === null || r.payout_paid_at === undefined ? null : Number(r.payout_paid_at),
   sellerConfirmedAt: r.seller_confirmed_at === null || r.seller_confirmed_at === undefined ? null : Number(r.seller_confirmed_at),
+  sellerDroppedAt: r.seller_dropped_at === null || r.seller_dropped_at === undefined ? null : Number(r.seller_dropped_at),
 });
 
 // Sin 0/O/1/I: la referencia se dicta por WhatsApp sin confundirse.
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "sellerDroppedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -185,6 +188,19 @@ export async function markSellerConfirmed(id: number): Promise<CatalogOrder | nu
   const db = await getDb();
   await db.execute({ sql: "UPDATE catalog_orders SET seller_confirmed_at = COALESCE(seller_confirmed_at, ?) WHERE id = ?", args: [Date.now(), id] });
   return getOrderById(id);
+}
+
+/**
+ * El revendedor avisa que ya dejó el par en el punto de verificación. Solo vale para sus propios pedidos pagados y confirmados;
+ * devuelve el pedido solo la primera vez (para avisar al equipo una sola vez).
+ */
+export async function markSellerDropped(id: number, userId: number): Promise<CatalogOrder | null> {
+  const db = await getDb();
+  const r = await db.execute({
+    sql: "UPDATE catalog_orders SET seller_dropped_at = ? WHERE id = ? AND seller_id = ? AND status = 'pagado' AND seller_confirmed_at IS NOT NULL AND seller_dropped_at IS NULL",
+    args: [Date.now(), id, userId],
+  });
+  return r.rowsAffected > 0 ? getOrderById(id) : null;
 }
 
 /** Pedidos pagados de los pares de un revendedor, del más reciente al más antiguo. */

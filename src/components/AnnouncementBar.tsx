@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export interface AnnouncementProps {
-  latest?: { name: string; slug: string };
+  latest?: { name: string; slug: string; image?: string };
   members: string;
   communityUrl: string;
   promo?: { title: string; endsAt: string };
@@ -15,6 +15,8 @@ export interface AnnouncementProps {
 interface Message {
   key: string;
   icon: string;
+  /** foto del par (miniatura): si hay, reemplaza al ícono */
+  image?: string;
   /** texto completo (pantallas grandes) */
   text: React.ReactNode;
   /** versión corta para el celular, para que nunca se corte la frase */
@@ -144,6 +146,7 @@ export default function AnnouncementBar({ latest, members, communityUrl, promo, 
       list.push({
         key: "latest",
         icon: "👟",
+        image: latest.image,
         text: (
           <>
             Recién llegado: <strong className="text-[#3ddc84]">{latest.name}</strong>
@@ -222,7 +225,12 @@ export default function AnnouncementBar({ latest, members, communityUrl, promo, 
     "ab-slide absolute inset-0 flex items-center gap-2 font-medium text-white/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white";
   const body = (
     <>
-      <span aria-hidden="true" className="shrink-0 text-sm">{current.icon}</span>
+      {current.image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={current.image} alt="" width={28} height={28} loading="lazy" className="ab-thumb h-7 w-7 shrink-0 rounded-full bg-white object-contain ring-2 ring-white/30" />
+      ) : (
+        <span aria-hidden="true" className="shrink-0 text-sm">{current.icon}</span>
+      )}
       <span className="min-w-0 flex-1 truncate sm:hidden">{current.short}</span>
       <span className="hidden min-w-0 flex-1 truncate sm:block">{current.text}</span>
       <span aria-hidden="true" className="hidden shrink-0 text-white/40 sm:inline">→</span>

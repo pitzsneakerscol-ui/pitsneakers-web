@@ -191,6 +191,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     {isPaid ? <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider ${FULFILLMENT_CLS[o.fulfillment]}`}>{FULFILLMENT_LABEL[o.fulfillment]}</span> : null}
                     {o.paymentMethod.startsWith("WhatsApp") ? <span className="rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">WhatsApp</span> : null}
                     {late48 ? <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Atrasado</span> : null}
+                    {isPaid && o.sellerDroppedAt && ["", "por_preparar", "hacia_verificacion"].includes(o.fulfillment) ? <span className="rounded-full bg-emerald-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Vendedor ya lo dejó · {ago(o.sellerDroppedAt)}</span> : null}
                     {isPaid && o.sellerId && !o.sellerConfirmedAt ? <span className="rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">Sin confirmar al revendedor</span> : null}
                   </div>
                 </div>

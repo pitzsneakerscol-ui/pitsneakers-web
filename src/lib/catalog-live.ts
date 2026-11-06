@@ -17,6 +17,8 @@ export interface LiveOverlay {
   extras: Product[];
   /** Destacados elegidos por el admin: las siluetas fijadas (la más reciente primero) y las que quedan fuera. */
   featured: { pinned: string[]; out: Set<string> };
+  /** Precio de Black Friday que puso cada revendedor, por SKU. */
+  bf: Map<string, number>;
 }
 
 export interface PriceOverride {
@@ -42,15 +44,16 @@ function parseSizes(v: unknown): string[] | null {
   }
 }
 
-const EMPTY = (): LiveOverlay => ({ live: [], hidden: new Set<string>(), overrides: new Map(), extras: [], featured: { pinned: [], out: new Set() } });
+const EMPTY = (): LiveOverlay => ({ live: [], hidden: new Set<string>(), overrides: new Map(), extras: [], featured: { pinned: [], out: new Set() }, bf: new Map() });
 
 async function query(db: Client): Promise<LiveOverlay> {
-  const [live, hidden, overrides, extras, featured] = await Promise.all([
+  const [live, hidden, overrides, extras, featured, bf] = await Promise.all([
     db.execute("SELECT payload FROM live_listings ORDER BY updated_at DESC, id"),
     db.execute("SELECT sku FROM catalog_hidden"),
     db.execute("SELECT sku, price, price_before, hidden, sizes FROM catalog_overrides"),
     db.execute("SELECT payload FROM catalog_extras ORDER BY created_at, id"),
     db.execute("SELECT slug, pinned FROM catalog_featured ORDER BY updated_at DESC"),
+    db.execute("SELECT sku, price FROM bf_prices"),
   ]);
   return {
     live: live.rows.map((r) => JSON.parse(String(r.payload)) as Product),
@@ -60,6 +63,7 @@ async function query(db: Client): Promise<LiveOverlay> {
       pinned: featured.rows.filter((r) => Number(r.pinned) === 1).map((r) => String(r.slug)),
       out: new Set(featured.rows.filter((r) => Number(r.pinned) !== 1).map((r) => String(r.slug))),
     },
+    bf: new Map(bf.rows.map((r) => [String(r.sku), Number(r.price)])),
     overrides: new Map(
       overrides.rows.map((r) => [String(r.sku), { price: Number(r.price), priceBefore: Number(r.price_before), hidden: Number(r.hidden) === 1, sizes: parseSizes(r.sizes) }]),
     ),

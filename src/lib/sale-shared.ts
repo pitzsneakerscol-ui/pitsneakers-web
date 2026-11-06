@@ -27,3 +27,6 @@ export interface SaleProduct {
 }
 
 export type SaleState = { error?: string };
+
+/** Cookie que recuerda que el visitante ya dejó su correo para entrar a Black Friday (un año). */
+export const BF_COOKIE = "pit_bf";

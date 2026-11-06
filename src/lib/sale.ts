@@ -68,3 +68,8 @@ export function promoLive(): boolean {
 export function nowMs(): number {
   return Date.now();
 }
+
+/** ¿Corre ahora una campaña que aplica los precios de Black Friday de los revendedores? */
+export function bfPricesLive(): boolean {
+  return liveCampaign()?.prices === true;
+}

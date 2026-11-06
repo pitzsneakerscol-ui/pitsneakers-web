@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Campaign } from "@/config/site";
+import { LeadForm, useBfUnlocked } from "@/components/BlackFridayLead";
 
 interface Fallback {
   kicker: string;
@@ -71,12 +72,16 @@ export default function CampaignHero({
   fallback,
   initialNow,
   communityUrl,
+  stats,
 }: {
   campaigns: Campaign[];
   fallback: Fallback | null;
   initialNow: number;
   communityUrl: string;
+  /** Cuántos pares están en oferta y el mayor descuento (solo se muestran si hay). */
+  stats?: { pairs: number; maxPct: number };
 }) {
+  const unlocked = useBfUnlocked();
   const [now, setNow] = useState(initialNow);
   useEffect(() => {
     const first = setTimeout(() => setNow(Date.now()), 0);
@@ -113,15 +118,28 @@ export default function CampaignHero({
           <h1 className="mt-3 font-display text-5xl uppercase tracking-wide sm:text-7xl">{title}</h1>
           {subtitle && <p className="mt-4 max-w-xl text-sm text-white/70 sm:text-base">{subtitle}</p>}
           {soon && (
-            <a
-              href={communityUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#0d0d0e] transition hover:bg-white/90"
-            >
-              Entérate primero por WhatsApp
-              <span aria-hidden="true">→</span>
-            </a>
+            <div className="mt-6">
+              {unlocked ? (
+                <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm ring-1 ring-white/20">
+                  <span aria-hidden="true">✅</span> Ya estás adentro: te avisamos por correo apenas arranque.
+                </p>
+              ) : (
+                <>
+                  <p className="mb-3 text-sm font-semibold">Deja tu correo y entra primero:</p>
+                  <LeadForm id="bf-hero" compact cta="Quiero entrar primero" />
+                </>
+              )}
+              <a href={communityUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-xs text-white/60 underline underline-offset-4 hover:text-white">
+                O únete a la comunidad por WhatsApp
+              </a>
+            </div>
+          )}
+          {live && stats && stats.pairs > 0 && (
+            <ul className="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
+              {stats.maxPct > 0 && <li className="rounded-full bg-[#ff5a3c] px-4 py-2 text-white">Hasta −{stats.maxPct}%</li>}
+              <li className="rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/20">{stats.pairs} {stats.pairs === 1 ? "par" : "pares"} en oferta</li>
+              <li className="rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/20">Verificados</li>
+            </ul>
           )}
         </div>
 

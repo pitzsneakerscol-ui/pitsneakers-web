@@ -289,11 +289,8 @@ export async function runSync(): Promise<{ added: number; sellers: number; waiti
   return { added, sellers, waiting, notices };
 }
 
-/**
- * Carga en la cuenta de un vendedor los pares del catálogo que llevan su usuario y todavía no tiene.
- * Se llama sola cuando el vendedor entra a su panel, así que sus pares aparecen sin que el dueño tenga que pulsar nada.
- */
-export async function syncUser(userId: number, username: string): Promise<number> {
+/** Las "llaves" con que pueden estar asignados los pares de un vendedor en el catálogo: su usuario, su correo o un usuario parecido. */
+export async function sellerKeysFor(userId: number, username: string): Promise<Set<string>> {
   // Sus pares pueden estar asignados por usuario o por el correo de su cuenta.
   const db = await getDb();
   const me = await db.execute({ sql: "SELECT email, display_name FROM users WHERE id = ?", args: [userId] });
@@ -307,6 +304,21 @@ export async function syncUser(userId: number, username: string): Promise<number
     const k = loose(a.seller);
     if (k && (k === loose(username) || (display && k === loose(display)))) keys.add(a.seller);
   }
+  return keys;
+}
+
+/** SKU del catálogo asignados a este vendedor. */
+export async function sellerSkus(userId: number, username: string): Promise<string[]> {
+  const keys = await sellerKeysFor(userId, username);
+  return assignments.filter((a) => keys.has(a.seller)).map((a) => a.sku);
+}
+
+/**
+ * Carga en la cuenta de un vendedor los pares del catálogo que llevan su usuario y todavía no tiene.
+ * Se llama sola cuando el vendedor entra a su panel, así que sus pares aparecen sin que el dueño tenga que pulsar nada.
+ */
+export async function syncUser(userId: number, username: string): Promise<number> {
+  const keys = await sellerKeysFor(userId, username);
   await notifyCheaper(userId, [...keys]).catch(() => 0);
   const items = await loadFor(userId, [...keys]);
   if (items.length > 0) {

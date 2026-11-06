@@ -85,7 +85,7 @@ export default async function RootLayout({
         <ChromeGate locked={locked}>
         <ScrollProgress />
         <AnnouncementBar
-          latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
+          latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug, image: latest.images[0]?.replace("/products/", "/products/t/") } : undefined}
           members={siteConfig.stats.whatsappMembers}
           communityUrl={siteConfig.whatsappCommunityUrl}
           promo={saleLive && promo.endsAt ? { title: promo.title, endsAt: promo.endsAt } : undefined}

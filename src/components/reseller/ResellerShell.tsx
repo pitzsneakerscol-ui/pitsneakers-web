@@ -41,6 +41,7 @@ const MAIN: Item[] = [
 ];
 const MORE: Item[] = [
   { href: "/revendedores/consultas", label: "Mercado", Icon: ChatIcon },
+  { href: "/revendedores/black-friday", label: "Black Friday", Icon: TagIcon },
   { href: "/revendedores/ofertas", label: "Ofertas", Icon: TagIcon },
   { href: "/revendedores/ranking", label: "Ranking", Icon: TrophyIcon },
   { href: "/revendedores/avisos", label: "Avisos", Icon: BellIcon },
@@ -53,6 +54,7 @@ const TITLES: Record<string, string> = {
   pedidos: "Pedidos",
   ventas: "Ventas",
   consultas: "Pregunta al mercado",
+  "black-friday": "Black Friday",
   ofertas: "Ofertas",
   ranking: "Ranking",
   avisos: "Avisos",
