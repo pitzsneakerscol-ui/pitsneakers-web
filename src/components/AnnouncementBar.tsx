@@ -8,6 +8,8 @@ export interface AnnouncementProps {
   members: string;
   communityUrl: string;
   promo?: { title: string; endsAt: string };
+  /** Campaña que todavía no arranca: se anuncia con cuenta regresiva hasta su inicio. */
+  upcoming?: { title: string; startsAt: string };
 }
 
 interface Message {
@@ -44,7 +46,7 @@ const iconBtn =
  * - Una barrita de progreso muestra cuánto falta para el siguiente mensaje.
  * - Se puede cerrar (se recuerda 24 horas) y respeta "reducir movimiento".
  */
-export default function AnnouncementBar({ latest, members, communityUrl, promo }: AnnouncementProps) {
+export default function AnnouncementBar({ latest, members, communityUrl, promo, upcoming }: AnnouncementProps) {
   const [now, setNow] = useState<number | null>(null);
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
@@ -57,17 +59,19 @@ export default function AnnouncementBar({ latest, members, communityUrl, promo }
 
   const promoEnd = promo ? new Date(promo.endsAt).getTime() : 0;
   const promoLive = now !== null && promoEnd > now;
+  const upStart = upcoming ? new Date(upcoming.startsAt).getTime() : 0;
+  const upSoon = now !== null && upStart > now;
 
   // El reloj solo corre en el cliente (evita diferencias de hidratación) y solo si hay promo.
   useEffect(() => {
-    if (!promo) return;
+    if (!promo && !upcoming) return;
     const first = setTimeout(() => setNow(Date.now()), 0);
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => {
       clearTimeout(first);
       clearInterval(id);
     };
-  }, [promo]);
+  }, [promo, upcoming]);
 
   // Preferencias del dispositivo / del visitante, leídas una sola vez en el cliente.
   useEffect(() => {
@@ -101,6 +105,24 @@ export default function AnnouncementBar({ latest, members, communityUrl, promo }
           </>
         ),
         href: "/lanzamientos",
+      });
+    }
+    if (upSoon && upcoming) {
+      const left = formatLeft(upStart - (now ?? 0));
+      list.unshift({
+        key: "upcoming",
+        icon: "🖤",
+        text: (
+          <>
+            {upcoming.title} empieza en <strong className="tabular-nums text-[#ffd23f]">{left}</strong>
+          </>
+        ),
+        short: (
+          <>
+            {upcoming.title} en <strong className="tabular-nums text-[#ffd23f]">{left}</strong>
+          </>
+        ),
+        href: "/sale",
       });
     }
     list.push({
@@ -168,7 +190,7 @@ export default function AnnouncementBar({ latest, members, communityUrl, promo }
       }
     );
     return list;
-  }, [promoLive, promo, promoEnd, now, latest, members, communityUrl]);
+  }, [promoLive, promo, promoEnd, upSoon, upcoming, upStart, now, latest, members, communityUrl]);
 
   if (closed) return null;
 

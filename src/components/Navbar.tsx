@@ -79,9 +79,9 @@ const baseLinks: NavLink[] = [
   { href: "/contacto", label: "Contacto", glow: "#4cc9f0" },
 ];
 
-export default function Navbar({ resellerEnabled = false, saleEnabled = false }: { resellerEnabled?: boolean; saleEnabled?: boolean }) {
+export default function Navbar({ resellerEnabled = false, saleEnabled = false, saleLabel = "Sale" }: { resellerEnabled?: boolean; saleEnabled?: boolean; saleLabel?: string }) {
   const withSale: NavLink[] = saleEnabled
-    ? [{ href: "/sale", label: "Sale", glow: "#ff3b30" }, ...baseLinks]
+    ? [{ href: "/sale", label: saleLabel, glow: "#ff3b30" }, ...baseLinks]
     : baseLinks;
   const links: NavLink[] = resellerEnabled
     ? [...withSale, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]

@@ -61,4 +61,48 @@ export const siteConfig = {
     // Fecha y hora exacta en que termina (zona horaria Colombia, -05:00). Vacío = sin fecha de cierre ni cuenta regresiva.
     endsAt: "",
   },
+  // Campañas con fecha (Black Friday, etc.). Entran y salen solas según la hora: no hay que tocar nada el día de la campaña.
+  // Fechas en hora de Colombia (-05:00). Mientras una campaña está vigente, reemplaza al "promo" de arriba en /sale, el inicio, la barra de anuncios y el menú.
+  // Los precios con descuento los pones por par en Admin → Precios (precio anterior); la campaña solo pone el marco: título, cuenta regresiva y página.
+  campaigns: [
+    {
+      id: "pre-black-friday",
+      name: "Pre Black Friday",
+      kicker: "Acceso anticipado",
+      title: "Pre Black Friday",
+      subtitle: "Antes que nadie: pares seleccionados con precio de Black Friday, solo hasta que arranque el viernes.",
+      startsAt: "2026-11-23T00:00:00-05:00",
+      endsAt: "2026-11-27T00:00:00-05:00",
+    },
+    {
+      id: "black-friday",
+      name: "Black Friday",
+      kicker: "Oferta por tiempo limitado",
+      title: "Black Friday",
+      subtitle: "Tres días de precios especiales en sneakers y streetwear verificados. Cuando se acaba el par, se acaba la oferta.",
+      startsAt: "2026-11-27T00:00:00-05:00",
+      endsAt: "2026-11-30T00:00:00-05:00",
+    },
+    {
+      id: "cyber-monday",
+      name: "Cyber Monday",
+      kicker: "Último día",
+      title: "Cyber Monday",
+      subtitle: "Las últimas 24 horas de Black Friday: lo que queda, al mismo precio de la oferta.",
+      startsAt: "2026-11-30T00:00:00-05:00",
+      endsAt: "2026-12-01T00:00:00-05:00",
+    },
+  ] as Campaign[],
 };
+
+export interface Campaign {
+  id: string;
+  /** Nombre corto para el menú y los avisos. */
+  name: string;
+  /** Texto pequeño sobre el título. */
+  kicker: string;
+  title: string;
+  subtitle: string;
+  startsAt: string;
+  endsAt: string;
+}

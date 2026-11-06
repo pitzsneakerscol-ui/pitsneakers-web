@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { getAllGroups } from "@/lib/products";
 import { groupPromo } from "@/lib/grouping";
-import { promoLive } from "@/lib/sale";
+import { currentPromo, upcomingCampaign } from "@/lib/sale";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
 import ChromeGate from "@/components/ChromeGate";
@@ -16,6 +16,9 @@ import FavSync from "@/components/cuenta/FavSync";
 import { siteConfig } from "@/config/site";
 import { isDbConfigured } from "@/lib/db";
 import { jsonLdString, organizationJsonLd } from "@/lib/seo";
+
+// La barra de anuncios, el menú y el inicio cambian de campaña según la hora: la página se regenera cada 5 minutos.
+export const revalidate = 300;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -60,7 +63,11 @@ export default async function RootLayout({
   const groups = await getAllGroups();
   const locked = process.env.SITE_LOCKED === "1";
   const latest = groups.find((g) => g.images.length > 0);
-  const saleLive = promoLive() && groups.some((g) => groupPromo(g) !== null);
+  const promo = currentPromo();
+  const soon = upcomingCampaign();
+  const saleLive = promo !== null && groups.some((g) => groupPromo(g) !== null);
+  // Con campaña a la vista (corriendo o por arrancar) el menú muestra su nombre; si no, "Sale".
+  const saleLabel = saleLive && promo.id !== "sale" ? promo.name : soon ? soon.name : saleLive ? promo.name : null;
 
   return (
     <html
@@ -81,9 +88,10 @@ export default async function RootLayout({
           latest={latest ? { name: `${latest.brand} ${latest.name}`.replace(/^(\S+) \1 /, "$1 "), slug: latest.groupSlug } : undefined}
           members={siteConfig.stats.whatsappMembers}
           communityUrl={siteConfig.whatsappCommunityUrl}
-          promo={saleLive && siteConfig.promo.endsAt ? { title: siteConfig.promo.title, endsAt: siteConfig.promo.endsAt } : undefined}
+          promo={saleLive && promo.endsAt ? { title: promo.title, endsAt: promo.endsAt } : undefined}
+          upcoming={soon ? { title: soon.title, startsAt: soon.startsAt } : undefined}
         />
-        <Navbar resellerEnabled={isDbConfigured()} saleEnabled={saleLive} />
+        <Navbar resellerEnabled={isDbConfigured()} saleEnabled={saleLabel !== null} saleLabel={saleLabel ?? undefined} />
         </ChromeGate>
         <main className="flex-1">{children}</main>
         <NativeBridge />
