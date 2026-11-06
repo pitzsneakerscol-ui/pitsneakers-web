@@ -9,6 +9,8 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
   const [active, setActive] = useState(0);
   const track = useRef<HTMLDivElement>(null);
   const count = Math.max(group.images.length, 1);
+  // Los tenis se ven de lado, así que el marco es horizontal (como en StockX); la ropa es más alta y se queda cuadrada.
+  const frame = group.category === "sneakers" ? "aspect-[3/2]" : "aspect-square";
 
   function goTo(index: number) {
     const el = track.current;
@@ -35,7 +37,7 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
           aria-label={`Fotos de ${group.name}`}
         >
           {Array.from({ length: count }).map((_, index) => (
-            <div key={index} className="relative aspect-square w-full shrink-0 snap-center" aria-label={`Foto ${index + 1} de ${count}`}>
+            <div key={index} className={`relative ${frame} w-full shrink-0 snap-center`} aria-label={`Foto ${index + 1} de ${count}`}>
               <ProductMedia product={group} index={index} priority={index === 0} sizes="(min-width: 1024px) 50vw, 100vw" />
             </div>
           ))}
@@ -60,7 +62,7 @@ export default function ProductGallery({ group }: { group: ProductGroup }) {
               key={index}
               type="button"
               onClick={() => goTo(index)}
-              className={`relative aspect-square overflow-hidden rounded-md bg-[#ebe8e2] ring-2 transition ${
+              className={`relative ${frame} overflow-hidden rounded-md bg-[#ebe8e2] ring-2 transition ${
                 active === index ? "ring-ink" : "ring-transparent"
               }`}
               aria-label={`Ver foto ${index + 1}`}
