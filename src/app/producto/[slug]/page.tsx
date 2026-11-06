@@ -7,6 +7,7 @@ import {
   getRelatedGroups,
 } from "@/lib/products";
 import ProductGallery from "@/components/ProductGallery";
+import spins from "@/data/spins.json";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
 import ProductGrid from "@/components/ProductGrid";
 import SectionHeading from "@/components/SectionHeading";
@@ -79,7 +80,7 @@ export default async function ProductPage({
       {/* Datos estructurados para Google: precio, disponibilidad, marca y fotos de este par. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString([productJsonLd(group), breadcrumbJsonLd(group)]) }} />
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <ProductGallery group={group} />
+        <ProductGallery group={group} spinCount={(spins as Record<string, number>)[group.groupSlug] ?? 0} />
         <ProductPurchasePanel group={group} sticky payEnabled={isDbConfigured() && isWompiConfigured()} payTest={isWompiTest()} />
       </div>
 
