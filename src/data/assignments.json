@@ -4763,5 +4763,19 @@
     "price": 660000,
     "condition": "nuevo",
     "image": "/products/MIND001-10.44dfacaf.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-blue-hydrogene",
+    "name": "Mind 001 Blue Hydrogene",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-22",
+    "sizes": [
+      "11"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-22.2324d567.webp"
   }
 ]

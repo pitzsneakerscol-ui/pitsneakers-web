@@ -13082,5 +13082,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:32:00.000Z"
+  },
+  {
+    "id": "MIND001-22",
+    "slug": "nike-mind-001-blue-hydrogene",
+    "name": "Mind 001 Blue Hydrogene",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 650000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-22.2324d567.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:33:00.000Z"
   }
 ]
