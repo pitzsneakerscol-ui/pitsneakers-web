@@ -259,7 +259,7 @@ export function renderEmailHtml(subject: string, body: string, opts?: { unsubscr
 <table role="presentation" width="620" cellpadding="0" cellspacing="0" style="max-width:620px;width:100%;border-radius:18px;overflow:hidden;background:#ffffff">
 <tr><td style="background:${INK};padding:22px 30px 18px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-${logo ? `<td width="62" valign="middle" style="padding-right:14px"><img src="${esc(logo)}" width="56" height="56" alt="" style="display:block;border:0"></td>` : ""}
+${logo ? `<td width="62" valign="middle" style="padding-right:14px"><img src="${esc(logo)}" width="56" height="56" alt="" style="display:block;border:0;border-radius:14px"></td>` : ""}
 <td valign="middle" style="font-family:${DISPLAY};font-size:34px;letter-spacing:2px;line-height:1;color:#ffffff">PIT<span style="color:${HOT}">SNEAKERS</span>
 <div style="margin-top:7px;font-family:${FONT};font-size:10px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a">Verificados &#10022; Cultura &#10022; Comunidad</div></td>
 </tr></table></td></tr>
