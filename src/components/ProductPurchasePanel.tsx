@@ -304,10 +304,10 @@ export default function ProductPurchasePanel({
       {/* Desplegables como en StockX, con lo que dicen nuestras políticas. */}
       <div className="mt-4 border-t border-line">
         <InfoRow title="Compra segura">
-          <p>Los precios están en pesos colombianos e incluyen la comisión de Pitsneakers. Lo único que puede sumarse es el envío y, si pagas en línea, el costo de procesar el pago (Wompi). Ambos los ves antes de pagar.</p>
+          <p>Los precios están en pesos colombianos e incluyen la comisión de Pitsneakers. Pagas con PSE, Nequi o tarjeta en Wompi, y el costo de procesar el pago lo ves antes de confirmar.</p>
         </InfoRow>
         <InfoRow title="Envíos y devoluciones">
-          <p>Después de pagar, un asesor te escribe por WhatsApp para confirmar tu dirección, el valor del envío y el tiempo de entrega. En Bogotá podemos coordinar entrega directa.</p>
+          <p>Despachamos con Interrapidísimo. Cuando sale tu pedido te mandamos el número de guía por correo, y puedes seguirlo en la página de tu pedido, que se actualiza sola con la transportadora. En Bogotá podemos coordinar entrega directa.</p>
           <p className="mt-2">En compras a distancia puedes devolver el par dentro de los 5 días hábiles siguientes a recibirlo y te reembolsamos el dinero (derecho de retracto, Ley 1480 de 2011). <Link href="/politicas" className="font-semibold underline underline-offset-4">Ver políticas</Link></p>
         </InfoRow>
         <InfoRow title="Verificado por Pitsneakers" aside={ready ? `Estado: ${selected?.condition ?? options[0]?.condition}` : undefined}>
