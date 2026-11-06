@@ -6,13 +6,13 @@ import { ACCOUNT_TYPES, PAYOUT_METHODS, PAYOUT_WINDOW, isPayoutMethod, isWallet,
 import { btnPrimary, cardCls, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 /** Dónde le consignamos al revendedor lo que vendió. Se llena una vez; sin esto los pagos quedan pendientes. */
-export default function PayoutForm({ initial }: { initial: PayoutInfo | null }) {
+export default function PayoutForm({ initial, formId = "pago" }: { initial: PayoutInfo | null; formId?: string }) {
   const [method, setMethod] = useState<PayoutMethod>(initial?.method ?? "Bancolombia");
   const [state, action, pending] = useActionState(savePayout, undefined);
   const wallet = isWallet(method);
 
   return (
-    <form id="pago" onSubmit={submitWith(action)} className={`${cardCls} scroll-mt-24 space-y-4 p-5 sm:p-6`}>
+    <form id={formId} onSubmit={submitWith(action)} className={`${cardCls} scroll-mt-24 space-y-4 p-5 sm:p-6`}>
       <div>
         <h2 className="font-display text-2xl tracking-wide">Datos de pago</h2>
         <p className="mt-1 text-sm text-muted">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { requireUser } from "@/lib/auth";
 import { ensureSynced } from "@/lib/seller-sync";
 import { listItems } from "@/lib/reseller";
+import { getPayoutInfo } from "@/lib/seller-payout";
 import { todayBogota } from "@/lib/reseller-shared";
 import { getCatalogEntries } from "@/lib/reseller-catalog";
 import AddItemsPanel from "@/components/reseller/AddItemsPanel";
@@ -13,7 +14,7 @@ export const metadata: Metadata = { title: "Mi inventario" };
 export default async function InventarioPage() {
   const user = await requireUser();
   if (!user.isAdmin) await ensureSynced(user.id, user.username);
-  const [items, catalog] = await Promise.all([listItems(user.id), getCatalogEntries()]);
+  const [items, catalog, payout] = await Promise.all([listItems(user.id), getCatalogEntries(), getPayoutInfo(user.id)]);
   const open = items.filter((i) => i.status !== "vendido");
   const today = todayBogota();
 
@@ -31,6 +32,7 @@ export default async function InventarioPage() {
         catalog={catalog}
         today={today}
         ownerName={user.displayName || user.username}
+        payout={payout}
       />
       <ImportForm />
     </div>

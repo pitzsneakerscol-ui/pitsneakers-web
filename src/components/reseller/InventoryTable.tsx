@@ -16,6 +16,8 @@ import {
 import { sellerRules, verificationPointLines } from "@/lib/seller-confirm-shared";
 import EditItemForm from "@/components/reseller/EditItemForm";
 import SellForm from "@/components/reseller/SellForm";
+import DeliveryStep from "@/components/reseller/DeliveryStep";
+import type { PayoutInfo } from "@/lib/payout-shared";
 import type { CatalogEntry } from "@/components/reseller/ItemFields";
 import { btnGhost, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 
@@ -35,7 +37,10 @@ export default function InventoryTable({
   catalog,
   today,
   ownerName,
+  payout,
 }: {
+  /** Datos de pago del revendedor (null = aún no los ha dado). */
+  payout: PayoutInfo | null;
   items: Item[];
   catalog: CatalogEntry[];
   today: string;
@@ -183,6 +188,11 @@ export default function InventoryTable({
                           {cat && (
                             <p className="text-[11px] text-muted">Tienda: {formatPrice(cat.price)}</p>
                           )}
+                          {/* En el celular las columnas de precio quedan fuera de pantalla: aquí van los números clave. */}
+                          <p className="text-[11px] font-medium sm:hidden">
+                            Costo {formatPrice(itemTotalCost(i))}
+                            {i.expectedPrice > 0 ? ` · Pides ${formatPrice(i.expectedPrice)}` : ""}
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -281,21 +291,25 @@ export default function InventoryTable({
                               </ul>
                             </div>
                           </div>
+                          <DeliveryStep item={i} payout={payout} />
                         </div>
                       </td>
                     </tr>
                   )}
                   {isOpen && panel && (
                     <tr className="bg-paper/60">
-                      <td colSpan={8} className="p-4 sm:p-6">
-                        <h3 className="mb-4 font-display text-xl tracking-wide">
-                          {panel.mode === "sell" ? `Registrar venta — ${itemLabel(i)} (talla ${i.size})` : `Editar — ${itemLabel(i)}`}
-                        </h3>
-                        {panel.mode === "sell" ? (
-                          <SellForm item={i} today={today} onDone={() => setPanel(null)} />
-                        ) : (
-                          <EditItemForm item={i} catalog={catalog} today={today} onDone={() => setPanel(null)} />
-                        )}
+                      <td colSpan={8} className="p-0">
+                        {/* Mismo truco que la tarjeta de compra: ocupa solo el ancho visible, no el de toda la tabla. */}
+                        <div style={{ width: "100cqw" }} className="sticky left-0 p-4 sm:p-6">
+                          <h3 className="mb-4 font-display text-xl tracking-wide">
+                            {panel.mode === "sell" ? `Registrar venta — ${itemLabel(i)} (talla ${i.size})` : `Editar — ${itemLabel(i)}`}
+                          </h3>
+                          {panel.mode === "sell" ? (
+                            <SellForm item={i} today={today} onDone={() => setPanel(null)} />
+                          ) : (
+                            <EditItemForm item={i} catalog={catalog} today={today} onDone={() => setPanel(null)} />
+                          )}
+                        </div>
                       </td>
                     </tr>
                   )}

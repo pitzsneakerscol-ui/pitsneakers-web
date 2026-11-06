@@ -47,6 +47,9 @@ function rowToItem(r: Row): Item {
     purchasePrice: Number(r.purchase_price ?? 0),
     purchasePayout: Number(r.purchase_payout ?? 0),
     purchaseConfirmedAt: r.purchase_confirmed_at == null ? null : Number(r.purchase_confirmed_at),
+    purchaseDroppedAt: r.purchase_dropped_at == null ? null : Number(r.purchase_dropped_at),
+    purchaseDelivery: r.purchase_delivery === "dropoff" || r.purchase_delivery === "envio" ? r.purchase_delivery : "",
+    purchaseTracking: String(r.purchase_tracking ?? ""),
   };
 }
 

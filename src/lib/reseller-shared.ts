@@ -57,6 +57,12 @@ export interface Item {
   purchasePayout: number;
   /** Cuándo el dueño confirmó la compra (null = sin confirmar). */
   purchaseConfirmedAt: number | null;
+  /** Cuándo el revendedor avisó que ya dejó o envió el par (null = todavía no). */
+  purchaseDroppedAt: number | null;
+  /** "dropoff" = lo dejó en el punto de verificación; "envio" = lo mandó por transportadora. */
+  purchaseDelivery: "" | "dropoff" | "envio";
+  /** Número de guía, si lo envió. */
+  purchaseTracking: string;
 }
 
 export const SALE_CHANNELS = [

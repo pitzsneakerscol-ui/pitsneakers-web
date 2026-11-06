@@ -138,6 +138,15 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                           <span className="block text-xs text-muted">
                             {i.purchasePayout > 0 ? `${formatPrice(i.purchasePrice)} · recibe ${formatPrice(i.purchasePayout)}` : formatPrice(i.purchasePrice)}
                           </span>
+                          {i.purchaseDroppedAt !== null ? (
+                            <span className="mt-1 block text-xs font-semibold text-emerald-700">
+                              ✓ {i.purchaseDelivery === "envio" ? "Lo envió" : "Lo dejó en el punto"} · {new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "America/Bogota" }).format(new Date(i.purchaseDroppedAt))}
+                              {i.purchaseTracking ? ` · guía ${i.purchaseTracking}` : ""}{" "}
+                              <a href={`/api/revendedores/prueba/${i.id}`} target="_blank" rel="noreferrer" className="underline">Ver foto</a>
+                            </span>
+                          ) : (
+                            <span className="mt-1 block text-xs text-muted">Aún no avisa que lo entregó</span>
+                          )}
                         </>
                       ) : (
                         <span className="capitalize">{i.status}</span>

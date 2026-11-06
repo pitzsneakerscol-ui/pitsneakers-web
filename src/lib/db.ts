@@ -51,6 +51,13 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_order_photos ON order_photos(order_id)`,
+  // Foto que sube el revendedor como prueba de que dejó (o envió) un par con compra confirmada. Una por par; ya reducida en el navegador.
+  `CREATE TABLE IF NOT EXISTS item_proofs (
+    item_id INTEGER PRIMARY KEY,
+    mime TEXT NOT NULL,
+    data BLOB NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -541,6 +548,10 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     // Lo que se le paga al vendedor: precio de compra menos la comisión (0 = confirmada antes del cálculo: el precio ya era neto).
     ["purchase_payout", "INTEGER NOT NULL DEFAULT 0"],
     ["purchase_confirmed_at", "INTEGER"],
+    // El revendedor avisó que ya dejó (o envió) el par: cuándo, cómo ('dropoff' | 'envio') y la guía si la tiene. NULL = todavía no.
+    ["purchase_dropped_at", "INTEGER"],
+    ["purchase_delivery", "TEXT NOT NULL DEFAULT ''"],
+    ["purchase_tracking", "TEXT NOT NULL DEFAULT ''"],
   ],
   buyer_offers: [
     ["pay_hours", "INTEGER NOT NULL DEFAULT 24"],
