@@ -33,14 +33,12 @@ export default function ProductGallery({ group, spinCount = 0 }: { group: Produc
     <div>
       <div className="relative">
         {view === "spin" && spinCount > 0 ? (
-          <div className="overflow-hidden rounded-lg">
-            <Spin360 slug={group.groupSlug} count={spinCount} label={`${group.brand} ${group.name}`} />
-          </div>
+          <Spin360 slug={group.groupSlug} count={spinCount} label={`${group.brand} ${group.name}`} />
         ) : (
           <div
             ref={track}
             onScroll={onScroll}
-            className="scrollbar-hide flex snap-x snap-mandatory overflow-x-auto rounded-lg bg-[#ebe8e2]"
+            className="scrollbar-hide flex snap-x snap-mandatory overflow-x-auto rounded-2xl bg-white"
             aria-roledescription="carrusel"
             aria-label={`Fotos de ${group.name}`}
           >
@@ -51,11 +49,11 @@ export default function ProductGallery({ group, spinCount = 0 }: { group: Produc
             ))}
           </div>
         )}
-        <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink">
+        <span className="pointer-events-none absolute right-3 top-3 rounded-full border border-black/10 bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink">
           Verificado por Pitsneakers
         </span>
         {spinCount > 0 && (
-          <div className="absolute left-3 top-3 flex overflow-hidden rounded-full bg-white/95 text-[10px] font-semibold uppercase tracking-wider">
+          <div className="absolute left-3 top-3 flex overflow-hidden rounded-full border border-black/10 bg-white/95 text-[10px] font-semibold uppercase tracking-wider">
             {(["spin", "fotos"] as const).map((v) => (
               <button
                 key={v}
@@ -86,7 +84,7 @@ export default function ProductGallery({ group, spinCount = 0 }: { group: Produc
               key={index}
               type="button"
               onClick={() => goTo(index)}
-              className={`relative ${frame} overflow-hidden rounded-md bg-[#ebe8e2] ring-2 transition ${
+              className={`relative ${frame} overflow-hidden rounded-lg bg-white ring-2 transition ${
                 active === index ? "ring-ink" : "ring-transparent"
               }`}
               aria-label={`Ver foto ${index + 1}`}

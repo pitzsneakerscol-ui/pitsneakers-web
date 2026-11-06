@@ -80,26 +80,40 @@ export default function Spin360({ slug, count, label }: { slug: string; count: n
   }
 
   return (
-    <div
-      ref={box}
-      role="slider"
-      tabIndex={0}
-      aria-label={`Giro 360° de ${label}`}
-      aria-valuemin={1}
-      aria-valuemax={count}
-      aria-valuenow={index + 1}
-      onPointerDown={onDown}
-      onPointerMove={onMove}
-      onPointerUp={onUp}
-      onPointerCancel={onUp}
-      onKeyDown={onKey}
-      className="relative aspect-[3/2] w-full cursor-grab touch-pan-y select-none overflow-hidden bg-[#ebe8e2] active:cursor-grabbing"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={spinFrameUrl(slug, index)} alt={`${label}, vista ${index + 1} de ${count}`} draggable={false} className="absolute inset-0 h-full w-full object-cover" />
-      <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink">
-        {ready ? "Arrastra para girar 360°" : `Cargando 360° ${Math.round((loaded / count) * 100)}%`}
-      </span>
+    <div>
+      <div
+        ref={box}
+        role="group"
+        tabIndex={0}
+        aria-label={`Giro 360° de ${label}`}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
+        onKeyDown={onKey}
+        className="relative aspect-[3/2] w-full cursor-grab touch-pan-y select-none overflow-hidden rounded-2xl bg-white active:cursor-grabbing"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={spinFrameUrl(slug, index)} alt={`${label}, vista ${index + 1} de ${count}`} draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+        <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-black/10 bg-white/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">
+          {ready ? "Arrastra para girar" : `Cargando ${Math.round((loaded / count) * 100)}%`}
+        </span>
+      </div>
+      {/* Barra de giro bajo la foto (como StockX): el punto se mueve al arrastrar el par y también se puede deslizar. */}
+      <input
+        type="range"
+        min={0}
+        max={count - 1}
+        step={1}
+        value={index}
+        disabled={!ready}
+        onChange={(e) => {
+          setTouched(true);
+          setIndex(Number(e.target.value));
+        }}
+        aria-label={`Girar ${label}`}
+        className="mt-4 block h-1 w-44 cursor-pointer accent-[#0a0a0a] disabled:cursor-wait disabled:opacity-40"
+      />
     </div>
   );
 }
