@@ -194,7 +194,8 @@ export async function setItemStatus(
 export async function deleteItem(userId: number, id: number): Promise<boolean> {
   const db = await getDb();
   const res = await db.execute({
-    sql: "DELETE FROM items WHERE id=? AND user_id=?",
+    // Un par con compra confirmada ya está pactado con Pitsneakers: el vendedor no puede borrarlo.
+    sql: "DELETE FROM items WHERE id=? AND user_id=? AND purchase_confirmed_at IS NULL",
     args: [id, userId],
   });
   return res.rowsAffected > 0;

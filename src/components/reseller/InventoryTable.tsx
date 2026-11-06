@@ -233,17 +233,19 @@ export default function InventoryTable({
                             </button>
                           </form>
                         )}
-                        <form
-                          action={deleteItem}
-                          onSubmit={(e) => {
-                            if (!window.confirm(`¿Eliminar "${itemLabel(i)}" talla ${i.size}? Esto no se puede deshacer.`)) e.preventDefault();
-                          }}
-                        >
-                          <input type="hidden" name="id" value={i.id} />
-                          <button type="submit" aria-label="Eliminar" className="rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-accent hover:border-accent">
-                            Borrar
-                          </button>
-                        </form>
+                        {!i.purchaseConfirmedAt && (
+                          <form
+                            action={deleteItem}
+                            onSubmit={(e) => {
+                              if (!window.confirm(`¿Eliminar "${itemLabel(i)}" talla ${i.size}? Esto no se puede deshacer.`)) e.preventDefault();
+                            }}
+                          >
+                            <input type="hidden" name="id" value={i.id} />
+                            <button type="submit" aria-label="Eliminar" className="rounded-full border border-line px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-accent hover:border-accent">
+                              Borrar
+                            </button>
+                          </form>
+                        )}
                       </div>
                     </td>
                   </tr>
