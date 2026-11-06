@@ -35,7 +35,9 @@ const orderName = (o: CatalogOrder) => `${o.brand} ${o.productName}`.trim().repl
 async function notifySellerOfOrderStep(order: CatalogOrder, step: OrderPushStep): Promise<void> {
   try {
     if (!order.sellerId) return;
-    const msg = SELLER_TEXT[step](orderName(order), formatPrice(order.payoutAmount));
+    const base = SELLER_TEXT[step](orderName(order), formatPrice(order.payoutAmount));
+    // Si el comprador recoge en el punto de verificación no hay transportadora.
+    const msg = order.delivery === "recogida" && step === "despachado" ? { title: "Tu par está listo para el comprador 📍", body: `${orderName(order)} está listo: el comprador lo recoge en nuestro punto de verificación.` } : base;
     await createNotification(order.sellerId, { kind: "info", ...msg, href: "/revendedores/pedidos" });
   } catch (e) {
     console.error("[push] pedido (vendedor):", e);
@@ -66,7 +68,8 @@ export async function pushOrderStep(order: CatalogOrder, step: OrderPushStep): P
     const r = await db.execute({ sql: "SELECT id FROM buyers WHERE email = ?", args: [order.buyerEmail.trim().toLowerCase()] });
     if (!r.rows[0]) return;
     const name = `${order.brand} ${order.productName}`.trim().replace(/^(\S+) \1 /, "$1 ");
-    await sendPush({ buyerIds: [Number(r.rows[0].id)] }, { ...ORDER_TEXT[step](name), url: `/pedido/${order.reference}` });
+    const pickupText = order.delivery === "recogida" && step === "despachado" ? { title: "Tu pedido está listo para recoger 📍", body: `${name} te espera en nuestro punto de verificación. Coordina el día y la hora por WhatsApp.` } : null;
+    await sendPush({ buyerIds: [Number(r.rows[0].id)] }, { ...(pickupText ?? ORDER_TEXT[step](name)), url: `/pedido/${order.reference}` });
   } catch (e) {
     console.error("[push] pedido:", e);
   }

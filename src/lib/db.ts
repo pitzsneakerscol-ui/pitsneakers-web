@@ -480,6 +480,9 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["credit_code", "TEXT NOT NULL DEFAULT ''"],
     ["discount", "INTEGER NOT NULL DEFAULT 0"],
     ["fee", "INTEGER NOT NULL DEFAULT 0"],
+    // Costo de envío cobrado en el checkout (incluido en amount) y cómo recibe el comprador: '' = envío, 'recogida' = en el punto de verificación.
+    ["ship_fee", "INTEGER NOT NULL DEFAULT 0"],
+    ["delivery", "TEXT NOT NULL DEFAULT ''"],
     ["ship_department", "TEXT NOT NULL DEFAULT ''"],
     ["ship_address", "TEXT NOT NULL DEFAULT ''"],
     ["ship_complement", "TEXT NOT NULL DEFAULT ''"],

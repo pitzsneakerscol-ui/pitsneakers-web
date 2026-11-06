@@ -17,7 +17,7 @@ import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { rejectOffer } from "@/lib/buyer-offers";
 import { getPerks } from "@/lib/perks";
 import { feeAfterPerk } from "@/lib/leagues";
-import { parseShipping } from "@/lib/shipping-shared";
+import { parseDelivery } from "@/lib/delivery-shared";
 
 export type OfferState = { error?: string; ok?: boolean; message?: string } | undefined;
 
@@ -103,9 +103,9 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
     const phone = clean(fd, "phone", 20).replace(/\D/g, "").replace(/^57(?=\d{10}$)/, "");
     if (name.length < 3 || !name.includes(" ")) return { error: "Escribe tu nombre y apellido." };
     if (!/^3\d{9}$/.test(phone)) return { error: "Escribe tu celular de 10 dígitos (empieza por 3)." };
-    const ship = parseShipping(fd);
-    if ("error" in ship) return { error: ship.error };
-    const city = ship.data.city;
+    const dlv = parseDelivery(fd);
+    if ("error" in dlv) return { error: dlv.error };
+    const city = dlv.ship.city;
 
     // El par debe seguir publicado con esa talla (si ya se vendió, no se cobra).
     const product = (await getAllProducts()).find((p) => p.id === offer.productId);
@@ -114,7 +114,7 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
 
     const base = offer.agreedAmount;
     const { perks } = await getPerks(buyer);
-    const fee = feeAfterPerk(processingFee(base), perks.feeDiscountPct);
+    const fee = feeAfterPerk(processingFee(base + dlv.shipFee), perks.feeDiscountPct);
     const order = await createOrder({
       productId: product.id,
       productName: product.name,
@@ -122,22 +122,25 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
       size: offer.size || "Única",
       condition: product.condition,
       image: product.images[0] ?? offer.image,
-      amount: base + fee,
+      amount: base + dlv.shipFee + fee,
       creditCode: "",
       discount: 0,
       fee,
+      shipFee: dlv.shipFee,
+      delivery: dlv.delivery,
       buyerName: name,
       buyerEmail: buyer.email,
       buyerPhone: phone,
       buyerCity: city,
-      shipDepartment: ship.data.department,
-      shipAddress: ship.data.address,
-      shipComplement: ship.data.complement,
-      shipDocument: ship.data.document,
-      shipNotes: ship.data.notes,
+      shipDepartment: dlv.ship.department,
+      shipAddress: dlv.ship.address,
+      shipComplement: dlv.ship.complement,
+      shipDocument: dlv.ship.document,
+      shipNotes: dlv.ship.notes,
     });
     await attachOrder(offer.id, order.reference);
-    await updateProfile(buyer.id, { name, phone, city });
+    // Si recoge en Bogotá, la ciudad del perfil no cambia (la ciudad del pedido es la del punto de verificación).
+    await updateProfile(buyer.id, { name, phone, city: dlv.delivery === "recogida" ? buyer.city : city });
     url = buildCheckoutUrl({ reference: order.reference, amountCop: order.amount, email: buyer.email, name, phone });
   } catch (e) {
     unstable_rethrow(e);

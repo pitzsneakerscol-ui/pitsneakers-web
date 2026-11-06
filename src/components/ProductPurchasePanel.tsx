@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Product, ProductGroup } from "@/types/product";
 import { formatPrice } from "@/lib/format";
+import { DELIVERY_FEE } from "@/lib/delivery-shared";
 import { groupPriceRange } from "@/lib/grouping";
 import { WhatsAppButtonLarge } from "@/components/WhatsAppButton";
 import ScarcityBadge from "@/components/ScarcityBadge";
@@ -307,7 +308,7 @@ export default function ProductPurchasePanel({
           <p>Los precios están en pesos colombianos e incluyen la comisión de Pitsneakers. Pagas con PSE, Nequi o tarjeta en Wompi, y el costo de procesar el pago lo ves antes de confirmar.</p>
         </InfoRow>
         <InfoRow title="Envíos y devoluciones">
-          <p>Enviamos por transportadora. Cuando sale tu pedido te mandamos el número de guía por correo, y puedes seguirlo en la página de tu pedido, que se actualiza sola con la transportadora. En Bogotá podemos coordinar entrega directa.</p>
+          <p>Enviamos por transportadora a todo el país por {formatPrice(DELIVERY_FEE)}, que ves en el total antes de pagar. Cuando sale tu pedido te mandamos el número de guía por correo, y puedes seguirlo en la página de tu pedido. Si estás en Bogotá, puedes elegir recogerlo gratis en nuestro punto de verificación.</p>
           <p className="mt-2">En compras a distancia puedes devolver el par dentro de los 5 días hábiles siguientes a recibirlo y te reembolsamos el dinero (derecho de retracto, Ley 1480 de 2011). <Link href="/politicas" className="font-semibold underline underline-offset-4">Ver políticas</Link></p>
         </InfoRow>
         <InfoRow title="Verificado por Pitsneakers" aside={ready ? `Estado: ${selected?.condition ?? options[0]?.condition}` : undefined}>

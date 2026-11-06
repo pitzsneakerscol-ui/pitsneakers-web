@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Términos de compra, pagos, envíos, cambios y devoluciones, tratamiento de datos personales y reglas de la subasta y la trivia de Pitsneakers.",
 };
 
-const UPDATED = "4 de noviembre de 2026";
+const UPDATED = "6 de noviembre de 2026";
 const cop = (n: number) => `$${n.toLocaleString("es-CO")} COP`;
 
 interface Section {
@@ -64,9 +64,9 @@ const sections: Section[] = [
     body: (
       <>
         <UL>
-          <li>Después de pagar, un asesor te escribe por WhatsApp para confirmar tu dirección, el valor del envío y el tiempo estimado de entrega.</li>
-          <li>El costo del envío lo asume el comprador y se informa antes de despachar. Si estás en {siteConfig.city}, podemos coordinar entrega directa.</li>
-          <li>Despachamos con transportadoras aliadas y te compartimos la guía de seguimiento.</li>
+          <li>El envío a todo el país cuesta <B>{cop(siteConfig.delivery.fee)}</B>. Lo asume el comprador y se suma al total en el checkout, así que lo ves antes de pagar.</li>
+          <li>Si estás en {siteConfig.city} puedes elegir <B>recoger tu pedido sin costo</B> en nuestro punto de verificación. Al pagar te mostramos la dirección y coordinamos contigo el día y la hora por WhatsApp.</li>
+          <li>Despachamos con transportadoras aliadas y te mandamos el número de guía por correo cuando sale tu pedido.</li>
           <li>Verifica el empaque al recibir. Si llega dañado, no lo recibas o avísanos de inmediato por WhatsApp con fotos o video.</li>
         </UL>
       </>

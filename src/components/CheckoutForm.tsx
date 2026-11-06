@@ -7,11 +7,13 @@ import { formatPrice } from "@/lib/format";
 import { processingFee } from "@/lib/fees";
 import { feeAfterPerk } from "@/lib/leagues";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
-import ShippingFields from "@/components/ShippingFields";
+import DeliveryFields from "@/components/DeliveryFields";
+import { shipFeeFor, type Delivery } from "@/lib/delivery-shared";
 
-/** "Comprar ahora": pide los datos y manda a pagar en Wompi (PSE, Nequi, tarjeta). El envío se coordina por WhatsApp después del pago. */
+/** "Comprar ahora": pide los datos y manda a pagar en Wompi (PSE, Nequi, tarjeta). El envío a todo el país se suma al total; en Bogotá se puede recoger gratis. */
 export default function CheckoutForm({ productId, size, name, price, test }: { productId: string; size: string; name: string; price: number; test: boolean }) {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<Delivery>("envio");
   const [state, action, pending] = useActionState(startCheckout, undefined);
   // Beneficio de liga: si hay un comprador con sesión cuya liga cubre parte del costo, se descuenta.
   const [perk, setPerk] = useState<{ pct: number; league: string }>({ pct: 0, league: "" });
@@ -34,7 +36,10 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
       live = false;
     };
   }, [open]);
-  const fee = feeAfterPerk(processingFee(price), perk.pct);
+  // El costo del pago en línea se calcula sobre el par más el envío (lo que realmente se paga).
+  const ship = shipFeeFor(mode);
+  const fee = feeAfterPerk(processingFee(price + ship), perk.pct);
+  const total = price + ship + fee;
 
   if (!open) {
     return (
@@ -70,7 +75,7 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
           <input id="co-phone" name="phone" type="tel" inputMode="numeric" required autoComplete="tel-national" placeholder="3001234567" maxLength={14} className={inputCls} />
         </div>
       </div>
-      <ShippingFields idPrefix="co" />
+      <DeliveryFields idPrefix="co" mode={mode} onMode={setMode} />
       <div>
         <label htmlFor="co-credit" className={labelCls}>Código de crédito (opcional)</label>
         <input id="co-credit" name="credit" autoComplete="off" autoCapitalize="characters" maxLength={20} placeholder="CRED-XXXXXXX" className={`${inputCls} font-mono tracking-wider`} />
@@ -80,19 +85,20 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
       <div className="hidden" aria-hidden="true">
         <input name="website" tabIndex={-1} autoComplete="off" />
       </div>
-      {/* Resumen del cobro: el par, el costo de procesar el pago en línea y el total. */}
+      {/* Resumen del cobro: el par, el envío, el costo de procesar el pago en línea y el total. */}
       <dl className="space-y-1 rounded-xl bg-paper px-4 py-3 text-sm">
         <div className="flex justify-between"><dt className="text-muted">Par</dt><dd className="tabular-nums">{formatPrice(price)}</dd></div>
+        <div className="flex justify-between"><dt className="text-muted">{mode === "recogida" ? "Entrega (recoges en Bogotá)" : "Envío"}</dt><dd className="tabular-nums">{ship === 0 ? "Gratis" : formatPrice(ship)}</dd></div>
         <div className="flex justify-between"><dt className="text-muted">Costo del pago en línea{perk.pct > 0 ? ` · beneficio liga ${perk.league}` : ""}</dt><dd className="tabular-nums">{fee === 0 ? "Cubierto" : formatPrice(fee)}</dd></div>
-        <div className="flex justify-between border-t border-line pt-1 font-semibold"><dt>Total a pagar</dt><dd className="tabular-nums">{formatPrice(price + fee)}</dd></div>
+        <div className="flex justify-between border-t border-line pt-1 font-semibold"><dt>Total a pagar</dt><dd className="tabular-nums">{formatPrice(total)}</dd></div>
       </dl>
       <p className="text-[11px] text-muted">Es lo que cobra la pasarela por procesar PSE, Nequi o tarjeta. Si prefieres no pagarlo, escríbenos por WhatsApp y acordamos otro medio de pago. Si usas un código de crédito, el costo se recalcula sobre el valor ya descontado.</p>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent">{state.error}</p>}
       <button type="submit" disabled={pending} className={`${btnAccent} w-full !py-3.5 !text-sm`}>
-        {pending ? "Llevándote a Wompi…" : `Pagar ${formatPrice(price + fee)} con Wompi`}
+        {pending ? "Llevándote a Wompi…" : `Pagar ${formatPrice(total)} con Wompi`}
       </button>
       <p className="text-center text-[11px] text-muted">
-        PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). Con tu dirección preparamos el envío; un asesor te confirma el valor y te manda la guía. Al pagar aceptas nuestras{" "}
+        PSE, Nequi o tarjeta. Pago seguro en Wompi (Bancolombia). {mode === "recogida" ? "Te avisamos por correo cuando tu par esté verificado y listo para recoger." : "Cuando sale tu pedido te mandamos el número de guía por correo."} Al pagar aceptas nuestras{" "}
         <Link href="/politicas" className="underline underline-offset-2 hover:text-ink">políticas de compra y datos</Link>; tienes 5 días hábiles de retracto.
       </p>
     </form>

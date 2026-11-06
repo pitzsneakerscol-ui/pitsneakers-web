@@ -129,7 +129,7 @@ export default async function PedidoPage({ params }: { params: Promise<{ ref: st
         </ol>
       ) : (
         <p className="mt-4 rounded-xl border border-line bg-paper-raised px-4 py-3 text-sm text-muted">
-          Recibimos tu pago{order.paidAt ? ` el ${shortDay(order.paidAt)}` : ""}. Un asesor te escribe por WhatsApp para coordinar el envío.
+          Recibimos tu pago{order.paidAt ? ` el ${shortDay(order.paidAt)}` : ""}. Te avisamos por correo cuando haya novedades con tu pedido.
         </p>
       )}
 

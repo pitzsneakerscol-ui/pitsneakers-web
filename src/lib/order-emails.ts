@@ -4,6 +4,7 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 import { shippingLine } from "@/lib/shipping-shared";
 import { DIRECT_CARRIER } from "@/lib/fulfillment-shared";
+import { pickupAddress } from "@/lib/delivery-shared";
 import { stepsFor } from "@/lib/order-steps";
 
 /** Página pública donde el comprador ve en qué va su pedido (solo con la referencia, sin cuenta). */
@@ -43,7 +44,9 @@ function statusTimeline(o: CatalogOrder): string[] {
 export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string } {
   // Venta cerrada por WhatsApp: ya acordaron todo ahí, así que no se vuelve a pedir confirmar dirección ni envío.
   const manual = o.paymentMethod.startsWith("WhatsApp");
-  const wa = buildGeneralWhatsAppLink(manual ? `Hola! Sobre mi pedido ${o.reference} (${o.productName}): ` : `Hola! Acabo de pagar mi pedido ${o.reference} (${o.productName}${o.size ? ` talla ${o.size}` : ""}). ¿Coordinamos el envío?`);
+  const pickup = o.delivery === "recogida";
+  const wa = buildGeneralWhatsAppLink(manual ? `Hola! Sobre mi pedido ${o.reference} (${o.productName}): ` : `Hola! Acabo de pagar mi pedido ${o.reference} (${o.productName}${o.size ? ` talla ${o.size}` : ""}). ${pickup ? "¿Coordinamos la recogida?" : "Tengo una consulta."}`);
+  const included = [o.shipFee > 0 ? `${formatPrice(o.shipFee)} de envío` : "", o.fee > 0 ? `${formatPrice(o.fee)} de costo del pago en línea` : ""].filter(Boolean);
   return {
     subject: manual ? `Tu compra está confirmada: ${o.productName} 🔥` : `Pago recibido: ${o.productName} 🔥`,
     body: [
@@ -54,11 +57,13 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
       ...productRow(o),
       ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
-      ...(manual ? [] : [`> **Total pagado:** ${formatPrice(o.amount)}${o.fee > 0 ? ` (incluye ${formatPrice(o.fee)} de costo del pago en línea)` : ""}`]),
+      ...(manual ? [] : [`> **Total pagado:** ${formatPrice(o.amount)}${included.length ? ` (incluye ${included.join(" y ")})` : ""}`]),
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
-      ...(o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
-      manual ? "- Te avisamos por correo en cada paso: cuando llegue a verificación, cuando esté verificado y cuando lo despachemos." : "- Un asesor te escribe por WhatsApp para confirmar tu dirección y el valor del envío.",
+      ...(pickup ? [`- **Entrega:** la recoges en nuestro punto de verificación en ${siteConfig.verificationPoint.city}, sin costo de envío.`] : o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
+      pickup
+        ? "- Cuando tu par esté verificado y listo te avisamos por correo con la dirección, y coordinamos contigo el día y la hora por WhatsApp."
+        : "- Te avisamos por correo en cada paso: cuando llegue a verificación, cuando esté verificado y cuando lo despachemos con el número de guía.",
       "- Puedes ver en qué va tu pedido cuando quieras con el botón de abajo.",
       "",
       `[boton: Ver el estado de mi pedido | ${trackingUrl(o)}]`,
@@ -89,13 +94,16 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
       `> **Correo:** ${o.buyerEmail}`,
       `> **Teléfono:** ${o.buyerPhone}`,
       `> **Ciudad:** ${o.buyerCity || "—"}`,
-      ...(o.shipAddress
-        ? [
-            `> **Enviar a:** ${shipTo(o)}`,
-            ...(o.shipDocument ? [`> **Cédula:** ${o.shipDocument}`] : []),
-            ...(o.shipNotes ? [`> **Indicaciones:** ${o.shipNotes}`] : []),
-          ]
-        : []),
+      ...(o.delivery === "recogida"
+        ? [`> **Entrega:** RECOGE en el punto de verificación (no hay que comprar guía ni enviar nada)`]
+        : o.shipAddress
+          ? [
+              `> **Enviar a:** ${shipTo(o)}`,
+              ...(o.shipFee > 0 ? [`> **Envío cobrado al comprador:** ${formatPrice(o.shipFee)}`] : []),
+              ...(o.shipDocument ? [`> **Cédula:** ${o.shipDocument}`] : []),
+              ...(o.shipNotes ? [`> **Indicaciones:** ${o.shipNotes}`] : []),
+            ]
+          : []),
       `> **Medio:** ${o.paymentMethod || "—"}`,
       ...(o.discount > 0 ? [`> **Crédito de trivia aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
@@ -110,6 +118,32 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
 /** Aviso al comprador de que su pedido salió, con transportadora y número de guía. */
 export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: string } {
   const wa = buildGeneralWhatsAppLink(`Hola! Tengo una consulta sobre mi pedido ${o.reference} (${o.productName}).`);
+  // Pedido que el comprador recoge: en vez de la guía, le decimos dónde recogerlo y coordinamos por WhatsApp.
+  if (o.delivery === "recogida") {
+    const waPickup = buildGeneralWhatsAppLink(`Hola! Voy a recoger mi pedido ${o.reference} (${o.productName}). ¿Qué día y hora te queda bien?`);
+    return {
+      subject: `Tu pedido está listo para recoger: ${o.productName} 📍`,
+      body: [
+        "# Tu pedido está ==listo== para recoger",
+        "",
+        `Hola ${o.buyerName.split(" ")[0]}, tu par ya pasó la verificación y te espera. Aquí tienes el detalle:`,
+        "",
+        ...productRow(o),
+        ...statusTimeline(o),
+        `> **Pedido:** ${o.reference}`,
+        `> **Recoges en:** ${pickupAddress()} · ${siteConfig.verificationPoint.city}`,
+        "",
+        "- Escríbenos por WhatsApp para coordinar el día y la hora de la recogida.",
+        "- Ten a la mano la referencia de tu pedido (la ves arriba).",
+        "- Si algo no sale como esperabas, respóndenos a este correo o escríbenos por WhatsApp y lo resolvemos.",
+        "",
+        `[boton: Coordinar la recogida por WhatsApp | ${waPickup}]`,
+        `[boton: Ver el estado de mi pedido | ${trackingUrl(o)}]`,
+        "",
+        "**Equipo Pitsneakers**",
+      ].join("\n"),
+    };
+  }
   const direct = o.carrier === DIRECT_CARRIER;
   return {
     subject: `Tu pedido va en camino: ${o.productName} 📦`,
@@ -188,7 +222,7 @@ function stepEmail(o: CatalogOrder, subject: string, title: string, intro: strin
 /** Aviso de que el par viene en camino a nuestro punto de verificación. */
 export function buyerOnTheWayEmail(o: CatalogOrder): { subject: string; body: string } {
   return stepEmail(o, `Tu ${o.productName} va en camino a verificación`, "Tu par va ==en camino== a verificación", "tu par ya viene en camino a nuestro punto de verificación.", [
-    "Cuando llegue lo revisamos a fondo antes de enviártelo.",
+    `Cuando llegue lo revisamos a fondo antes de ${o.delivery === "recogida" ? "entregártelo" : "enviártelo"}.`,
     "Te avisamos por correo en cada paso; también puedes verlo cuando quieras con el botón de abajo.",
   ]);
 }
@@ -204,8 +238,8 @@ export function buyerReceivedEmail(o: CatalogOrder): { subject: string; body: st
 /** Aviso de que el par pasó la verificación. */
 export function buyerVerifiedEmail(o: CatalogOrder): { subject: string; body: string } {
   return stepEmail(o, `Tu ${o.productName} fue verificado ✅`, "Tu par fue ==verificado==", "tu par pasó nuestra verificación: autenticidad, estado y talla revisados.", [
-    "Lo dejamos empacado con protección, listo para salir.",
-    "En cuanto lo despachemos te mandamos la guía por correo.",
+    o.delivery === "recogida" ? "Lo dejamos empacado con protección, listo para que lo recojas." : "Lo dejamos empacado con protección, listo para salir.",
+    o.delivery === "recogida" ? "En cuanto esté listo te avisamos con la dirección para recogerlo." : "En cuanto lo despachemos te mandamos la guía por correo.",
   ]);
 }
 

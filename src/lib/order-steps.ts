@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { DIRECT_CARRIER, shortDay } from "@/lib/fulfillment-shared";
+import { pickupAddress } from "@/lib/delivery-shared";
 import { isVerified } from "@/lib/verification-shared";
 import { PAYOUT_WINDOW } from "@/lib/payout-shared";
 import { formatPrice } from "@/lib/format";
@@ -33,6 +34,8 @@ export function stepsFor(o: CatalogOrder): Step[] {
   // Verificado y empacado: ya salió, o está en el punto de verificación con la revisión completa guardada.
   const packed = shipped || (f === "preparando" && isVerified(o.verifChecks));
   const direct = o.carrier === DIRECT_CARRIER;
+  // El comprador recoge en el punto de verificación: "despachado" significa "listo para recoger".
+  const pickup = o.delivery === "recogida";
 
   return [
     {
@@ -46,8 +49,8 @@ export function stepsFor(o: CatalogOrder): Step[] {
       text: arrived
         ? "Tu par ya está en nuestro punto de verificación."
         : f === "hacia_verificacion"
-          ? "Tu par viene en camino a nuestro punto de verificación, donde lo revisamos antes de enviártelo."
-          : "Tu par llega a nuestro punto de verificación, donde lo revisamos antes de enviártelo.",
+          ? `Tu par viene en camino a nuestro punto de verificación, donde lo revisamos antes de ${pickup ? "entregártelo" : "enviártelo"}.`
+          : `Tu par llega a nuestro punto de verificación, donde lo revisamos antes de ${pickup ? "entregártelo" : "enviártelo"}.`,
       done: arrived,
     },
     {
@@ -61,18 +64,22 @@ export function stepsFor(o: CatalogOrder): Step[] {
       done: packed,
     },
     {
-      title: direct ? "Entrega coordinada" : "Entregado a la transportadora",
-      text: shipped
-        ? direct
-          ? "Lo entregamos directamente: te escribimos por WhatsApp para coordinar."
-          : `Tu pedido salió con ${o.carrier || "la transportadora"}.${o.tracking ? " Con el número de guía puedes ver el recorrido en su página." : ""}`
-        : "Cuando salga te mandamos la guía por correo.",
-      extra: shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : "", !direct && !delivered ? (LIVE[o.skyStatus] ?? "") : ""].filter(Boolean).join(" · ") || undefined : undefined,
+      title: pickup ? "Listo para recoger" : direct ? "Entrega coordinada" : "Entregado a la transportadora",
+      text: pickup
+        ? shipped
+          ? `Tu pedido está listo. Recógelo en nuestro punto de verificación en ${siteConfig.verificationPoint.city}: ${pickupAddress()}. Escríbenos por WhatsApp para coordinar el día y la hora.`
+          : `Cuando esté verificado te avisamos para que lo recojas en nuestro punto de verificación en ${siteConfig.verificationPoint.city}.`
+        : shipped
+          ? direct
+            ? "Lo entregamos directamente: te escribimos por WhatsApp para coordinar."
+            : `Tu pedido salió con ${o.carrier || "la transportadora"}.${o.tracking ? " Con el número de guía puedes ver el recorrido en su página." : ""}`
+          : "Cuando salga te mandamos la guía por correo.",
+      extra: pickup ? (shipped && o.shippedAt ? shortDay(o.shippedAt) : undefined) : shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : "", !direct && !delivered ? (LIVE[o.skyStatus] ?? "") : ""].filter(Boolean).join(" · ") || undefined : undefined,
       done: shipped,
     },
     {
-      title: "Entregado en tu dirección",
-      text: delivered ? "Tu pedido llegó. ¡A estrenar!" : `Cuando lo tengas, etiquétanos en Instagram ${siteConfig.instagramHandle}: nos encanta ver tus pares.`,
+      title: pickup ? "Recogido" : "Entregado en tu dirección",
+      text: delivered ? (pickup ? "Recogiste tu pedido. ¡A estrenar!" : "Tu pedido llegó. ¡A estrenar!") : `Cuando lo tengas, etiquétanos en Instagram ${siteConfig.instagramHandle}: nos encanta ver tus pares.`,
       extra: delivered && o.deliveredAt ? shortDay(o.deliveredAt) : undefined,
       done: delivered,
     },
@@ -90,6 +97,7 @@ export function sellerStepsFor(o: CatalogOrder, hasPayoutInfo: boolean): Step[] 
   const arrived = f === "preparando" || shipped;
   const packed = shipped || (f === "preparando" && isVerified(o.verifChecks));
   const direct = o.carrier === DIRECT_CARRIER;
+  const pickup = o.delivery === "recogida";
   const paidOut = o.payoutStatus === "pagado";
   const inProcess = o.payoutStatus === "en_proceso";
 
@@ -123,18 +131,22 @@ export function sellerStepsFor(o: CatalogOrder, hasPayoutInfo: boolean): Step[] 
       done: packed,
     },
     {
-      title: direct ? "Entrega coordinada" : "Entregado a la transportadora",
-      text: shipped
-        ? direct
-          ? "Lo entregamos directamente al comprador."
-          : `El pedido salió con ${o.carrier || "la transportadora"}.`
-        : "Cuando salga lo verás aquí.",
-      extra: shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : "", !direct && !delivered ? (LIVE[o.skyStatus] ?? "") : ""].filter(Boolean).join(" · ") || undefined : undefined,
+      title: pickup ? "Listo para entregar al comprador" : direct ? "Entrega coordinada" : "Entregado a la transportadora",
+      text: pickup
+        ? shipped
+          ? "El comprador recoge su pedido en nuestro punto de verificación."
+          : "El comprador recoge en nuestro punto de verificación: aquí verás cuando esté listo."
+        : shipped
+          ? direct
+            ? "Lo entregamos directamente al comprador."
+            : `El pedido salió con ${o.carrier || "la transportadora"}.`
+          : "Cuando salga lo verás aquí.",
+      extra: pickup ? (shipped && o.shippedAt ? shortDay(o.shippedAt) : undefined) : shipped ? [o.shippedAt ? shortDay(o.shippedAt) : "", !direct && o.tracking ? `Guía ${o.tracking}` : "", !direct && !delivered ? (LIVE[o.skyStatus] ?? "") : ""].filter(Boolean).join(" · ") || undefined : undefined,
       done: shipped,
     },
     {
       title: "Entregado al comprador",
-      text: delivered ? "El comprador ya recibió su par." : "Cuando llegue a su destino lo marcamos aquí.",
+      text: delivered ? (pickup ? "El comprador ya recogió su par." : "El comprador ya recibió su par.") : pickup ? "Cuando lo recoja lo marcamos aquí." : "Cuando llegue a su destino lo marcamos aquí.",
       extra: delivered && o.deliveredAt ? shortDay(o.deliveredAt) : undefined,
       done: delivered,
     },

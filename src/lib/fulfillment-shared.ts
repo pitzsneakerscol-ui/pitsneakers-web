@@ -28,6 +28,9 @@ export const FULFILLMENT_CLS: Record<Fulfillment, string> = {
 /** Cuando el equipo entrega en mano o con mensajero propio no hay número de guía. */
 export const DIRECT_CARRIER = "Entrega directa";
 
+/** Pedidos que el comprador recoge en el punto de verificación: no llevan transportadora ni guía. */
+export const PICKUP_CARRIER = "Recoge en el punto";
+
 export const CARRIERS = ["Servientrega", "Coordinadora", "Interrapidísimo", "Envía", "TCC", "Deprisa", "Mensajería local", DIRECT_CARRIER, "Otra"] as const;
 
 /** Horas sin despachar a partir de las cuales un pedido pagado se marca como atrasado. */

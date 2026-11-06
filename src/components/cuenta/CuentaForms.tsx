@@ -1,10 +1,14 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { addPair, changePassword, deleteAccount, resendVerification, saveProfile } from "@/app/cuenta/actions";
 import { payOffer } from "@/app/cuenta/offer-actions";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
-import ShippingFields from "@/components/ShippingFields";
+import DeliveryFields from "@/components/DeliveryFields";
+import { shipFeeFor, type Delivery } from "@/lib/delivery-shared";
+import { formatPrice } from "@/lib/format";
+import { processingFee } from "@/lib/fees";
+import { feeAfterPerk } from "@/lib/leagues";
 
 const msg = (s: { error?: string; message?: string } | undefined) =>
   s?.error ? (
@@ -123,8 +127,12 @@ export function AddPairForm() {
 }
 
 /** Pago de una oferta aceptada: confirma celular y ciudad y manda a Wompi. */
-export function PayOfferForm({ id, name, phone, city, label }: { id: number; name: string; phone: string; city: string; label: string }) {
+export function PayOfferForm({ id, name, phone, city, agreed, perkPct }: { id: number; name: string; phone: string; city: string; agreed: number; perkPct: number }) {
   const [state, action, pending] = useActionState(payOffer, undefined);
+  const [mode, setMode] = useState<Delivery>("envio");
+  // Mismo cálculo del servidor: el costo del pago en línea va sobre el precio acordado más el envío.
+  const ship = shipFeeFor(mode);
+  const total = agreed + ship + feeAfterPerk(processingFee(agreed + ship), perkPct);
   return (
     <form onSubmit={submitWith(action)} className="mt-3 space-y-3 rounded-xl border border-ink/15 bg-paper p-4">
       <input type="hidden" name="id" value={id} />
@@ -141,9 +149,12 @@ export function PayOfferForm({ id, name, phone, city, label }: { id: number; nam
           <p className="pt-6 text-[11px] text-muted">Te llevamos a pagar con estos datos y la dirección de abajo.</p>
         </div>
       </div>
-      <ShippingFields idPrefix={`po-${id}`} defaults={{ city }} />
+      <DeliveryFields idPrefix={`po-${id}`} mode={mode} onMode={setMode} defaults={{ city }} />
+      <p className="text-xs text-muted">
+        {mode === "recogida" ? "Recoges gratis en nuestro punto de verificación en Bogotá." : `Incluye el envío: ${formatPrice(ship)}.`} Total a pagar: <strong>{formatPrice(total)}</strong>.
+      </p>
       {state?.error && <p role="alert" className="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent">{state.error}</p>}
-      <button type="submit" disabled={pending} className={`${btnAccent} w-full`}>{pending ? "Llevándote a Wompi…" : label}</button>
+      <button type="submit" disabled={pending} className={`${btnAccent} w-full`}>{pending ? "Llevándote a Wompi…" : `Pagar ${formatPrice(total)} con Wompi`}</button>
     </form>
   );
 }

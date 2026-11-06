@@ -6,7 +6,7 @@ import { isDbConfigured } from "@/lib/db";
 import { createOrder } from "@/lib/catalog-orders";
 import { getAllProducts } from "@/lib/products";
 import { isEmail } from "@/lib/reseller-shared";
-import { parseShipping } from "@/lib/shipping-shared";
+import { parseDelivery } from "@/lib/delivery-shared";
 import { buildCheckoutUrl, isWompiConfigured } from "@/lib/wompi";
 import { checkCredit, reserveCredit } from "@/lib/trivia";
 import { processingFee } from "@/lib/fees";
@@ -34,8 +34,9 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
     if (name.length < 3 || !name.includes(" ")) return { error: "Escribe tu nombre y apellido." };
     if (!isEmail(email)) return { error: "Escribe un correo válido: ahí te llega el comprobante." };
     if (!/^3\d{9}$/.test(phone)) return { error: "Escribe tu celular de 10 dígitos (empieza por 3)." };
-    const ship = parseShipping(fd);
-    if ("error" in ship) return { error: ship.error };
+    // Envío a domicilio (se cobra el costo de envío) o recogida en el punto de verificación (sin dirección ni costo de envío).
+    const dlv = parseDelivery(fd);
+    if ("error" in dlv) return { error: dlv.error };
 
     const ip = await clientIp();
     if (!(await rateLimitHit(`checkout:${ip}`, 12, 60 * 60 * 1000))) return { error: "Hiciste muchos intentos seguidos. Espera un rato e intenta de nuevo." };
@@ -59,11 +60,11 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       creditCode = creditText;
     }
 
-    // Costo de pago en línea: se calcula sobre lo que realmente se paga (ya con el crédito descontado).
+    // Costo de pago en línea: se calcula sobre lo que realmente se paga (ya con el crédito descontado y con el envío incluido).
     const base = product.price - discount;
     // Beneficio de liga: si hay un comprador con sesión y su liga cubre parte del costo, se descuenta.
     const { perks } = await getPerks(await getBuyer());
-    const fee = feeAfterPerk(processingFee(base), perks.feeDiscountPct);
+    const fee = feeAfterPerk(processingFee(base + dlv.shipFee), perks.feeDiscountPct);
 
     const order = await createOrder({
       productId: product.id,
@@ -72,19 +73,21 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       size: size || "Única",
       condition: product.condition,
       image: product.images[0] ?? "",
-      amount: base + fee,
+      amount: base + dlv.shipFee + fee,
       creditCode,
       discount,
       fee,
+      shipFee: dlv.shipFee,
+      delivery: dlv.delivery,
       buyerName: name,
       buyerEmail: email,
       buyerPhone: phone,
-      buyerCity: ship.data.city,
-      shipDepartment: ship.data.department,
-      shipAddress: ship.data.address,
-      shipComplement: ship.data.complement,
-      shipDocument: ship.data.document,
-      shipNotes: ship.data.notes,
+      buyerCity: dlv.ship.city,
+      shipDepartment: dlv.ship.department,
+      shipAddress: dlv.ship.address,
+      shipComplement: dlv.ship.complement,
+      shipDocument: dlv.ship.document,
+      shipNotes: dlv.ship.notes,
     });
     if (creditCode) await reserveCredit(creditCode, order.reference);
     url = buildCheckoutUrl({ reference: order.reference, amountCop: order.amount, email, name, phone });

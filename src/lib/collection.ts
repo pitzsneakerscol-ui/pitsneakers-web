@@ -77,12 +77,12 @@ export async function buildCollection(buyer: Buyer): Promise<Collection> {
     buyer.verified
       ? db.execute({ sql: "SELECT * FROM catalog_orders WHERE buyer_email = ? COLLATE NOCASE AND status = 'pagado' ORDER BY paid_at DESC", args: [buyer.email] })
       : Promise.resolve({ rows: [] as Record<string, unknown>[] }),
-    db.execute("SELECT product_name, amount, fee, paid_at FROM catalog_orders WHERE status = 'pagado' ORDER BY paid_at DESC LIMIT 400"),
+    db.execute("SELECT product_name, amount, fee, ship_fee, paid_at FROM catalog_orders WHERE status = 'pagado' ORDER BY paid_at DESC LIMIT 400"),
     listManualPairs(buyer.id),
   ]);
   const products = groups.flatMap((g) => g.variants);
   const slugOf = new Map(groups.flatMap((g) => g.variants.map((v) => [v.id, g.groupSlug] as const)));
-  const lastSales: Sale[] = sales.rows.map((r) => ({ name: norm(String(r.product_name)), net: Number(r.amount) - Number(r.fee ?? 0), at: Number(r.paid_at ?? 0) }));
+  const lastSales: Sale[] = sales.rows.map((r) => ({ name: norm(String(r.product_name)), net: Number(r.amount) - Number(r.fee ?? 0) - Number(r.ship_fee ?? 0), at: Number(r.paid_at ?? 0) }));
 
   const estimate = (name: string, id: string | null, size: string, paid: number): { value: number; basis: ValueBasis; image: string; slug: string | null } => {
     const found = matches(name, id, products).filter((p) => p.price > 0);
@@ -99,7 +99,7 @@ export async function buildCollection(buyer: Buyer): Promise<Collection> {
 
   const items: CollectionItem[] = [];
   for (const r of mine.rows) {
-    const paid = Math.max(0, Number(r.amount) - Number(r.fee ?? 0));
+    const paid = Math.max(0, Number(r.amount) - Number(r.fee ?? 0) - Number(r.ship_fee ?? 0));
     const e = estimate(String(r.product_name), String(r.product_id), String(r.size), paid);
     items.push({
       key: `o${r.id}`,

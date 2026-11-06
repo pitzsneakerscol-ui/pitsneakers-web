@@ -198,10 +198,16 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   {o.buyerName} · {o.buyerCity} · <a className="underline" href={`mailto:${o.buyerEmail}`}>{o.buyerEmail}</a> ·{" "}
                   <a className="underline" target="_blank" rel="noreferrer" href={`https://wa.me/57${o.buyerPhone.replace(/\D/g, "").slice(-10)}`}>{o.buyerPhone}</a>
                   {o.paymentMethod ? <span className="text-muted"> · {o.paymentMethod}</span> : null}
+                  {o.shipFee > 0 ? <span className="text-muted"> · incluye {formatPrice(o.shipFee)} de envío</span> : null}
                   {o.fee > 0 ? <span className="text-muted"> · incluye {formatPrice(o.fee)} de costo de pago</span> : null}
                   {o.discount > 0 ? <span className="text-muted"> · crédito {formatPrice(o.discount)} ({o.creditCode})</span> : null}
                 </p>
-                {o.shipAddress ? (
+                {o.delivery === "recogida" ? (
+                  <p className="mt-1.5 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">Entrega </span>
+                    <strong>Recoge en el punto de verificación</strong> · no hay guía ni envío. Al pasar a <strong>Despachado</strong> se le avisa que está listo para recoger.
+                  </p>
+                ) : o.shipAddress ? (
                   <p className="mt-1.5 rounded-lg bg-paper px-3 py-2 text-sm">
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">Enviar a </span>
                     {shippingLine({ department: o.shipDepartment, city: o.buyerCity, address: o.shipAddress, complement: o.shipComplement })}
@@ -210,7 +216,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   </p>
                 ) : null}
 
-                {isPaid && sky && o.shipAddress && !o.skyShipmentId && o.fulfillment !== "entregado" && !o.paymentMethod.startsWith("WhatsApp") ? (
+                {isPaid && sky && o.shipAddress && o.delivery !== "recogida" && !o.skyShipmentId && o.fulfillment !== "entregado" && !o.paymentMethod.startsWith("WhatsApp") ? (
                   <form action={generateGuide} className="mt-3 flex flex-wrap items-end gap-2 rounded-lg border border-line p-3">
                     <input type="hidden" name="id" value={o.id} />
                     <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
@@ -405,6 +411,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     </div>
                     <p className="text-xs text-muted sm:col-span-2 lg:col-span-5">
                       {o.paymentMethod.startsWith("WhatsApp") ? <><strong>Venta por WhatsApp:</strong> elige tú la transportadora y escribe la guía a mano; el cliente la recibe en el correo de despachado. </> : null}
+                      {o.delivery === "recogida" ? <><strong>Recogida en el punto:</strong> la transportadora y la guía no aplican; al guardar <strong>Despachado</strong> el cliente recibe el aviso de “listo para recoger”. </> : null}
                       El correo sale al pasar a <strong>En camino a verificación</strong>, <strong>Verificando y empacando</strong> (par recibido), <strong>Despachado</strong> (con la guía) o <strong>Entregado</strong> (pide la reseña). El aviso de <strong>verificado</strong> sale al guardar la verificación completa. Cliente:{" "}
                       <Link href={`/pedido/${o.reference}`} target="_blank" className="underline">ver lo que ve él</Link>
                       {o.shippedAt ? <span> · salió {ago(o.shippedAt)}</span> : null}

@@ -3,7 +3,8 @@ import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db";
 import { consumeCredit } from "@/lib/trivia";
 import { markOfferPaid } from "@/lib/buyer-offers";
-import { DIRECT_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
+import { DIRECT_CARRIER, PICKUP_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
+import type { Delivery } from "@/lib/delivery-shared";
 import { MAX_PHOTOS, parseChecks, type VerifKey } from "@/lib/verification-shared";
 import { parsePayoutStatus, type PayoutStatus } from "@/lib/payout-shared";
 import { sellerBreakdown } from "@/lib/payout";
@@ -26,6 +27,10 @@ export interface CatalogOrder {
   discount: number;
   /** costo de pago en línea incluido en el total cobrado */
   fee: number;
+  /** costo de envío cobrado en el checkout, incluido en amount (0 = recoge o pedido anterior al cobro de envío) */
+  shipFee: number;
+  /** "recogida" = el comprador lo recoge en el punto de verificación; no lleva guía ni transportadora */
+  delivery: Delivery;
   buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
@@ -88,6 +93,8 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   creditCode: String(r.credit_code ?? ""),
   discount: Number(r.discount ?? 0),
   fee: Number(r.fee ?? 0),
+  shipFee: Number(r.ship_fee ?? 0),
+  delivery: String(r.delivery ?? "") === "recogida" ? "recogida" : "envio",
   buyerName: String(r.buyer_name),
   buyerEmail: String(r.buyer_email),
   buyerPhone: String(r.buyer_phone),
@@ -131,15 +138,15 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt">): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
     const r = await db.execute({
       sql: `INSERT OR IGNORE INTO catalog_orders
-            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, buyer_name, buyer_email, buyer_phone, buyer_city, ship_department, ship_address, ship_complement, ship_document, ship_notes, created_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
+            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, ship_fee, delivery, buyer_name, buyer_email, buyer_phone, buyer_city, ship_department, ship_address, ship_complement, ship_document, ship_notes, created_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.shipFee ?? 0, o.delivery === "recogida" ? "recogida" : "", o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
     });
     if (r.rowsAffected > 0) {
       const created = (await getOrderByRef(reference))!;
@@ -151,8 +158,8 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
   throw new Error("No se pudo generar la referencia del pedido.");
 }
 
-/** Precio del par sin el costo de pago en línea y sin el crédito: sobre eso se calcula lo que recibe el vendedor. */
-const basePrice = (o: Pick<CatalogOrder, "amount" | "discount" | "fee">) => Math.max(0, o.amount + o.discount - o.fee);
+/** Precio del par sin el costo de pago en línea, sin el envío y sin el crédito: sobre eso se calcula lo que recibe el vendedor. */
+const basePrice = (o: Pick<CatalogOrder, "amount" | "discount" | "fee" | "shipFee">) => Math.max(0, o.amount + o.discount - o.fee - o.shipFee);
 
 /** Guarda de quién es el par del pedido y cuánto recibe. Un par que no es de un revendedor queda en 0 (de la casa). */
 export async function attachSeller(order: CatalogOrder): Promise<void> {
@@ -437,11 +444,13 @@ export async function updateFulfillment(id: number, input: FulfillmentInput): Pr
   if (order.status !== "pagado") return { ok: false, error: "Solo se puede dar seguimiento a pedidos pagados." };
   if (!input.step) return { ok: false, error: "Elige el paso del envío." };
 
-  const carrier = input.carrier.trim().slice(0, 40);
-  const tracking = input.tracking.replace(/\s+/g, " ").trim().slice(0, 60);
+  // Si el comprador recoge en el punto de verificación, "despachado" significa "listo para recoger": sin transportadora ni guía.
+  const pickup = order.delivery === "recogida";
+  const carrier = pickup ? PICKUP_CARRIER : input.carrier.trim().slice(0, 40);
+  const tracking = pickup ? "" : input.tracking.replace(/\s+/g, " ").trim().slice(0, 60);
   const note = input.note.replace(/\s+/g, " ").trim().slice(0, 300);
 
-  if (input.step === "despachado") {
+  if (input.step === "despachado" && !pickup) {
     if (!carrier) return { ok: false, error: "Para marcarlo despachado elige la transportadora." };
     if (carrier !== DIRECT_CARRIER && !tracking) return { ok: false, error: "Para marcarlo despachado escribe el número de guía." };
   }

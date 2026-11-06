@@ -3,8 +3,7 @@ import { redirect } from "next/navigation";
 import { getBuyer } from "@/lib/buyers";
 import { listBuyerOffers, type BuyerOfferStatus } from "@/lib/buyer-offers";
 import { formatPrice } from "@/lib/format";
-import { processingFee } from "@/lib/fees";
-import { feeAfterPerk } from "@/lib/leagues";
+import { DELIVERY_FEE } from "@/lib/delivery-shared";
 import { getPerks } from "@/lib/perks";
 import { cardCls } from "@/components/reseller/ui";
 import { PayOfferForm } from "@/components/cuenta/CuentaForms";
@@ -42,7 +41,6 @@ export default async function OfertasPage() {
     <ul className="space-y-3">
       {offers.map((o) => {
         const st = STATUS[o.status];
-        const total = o.agreedAmount + feeAfterPerk(processingFee(o.agreedAmount), perks.feeDiscountPct);
         return (
           <li key={o.id} className={`${cardCls} p-4 sm:p-5`}>
             <div className="flex gap-4">
@@ -83,9 +81,9 @@ export default async function OfertasPage() {
             {o.status === "aceptada" && (
               <div className="mt-4 border-t border-line pt-4">
                 <p className="text-sm">
-                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong> · Pagas <strong>{formatPrice(total)}</strong>{perks.feeDiscountPct >= 100 ? " (tu liga cubre el costo del pago en línea)" : " con el costo del pago en línea"}. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
+                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong>. A eso se suma el envío ({formatPrice(DELIVERY_FEE)}, o gratis si recoges en Bogotá){perks.feeDiscountPct >= 100 ? " y tu liga cubre el costo del pago en línea" : " y el costo del pago en línea"}; el total lo ves abajo antes de pagar. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
                 </p>
-                <PayOfferForm id={o.id} name={buyer.name} phone={buyer.phone} city={buyer.city} label={`Pagar ${formatPrice(total)} con Wompi`} />
+                <PayOfferForm id={o.id} name={buyer.name} phone={buyer.phone} city={buyer.city} agreed={o.agreedAmount} perkPct={perks.feeDiscountPct} />
               </div>
             )}
 
@@ -96,7 +94,7 @@ export default async function OfertasPage() {
                 <button type="submit" className="text-[11px] font-semibold uppercase tracking-wide text-muted underline underline-offset-4 hover:text-accent">Retirar oferta</button>
               </form>
             )}
-            {o.status === "pagada" && o.orderRef && <p className="mt-3 text-xs text-muted">Pedido {o.orderRef}. Un asesor te escribe por WhatsApp para coordinar el envío.</p>}
+            {o.status === "pagada" && o.orderRef && <p className="mt-3 text-xs text-muted">Pedido {o.orderRef}. Te avisamos por correo en cada paso; también lo puedes seguir con esa referencia en la página de tu pedido.</p>}
           </li>
         );
       })}

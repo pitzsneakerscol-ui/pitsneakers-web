@@ -27,6 +27,10 @@ export const siteConfig = {
     fixed: 900,
     iva: 19,
   },
+  // Costo de envío a todo el país: se suma al total en el checkout, antes de pagar. Recoger en el punto de verificación de Bogotá no lo cobra.
+  delivery: {
+    fee: 24000,
+  },
   // Ofertas de compradores: precio mínimo (% del precio), horas que tienes para responder y horas para pagar una oferta aceptada.
   offers: {
     minPercent: 70,
