@@ -4749,5 +4749,19 @@
     "price": 3500000,
     "condition": "nuevo",
     "image": "/products/AJ4-30.8df496ba.webp"
+  },
+  {
+    "seller": "juanlopez319",
+    "slug": "nike-mind-001-solar-red-2",
+    "name": "Mind 001 Solar Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "MIND001-21",
+    "sizes": [
+      "12"
+    ],
+    "price": 660000,
+    "condition": "nuevo",
+    "image": "/products/MIND001-10.44dfacaf.webp"
   }
 ]

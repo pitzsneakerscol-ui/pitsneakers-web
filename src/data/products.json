@@ -13062,5 +13062,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:31:00.000Z"
+  },
+  {
+    "id": "MIND001-21",
+    "slug": "nike-mind-001-solar-red-2",
+    "name": "Mind 001 Solar Red",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 660000,
+    "promo": false,
+    "sizes": [
+      "12"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/MIND001-10.44dfacaf.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:32:00.000Z"
   }
 ]
