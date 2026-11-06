@@ -16,7 +16,7 @@ import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_H
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
 import { generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
 import PhotoPicker from "@/components/admin/PhotoPicker";
-import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
+import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, VERIF_RESULTS, isVerified } from "@/lib/verification-shared";
 
 export const metadata: Metadata = { title: "Pedidos web" };
 
@@ -307,13 +307,34 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                             <div className="mt-1 normal-case tracking-normal"><PhotoPicker room={MAX_PHOTOS - (photos.get(o.id) ?? []).length} /></div>
                           </div>
                         </div>
+                        {o.sellerId ? (
+                          <div className="grid gap-3 rounded-lg bg-paper p-3 sm:grid-cols-2">
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                              Conclusión para el revendedor
+                              <select name="result" defaultValue={o.verifResult} className={`${inputCls} mt-1 normal-case tracking-normal`}>
+                                <option value="">Aún revisando</option>
+                                {VERIF_RESULTS.map((r) => (
+                                  <option key={r.key} value={r.key}>{r.label}</option>
+                                ))}
+                              </select>
+                            </label>
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+                              Mensaje para el revendedor (lo ve él)
+                              <input name="sellerNote" defaultValue={o.verifSellerNote} maxLength={400} autoComplete="off" placeholder="Ej: la caja llegó rota; réplica por la costura" className={`${inputCls} mt-1 normal-case tracking-normal`} />
+                            </label>
+                            <label className="flex items-center gap-2 text-xs text-muted sm:col-span-2">
+                              <input type="checkbox" name="notifySeller" defaultChecked className="h-4 w-4 accent-accent" />
+                              Avisarle al revendedor (en su panel): ve estas fotos, los puntos y la conclusión en vivo
+                            </label>
+                          </div>
+                        ) : null}
                         <div className="flex flex-wrap items-center gap-3">
                           <button type="submit" className={btnPrimary}>Guardar verificación</button>
                           <label className="flex items-center gap-2 text-xs text-muted">
                             <input type="checkbox" name="notify" defaultChecked className="h-4 w-4 accent-accent" />
                             Avisar al cliente por correo que su par fue verificado
                           </label>
-                          <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos son evidencia interna: el cliente no las ve.</p>
+                          <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos y los puntos los ve el revendedor dueño del par; el cliente no los ve.</p>
                         </div>
                       </form>
                     </div>

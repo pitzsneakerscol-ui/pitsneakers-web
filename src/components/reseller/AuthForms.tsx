@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { login, register } from "@/app/revendedores/actions";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
-export default function AuthForms({ startOnLogin = false }: { startOnLogin?: boolean }) {
+export default function AuthForms({ startOnLogin = false, next }: { startOnLogin?: boolean; /** Ruta del panel a la que volver después de ingresar. */ next?: string }) {
   const [tab, setTab] = useState<"login" | "register">(startOnLogin ? "login" : "register");
   const [loginState, loginAction, loginPending] = useActionState(login, undefined);
   const [regState, regAction, regPending] = useActionState(register, undefined);
@@ -33,6 +33,7 @@ export default function AuthForms({ startOnLogin = false }: { startOnLogin?: boo
 
       {tab === "login" ? (
         <form onSubmit={submitWith(loginAction)} className="space-y-4">
+          {next ? <input type="hidden" name="next" value={next} /> : null}
           <div>
             <label htmlFor="l-user" className={labelCls}>Usuario o correo</label>
             <input id="l-user" name="username" autoComplete="username" required maxLength={120} placeholder="tu usuario o tu@correo.com" className={inputCls} />

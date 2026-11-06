@@ -18,6 +18,7 @@ import EditItemForm from "@/components/reseller/EditItemForm";
 import SellForm from "@/components/reseller/SellForm";
 import DeliveryStep from "@/components/reseller/DeliveryStep";
 import type { PayoutInfo } from "@/lib/payout-shared";
+import type { SellerVerification } from "@/lib/verification-shared";
 import type { CatalogEntry } from "@/components/reseller/ItemFields";
 import { btnGhost, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 
@@ -38,7 +39,10 @@ export default function InventoryTable({
   today,
   ownerName,
   payout,
+  verifs,
 }: {
+  /** Verificación de cada par (por id) con las fotos y la conclusión que ve el vendedor. */
+  verifs: Record<number, SellerVerification>;
   /** Datos de pago del revendedor (null = aún no los ha dado). */
   payout: PayoutInfo | null;
   items: Item[];
@@ -260,7 +264,7 @@ export default function InventoryTable({
                     </td>
                   </tr>
                   {i.purchaseConfirmedAt && (
-                    <tr className="border-b border-line/70">
+                    <tr id={`par-${i.id}`} className="scroll-mt-24 border-b border-line/70">
                       <td colSpan={8} className="pb-4 pt-0">
                         {/* Ocupa solo el ancho visible (no el de toda la tabla) y se queda quieta al desplazarla. */}
                         <div style={{ width: "100cqw" }} className="sticky left-0 rounded-xl border border-emerald-600/40 bg-emerald-600/5 p-4">
@@ -291,7 +295,7 @@ export default function InventoryTable({
                               </ul>
                             </div>
                           </div>
-                          <DeliveryStep item={i} payout={payout} />
+                          <DeliveryStep item={i} payout={payout} verif={verifs[i.id] ?? null} />
                         </div>
                       </td>
                     </tr>

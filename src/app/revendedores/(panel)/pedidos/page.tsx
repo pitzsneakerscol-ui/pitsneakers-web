@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { backfillSellers, listSellerOrders } from "@/lib/catalog-orders";
+import { backfillSellers, listOrderPhotos, listSellerOrders } from "@/lib/catalog-orders";
 import { getPayoutInfo } from "@/lib/seller-payout";
 import { sellerStepsFor } from "@/lib/order-steps";
 import { PAYOUT_CLS, PAYOUT_LABEL, PAYOUT_WINDOW, payoutDestination } from "@/lib/payout-shared";
@@ -11,6 +11,7 @@ import { cardCls } from "@/components/reseller/ui";
 import OrderTimeline from "@/components/reseller/OrderTimeline";
 import { sellerRules, verificationPointLines } from "@/lib/seller-confirm-shared";
 import { confirmDropOff } from "@/app/revendedores/drop-actions";
+import VerificationEvidence from "@/components/reseller/VerificationEvidence";
 
 export const metadata: Metadata = { title: "Pedidos" };
 
@@ -34,6 +35,7 @@ export default async function PedidosPage() {
   await backfillSellers().catch(() => undefined);
   const [orders, payout] = await Promise.all([listSellerOrders(user.id), getPayoutInfo(user.id)]);
 
+  const photos = await listOrderPhotos(orders.map((o) => o.id));
   const owed = orders.filter((o) => o.payoutStatus !== "pagado");
   const toCollect = owed.filter((o) => o.payoutStatus === "pendiente").reduce((s, o) => s + o.payoutAmount, 0);
   const processing = owed.filter((o) => o.payoutStatus === "en_proceso").reduce((s, o) => s + o.payoutAmount, 0);
@@ -144,6 +146,15 @@ export default async function PedidosPage() {
                           <p className="mt-2 text-xs text-muted">Pulsa solo cuando ya lo hayas entregado: le avisamos al equipo para que lo reciba y lo verifique.</p>
                         </form>
                       )}
+                    </div>
+                  ) : null}
+
+                  {o.verifAt || o.verifResult || (photos.get(o.id) ?? []).length > 0 ? (
+                    <div className="mt-4">
+                      <VerificationEvidence
+                        kind="pedido"
+                        v={{ checks: o.verifChecks, result: o.verifResult, message: o.verifSellerNote, by: o.verifBy, at: o.verifAt, photoIds: photos.get(o.id) ?? [] }}
+                      />
                     </div>
                   ) : null}
 

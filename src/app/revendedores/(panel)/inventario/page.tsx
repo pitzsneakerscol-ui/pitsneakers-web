@@ -3,6 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { ensureSynced } from "@/lib/seller-sync";
 import { listItems } from "@/lib/reseller";
 import { getPayoutInfo } from "@/lib/seller-payout";
+import { getItemVerifications } from "@/lib/item-verification";
 import { todayBogota } from "@/lib/reseller-shared";
 import { getCatalogEntries } from "@/lib/reseller-catalog";
 import AddItemsPanel from "@/components/reseller/AddItemsPanel";
@@ -14,7 +15,7 @@ export const metadata: Metadata = { title: "Mi inventario" };
 export default async function InventarioPage() {
   const user = await requireUser();
   if (!user.isAdmin) await ensureSynced(user.id, user.username);
-  const [items, catalog, payout] = await Promise.all([listItems(user.id), getCatalogEntries(), getPayoutInfo(user.id)]);
+  const [items, catalog, payout, verifs] = await Promise.all([listItems(user.id), getCatalogEntries(), getPayoutInfo(user.id), getItemVerifications(user.id)]);
   const open = items.filter((i) => i.status !== "vendido");
   const today = todayBogota();
 
@@ -33,6 +34,7 @@ export default async function InventarioPage() {
         today={today}
         ownerName={user.displayName || user.username}
         payout={payout}
+        verifs={Object.fromEntries(verifs)}
       />
       <ImportForm />
     </div>

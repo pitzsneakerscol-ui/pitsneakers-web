@@ -27,3 +27,27 @@ export const isVerified = (checks: readonly string[]) => REQUIRED_CHECKS.every((
 /** Máximo de fotos de recepción por pedido y peso máximo de cada una (ya reducida en el navegador). */
 export const MAX_PHOTOS = 8;
 export const MAX_PHOTO_BYTES = 700_000;
+
+/** Resultado de la verificación que ve el vendedor. "" = todavía sin conclusión (se está revisando). */
+export const VERIF_RESULTS = [
+  { key: "ok", label: "Todo bien" },
+  { key: "detalle", label: "Con detalles" },
+  { key: "no_autentico", label: "No es auténtico" },
+] as const;
+
+export type VerifResult = "" | (typeof VERIF_RESULTS)[number]["key"];
+
+export const parseVerifResult = (v: unknown): VerifResult => {
+  const s = String(v ?? "");
+  return VERIF_RESULTS.some((r) => r.key === s) ? (s as VerifResult) : "";
+};
+
+/** Lo que el vendedor ve de la verificación de su par: puntos, conclusión, mensaje del equipo y fotos (ids). */
+export interface SellerVerification {
+  checks: VerifKey[];
+  result: VerifResult;
+  message: string;
+  by: string;
+  at: number | null;
+  photoIds: number[];
+}

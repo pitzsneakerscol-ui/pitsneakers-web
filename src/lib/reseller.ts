@@ -50,6 +50,8 @@ function rowToItem(r: Row): Item {
     purchaseDroppedAt: r.purchase_dropped_at == null ? null : Number(r.purchase_dropped_at),
     purchaseDelivery: r.purchase_delivery === "dropoff" || r.purchase_delivery === "envio" ? r.purchase_delivery : "",
     purchaseTracking: String(r.purchase_tracking ?? ""),
+    purchaseReceivedAt: r.purchase_received_at == null ? null : Number(r.purchase_received_at),
+    purchasePaidAt: r.purchase_paid_at == null ? null : Number(r.purchase_paid_at),
   };
 }
 

@@ -5,7 +5,7 @@ import { consumeCredit } from "@/lib/trivia";
 import { markOfferPaid } from "@/lib/buyer-offers";
 import { DIRECT_CARRIER, PICKUP_CARRIER, isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import type { Delivery } from "@/lib/delivery-shared";
-import { MAX_PHOTOS, parseChecks, type VerifKey } from "@/lib/verification-shared";
+import { MAX_PHOTOS, parseChecks, parseVerifResult, type VerifKey, type VerifResult } from "@/lib/verification-shared";
 import { parsePayoutStatus, type PayoutStatus } from "@/lib/payout-shared";
 import { sellerBreakdown } from "@/lib/payout";
 import { sellerForProductId } from "@/lib/offer-seller";
@@ -69,6 +69,9 @@ export interface CatalogOrder {
   verifAt: number | null;
   /** nota interna de la verificación (no se muestra al cliente) */
   verifNote: string;
+  /** conclusión y mensaje que ve el revendedor dueño del par */
+  verifResult: VerifResult;
+  verifSellerNote: string;
   /** revendedor dueño del par (null = todavía no se averiguó, 0 = par de la casa) */
   sellerId: number | null;
   /** lo que recibe el revendedor (precio del par menos comisión y envío) */
@@ -128,6 +131,8 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   verifBy: String(r.verif_by ?? ""),
   verifAt: r.verif_at === null || r.verif_at === undefined ? null : Number(r.verif_at),
   verifNote: String(r.verif_note ?? ""),
+  verifResult: parseVerifResult(r.verif_result),
+  verifSellerNote: String(r.verif_seller_note ?? ""),
   sellerId: r.seller_id === null || r.seller_id === undefined ? null : Number(r.seller_id),
   payoutAmount: Number(r.payout_amount ?? 0),
   payoutStatus: parsePayoutStatus(String(r.payout_status ?? "")),
@@ -141,7 +146,7 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "sellerDroppedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "verifResult" | "verifSellerNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "sellerDroppedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
@@ -391,11 +396,11 @@ export async function saveGuide(id: number, g: GuideSave): Promise<void> {
 }
 
 /** Guarda la verificación del par: puntos marcados, quién la hizo, cuándo y la nota interna. La hora se conserva si ya existía. */
-export async function saveVerification(id: number, input: { checks: VerifKey[]; by: string; note: string }): Promise<void> {
+export async function saveVerification(id: number, input: { checks: VerifKey[]; by: string; note: string; result?: VerifResult; sellerNote?: string }): Promise<void> {
   const db = await getDb();
   await db.execute({
-    sql: "UPDATE catalog_orders SET verif_checks = ?, verif_by = ?, verif_at = COALESCE(verif_at, ?), verif_note = ? WHERE id = ?",
-    args: [input.checks.join(","), input.by.slice(0, 40), Date.now(), input.note.replace(/\s+/g, " ").trim().slice(0, 300), id],
+    sql: "UPDATE catalog_orders SET verif_checks = ?, verif_by = ?, verif_at = COALESCE(verif_at, ?), verif_note = ?, verif_result = ?, verif_seller_note = ? WHERE id = ?",
+    args: [input.checks.join(","), input.by.slice(0, 40), Date.now(), input.note.replace(/\s+/g, " ").trim().slice(0, 300), input.result ?? "", (input.sellerNote ?? "").replace(/\s+/g, " ").trim().slice(0, 400), id],
   });
 }
 

@@ -22,6 +22,11 @@ import ConfirmForm from "@/components/admin/ConfirmForm";
 import ResetPassword from "@/components/admin/ResetPassword";
 import OfferForm from "@/components/admin/OfferForm";
 import PurchaseForm from "@/components/admin/PurchaseForm";
+import ItemDeliveryAdmin from "@/components/admin/ItemDeliveryAdmin";
+import ItemVerifyAdmin from "@/components/admin/ItemVerifyAdmin";
+import { getItemVerifications } from "@/lib/item-verification";
+import { getPayoutInfo } from "@/lib/seller-payout";
+import { payoutDestination } from "@/lib/payout-shared";
 
 export const metadata: Metadata = { title: "Revendedor" };
 
@@ -34,6 +39,7 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
 
   const today = todayBogota();
   const catalog = await getCatalogEntries();
+  const [payout, verifs] = await Promise.all([getPayoutInfo(id), getItemVerifications(id)]);
   const [items, payments] = await Promise.all([
     listAllItems({ userId: id, limit: 1000 }),
     listPayments("todos").then((all) => all.filter((p) => p.partyType === "reseller" && p.partyId === id)),
@@ -147,6 +153,8 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                           ) : (
                             <span className="mt-1 block text-xs text-muted">Aún no avisa que lo entregó</span>
                           )}
+                          <ItemVerifyAdmin itemId={i.id} v={verifs.get(i.id) ?? null} />
+                          <ItemDeliveryAdmin itemId={i.id} receivedAt={i.purchaseReceivedAt} paidAt={i.purchasePaidAt} payoutText={payout ? `${payoutDestination(payout, true)} · ${payout.holder} · CC ${payout.document}` : ""} />
                         </>
                       ) : (
                         <span className="capitalize">{i.status}</span>

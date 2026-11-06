@@ -37,6 +37,7 @@ import {
 } from "@/lib/reseller-shared";
 import { money, parseSizes, readItem, text } from "@/lib/item-form";
 import { cleanUsername, usernameError } from "@/lib/username";
+import { safeNext } from "@/lib/safe-next";
 
 const MIN = 60 * 1000;
 const PANEL = "/revendedores/panel";
@@ -167,7 +168,7 @@ async function loginInner(
   await rateLimitClear(userKey);
   await db.execute({ sql: "UPDATE users SET last_login = ? WHERE id = ?", args: [Date.now(), Number(row.id)] });
   await createSession(Number(row.id));
-  redirect(PANEL);
+  redirect(safeNext(fd.get("next")) ?? PANEL);
 }
 
 export async function logout(): Promise<void> {

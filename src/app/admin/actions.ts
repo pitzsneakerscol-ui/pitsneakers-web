@@ -22,6 +22,13 @@ import { PAYMENT_METHODS, listTemplates } from "@/lib/admin";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { DEFAULT_TEMPLATES, TEMPLATE_VERSION, missingVars, renderTemplate, siteVars, type Vars } from "@/lib/email-templates";
 import { formatPrice } from "@/lib/format";
+import { loginLinkTo } from "@/lib/safe-next";
+import { getPayoutInfo } from "@/lib/seller-payout";
+import { payoutDestination } from "@/lib/payout-shared";
+import { addItemPhoto, deleteItemPhoto, itemPhotoRoom, saveItemVerification } from "@/lib/item-verification";
+import { sniffImage } from "@/lib/item-delivery";
+import { verificationNotice } from "@/lib/verification-notice";
+import { MAX_PHOTO_BYTES, parseChecks, parseVerifResult } from "@/lib/verification-shared";
 
 const text = (fd: FormData, key: string, max: number): string => {
   const v = fd.get(key);
@@ -676,4 +683,182 @@ export async function confirmPurchase(_prev: ActionState, fd: FormData): Promise
   refresh();
   revalidatePath("/revendedores/inventario");
   return { ok: true, message: `Compra confirmada a ${seller}: ${par} por ${price}. Comisión ${formatPrice(commission)}: recibe ${formatPrice(receives)}. El par quedó reservado.${mail}` };
+}
+
+/** Datos del par y del vendedor que necesitan los avisos de "recibimos tu paquete" y "ya te consignamos". */
+async function purchasedItem(itemId: number) {
+  const db = await getDb();
+  const r = await db.execute({
+    sql: `SELECT i.id AS id, i.name AS name, i.brand AS brand, i.size AS size, i.user_id AS user_id, i.status AS status,
+                 i.purchase_price AS purchase_price, i.purchase_payout AS purchase_payout, i.purchase_confirmed_at AS confirmed_at,
+                 i.purchase_received_at AS received_at, i.purchase_paid_at AS paid_at, i.verif_result AS verif_result,
+                 u.username AS username, u.display_name AS display_name, u.whatsapp AS whatsapp, u.email AS email
+          FROM items i JOIN users u ON u.id = i.user_id WHERE i.id = ? AND u.role != 'admin'`,
+    args: [itemId],
+  });
+  const row = r.rows[0];
+  if (!row) return null;
+  const brand = String(row.brand ?? "");
+  const name = String(row.name);
+  return {
+    id: Number(row.id),
+    userId: Number(row.user_id),
+    par: brand && !name.toLowerCase().startsWith(brand.toLowerCase()) ? `${brand} ${name}` : name,
+    size: String(row.size ?? ""),
+    status: String(row.status),
+    amount: Number(row.purchase_payout) || Number(row.purchase_price) || 0,
+    confirmed: row.confirmed_at != null,
+    received: row.received_at != null,
+    paid: row.paid_at != null,
+    verifResult: parseVerifResult(row.verif_result),
+    username: String(row.username),
+    seller: String(row.display_name || row.username),
+    whatsapp: String(row.whatsapp ?? ""),
+    email: String(row.email ?? ""),
+  };
+}
+
+/**
+ * Ventas por fuera de la plataforma: el equipo recibió el paquete del vendedor. Le llega un aviso con un enlace que pide su usuario
+ * y contraseña y lo lleva a ese par en su inventario, donde completa la entrega y sus datos de pago. Devuelve también el mensaje
+ * listo para mandarle por WhatsApp.
+ */
+export async function markItemReceived(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const itemId = int(fd, "itemId");
+  const email = fd.get("email") === "on";
+  const it = itemId ? await purchasedItem(itemId) : null;
+  if (!it) return { error: "No se encontró el par." };
+  if (!it.confirmed) return { error: "Primero confirma la compra de ese par." };
+  if (it.status === "vendido") return { error: "Ese par ya está marcado como vendido." };
+
+  const db = await getDb();
+  if (!it.received) {
+    await db.execute({ sql: "UPDATE items SET purchase_received_at = ? WHERE id = ? AND purchase_received_at IS NULL", args: [Date.now(), itemId] });
+  }
+  const link = loginLinkTo(siteConfig.siteUrl, `/revendedores/inventario#par-${itemId}`);
+  const first = it.seller.split(" ")[0];
+  const sizeTxt = it.size ? ` (talla ${it.size})` : "";
+  const msg = [
+    `Hola ${first} 👋 ¡Ya recibimos tu paquete: ${it.par}${sizeTxt}!`,
+    "",
+    "Entra con tu usuario y contraseña a este enlace, confirma tus datos de pago y te consignamos lo de tu par apenas termine la verificación:",
+    link,
+  ].join("\n");
+
+  await createNotification(it.userId, {
+    kind: "inventario",
+    title: `Recibimos tu paquete: ${it.par}`,
+    body: `Entra y completa tus datos de pago para consignarte${it.amount > 0 ? ` ${formatPrice(it.amount)}` : ""} apenas termine la verificación.`,
+    href: `/revendedores/inventario#par-${itemId}`,
+  });
+
+  let mail = "";
+  if (email) {
+    if (!it.email) mail = " No tiene correo registrado: solo le salió el aviso en su panel.";
+    else if (!isEmailConfigured()) mail = " El correo aún no está configurado: solo le salió el aviso en su panel.";
+    else {
+      const subject = `Recibimos tu paquete: ${it.par}`;
+      const body = [
+        "# Ya recibimos tu paquete 📦",
+        "",
+        `Hola ${first}, ya tenemos tu **${it.par}**${sizeTxt} en nuestro punto de verificación.`,
+        "",
+        `Entra con tu usuario y contraseña, confirma que todo está bien y completa tus **datos de pago**: ahí te consignamos${it.amount > 0 ? ` **${formatPrice(it.amount)}**` : ""} apenas termine la verificación.`,
+        "",
+        `[boton: Entrar y completar mis datos | ${link}]`,
+        "",
+        "**Equipo Pitsneakers**",
+      ].join("\n");
+      const res = await sendEmail({ to: it.email, subject, body });
+      await db.execute({
+        sql: "INSERT INTO email_log (to_email, to_name, subject, body, template, status, error, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        args: [it.email, it.seller, subject, body, "paquete_recibido", res.ok ? "enviado" : "fallido", res.ok ? "" : res.error, Date.now()],
+      });
+      mail = res.ok ? " ✉️ También le llegó por correo." : ` No pudimos enviarle el correo (${res.error}), pero ya le salió el aviso en su panel.`;
+    }
+  }
+  const waNum = waNumber(it.whatsapp);
+  refresh();
+  revalidatePath("/revendedores/inventario");
+  return { ok: true, wa: waNum ? waLink(waNum, msg) : undefined, message: `Marcado como recibido. A ${it.seller} le salió el aviso en su panel.${mail}${waNum ? "" : " No tiene WhatsApp registrado."} Enlace: ${link}` };
+}
+
+/**
+ * El equipo ya le consignó al vendedor lo de ese par. Queda en el libro de pagos del vendedor (con el destino que él dio) y
+ * le llega el aviso. Exige que el vendedor ya haya dado sus datos de pago.
+ */
+export async function markItemPaid(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  const itemId = int(fd, "itemId");
+  const it = itemId ? await purchasedItem(itemId) : null;
+  if (!it) return { error: "No se encontró el par." };
+  if (!it.confirmed) return { error: "Primero confirma la compra de ese par." };
+  if (it.paid) return { error: "Ese par ya está marcado como pagado." };
+  if (it.verifResult === "no_autentico") return { error: "Ese par quedó marcado como no auténtico: no se consigna. Cambia el resultado de la verificación si fue un error." };
+  if (it.amount <= 0) return { error: "Ese par no tiene un valor a pagar." };
+  const payout = await getPayoutInfo(it.userId);
+  if (!payout) return { error: "Todavía no nos da sus datos de pago: pídeselos antes de consignar." };
+
+  const db = await getDb();
+  const upd = await db.execute({ sql: "UPDATE items SET purchase_paid_at = ? WHERE id = ? AND purchase_paid_at IS NULL", args: [Date.now(), itemId] });
+  if (upd.rowsAffected === 0) return { error: "Ese par ya está marcado como pagado." };
+  const method = PAYMENT_METHODS.includes(payout.method) ? payout.method : "Transferencia";
+  await db.execute({
+    sql: "INSERT INTO payments (party_type, party_id, concept, amount, due_date, status, paid_date, method, notes, created_at) VALUES ('reseller', ?, ?, ?, '', 'pagado', ?, ?, ?, ?)",
+    args: [it.userId, `Compra: ${it.par}${it.size ? ` (talla ${it.size})` : ""}`, it.amount, todayBogota(), method, `${payoutDestination(payout, true)} · ${payout.holder}`, Date.now()],
+  });
+  await createNotification(it.userId, {
+    kind: "inventario",
+    title: `Te consignamos ${formatPrice(it.amount)} por tu ${it.par}`,
+    body: `Lo enviamos a ${payoutDestination(payout)}. Puede tardar en verse reflejado según tu banco.`,
+    href: `/revendedores/inventario#par-${itemId}`,
+  });
+  refresh();
+  revalidatePath("/revendedores/inventario");
+  return { ok: true, message: `Pago registrado: ${formatPrice(it.amount)} a ${it.seller} (${payoutDestination(payout)}). Quedó en el libro de pagos.` };
+}
+
+/**
+ * Verificación de un par de inventario con compra confirmada: puntos revisados, conclusión, mensaje para el vendedor y fotos que
+ * toma el equipo. Se puede guardar varias veces (para que el vendedor lo siga en vivo). El vendedor lo ve en su inventario.
+ */
+export async function verifyItem(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const admin = await requireAdmin();
+  const itemId = int(fd, "itemId");
+  const it = itemId ? await purchasedItem(itemId) : null;
+  if (!it) return { error: "No se encontró el par." };
+  if (!it.confirmed) return { error: "Primero confirma la compra de ese par." };
+
+  const files = fd.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length > (await itemPhotoRoom(itemId))) return { error: "Ese par ya tiene el máximo de fotos. Borra alguna para subir otras." };
+  const ready: { mime: string; data: Uint8Array }[] = [];
+  for (const f of files) {
+    if (f.size > MAX_PHOTO_BYTES) return { error: "Una foto pesa demasiado. Prueba con otra." };
+    const data = new Uint8Array(await f.arrayBuffer());
+    const mime = sniffImage(data);
+    if (!mime) return { error: "Las fotos deben ser JPG, PNG o WebP." };
+    ready.push({ mime, data });
+  }
+
+  const checks = parseChecks(fd.getAll("check").map(String).join(","));
+  const result = parseVerifResult(fd.get("result"));
+  await saveItemVerification(itemId, { checks, by: admin.displayName || admin.username, result, message: text(fd, "message", 400) });
+  for (const p of ready) await addItemPhoto(itemId, p.mime, p.data);
+
+  if (fd.get("notify") === "on") {
+    const n = verificationNotice(it.par, result, ready.length > 0);
+    await createNotification(it.userId, { kind: "inventario", title: n.title, body: n.body, href: `/revendedores/inventario#par-${itemId}` });
+  }
+  refresh();
+  revalidatePath("/revendedores/inventario");
+  return { ok: true, message: `Verificación guardada${ready.length ? ` con ${ready.length} foto${ready.length === 1 ? "" : "s"} nueva${ready.length === 1 ? "" : "s"}` : ""}.${fd.get("notify") === "on" ? ` A ${it.seller} le salió el aviso.` : ""}` };
+}
+
+/** Borra una foto de la verificación de un par de inventario. */
+export async function removeItemPhoto(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = int(fd, "photo");
+  if (id) await deleteItemPhoto(id);
+  refresh();
 }

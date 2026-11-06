@@ -5,8 +5,11 @@ import { startTransition, useActionState, useState, type FormEvent } from "react
 import { confirmItemDelivery } from "@/app/revendedores/delivery-actions";
 import PayoutForm from "@/components/reseller/PayoutForm";
 import { btnPrimary, inputCls, labelCls } from "@/components/reseller/ui";
+import { formatPrice } from "@/lib/format";
 import { PAYOUT_WINDOW, payoutDestination, type PayoutInfo } from "@/lib/payout-shared";
 import type { Item } from "@/lib/reseller-shared";
+import VerificationEvidence from "@/components/reseller/VerificationEvidence";
+import type { SellerVerification } from "@/lib/verification-shared";
 
 const MAX_SIDE = 1100;
 
@@ -127,8 +130,13 @@ function DeliveryForm({ item }: { item: Item }) {
  * Lo que sigue después de "Compra confirmada" en el inventario: 1) dejar o enviar el par y avisar con foto, 2) dar los datos de pago,
  * 3) verificación y pago. Así el revendedor siempre ve en qué paso va y qué le toca.
  */
-export default function DeliveryStep({ item, payout }: { item: Item; payout: PayoutInfo | null }) {
+export default function DeliveryStep({ item, payout, verif }: { item: Item; payout: PayoutInfo | null; verif: SellerVerification | null }) {
   const dropped = item.purchaseDroppedAt !== null;
+  const received = item.purchaseReceivedAt !== null;
+  const paid = item.purchasePaidAt !== null;
+  // Para el flujo da igual quién avisó primero: si el equipo ya lo recibió o el vendedor ya lo entregó, el paso 2 está listo.
+  const handed = dropped || received;
+  const amount = item.purchasePayout || item.purchasePrice;
   return (
     <div className="mt-4 border-t border-emerald-600/20 pt-4">
       <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Así recibes tu plata</p>
@@ -137,22 +145,22 @@ export default function DeliveryStep({ item, payout }: { item: Item; payout: Pay
           Compra confirmada
         </Step>
 
-        <Step n={2} done={dropped} current={!dropped}>
-          <p className="font-semibold">{dropped ? "Entregaste el par" : "Deja el par en el punto (o envíalo) y avísanos"}</p>
+        <Step n={2} done={handed} current={!handed}>
+          <p className="font-semibold">{received ? "Recibimos tu paquete" : dropped ? "Entregaste el par" : "Deja el par en el punto (o envíalo) y avísanos"}</p>
+          {item.purchaseReceivedAt !== null ? <p className="mt-0.5 text-muted">Lo recibimos el {when(item.purchaseReceivedAt)}.</p> : null}
           {dropped && item.purchaseDroppedAt !== null ? (
             <p className="mt-0.5 text-muted">
               {item.purchaseDelivery === "envio" ? "Lo enviaste" : "Lo dejaste en el punto"} · {when(item.purchaseDroppedAt)}
               {item.purchaseTracking ? ` · guía ${item.purchaseTracking}` : ""} ·{" "}
               <a href={`/api/revendedores/prueba/${item.id}`} target="_blank" rel="noreferrer" className="font-semibold underline">Ver tu foto</a>
             </p>
-          ) : (
-            <DeliveryForm item={item} />
-          )}
+          ) : null}
+          {!handed ? <DeliveryForm item={item} /> : null}
         </Step>
 
-        <Step n={3} done={dropped && Boolean(payout)} current={dropped && !payout}>
+        <Step n={3} done={handed && Boolean(payout)} current={handed && !payout}>
           <p className="font-semibold">Dinos a dónde te consignamos</p>
-          {dropped ? (
+          {handed ? (
             payout ? (
               <p className="mt-0.5 text-muted">
                 Te pagamos a <strong className="text-ink">{payoutDestination(payout)}</strong> · {payout.holder} ·{" "}
@@ -168,9 +176,24 @@ export default function DeliveryStep({ item, payout }: { item: Item; payout: Pay
           )}
         </Step>
 
-        <Step n={4}>
-          <p className="font-semibold">Verificamos tu par y te pagamos</p>
-          <p className="mt-0.5">Cuando lo recibimos y pasa la verificación, te consignamos en {PAYOUT_WINDOW}. Te avisamos por aquí y por correo.</p>
+        <Step n={4} done={verif?.result === "ok" || paid} current={handed && Boolean(verif) && verif?.result !== "ok" && !paid}>
+          <p className="font-semibold">Verificamos tu par</p>
+          {verif ? (
+            <div className="mt-2"><VerificationEvidence v={verif} kind="par" /></div>
+          ) : (
+            <p className="mt-0.5">{handed ? "Pronto empezamos: aquí vas a ver en vivo las fotos y lo que revisamos." : "Cuando lo recibamos te mostramos aquí, en vivo, las fotos y lo que revisamos."}</p>
+          )}
+        </Step>
+
+        <Step n={5} done={paid} current={received && Boolean(payout) && verif?.result === "ok" && !paid}>
+          <p className="font-semibold">{paid ? "Te consignamos" : "Te pagamos"}</p>
+          {paid && item.purchasePaidAt !== null ? (
+            <p className="mt-0.5 text-muted">
+              {formatPrice(amount)} el {when(item.purchasePaidAt)}{payout ? ` a ${payoutDestination(payout)}` : ""}. Según tu banco puede tardar un poco en verse.
+            </p>
+          ) : (
+            <p className="mt-0.5">Cuando lo recibimos y pasa la verificación, te consignamos {formatPrice(amount)} en {PAYOUT_WINDOW}. Te avisamos por aquí y por correo.</p>
+          )}
         </Step>
       </ol>
     </div>

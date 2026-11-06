@@ -63,6 +63,10 @@ export interface Item {
   purchaseDelivery: "" | "dropoff" | "envio";
   /** Número de guía, si lo envió. */
   purchaseTracking: string;
+  /** Cuándo el equipo recibió el par (null = todavía no). */
+  purchaseReceivedAt: number | null;
+  /** Cuándo se le consignó lo del par al revendedor (null = todavía no). */
+  purchasePaidAt: number | null;
 }
 
 export const SALE_CHANNELS = [

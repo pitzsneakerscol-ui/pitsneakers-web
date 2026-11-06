@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
-import { MAX_PHOTO_BYTES, isVerified, parseChecks } from "@/lib/verification-shared";
+import { MAX_PHOTO_BYTES, isVerified, parseChecks, parseVerifResult } from "@/lib/verification-shared";
+import { createNotification } from "@/lib/notifications";
+import { verificationNotice } from "@/lib/verification-notice";
 import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
@@ -41,8 +43,16 @@ export async function verifyOrder(fd: FormData): Promise<void> {
   }
 
   const checks = parseChecks(fd.getAll("check").map(String).join(","));
-  await saveVerification(o.id, { checks, by: admin.displayName || admin.username, note: text(fd, "note") });
+  const result = parseVerifResult(fd.get("result"));
+  await saveVerification(o.id, { checks, by: admin.displayName || admin.username, note: text(fd, "note"), result, sellerNote: text(fd, "sellerNote") });
   for (const f of files) await addOrderPhoto(o.id, f.type, new Uint8Array(await f.arrayBuffer()));
+
+  // El revendedor dueño del par sigue la verificación en vivo: se le avisa para que vea las fotos y la conclusión.
+  if (fd.get("notifySeller") === "on" && o.sellerId) {
+    const par = `${o.brand} ${o.productName}`.replace(/^(\S+) \1 /, "$1 ");
+    const n = verificationNotice(par, result, files.length > 0);
+    await createNotification(o.sellerId, { kind: "info", title: n.title, body: n.body, href: "/revendedores/pedidos" });
+  }
 
   // Al dar el par por verificado (solo la primera vez) se le avisa al cliente, si el equipo lo pide.
   let emailed = "";

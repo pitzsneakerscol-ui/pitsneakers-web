@@ -51,6 +51,15 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_order_photos ON order_photos(order_id)`,
+  // Fotos de la verificación de un par de inventario con compra confirmada (las toma el equipo y las ve el vendedor).
+  `CREATE TABLE IF NOT EXISTS item_photos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,
+    mime TEXT NOT NULL,
+    data BLOB NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_item_photos ON item_photos(item_id)`,
   // Foto que sube el revendedor como prueba de que dejó (o envió) un par con compra confirmada. Una por par; ya reducida en el navegador.
   `CREATE TABLE IF NOT EXISTS item_proofs (
     item_id INTEGER PRIMARY KEY,
@@ -522,6 +531,9 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["verif_by", "TEXT NOT NULL DEFAULT ''"],
     ["verif_at", "INTEGER"],
     ["verif_note", "TEXT NOT NULL DEFAULT ''"],
+    // Lo que ve el revendedor dueño del par: conclusión ('' | ok | detalle | no_autentico) y un mensaje del equipo. Aparte de la nota interna.
+    ["verif_result", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_seller_note", "TEXT NOT NULL DEFAULT ''"],
     // Revendedor dueño del par (NULL = todavía no se averiguó, 0 = par de la casa), lo que recibe y el estado de su pago
     // ('' = pendiente, 'en_proceso', 'pagado') con las fechas en que cambió.
     ["seller_id", "INTEGER"],
@@ -552,6 +564,15 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["purchase_dropped_at", "INTEGER"],
     ["purchase_delivery", "TEXT NOT NULL DEFAULT ''"],
     ["purchase_tracking", "TEXT NOT NULL DEFAULT ''"],
+    // El equipo recibió el par, y cuándo se le consignó al revendedor. NULL = todavía no.
+    ["purchase_received_at", "INTEGER"],
+    ["purchase_paid_at", "INTEGER"],
+    // Verificación del par por el equipo (lo que ve el vendedor): puntos, conclusión, mensaje, quién y cuándo.
+    ["verif_checks", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_result", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_seller_note", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_by", "TEXT NOT NULL DEFAULT ''"],
+    ["verif_at", "INTEGER"],
   ],
   buyer_offers: [
     ["pay_hours", "INTEGER NOT NULL DEFAULT 24"],
