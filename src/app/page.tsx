@@ -11,17 +11,19 @@ import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
 import TrendingCarousel, { type TrendingSlide } from "@/components/TrendingCarousel";
 import ArrivalsCalendar from "@/components/ArrivalsCalendar";
+import PopularBrands from "@/components/PopularBrands";
 import Reveal from "@/components/Reveal";
-import { getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
+import { getAllGroups, getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
 import { groupPriceRange } from "@/lib/grouping";
 import { formatPrice } from "@/lib/format";
 import type { ChatPair } from "@/components/CTASection";
 import { jsonLdString, websiteJsonLd } from "@/lib/seo";
 
 export default async function Home() {
-  const [featured, arrivals] = await Promise.all([
+  const [featured, arrivals, allGroups] = await Promise.all([
     getFeaturedGroups(6),
     getNewArrivalGroups(12),
+    getAllGroups(),
   ]);
 
   // Pares reales (de marcas distintas) que la tienda "sube" en el chat de la comunidad.
@@ -57,6 +59,7 @@ export default async function Home() {
       <TrendingCarousel slides={slides} />
       <PromoSection />
       <ArrivalsCalendar groups={arrivals} />
+      <PopularBrands groups={allGroups} />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
