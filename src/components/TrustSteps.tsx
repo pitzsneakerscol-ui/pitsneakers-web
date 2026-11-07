@@ -1,13 +1,7 @@
 import Link from "next/link";
 
-const SERIF = { fontFamily: "var(--font-serif), Georgia, 'Times New Roman', serif" } as const;
-
-// Mismos colores y rayitas del carrusel del inicio, para que todo se sienta de la misma familia.
-const DASHES =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M44 14 52 8' stroke='%23000' stroke-opacity='.45' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E\")";
-
 function Icon({ name }: { name: "search" | "shield" | "box" }) {
-  const common = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round", className: "h-6 w-6", "aria-hidden": true } as const;
+  const common = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round", className: "h-4 w-4", "aria-hidden": true } as const;
   if (name === "search")
     return (
       <svg {...common}>
@@ -36,60 +30,72 @@ const steps = [
     icon: "search" as const,
     title: "Revisión física",
     description: "Cada par o prenda se inspecciona a mano: costuras, materiales, empaque y detalles de fábrica.",
-    bg: "#2a6244",
-    ink: "#f4efe0",
   },
   {
     number: "02",
     icon: "shield" as const,
     title: "Autenticación",
     description: "Comparamos contra bases de datos y referencias oficiales de cada marca antes de aprobar la publicación.",
-    bg: "#c84028",
-    ink: "#fff4ea",
   },
   {
     number: "03",
     icon: "box" as const,
     title: "Consignación segura",
     description: "El producto queda documentado y bajo nuestra intermediación hasta que la venta se cierra con el comprador.",
-    bg: "#1f3a5f",
-    ink: "#eef3fa",
   },
 ];
 
-/** Cómo verificamos cada par: tres tarjetas de color que se deslizan de lado en el celular y quedan en fila en pantallas grandes. */
+/** Cómo verificamos cada par: banda negra con la cuadrícula del hero, números en Anton y naranja de la marca. Compacta. */
 export default function TrustSteps() {
   return (
-    <section aria-label="Cómo verificamos cada par" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Cómo verificamos cada par</h2>
-        <Link href="/verificacion" className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent">
-          Ver más
-          <span aria-hidden="true" className="transition group-hover:translate-x-1">→</span>
+    <section aria-label="Cómo verificamos cada par" className="relative overflow-hidden bg-ink text-white">
+      <div className="checker-strip" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/50">
+              <span aria-hidden="true" className="nav-dot" style={{ ["--glow" as string]: "#c84028" }} />
+              Confianza
+            </p>
+            <h2 className="mt-2 font-display text-3xl uppercase leading-none tracking-wide sm:text-4xl">
+              Cómo verificamos <span className="text-accent">cada par</span>
+            </h2>
+          </div>
+          <Link href="/verificacion" className="group hidden shrink-0 items-center gap-1.5 text-sm font-semibold text-white/80 transition hover:text-white sm:inline-flex">
+            Ver más
+            <span aria-hidden="true" className="text-accent transition group-hover:translate-x-1">→</span>
+          </Link>
+        </div>
+
+        <ol className="no-scrollbar scroll-pl-4 sm:scroll-pl-0 -mx-4 mt-6 flex snap-x gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0">
+          {steps.map((s) => (
+            <li key={s.number} className="flex w-[84%] shrink-0 snap-start gap-3 rounded-xl border border-white/15 bg-white/[0.04] p-4 transition hover:border-accent/70 sm:w-auto sm:flex-col sm:gap-3">
+              <span className="font-display text-4xl leading-none text-accent sm:text-5xl">{s.number}</span>
+              <div className="min-w-0">
+                <h3 className="flex items-center gap-2 text-base font-semibold">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                    <Icon name={s.icon} />
+                  </span>
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-white/65">{s.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <Link href="/verificacion" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-white/80 sm:hidden">
+          Ver más <span aria-hidden="true" className="text-accent">→</span>
         </Link>
       </div>
-
-      <ol className="no-scrollbar -mx-4 mt-5 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0">
-        {steps.map((s) => (
-          <li key={s.number} className="w-[82%] shrink-0 snap-start sm:w-0 sm:flex-1">
-            <article
-              className="flex h-full min-h-[300px] flex-col justify-between rounded-2xl p-6 transition duration-300 hover:-translate-y-1 sm:min-h-[340px] sm:p-8"
-              style={{ background: s.bg, backgroundImage: DASHES, color: s.ink }}
-            >
-              <div className="flex items-start justify-between gap-4">
-                <span className="text-6xl font-medium leading-none sm:text-7xl" style={SERIF}>{s.number}</span>
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-black/25">
-                  <Icon name={s.icon} />
-                </span>
-              </div>
-              <div className="mt-10">
-                <h3 className="text-3xl font-medium leading-tight sm:text-[2rem]" style={SERIF}>{s.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed opacity-90">{s.description}</p>
-              </div>
-            </article>
-          </li>
-        ))}
-      </ol>
     </section>
   );
 }

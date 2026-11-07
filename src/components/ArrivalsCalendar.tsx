@@ -39,7 +39,7 @@ export default function ArrivalsCalendar({ groups }: { groups: ProductGroup[] })
         </Link>
       </div>
 
-      <ul className="no-scrollbar -mx-4 mt-5 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0">
+      <ul className="no-scrollbar scroll-pl-4 sm:scroll-pl-0 -mx-4 mt-5 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0">
         {list.map((g) => {
           const when = arrival(g.dateAdded);
           const cond = g.variants[0]?.condition === "usado" ? "Usado" : "Nuevo";

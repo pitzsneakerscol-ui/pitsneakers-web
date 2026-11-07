@@ -36,7 +36,7 @@ export default function PopularBrands({ groups }: { groups: ProductGroup[] }) {
         </Link>
       </div>
 
-      <ul className="no-scrollbar -mx-4 mt-5 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0">
+      <ul className="no-scrollbar scroll-pl-4 sm:scroll-pl-0 -mx-4 mt-5 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0">
         {brands.map((b) => (
           <li key={b.brand} className="w-[250px] shrink-0 snap-start sm:w-[300px]">
             <Link href={b.href} prefetch={false} className="group block overflow-hidden rounded-md">
