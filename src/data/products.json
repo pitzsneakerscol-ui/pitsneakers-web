@@ -13108,6 +13108,70 @@
     "dateAdded": "1970-01-01T10:33:00.000Z"
   },
   {
+    "id": "DUNK-31",
+    "slug": "nike-dunk-low-bacon",
+    "name": "Dunk Low Bacon",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 780000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo FB7910-600. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-31.66db968c.webp",
+      "/products/DUNK-31-2.c5126689.webp",
+      "/products/DUNK-31-3.90e16b56.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:34:00.000Z"
+  },
+  {
+    "id": "DUNK-32",
+    "slug": "nike-dunk-low-gold-rose",
+    "name": "Dunk Low Gold Rose",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 690000,
+    "promo": false,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DH9765-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-32.97131211.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:35:00.000Z"
+  },
+  {
+    "id": "DUNK-33",
+    "slug": "nike-dunk-low-indigo-haze",
+    "name": "Dunk Low Indigo Haze",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 580000,
+    "promo": false,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DD1503-500. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-33.8a4ea882.webp",
+      "/products/DUNK-33-2.15df5146.webp",
+      "/products/DUNK-33-3.ee796629.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:36:00.000Z"
+  },
+  {
     "id": "GODSPEED-01",
     "slug": "godspeed-cap-4-ever-baby-blue",
     "name": "Cap 4 Ever Baby Blue",
@@ -13127,7 +13191,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:34:00.000Z"
+    "dateAdded": "1970-01-01T10:37:00.000Z"
   },
   {
     "id": "GODSPEED-02",
@@ -13149,7 +13213,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:35:00.000Z"
+    "dateAdded": "1970-01-01T10:38:00.000Z"
   },
   {
     "id": "GODSPEED-03",
@@ -13171,7 +13235,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:36:00.000Z"
+    "dateAdded": "1970-01-01T10:39:00.000Z"
   },
   {
     "id": "GODSPEED-04",
@@ -13193,7 +13257,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:37:00.000Z"
+    "dateAdded": "1970-01-01T10:40:00.000Z"
   },
   {
     "id": "AJ4-30",
@@ -13213,7 +13277,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:38:00.000Z"
+    "dateAdded": "1970-01-01T10:41:00.000Z"
   },
   {
     "id": "MIND001-21",
@@ -13233,7 +13297,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:39:00.000Z"
+    "dateAdded": "1970-01-01T10:42:00.000Z"
   },
   {
     "id": "MIND001-22",
@@ -13253,6 +13317,6 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:40:00.000Z"
+    "dateAdded": "1970-01-01T10:43:00.000Z"
   }
 ]

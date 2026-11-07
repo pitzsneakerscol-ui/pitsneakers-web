@@ -64,16 +64,16 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 60. [ ] Nike · Mind M001 — código HQ4307-003 — tallas 7, 6 — $850.000
 61. [ ] Jordan · Jordan 1 Low OG Olive — código HQ6998-200 — tallas 7 — $750.000
 62. [x] Jordan · Jordan 4 Vivid Sulfur — código AQ9129-101 — tallas 7 — $1.450.000 — ya estaba: AJ4-29
-63. [ ] Nike · Dunk Low Bacon — código FB7910-600 — tallas 7 — $780.000
+63. [x] Nike · Dunk Low Bacon — código FB7910-600 — tallas 7 — $780.000 — DUNK-31
 64. [ ] Jordan · Jordan 1 Low Wear Away Electric Green — código DN3705-003 — tallas 7 — $650.000
 65. [ ] Jordan · Jordan 1 Low Glitter Swoosh — código FQ9112-100 — tallas 7 — $750.000
 66. [x] Nike · Air Force 1 Impact Next Nature — código FD0688-100 — tallas 7 — $550.000 — AF1-27
 67. [ ] Nike · Mind M001 — código HQ4307-600 — tallas 6, 5 — $850.000
 68. [x] Nike · Air Force 1 Comand Force — código DR0148-100 — tallas 6 — $750.000 — AF1-26 (nombre corregido a "Command Force")
-69. [ ] Nike · Dunk Low Gold Rose — código DH9765-100 — tallas 6 — $690.000
+69. [x] Nike · Dunk Low Gold Rose — código DH9765-100 — tallas 6 — $690.000 — DUNK-32 (solo 1 foto: las otras tenían fondo rosa difícil de recortar)
 70. [ ] Nike · Dunk Low Pastel Paisley — código FJ7707-131 — tallas 6 — $680.000
 71. [x] Nike · Air Force 1 Metallic Silver — código DZ6755-100 — tallas 5 — $780.000 — AF1-29
-72. [ ] Nike · Dunk Low Indigo Haze — código DD1503-500 — tallas 5 — $580.000
+72. [x] Nike · Dunk Low Indigo Haze — código DD1503-500 — tallas 5 — $580.000 — DUNK-33 (fotos de baja resolución)
 73. [x] Nike · Air Force 1 Lotto Flower — código FD0778-100 — tallas 4 — $800.000 — AF1-28 (nombre puesto como "Lotus Flower"; confirmar)
 74. [ ] Jordan · Jordan 1 High UNC — código FD1437-400 — tallas 4 — $750.000
 75. [ ] Jordan · Jordan 1 Low OG UNC — código CZ0790-104 — tallas 4 — $550.000
