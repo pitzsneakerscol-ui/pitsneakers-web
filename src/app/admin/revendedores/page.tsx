@@ -16,6 +16,15 @@ export default async function ResellersPage() {
       <header>
         <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Revendedores</h1>
         <p className="mt-2 text-sm text-muted">{rows.length} cuenta{rows.length === 1 ? "" : "s"} registrada{rows.length === 1 ? "" : "s"}.</p>
+        <a
+          href="/admin/stock-faltante"
+          className="mt-4 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-semibold hover:border-ink"
+        >
+          Descargar stock que falta subir (ZIP)
+        </a>
+        <p className="mt-2 max-w-xl text-xs text-muted">
+          Una lista por revendedor con los pares de su inventario que todavía no se publican solos (falta la foto, el modelo, el precio o la talla), más un resumen con el usuario de cada uno.
+        </p>
       </header>
 
       <NewResellerForm />
