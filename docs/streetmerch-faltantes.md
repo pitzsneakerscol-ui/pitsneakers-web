@@ -51,7 +51,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 47. [ ] Jordan · Jordan 4 Flight Club — código IM4002-100 — tallas 10 — $1.000.000
 48. [ ] Nike · Dunk Low Splash Volt — código FJ4610-702 — tallas 10 — $750.000
 49. [ ] Nike · Dunk Low Mica Green — código DV7212-300 — tallas 10 — $650.000
-50. [x] Adidas · Jellyfish Triple White — código KH6730 — tallas 9, 8 — $1.450.000 — ya estaba en la página (según el dueño: Jellyfish Crystal Sand Virginia, ADIDAS-08/ADIDAS-11)
+50. [x] Adidas · Jellyfish Triple White — código KH6730 — tallas 9, 8 — $1.450.000 — ya estaba: ADI-BB-34 (Adidas x Pharrell Williams Jellyfish White, tallas 9 y 8; en la página sale a $1.100.000)
 51. [ ] Jordan · Jordan 1 Low Banned — código IW6276-001 — tallas 9 — $950.000
 52. [ ] Jordan · Jordan 1 Mid Wear Away Pale Orange — código DQ8418-071 — tallas 9 — $790.000
 53. [ ] Nike · Dunk Low White Picante Red — código DV0831-103 — tallas 9 — $680.000
