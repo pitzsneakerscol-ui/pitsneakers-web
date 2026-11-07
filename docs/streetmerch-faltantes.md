@@ -37,25 +37,25 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 33. [x] Jordan · Jordan 1 Mid Sky J Mauve — código BQ6472-050 — tallas 7.5 — $650.000
 34. [x] Nike · Dunk Low Just Do It — código DV1160-100 — tallas 6.5 — $690.000
 35. [ ] Nike · Dunk Low White and Sail — código DD1503-121 — tallas 6.5 — $650.000
-36. [ ] Nike · Dunk Low SB Adobe — código DV5429-600 — tallas 6.5 — $650.000
-37. [ ] Jordan · Jordan 1 Mid Metallic Gold Black — código DR6967-071 — tallas 6.5 — $650.000
+36. [x] Nike · Dunk Low SB Adobe — código DV5429-600 — tallas 6.5 — $650.000 — ya estaba: SB-DUNK-52
+37. [x] Jordan · Jordan 1 Mid Metallic Gold Black — código DR6967-071 — tallas 6.5 — $650.000 — ya estaba: AJ1-64
 38. [ ] Jordan · Jordan 1 High Metallic Gold — código FD2596-107 — tallas 5.5 — $900.000
 39. [ ] Nike · Dunk Low Paisley Pack Pink — código FD1449-100 — tallas 5.5 — $750.000
-40. [ ] Nike · Air Force 1 Año del tigre — código DR0147-171 — tallas 5.5 — $550.000
+40. [x] Nike · Air Force 1 Año del tigre — código DR0147-171 — tallas 5.5 — $550.000 — ya estaba: AF1-25
 41. [x] Adidas · Gazelle Bold — código H06122 — tallas 5.5 — $490.000
 42. [ ] Nike · Air Force 1 Plt.AF.orm — código DJ9946-101 — tallas 4.5 — $550.000
 43. [ ] Yeezy · Foam RNR MYX — código IE4931 — tallas 11 — $499.000
-44. [ ] Jordan · Jordan 1 Low Wear Away Mocha — código DQ8421-001 — tallas 11 — $790.000
+44. [x] Jordan · Jordan 1 Low Wear Away Mocha — código DQ8421-001 — tallas 11 — $790.000 — ya estaba: AJ1-65
 45. [ ] Jordan · Jordan 1 Low Bordeaux — código 553558-615 — tallas 11 — $790.000
 46. [ ] Adidas · Samba x Bape — código JR9245 — tallas 11 — $999.000
 47. [ ] Jordan · Jordan 4 Flight Club — código IM4002-100 — tallas 10 — $1.000.000
 48. [ ] Nike · Dunk Low Splash Volt — código FJ4610-702 — tallas 10 — $750.000
 49. [ ] Nike · Dunk Low Mica Green — código DV7212-300 — tallas 10 — $650.000
-50. [ ] Adidas · Jellyfish Triple White — código KH6730 — tallas 9, 8 — $1.450.000
+50. [x] Adidas · Jellyfish Triple White — código KH6730 — tallas 9, 8 — $1.450.000 — ya estaba en la página (según el dueño: Jellyfish Crystal Sand Virginia, ADIDAS-08/ADIDAS-11)
 51. [ ] Jordan · Jordan 1 Low Banned — código IW6276-001 — tallas 9 — $950.000
 52. [ ] Jordan · Jordan 1 Mid Wear Away Pale Orange — código DQ8418-071 — tallas 9 — $790.000
 53. [ ] Nike · Dunk Low White Picante Red — código DV0831-103 — tallas 9 — $680.000
-54. [ ] Nike · Dunk Low Panda 2.0 — código DV0831-002 — tallas 9 — $790.000
+54. [x] Nike · Dunk Low Panda 2.0 — código DV0831-002 — tallas 9 — $790.000 — ya estaba: DUNK-30
 55. [ ] Jordan · Jordan 1 Mid Wear Away Chicago — código DV9565-006 — tallas 8 — $790.000
 56. [ ] Jordan · Jordan 1 Low New Emerald — código DN3705-301 — tallas 8 — $720.000
 57. [ ] Nike · Dunk Low Phantom Gold — código DN1431-001 — tallas 8 — $690.000
@@ -63,7 +63,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 59. [ ] Nike · Mind M001 — código HQ4307-300 — tallas 7 — $850.000
 60. [ ] Nike · Mind M001 — código HQ4307-003 — tallas 7, 6 — $850.000
 61. [ ] Jordan · Jordan 1 Low OG Olive — código HQ6998-200 — tallas 7 — $750.000
-62. [ ] Jordan · Jordan 4 Vivid Sulfur — código AQ9129-101 — tallas 7 — $1.450.000
+62. [x] Jordan · Jordan 4 Vivid Sulfur — código AQ9129-101 — tallas 7 — $1.450.000 — ya estaba: AJ4-29
 63. [ ] Nike · Dunk Low Bacon — código FB7910-600 — tallas 7 — $780.000
 64. [ ] Jordan · Jordan 1 Low Wear Away Electric Green — código DN3705-003 — tallas 7 — $650.000
 65. [ ] Jordan · Jordan 1 Low Glitter Swoosh — código FQ9112-100 — tallas 7 — $750.000
