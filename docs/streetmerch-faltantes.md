@@ -72,8 +72,8 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 68. [x] Nike · Air Force 1 Comand Force — código DR0148-100 — tallas 6 — $750.000 — AF1-26 (nombre corregido a "Command Force")
 69. [ ] Nike · Dunk Low Gold Rose — código DH9765-100 — tallas 6 — $690.000
 70. [ ] Nike · Dunk Low Pastel Paisley — código FJ7707-131 — tallas 6 — $680.000
-71. [ ] Nike · Air Force 1 Metallic Silver — código DZ6755-100 — tallas 5 — $780.000
+71. [x] Nike · Air Force 1 Metallic Silver — código DZ6755-100 — tallas 5 — $780.000 — AF1-29
 72. [ ] Nike · Dunk Low Indigo Haze — código DD1503-500 — tallas 5 — $580.000
-73. [ ] Nike · Air Force 1 Lotto Flower — código FD0778-100 — tallas 4 — $800.000
+73. [x] Nike · Air Force 1 Lotto Flower — código FD0778-100 — tallas 4 — $800.000 — AF1-28 (nombre puesto como "Lotus Flower"; confirmar)
 74. [ ] Jordan · Jordan 1 High UNC — código FD1437-400 — tallas 4 — $750.000
 75. [ ] Jordan · Jordan 1 Low OG UNC — código CZ0790-104 — tallas 4 — $550.000
