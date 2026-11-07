@@ -72,16 +72,6 @@ function Chevron() {
   );
 }
 
-// Menú del celular: lo que más se mira va en mosaicos y lo demás en una lista corta con una frase de ayuda.
-const TILE_HREFS = ["/sale", "/sneakers", "/streetwear", "/lanzamientos"];
-const SERVICE_HREFS = ["/encargos", "/verificacion", "/revendedores", "/contacto"];
-const MENU_HINTS: Record<string, string> = {
-  "/encargos": "¿No encuentras tu par? Pídelo",
-  "/verificacion": "Cómo revisamos cada par",
-  "/revendedores": "Consigna tus pares",
-  "/contacto": "Escríbenos o visítanos",
-};
-
 const baseLinks: NavLink[] = [
   { href: "/sneakers", label: "Sneakers", glow: "#ff5a3c" },
   { href: "/streetwear", label: "Streetwear", glow: "#ffd23f" },
@@ -98,8 +88,9 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false, s
   const links: NavLink[] = resellerEnabled
     ? [...withSale, { href: "/revendedores", label: "Vende con nosotros", short: "Vende", glow: "#25d366" }]
     : withSale;
-  const tiles = TILE_HREFS.map((h) => links.find((l) => l.href === h)).filter((l): l is NavLink => Boolean(l));
-  const services = SERVICE_HREFS.map((h) => links.find((l) => l.href === h)).filter((l): l is NavLink => Boolean(l));
+  // Menú del celular: la lista de categorías y, aparte, la invitación a vender.
+  const menuLinks = links.filter((l) => l.href !== "/revendedores");
+  const sellLink = links.find((l) => l.href === "/revendedores");
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<Purchase[] | null>(null);
   const [ri, setRi] = useState(0);
@@ -290,75 +281,76 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false, s
             </button>
             </div>
           </div>
-          {/* Menú en tres bloques: tu cuenta, lo que más se mira (mosaicos) y lo secundario (lista corta). */}
-          <nav className="flex flex-1 flex-col gap-5 pt-4" aria-label="Menú principal">
+          {/* Menú simple: buscador, lista de categorías y tu cuenta. Sin mosaicos ni colores: solo texto claro. */}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              window.dispatchEvent(new Event("pit:open-search"));
+            }}
+            aria-label="Buscar tu par"
+            className="menu-item mt-4 flex h-12 shrink-0 items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 text-left text-sm text-white/60 transition active:bg-white/15"
+            style={{ "--i": 0 } as React.CSSProperties}
+          >
+            <SearchIcon />
+            <span className="min-w-0 flex-1 truncate">Buscar: {SEARCH_HINTS[hint]}</span>
+          </button>
+
+          <nav className="flex flex-1 flex-col pt-3" aria-label="Menú principal">
+            <ul>
+              {menuLinks.map((link, i) => (
+                <li key={link.href} className="border-b border-white/10">
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={pathname === link.href ? "page" : undefined}
+                    className={`menu-item flex h-14 items-center justify-between text-xl font-semibold transition active:opacity-60 ${link.href === "/sale" ? "text-[#ff6b5e]" : "text-white aria-[current=page]:text-accent"}`}
+                    style={{ "--i": i + 1 } as React.CSSProperties}
+                  >
+                    {link.label}
+                    <Chevron />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {sellLink && (
+              <Link
+                href={sellLink.href}
+                onClick={() => setOpen(false)}
+                className="menu-item mt-5 flex items-center gap-3 rounded-2xl border border-whatsapp/40 px-4 py-3.5 transition active:bg-white/5"
+                style={{ "--i": menuLinks.length + 1 } as React.CSSProperties}
+              >
+                <span aria-hidden="true" className="nav-dot" />
+                <span className="min-w-0 flex-1 leading-tight">
+                  <span className="block text-base font-semibold text-whatsapp">Vende con nosotros</span>
+                  <span className="mt-0.5 block text-xs text-white/50">Consigna tus pares</span>
+                </span>
+                <Chevron />
+              </Link>
+            )}
+
             {resellerEnabled && (
               <Link
                 href={accountHref}
                 onClick={() => setOpen(false)}
-                className="menu-item flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition active:scale-[0.99]"
-                style={{ "--i": 0 } as React.CSSProperties}
+                className="menu-item mt-3 flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3.5 transition active:bg-white/10"
+                style={{ "--i": menuLinks.length + 2 } as React.CSSProperties}
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white">
                   <UserIcon />
                 </span>
                 <span className="min-w-0 flex-1 leading-tight">
                   <span className="block truncate text-base font-semibold">
                     {session ? `Hola, ${session.name.split(" ")[0] || "tú"}` : "Ingresar"}
                   </span>
-                  <span className="mt-0.5 block text-xs text-white/60">
+                  <span className="mt-0.5 block text-xs text-white/50">
                     {session ? (session.buyer ? "Mi cuenta" : "Mi panel") : "Crea tu cuenta, guarda favoritos y haz ofertas"}
                   </span>
                 </span>
                 <Chevron />
               </Link>
             )}
-
-            <ul className="grid grid-cols-2 gap-3">
-              {tiles.map((link, i) => (
-                <li key={link.href} className="[&:nth-child(odd):last-child]:col-span-2">
-                  <Link
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    aria-current={pathname === link.href ? "page" : undefined}
-                    className="menu-item flex h-28 flex-col justify-between rounded-2xl border border-white/10 p-4 transition active:scale-[0.98] aria-[current=page]:border-white/40"
-                    style={
-                      {
-                        "--glow": link.glow,
-                        "--i": i + 1,
-                        backgroundImage: "linear-gradient(150deg, color-mix(in srgb, var(--glow) 26%, transparent) 0%, transparent 70%)",
-                      } as React.CSSProperties
-                    }
-                  >
-                    <span aria-hidden="true" className="menu-bar" />
-                    <span className="font-display leading-none tracking-wide" style={{ fontSize: "clamp(1rem, 5vw, 1.25rem)" }}>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <ul className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-              {services.map((link, i) => (
-                <li key={link.href} className="border-b border-white/10 last:border-b-0">
-                  <Link
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    aria-current={pathname === link.href ? "page" : undefined}
-                    className="menu-item flex items-center gap-3 px-4 py-3.5 transition active:bg-white/5"
-                    style={{ "--glow": link.glow, "--i": tiles.length + i + 1 } as React.CSSProperties}
-                  >
-                    <span className="min-w-0 flex-1 leading-tight">
-                      <span className="flex items-center gap-2 text-base font-semibold">
-                        {link.short ?? link.label}
-                        {link.href === "/revendedores" && <span aria-hidden="true" className="nav-dot" />}
-                      </span>
-                      <span className="mt-0.5 block text-xs text-white/50">{MENU_HINTS[link.href]}</span>
-                    </span>
-                    <Chevron />
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </nav>
           {/* Prueba social: las últimas compras reales, una a la vez. Si todavía no hay ninguna que mostrar, queda el botón de Instagram. */}
           {recent && recent.length > 0 ? (
