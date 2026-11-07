@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Anton } from "next/font/google";
+import { Inter, Anton, Newsreader } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -22,6 +22,12 @@ export const revalidate = 300;
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+// Letra con serifa para las fechas y los títulos de las tarjetas destacadas.
+const newsreader = Newsreader({
+  variable: "--font-serif",
   subsets: ["latin"],
 });
 
@@ -73,7 +79,7 @@ export default async function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${inter.variable} ${anton.variable} h-full antialiased`}
+      className={`${inter.variable} ${anton.variable} ${newsreader.variable} h-full antialiased`}
     >
       <head>
         {/* Aplica el modo noche guardado antes de pintar la página (evita el destello blanco). */}

@@ -9,7 +9,8 @@ import ResellerSection from "@/components/ResellerSection";
 import Testimonials from "@/components/Testimonials";
 import CommunityStats from "@/components/CommunityStats";
 import CTASection from "@/components/CTASection";
-import NewArrivalsStrip from "@/components/NewArrivalsStrip";
+import TrendingCarousel, { type TrendingSlide } from "@/components/TrendingCarousel";
+import ArrivalsCalendar from "@/components/ArrivalsCalendar";
 import Reveal from "@/components/Reveal";
 import { getFeaturedGroups, getNewArrivalGroups } from "@/lib/products";
 import { groupPriceRange } from "@/lib/grouping";
@@ -42,12 +43,19 @@ export default async function Home() {
     };
   });
 
+  // Carrusel de destacados: los tres primeros pares de Destacados que tienen foto.
+  const slides: TrendingSlide[] = featured
+    .filter((g) => g.images.length > 0)
+    .slice(0, 3)
+    .map((g) => ({ slug: g.groupSlug, name: g.name, brand: g.brand, image: g.images[0], price: formatPrice(groupPriceRange(g).min) }));
+
   return (
     <>
       {/* Nombre del sitio para Google (aparece arriba del resultado en vez de la dirección). */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(websiteJsonLd()) }} />
       <Hero />
-      <NewArrivalsStrip groups={arrivals} />
+      <TrendingCarousel slides={slides} />
+      <ArrivalsCalendar groups={arrivals} />
       <PromoSection />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
