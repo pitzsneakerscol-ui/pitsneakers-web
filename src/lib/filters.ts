@@ -7,6 +7,8 @@ export type CatalogSearchParams = {
   precio?: string;
   estado?: string;
   fav?: string;
+  /** Tipo de pieza dentro de streetwear: "ropa" o "accesorio". */
+  tipo?: string;
 };
 
 export function applyCatalogFilters(
@@ -18,6 +20,10 @@ export function applyCatalogFilters(
   if (params.fav) {
     const wanted = new Set(params.fav.split(",").slice(0, 60));
     result = result.filter((g) => wanted.has(g.groupSlug));
+  }
+
+  if (params.tipo) {
+    result = result.filter((g) => g.subcategory === params.tipo);
   }
 
   if (params.marca) {

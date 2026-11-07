@@ -32,7 +32,7 @@ export default async function StreetwearPage({
           Catálogo
         </p>
         <h1 className="mt-3 font-display text-4xl tracking-wide sm:text-5xl">
-          Streetwear
+          {params.tipo === "accesorio" ? "Accesorios" : params.tipo === "ropa" ? "Ropa" : "Streetwear"}
         </h1>
         <p className="mt-3 text-sm text-muted sm:text-base">
           Piezas verificadas de las marcas que sigues, en consignación segura.
