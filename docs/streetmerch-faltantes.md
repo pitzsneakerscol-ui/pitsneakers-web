@@ -42,7 +42,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 38. [ ] Jordan · Jordan 1 High Metallic Gold — código FD2596-107 — tallas 5.5 — $900.000
 39. [ ] Nike · Dunk Low Paisley Pack Pink — código FD1449-100 — tallas 5.5 — $750.000
 40. [ ] Nike · Air Force 1 Año del tigre — código DR0147-171 — tallas 5.5 — $550.000
-41. [ ] Adidas · Gazelle Bold — código H06122 — tallas 5.5 — $490.000
+41. [x] Adidas · Gazelle Bold — código H06122 — tallas 5.5 — $490.000
 42. [ ] Nike · Air Force 1 Plt.AF.orm — código DJ9946-101 — tallas 4.5 — $550.000
 43. [ ] Yeezy · Foam RNR MYX — código IE4931 — tallas 11 — $499.000
 44. [ ] Jordan · Jordan 1 Low Wear Away Mocha — código DQ8421-001 — tallas 11 — $790.000

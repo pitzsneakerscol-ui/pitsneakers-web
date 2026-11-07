@@ -4677,6 +4677,20 @@
     "image": "/products/AJ4-29.c40e55ef.webp"
   },
   {
+    "seller": "streetmerch",
+    "slug": "adidas-gazelle-bold",
+    "name": "Gazelle Bold",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "GAZELLE-05",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 490000,
+    "condition": "nuevo",
+    "image": "/products/GAZELLE-05.1a60ba76.webp"
+  },
+  {
     "seller": "santiagoflex",
     "slug": "godspeed-cap-4-ever-baby-blue",
     "name": "Cap 4 Ever Baby Blue",
