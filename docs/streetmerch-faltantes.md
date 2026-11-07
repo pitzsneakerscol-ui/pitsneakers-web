@@ -69,7 +69,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 65. [ ] Jordan · Jordan 1 Low Glitter Swoosh — código FQ9112-100 — tallas 7 — $750.000
 66. [ ] Nike · Air Force 1 Impact Next Nature — código FD0688-100 — tallas 7 — $550.000
 67. [ ] Nike · Mind M001 — código HQ4307-600 — tallas 6, 5 — $850.000
-68. [ ] Nike · Air Force 1 Comand Force — código DR0148-100 — tallas 6 — $750.000
+68. [x] Nike · Air Force 1 Comand Force — código DR0148-100 — tallas 6 — $750.000 — AF1-26 (nombre corregido a "Command Force")
 69. [ ] Nike · Dunk Low Gold Rose — código DH9765-100 — tallas 6 — $690.000
 70. [ ] Nike · Dunk Low Pastel Paisley — código FJ7707-131 — tallas 6 — $680.000
 71. [ ] Nike · Air Force 1 Metallic Silver — código DZ6755-100 — tallas 5 — $780.000

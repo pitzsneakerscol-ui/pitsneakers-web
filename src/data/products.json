@@ -13004,6 +13004,28 @@
     "dateAdded": "1970-01-01T10:28:00.000Z"
   },
   {
+    "id": "AF1-26",
+    "slug": "nike-air-force-1-low-command-force",
+    "name": "Air Force 1 Low Command Force",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "6"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo DR0148-100. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-26.6b9c9202.webp",
+      "/products/AF1-26-2.f22fe660.webp",
+      "/products/AF1-26-3.815138ff.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:29:00.000Z"
+  },
+  {
     "id": "GODSPEED-01",
     "slug": "godspeed-cap-4-ever-baby-blue",
     "name": "Cap 4 Ever Baby Blue",
@@ -13023,7 +13045,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:29:00.000Z"
+    "dateAdded": "1970-01-01T10:30:00.000Z"
   },
   {
     "id": "GODSPEED-02",
@@ -13045,7 +13067,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:30:00.000Z"
+    "dateAdded": "1970-01-01T10:31:00.000Z"
   },
   {
     "id": "GODSPEED-03",
@@ -13067,7 +13089,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:31:00.000Z"
+    "dateAdded": "1970-01-01T10:32:00.000Z"
   },
   {
     "id": "GODSPEED-04",
@@ -13089,7 +13111,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:32:00.000Z"
+    "dateAdded": "1970-01-01T10:33:00.000Z"
   },
   {
     "id": "AJ4-30",
@@ -13109,7 +13131,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:33:00.000Z"
+    "dateAdded": "1970-01-01T10:34:00.000Z"
   },
   {
     "id": "MIND001-21",
@@ -13129,7 +13151,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:34:00.000Z"
+    "dateAdded": "1970-01-01T10:35:00.000Z"
   },
   {
     "id": "MIND001-22",
@@ -13149,6 +13171,6 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:35:00.000Z"
+    "dateAdded": "1970-01-01T10:36:00.000Z"
   }
 ]
