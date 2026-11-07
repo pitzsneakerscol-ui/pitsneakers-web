@@ -31,27 +31,27 @@ export default async function CategoryBanners() {
   return (
     <section aria-label="Explora por categoría" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <h2 className="font-display text-xl uppercase tracking-wide sm:text-3xl">Explora por categoría</h2>
-      <div className="mt-5 grid grid-cols-2 gap-3 sm:max-w-3xl sm:grid-cols-3 sm:gap-4">
-        {categories.map((category, i) => (
+      <div className="mt-5 grid grid-cols-3 gap-2 sm:max-w-3xl sm:gap-4">
+        {categories.map((category) => (
           <Link
             key={category.href}
             href={category.href}
-            className={`group block overflow-hidden rounded-xl border border-line bg-paper-raised transition hover:border-ink ${i === 2 ? "col-span-2 sm:col-span-1" : ""}`}
+            className="group block overflow-hidden rounded-xl border border-line bg-paper-raised transition hover:border-ink"
           >
-            <span className={`relative block w-full bg-[#ebe8e2] ${i === 2 ? "aspect-[4/1] sm:aspect-[4/3]" : "aspect-[4/3]"}`}>
+            <span className="relative block aspect-square w-full bg-[#ebe8e2] sm:aspect-[4/3]">
               {category.cover && (
                 <Image
                   src={category.cover.images[0]}
                   alt=""
                   fill
-                  sizes="(min-width: 640px) 336px, 50vw"
-                  className="object-contain p-3 mix-blend-multiply transition duration-500 group-hover:scale-105"
+                  sizes="(min-width: 640px) 336px, 33vw"
+                  className="object-contain p-2 mix-blend-multiply sm:p-3 transition duration-500 group-hover:scale-105"
                 />
               )}
             </span>
-            <span className="flex items-center justify-between gap-2 px-3 py-2.5">
-              <span className="font-display text-lg uppercase tracking-wide">{category.label}</span>
-              <span aria-hidden="true" className="text-accent transition group-hover:translate-x-1">→</span>
+            <span className="flex items-center justify-between gap-2 px-2 py-2 sm:px-3 sm:py-2.5">
+              <span className="min-w-0 truncate font-display text-[13px] uppercase tracking-wide sm:text-lg">{category.label}</span>
+              <span aria-hidden="true" className="hidden text-accent transition group-hover:translate-x-1 sm:inline">→</span>
             </span>
           </Link>
         ))}
