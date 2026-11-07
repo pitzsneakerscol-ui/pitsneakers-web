@@ -52,6 +52,18 @@ function agoLabel(at: number): string {
   return d === 1 ? "ayer" : `hace ${d} días`;
 }
 
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+// Ejemplos que rotan dentro del buscador del encabezado (abre el mismo buscador de siempre).
+const SEARCH_HINTS = ["Jordan 4 Black Cat", "Dunk Low Panda", "Yeezy Slide", "Travis Scott", "Adidas Campus", "Nike Mind 001", "Mi talla: 9"];
+
 function Chevron() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/40" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -92,7 +104,31 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false, s
   const [recent, setRecent] = useState<Purchase[] | null>(null);
   const [ri, setRi] = useState(0);
   const [session, setSession] = useState<Session | null>(null);
+  const [hint, setHint] = useState(0);
+  const [slim, setSlim] = useState(false);
   const pathname = usePathname();
+
+  // Placeholder del buscador: rota los ejemplos (se detiene si la pestaña está oculta).
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!document.hidden) setHint((n) => (n + 1) % SEARCH_HINTS.length);
+    }, 2400);
+    return () => clearInterval(id);
+  }, []);
+
+  // Al bajar por la página la fila de categorías se esconde (queda solo logo + buscador); al subir vuelve.
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 120) setSlim(false);
+      else if (y > last + 6) setSlim(true);
+      else if (y < last - 6) setSlim(false);
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Si el vendedor ya tiene sesión abierta, el botón dice "Mi panel" en vez de "Ingresar".
   useEffect(() => {
@@ -156,34 +192,28 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false, s
           PIT<span className="logo-shine text-accent">SNEAKERS</span>
         </Link>
 
-        <nav className="hidden min-w-0 items-center gap-6 xl:flex 2xl:gap-9">
-          {links.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={pathname === link.href ? "page" : undefined}
-              className="nav-link nav-glow whitespace-nowrap text-[13px] font-medium uppercase tracking-[0.05em]"
-              style={{ "--glow": link.glow, "--i": i } as React.CSSProperties}
-            >
-              {link.href === "/revendedores" && <span aria-hidden="true" className="nav-dot" />}
-              {link.short ? (
-                <>
-                  <span className="2xl:hidden">{link.short}</span>
-                  <span className="hidden 2xl:inline">{link.label}</span>
-                </>
-              ) : (
-                link.label
-              )}
-            </Link>
-          ))}
-        </nav>
+        {/* Buscador grande al centro (estilo tienda): abre el buscador completo con filtros y tallas. */}
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event("pit:open-search"))}
+          aria-label="Buscar tu par"
+          className="group hidden h-10 min-w-0 max-w-xl flex-1 items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 text-left text-sm text-white/60 transition hover:border-white/40 hover:bg-white/15 lg:flex"
+        >
+          <SearchIcon />
+          <span className="relative h-5 min-w-0 flex-1 overflow-hidden">
+            <span key={hint} aria-hidden="true" className="srch-ph absolute inset-0 truncate whitespace-nowrap leading-5">
+              Buscar: {SEARCH_HINTS[hint]}
+            </span>
+          </span>
+          <kbd className="hidden rounded border border-white/25 px-1.5 py-0.5 text-[10px] font-medium text-white/50 xl:inline">Ctrl K</kbd>
+        </button>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {resellerEnabled && (
             <Link
               href={accountHref}
               onClick={() => setOpen(false)}
-              className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:border-white hover:bg-white/10 sm:px-4 sm:text-xs"
+              className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white/90 transition hover:bg-white/10 hover:text-white sm:text-xs"
               title={session ? `Sesión de ${session.name}` : "Ingresar o crear tu cuenta"}
             >
               <UserIcon />
@@ -216,6 +246,29 @@ export default function Navbar({ resellerEnabled = false, saleEnabled = false, s
             />
           </button>
         </div>
+      </div>
+
+      {/* Fila de categorías (solo pantallas grandes): un solo color, subrayado al pasar el mouse y se esconde al bajar. */}
+      <div className={`hidden border-t border-white/10 transition-[grid-template-rows] duration-300 xl:grid ${slim ? "grid-rows-[0fr]" : "grid-rows-[1fr]"}`}>
+        <nav className="min-h-0 overflow-hidden" aria-label="Categorías">
+          <div className="mx-auto flex h-11 max-w-[1480px] items-center gap-8 px-8">
+            {links.map((link) => {
+              const sell = link.href === "/revendedores";
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  tabIndex={slim ? -1 : undefined}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={`relative inline-flex items-center gap-2 whitespace-nowrap text-[13px] font-medium uppercase tracking-[0.05em] transition-colors after:absolute after:inset-x-0 after:-bottom-[11px] after:h-0.5 after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 ${sell ? "ml-auto text-whatsapp" : link.href === "/sale" ? "text-[#ff6b5e]" : "text-white/75 hover:text-white aria-[current=page]:text-white"}`}
+                >
+                  {sell && <span aria-hidden="true" className="nav-dot" />}
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
       </div>
 
       {open && (
