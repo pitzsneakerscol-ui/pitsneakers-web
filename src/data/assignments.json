@@ -4691,6 +4691,20 @@
     "image": "/products/GAZELLE-05.1a60ba76.webp"
   },
   {
+    "seller": "streetmerch",
+    "slug": "adidas-x-bape-samba-x-bape-white-black",
+    "name": "Samba x Bape White Black",
+    "brand": "Adidas x Bape",
+    "colorway": "",
+    "sku": "SAMBABAPE-02",
+    "sizes": [
+      "11"
+    ],
+    "price": 999000,
+    "condition": "nuevo",
+    "image": "/products/SAMBABAPE-02.ac91cf10.webp"
+  },
+  {
     "seller": "santiagoflex",
     "slug": "godspeed-cap-4-ever-baby-blue",
     "name": "Cap 4 Ever Baby Blue",

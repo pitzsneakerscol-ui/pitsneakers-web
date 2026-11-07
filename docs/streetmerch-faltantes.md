@@ -47,7 +47,7 @@ Se agregan en orden, una por una, cuando llega la foto de cada una. Precio = pre
 43. [ ] Yeezy · Foam RNR MYX — código IE4931 — tallas 11 — $499.000
 44. [x] Jordan · Jordan 1 Low Wear Away Mocha — código DQ8421-001 — tallas 11 — $790.000 — ya estaba: AJ1-65
 45. [ ] Jordan · Jordan 1 Low Bordeaux — código 553558-615 — tallas 11 — $790.000
-46. [ ] Adidas · Samba x Bape — código JR9245 — tallas 11 — $999.000
+46. [x] Adidas · Samba x Bape — código JR9245 — tallas 11 — $999.000 — SAMBABAPE-02 (blanca/negra; la KJ8852 es otra, crema/verde)
 47. [ ] Jordan · Jordan 4 Flight Club — código IM4002-100 — tallas 10 — $1.000.000
 48. [ ] Nike · Dunk Low Splash Volt — código FJ4610-702 — tallas 10 — $750.000
 49. [ ] Nike · Dunk Low Mica Green — código DV7212-300 — tallas 10 — $650.000
