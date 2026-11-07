@@ -13088,6 +13088,26 @@
     "dateAdded": "1970-01-01T10:32:00.000Z"
   },
   {
+    "id": "AF1-30",
+    "slug": "nike-air-force-1-plt-af-orm",
+    "name": "Air Force 1 PLT.AF.ORM",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 550000,
+    "promo": false,
+    "sizes": [
+      "4.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AF1-30.89dc95ac.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:33:00.000Z"
+  },
+  {
     "id": "GODSPEED-01",
     "slug": "godspeed-cap-4-ever-baby-blue",
     "name": "Cap 4 Ever Baby Blue",
@@ -13107,7 +13127,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:33:00.000Z"
+    "dateAdded": "1970-01-01T10:34:00.000Z"
   },
   {
     "id": "GODSPEED-02",
@@ -13129,7 +13149,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:34:00.000Z"
+    "dateAdded": "1970-01-01T10:35:00.000Z"
   },
   {
     "id": "GODSPEED-03",
@@ -13151,7 +13171,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:35:00.000Z"
+    "dateAdded": "1970-01-01T10:36:00.000Z"
   },
   {
     "id": "GODSPEED-04",
@@ -13173,7 +13193,7 @@
     ],
     "featured": false,
     "isNew": true,
-    "dateAdded": "1970-01-01T10:36:00.000Z"
+    "dateAdded": "1970-01-01T10:37:00.000Z"
   },
   {
     "id": "AJ4-30",
@@ -13193,7 +13213,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:37:00.000Z"
+    "dateAdded": "1970-01-01T10:38:00.000Z"
   },
   {
     "id": "MIND001-21",
@@ -13213,7 +13233,7 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:38:00.000Z"
+    "dateAdded": "1970-01-01T10:39:00.000Z"
   },
   {
     "id": "MIND001-22",
@@ -13233,6 +13253,6 @@
     ],
     "featured": false,
     "isNew": false,
-    "dateAdded": "1970-01-01T10:39:00.000Z"
+    "dateAdded": "1970-01-01T10:40:00.000Z"
   }
 ]
