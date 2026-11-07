@@ -29,6 +29,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
               <li><Link href="/sneakers" className="hover:text-white">Sneakers</Link></li>
               <li><Link href="/streetwear" className="hover:text-white">Streetwear</Link></li>
+              <li><Link href="/coleccionables" className="hover:text-white">Coleccionables</Link></li>
               <li><Link href="/lanzamientos" className="hover:text-white">Lanzamientos</Link></li>
               <li><Link href="/encargos" className="hover:text-white">Encargos VIP</Link></li>
             </ul>

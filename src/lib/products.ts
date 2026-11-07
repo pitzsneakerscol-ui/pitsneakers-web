@@ -93,6 +93,22 @@ export async function getGroupsByCategory(
   return photosFirst(groups.filter((g) => g.category === category));
 }
 
+// Coleccionables: figuras, cartas y otros objetos de colección (no son sneakers). Se reconocen por marca o por palabras del nombre.
+const COLLECTIBLE_BRANDS = ["labubu", "pokemon", "pop mart", "bearbrick", "funko", "kaws", "hot wheels", "lego"];
+const COLLECTIBLE_WORDS = /\b(figuras?|peluche|bearbrick|labubu|funko|coleccionables?)\b/;
+const plain = (t: string) => t.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+
+export function isCollectible(g: Pick<ProductGroup, "category" | "brand" | "name" | "subcategory">): boolean {
+  // La ropa nunca es coleccionable (por ejemplo una camiseta que dice "Card" en el nombre).
+  if (g.category === "sneakers" || g.subcategory === "ropa") return false;
+  return COLLECTIBLE_BRANDS.includes(plain(g.brand)) || COLLECTIBLE_WORDS.test(plain(g.name));
+}
+
+export async function getCollectibleGroups(): Promise<ProductGroup[]> {
+  const groups = await getAllGroups();
+  return photosFirst(groups.filter(isCollectible));
+}
+
 export async function getPromoGroups(): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
   return groups.filter((g) => groupPromo(g) !== null);
