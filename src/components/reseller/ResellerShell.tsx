@@ -116,7 +116,7 @@ export default function ResellerShell({
     <div className="theme-dark min-h-screen bg-paper text-ink lg:flex">
       {/* Barra lateral (escritorio) */}
       <aside className="hidden border-r border-line bg-paper-raised/70 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-64 lg:shrink-0 lg:flex-col lg:px-4 lg:py-6">
-        <Link href="/revendedores/panel" className="px-2 font-display text-2xl tracking-wide">
+        <Link href="/" className="px-2 font-display text-2xl tracking-wide">
           PIT<span className="text-accent">SNEAKERS</span>
         </Link>
         <p className="mt-1 px-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-muted">Revendedores</p>
@@ -149,7 +149,7 @@ export default function ResellerShell({
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Barra superior */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-paper/85 px-4 backdrop-blur sm:px-6 lg:px-10">
-          <Link href="/revendedores/panel" className="font-display text-xl tracking-wide lg:hidden">
+          <Link href="/" className="font-display text-xl tracking-wide lg:hidden">
             PIT<span className="text-accent">SNEAKERS</span>
           </Link>
           <p className="hidden font-display text-2xl tracking-wide lg:block">{title}</p>
