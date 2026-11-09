@@ -474,6 +474,43 @@ const SCHEMA = [
     document TEXT NOT NULL,
     updated_at INTEGER NOT NULL
   )`,
+  // Bot de WhatsApp. phone = número con código de país y solo dígitos (57311…). opt_out = 1: pidió no recibir más mensajes.
+  // human_until: mientras no pase esa hora el bot no contesta (una persona atiende). state/state_data: en qué paso va del flujo de publicar.
+  `CREATE TABLE IF NOT EXISTS wa_contacts (
+    phone TEXT PRIMARY KEY,
+    name TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL,
+    last_in_at INTEGER NOT NULL DEFAULT 0,
+    last_out_at INTEGER NOT NULL DEFAULT 0,
+    opt_out INTEGER NOT NULL DEFAULT 0,
+    human_until INTEGER NOT NULL DEFAULT 0,
+    needs_human INTEGER NOT NULL DEFAULT 0,
+    handoff_note TEXT NOT NULL DEFAULT '',
+    state TEXT NOT NULL DEFAULT '',
+    state_data TEXT NOT NULL DEFAULT '',
+    misses INTEGER NOT NULL DEFAULT 0
+  )`,
+  `CREATE TABLE IF NOT EXISTS wa_messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    phone TEXT NOT NULL,
+    dir TEXT NOT NULL,
+    kind TEXT NOT NULL DEFAULT 'text',
+    body TEXT NOT NULL DEFAULT '',
+    media_id TEXT NOT NULL DEFAULT '',
+    wa_id TEXT UNIQUE,
+    sender TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_wa_messages_phone ON wa_messages(phone, created_at)`,
+  // A quién se le escribió primero en cada campaña de reactivación (evita repetir). status: enviando | enviado | fallido.
+  `CREATE TABLE IF NOT EXISTS wa_broadcasts (
+    campaign TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    status TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    sent_at INTEGER NOT NULL,
+    PRIMARY KEY (campaign, phone)
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.
