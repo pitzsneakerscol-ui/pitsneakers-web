@@ -160,6 +160,9 @@ function itemsFor(group: ProductGroup): string[] {
           tag("g:size", size) +
           (size && group.category === "sneakers" && /^\d/.test(size) ? tag("g:size_system", "US") : "") +
           tag("g:mpn", mpn) +
+          // Etiquetas para armar conjuntos en Meta/Google sin tocar producto por producto.
+          tag("g:custom_label_0", onSale ? "promo" : "regular") +
+          tag("g:custom_label_1", group.category) +
           "</item>",
       );
     }
