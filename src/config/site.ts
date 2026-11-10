@@ -70,29 +70,35 @@ export const siteConfig = {
       name: "Pre Black Friday",
       kicker: "Acceso anticipado",
       title: "Pre Black Friday",
-      subtitle: "Antes que nadie: pares seleccionados con precio de Black Friday, solo hasta que arranque el viernes.",
+      subtitle: "Antes que nadie: pares seleccionados con precio de Black Friday y envío gratis, solo hasta que arranque el viernes.",
       startsAt: "2026-11-23T00:00:00-05:00",
       endsAt: "2026-11-27T00:00:00-05:00",
+      freeShipping: true,
+      markup: 20000,
     },
     {
       id: "black-friday",
       name: "Black Friday",
       kicker: "Oferta por tiempo limitado",
       title: "Black Friday",
-      subtitle: "Tres días de precios especiales en sneakers y streetwear verificados. Cuando se acaba el par, se acaba la oferta.",
+      subtitle: "Tres días de precios especiales en sneakers y streetwear verificados, con envío gratis a todo el país. Cuando se acaba el par, se acaba la oferta.",
       startsAt: "2026-11-27T00:00:00-05:00",
       endsAt: "2026-11-30T00:00:00-05:00",
       prices: true,
+      freeShipping: true,
+      markup: 20000,
     },
     {
       id: "cyber-monday",
       name: "Cyber Monday",
       kicker: "Último día",
       title: "Cyber Monday",
-      subtitle: "Las últimas 24 horas de Black Friday: lo que queda, al mismo precio de la oferta.",
+      subtitle: "Las últimas 24 horas de Black Friday: lo que queda, al mismo precio de la oferta y con envío gratis.",
       startsAt: "2026-11-30T00:00:00-05:00",
       endsAt: "2026-12-01T00:00:00-05:00",
       prices: true,
+      freeShipping: true,
+      markup: 20000,
     },
   ] as Campaign[],
 };
@@ -109,4 +115,8 @@ export interface Campaign {
   endsAt: string;
   /** Si es true, mientras corre se aplican los precios que pusieron los revendedores (Black Friday). */
   prices?: boolean;
+  /** Si es true, mientras corre el envío a domicilio es gratis para todos los pedidos. */
+  freeShipping?: boolean;
+  /** Pesos que se suman al precio de cada par en oferta mientras corre la campaña (cubre el envío gratis). */
+  markup?: number;
 }

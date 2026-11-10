@@ -78,6 +78,8 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       discount,
       fee,
       shipFee: dlv.shipFee,
+      // Aumento de campaña ya incluido en el precio del par: se guarda aparte para no pagárselo al revendedor.
+      bfMarkup: product.markup ?? 0,
       delivery: dlv.delivery,
       buyerName: name,
       buyerEmail: email,

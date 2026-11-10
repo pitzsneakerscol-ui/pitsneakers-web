@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getPromoGroups } from "@/lib/products";
 import { groupPromo } from "@/lib/grouping";
 import { siteConfig } from "@/config/site";
-import { currentPromo, nowMs, upcomingCampaign } from "@/lib/sale";
+import { currentPromo, freeShippingLive, nowMs, upcomingCampaign } from "@/lib/sale";
 import ProductGrid from "@/components/ProductGrid";
 import CampaignHero from "@/components/CampaignHero";
 import CommunityNotice from "@/components/CommunityNotice";
@@ -68,7 +68,7 @@ export default async function SalePage() {
       />
 
       {(campaignLive || soon) && (
-        <Marquee items={[name, maxPct > 0 && campaignLive ? `Hasta −${maxPct}%` : "Precios que no se repiten", "Pares verificados", "Envío a todo el país", "Recoge gratis en Bogotá"]} />
+        <Marquee items={[name, maxPct > 0 && campaignLive ? `Hasta −${maxPct}%` : "Precios que no se repiten", "Pares verificados", freeShippingLive() ? "Envío gratis a todo el país" : "Envío a todo el país", "Recoge gratis en Bogotá"]} />
       )}
 
       {sorted.length > 0 ? (

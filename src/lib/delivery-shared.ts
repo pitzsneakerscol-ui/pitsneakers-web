@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { parseShipping, type ShippingData } from "@/lib/shipping-shared";
+import { freeShippingLive } from "@/lib/sale";
 
 /** Cómo recibe el comprador su pedido. Sin dependencias del servidor: lo usan el formulario, las acciones, los correos y el admin. */
 export type Delivery = "envio" | "recogida";
@@ -9,8 +10,8 @@ export const DELIVERY_FEE = siteConfig.delivery.fee;
 
 export const isPickup = (d: string | undefined): boolean => d === "recogida";
 
-/** Lo que cobra la entrega según el método elegido. */
-export const shipFeeFor = (d: Delivery): number => (d === "recogida" ? 0 : DELIVERY_FEE);
+/** Lo que cobra la entrega según el método elegido. Recoger nunca cobra; mientras corre una campaña con envío gratis, tampoco el envío. */
+export const shipFeeFor = (d: Delivery): number => (d === "recogida" || freeShippingLive() ? 0 : DELIVERY_FEE);
 
 /** Datos que se guardan cuando el comprador recoge: así el resto del sistema (admin, correos) sigue viendo una "dirección". */
 const PICKUP_SHIPPING: ShippingData = {
@@ -31,5 +32,5 @@ export function parseDelivery(fd: FormData): { error: string } | { delivery: Del
   if (String(fd.get("delivery") ?? "") === "recogida") return { delivery: "recogida", shipFee: 0, ship: PICKUP_SHIPPING };
   const ship = parseShipping(fd);
   if ("error" in ship) return { error: ship.error };
-  return { delivery: "envio", shipFee: DELIVERY_FEE, ship: ship.data };
+  return { delivery: "envio", shipFee: shipFeeFor("envio"), ship: ship.data };
 }

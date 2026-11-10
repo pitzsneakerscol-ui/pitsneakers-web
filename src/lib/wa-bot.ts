@@ -3,6 +3,7 @@ import { getDb } from "@/lib/db";
 import { siteConfig } from "@/config/site";
 import { botConfig } from "@/config/whatsapp-bot";
 import { getAllGroups } from "@/lib/products";
+import { freeShippingLive } from "@/lib/sale";
 import { groupPriceRange, groupSizes } from "@/lib/grouping";
 import { getOrderByRef } from "@/lib/catalog-orders";
 import { rateLimitHit } from "@/lib/auth";
@@ -25,7 +26,7 @@ async function catalogEntries(): Promise<CatalogEntry[]> {
   return entries;
 }
 
-const site = (): BotSite => ({ url: siteConfig.siteUrl.replace(/\/$/, ""), shipFee: siteConfig.delivery.fee, city: siteConfig.city });
+const site = (): BotSite => ({ url: siteConfig.siteUrl.replace(/\/$/, ""), shipFee: freeShippingLive() ? 0 : siteConfig.delivery.fee, city: siteConfig.city });
 
 /* ---------- Contactos y mensajes ---------- */
 

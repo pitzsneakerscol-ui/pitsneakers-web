@@ -64,7 +64,7 @@ const sections: Section[] = [
     body: (
       <>
         <UL>
-          <li>El envío a todo el país cuesta <B>{cop(siteConfig.delivery.fee)}</B>. Lo asume el comprador y se suma al total en el checkout, así que lo ves antes de pagar.</li>
+          <li>El envío a todo el país cuesta <B>{cop(siteConfig.delivery.fee)}</B>. Lo asume el comprador y se suma al total en el checkout, así que lo ves antes de pagar. <B>Durante la campaña de Black Friday (del 23 de noviembre al 30 de noviembre de 2026) el envío es gratis</B>, y en esas fechas los pares en oferta incluyen en su precio el costo del envío.</li>
           <li>Si estás en {siteConfig.city} puedes elegir <B>recoger tu pedido sin costo</B> en nuestro punto de verificación. Al pagar te mostramos la dirección y coordinamos contigo el día y la hora por WhatsApp.</li>
           <li>Despachamos con transportadoras aliadas y te mandamos el número de guía por correo cuando sale tu pedido.</li>
           <li>Verifica el empaque al recibir. Si llega dañado, no lo recibas o avísanos de inmediato por WhatsApp con fotos o video.</li>

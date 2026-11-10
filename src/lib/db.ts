@@ -542,6 +542,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["fee", "INTEGER NOT NULL DEFAULT 0"],
     // Costo de envío cobrado en el checkout (incluido en amount) y cómo recibe el comprador: '' = envío, 'recogida' = en el punto de verificación.
     ["ship_fee", "INTEGER NOT NULL DEFAULT 0"],
+    // Aumento de campaña (Black Friday) incluido en amount: cubre el envío gratis y es de la casa, no del revendedor dueño del par.
+    ["bf_markup", "INTEGER NOT NULL DEFAULT 0"],
     ["delivery", "TEXT NOT NULL DEFAULT ''"],
     ["ship_department", "TEXT NOT NULL DEFAULT ''"],
     ["ship_address", "TEXT NOT NULL DEFAULT ''"],

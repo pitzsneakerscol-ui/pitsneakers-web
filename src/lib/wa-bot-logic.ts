@@ -291,7 +291,7 @@ export interface Ctx {
 
 const FAQ: Record<string, (c: Ctx) => string> = {
   shipping: (c) =>
-    `Enviamos a *todo el país*. El envío cuesta ${money(c.site.shipFee)} y se suma antes de pagar. Si estás en ${c.site.city.split(",")[0]} puedes *recoger* en nuestro punto de verificación sin costo. Antes de salir, cada par pasa por revisión.`,
+    `Enviamos a *todo el país*. ${c.site.shipFee > 0 ? `El envío cuesta ${money(c.site.shipFee)} y se suma antes de pagar.` : "Por Black Friday el envío es *gratis*."} Si estás en ${c.site.city.split(",")[0]} puedes *recoger* en nuestro punto de verificación sin costo. Antes de salir, cada par pasa por revisión.`,
   payment: (c) =>
     `Pagas en línea de forma segura con *Wompi* al hacer clic en *Comprar ahora* en la página (${c.site.url}). Ahí ves los medios disponibles. El costo del procesamiento del pago se muestra antes de confirmar. Si prefieres otra forma de pago, escribe *asesor*.`,
   verification: (c) =>

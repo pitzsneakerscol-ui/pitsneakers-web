@@ -4,7 +4,8 @@ import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
 import { groupPriceRange, groupProducts, groupPromo } from "@/lib/grouping";
 import { loadLiveOverlay, type PriceOverride } from "@/lib/catalog-live";
-import { bfPricesLive } from "@/lib/sale";
+import { bfPricesLive, campaignMarkup } from "@/lib/sale";
+import { applyCampaignMarkup } from "@/lib/campaign-pricing";
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -70,7 +71,8 @@ export async function getRegularProducts(): Promise<Product[]> {
 
 export async function getAllProducts(): Promise<Product[]> {
   const { products, bf } = await loadCatalog();
-  return [...applyBfPrices(products, bfPricesLive() ? bf : new Map())].sort(byNewest);
+  // Precio de Black Friday de los revendedores (si toca) y, encima, el aumento de la campaña que cubre el envío gratis.
+  return [...applyCampaignMarkup(applyBfPrices(products, bfPricesLive() ? bf : new Map()), campaignMarkup())].sort(byNewest);
 }
 
 export async function getAllGroups(): Promise<ProductGroup[]> {

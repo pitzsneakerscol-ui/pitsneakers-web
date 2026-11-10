@@ -4,6 +4,7 @@ import { getBuyer } from "@/lib/buyers";
 import { listBuyerOffers, type BuyerOfferStatus } from "@/lib/buyer-offers";
 import { formatPrice } from "@/lib/format";
 import { DELIVERY_FEE } from "@/lib/delivery-shared";
+import { freeShippingLive } from "@/lib/sale";
 import { getPerks } from "@/lib/perks";
 import { cardCls } from "@/components/reseller/ui";
 import { PayOfferForm } from "@/components/cuenta/CuentaForms";
@@ -81,7 +82,7 @@ export default async function OfertasPage() {
             {o.status === "aceptada" && (
               <div className="mt-4 border-t border-line pt-4">
                 <p className="text-sm">
-                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong>. A eso se suma el envío ({formatPrice(DELIVERY_FEE)}, o gratis si recoges en Bogotá){perks.feeDiscountPct >= 100 ? " y tu liga cubre el costo del pago en línea" : " y el costo del pago en línea"}; el total lo ves abajo antes de pagar. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
+                  Precio acordado: <strong>{formatPrice(o.agreedAmount)}</strong>. {freeShippingLive() ? "El envío es gratis por Black Friday" : `A eso se suma el envío (${formatPrice(DELIVERY_FEE)}, o gratis si recoges en Bogotá)`}{perks.feeDiscountPct >= 100 ? " y tu liga cubre el costo del pago en línea" : freeShippingLive() ? ", y se suma el costo del pago en línea" : " y el costo del pago en línea"}; el total lo ves abajo antes de pagar. Tienes hasta el <strong>{when(o.expiresAt)}</strong>.
                 </p>
                 <PayOfferForm id={o.id} name={buyer.name} phone={buyer.phone} city={buyer.city} agreed={o.agreedAmount} perkPct={perks.feeDiscountPct} />
               </div>

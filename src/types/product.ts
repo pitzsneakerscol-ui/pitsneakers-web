@@ -12,6 +12,8 @@ export interface Product {
   price: number;
   priceBefore?: number;
   promo?: boolean;
+  /** Pesos que la campaña sumó a este precio (Black Friday: cubre el envío gratis). Ya está incluido en `price`. */
+  markup?: number;
   sizes: string[];
   condition: ProductCondition;
   description: string;

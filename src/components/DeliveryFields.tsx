@@ -2,6 +2,7 @@
 
 import ShippingFields from "@/components/ShippingFields";
 import { DELIVERY_FEE, type Delivery } from "@/lib/delivery-shared";
+import { freeShippingLive } from "@/lib/sale";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/config/site";
 import type { ShippingData } from "@/lib/shipping-shared";
@@ -19,7 +20,7 @@ export default function DeliveryFields({ idPrefix, mode, onMode, defaults }: { i
         <label className={opt}>
           <input type="radio" name="delivery" value="envio" checked={mode === "envio"} onChange={() => onMode("envio")} className="sr-only" />
           <span className="text-sm font-semibold">Envío a domicilio</span>
-          <span className="text-[11px] opacity-75">{formatPrice(DELIVERY_FEE)} · todo el país</span>
+          <span className="text-[11px] opacity-75">{freeShippingLive() ? "Gratis por Black Friday" : formatPrice(DELIVERY_FEE)} · todo el país</span>
         </label>
         <label className={opt}>
           <input type="radio" name="delivery" value="recogida" checked={mode === "recogida"} onChange={() => onMode("recogida")} className="sr-only" />

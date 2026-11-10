@@ -69,6 +69,18 @@ export function nowMs(): number {
   return Date.now();
 }
 
+/** ¿Hay una campaña corriendo (en el momento `at`) con envío gratis para todos? */
+export function freeShippingLive(at: number = Date.now()): boolean {
+  const c = siteConfig.campaigns.find((x) => new Date(x.startsAt).getTime() <= at && at < new Date(x.endsAt).getTime());
+  return c?.freeShipping === true;
+}
+
+/** Pesos que la campaña vigente suma a cada par en oferta (0 si no hay campaña o no suma nada). */
+export function campaignMarkup(at: number = Date.now()): number {
+  const c = siteConfig.campaigns.find((x) => new Date(x.startsAt).getTime() <= at && at < new Date(x.endsAt).getTime());
+  return c?.markup ?? 0;
+}
+
 /** ¿Corre ahora una campaña que aplica los precios de Black Friday de los revendedores? */
 export function bfPricesLive(): boolean {
   return liveCampaign()?.prices === true;

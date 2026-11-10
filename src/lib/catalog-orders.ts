@@ -29,6 +29,8 @@ export interface CatalogOrder {
   fee: number;
   /** costo de envío cobrado en el checkout, incluido en amount (0 = recoge o pedido anterior al cobro de envío) */
   shipFee: number;
+  /** aumento de campaña incluido en amount (Black Friday: cubre el envío gratis). No se le paga al revendedor. */
+  bfMarkup: number;
   /** "recogida" = el comprador lo recoge en el punto de verificación; no lleva guía ni transportadora */
   delivery: Delivery;
   buyerName: string;
@@ -99,6 +101,7 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
   discount: Number(r.discount ?? 0),
   fee: Number(r.fee ?? 0),
   shipFee: Number(r.ship_fee ?? 0),
+  bfMarkup: Number(r.bf_markup ?? 0),
   delivery: String(r.delivery ?? "") === "recogida" ? "recogida" : "envio",
   buyerName: String(r.buyer_name),
   buyerEmail: String(r.buyer_email),
@@ -146,15 +149,15 @@ const toOrder = (r: Record<string, unknown>): CatalogOrder => ({
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newReference = () => "PITS-" + Array.from(randomBytes(7), (b) => ALPHABET[b % ALPHABET.length]).join("");
 
-export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "verifResult" | "verifSellerNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "sellerDroppedAt" | "shipFee" | "delivery"> & { shipFee?: number; delivery?: Delivery }): Promise<CatalogOrder> {
+export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "status" | "wompiId" | "paymentMethod" | "emailed" | "createdAt" | "paidAt" | "fulfillment" | "carrier" | "tracking" | "shipNote" | "shippedAt" | "deliveredAt" | "skyShipmentId" | "labelUrl" | "shipCost" | "shipPostal" | "skyStatus" | "trackedAt" | "verifChecks" | "verifBy" | "verifAt" | "verifNote" | "verifResult" | "verifSellerNote" | "sellerId" | "payoutAmount" | "payoutStatus" | "payoutStartedAt" | "payoutPaidAt" | "sellerConfirmedAt" | "sellerDroppedAt" | "shipFee" | "bfMarkup" | "delivery"> & { shipFee?: number; bfMarkup?: number; delivery?: Delivery }): Promise<CatalogOrder> {
   const db = await getDb();
   for (let i = 0; i < 5; i++) {
     const reference = newReference();
     const r = await db.execute({
       sql: `INSERT OR IGNORE INTO catalog_orders
-            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, ship_fee, delivery, buyer_name, buyer_email, buyer_phone, buyer_city, ship_department, ship_address, ship_complement, ship_document, ship_notes, created_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.shipFee ?? 0, o.delivery === "recogida" ? "recogida" : "", o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
+            (reference, product_id, product_name, brand, size, condition, image, amount, credit_code, discount, fee, ship_fee, bf_markup, delivery, buyer_name, buyer_email, buyer_phone, buyer_city, ship_department, ship_address, ship_complement, ship_document, ship_notes, created_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [reference, o.productId, o.productName, o.brand, o.size, o.condition, o.image, o.amount, o.creditCode, o.discount, o.fee, o.shipFee ?? 0, o.bfMarkup ?? 0, o.delivery === "recogida" ? "recogida" : "", o.buyerName, o.buyerEmail, o.buyerPhone, o.buyerCity, o.shipDepartment, o.shipAddress, o.shipComplement, o.shipDocument, o.shipNotes, Date.now()],
     });
     if (r.rowsAffected > 0) {
       const created = (await getOrderByRef(reference))!;
@@ -166,8 +169,8 @@ export async function createOrder(o: Omit<CatalogOrder, "id" | "reference" | "st
   throw new Error("No se pudo generar la referencia del pedido.");
 }
 
-/** Precio del par sin el costo de pago en línea, sin el envío y sin el crédito: sobre eso se calcula lo que recibe el vendedor. */
-const basePrice = (o: Pick<CatalogOrder, "amount" | "discount" | "fee" | "shipFee">) => Math.max(0, o.amount + o.discount - o.fee - o.shipFee);
+/** Precio del par sin el costo de pago en línea, sin el envío, sin el aumento de campaña y sin el crédito: sobre eso se calcula lo que recibe el vendedor. */
+const basePrice = (o: Pick<CatalogOrder, "amount" | "discount" | "fee" | "shipFee" | "bfMarkup">) => Math.max(0, o.amount + o.discount - o.fee - o.shipFee - o.bfMarkup);
 
 /** Guarda de quién es el par del pedido y cuánto recibe. Un par que no es de un revendedor queda en 0 (de la casa). */
 export async function attachSeller(order: CatalogOrder): Promise<void> {
