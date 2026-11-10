@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect, useSyncExternalStore } from "react";
 import { joinBlackFriday } from "@/app/sale/lead-actions";
 import { BF_COOKIE } from "@/lib/sale-shared";
+import { trackMeta } from "@/lib/meta-client";
 
 const EVENT = "pit-bf-unlocked";
 
@@ -23,6 +24,8 @@ export function LeadForm({ id, compact = false, cta = "Entrar" }: { id: string; 
   const [state, action, pending] = useActionState(joinBlackFriday, undefined);
   useEffect(() => {
     if (state?.ok) window.dispatchEvent(new Event(EVENT));
+    // Píxel de Meta: dejó su correo (con el mismo id que mandó el servidor, para no contarlo dos veces).
+    if (state?.ok && state.eid) trackMeta("Lead", { content_name: "Lista Black Friday" }, state.eid);
   }, [state]);
 
   return (

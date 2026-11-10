@@ -9,6 +9,9 @@ import {
 import ProductGallery from "@/components/ProductGallery";
 import spins from "@/data/spins.json";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
+import MetaTrack from "@/components/MetaTrack";
+import { productParams } from "@/lib/meta-client";
+import { groupPriceRange } from "@/lib/grouping";
 import ProductGrid from "@/components/ProductGrid";
 import SectionHeading from "@/components/SectionHeading";
 import { isDbConfigured } from "@/lib/db";
@@ -79,6 +82,8 @@ export default async function ProductPage({
     <div className="mx-auto max-w-7xl px-4 pb-24 pt-6 sm:px-6 sm:py-16 lg:px-8 lg:pb-16">
       {/* Datos estructurados para Google: precio, disponibilidad, marca y fotos de este par. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString([productJsonLd(group), breadcrumbJsonLd(group)]) }} />
+      {/* Píxel de Meta: alguien vio este par (sirve para el retargeting y el catálogo dinámico). */}
+      <MetaTrack event="ViewContent" params={productParams({ slug: group.groupSlug, name: `${group.brand} ${group.name}`, value: groupPriceRange(group).min, category: group.category })} />
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         <ProductGallery group={group} spinCount={(spins as Record<string, number>)[group.groupSlug] ?? 0} />
         <ProductPurchasePanel group={group} sticky payEnabled={isDbConfigured() && isWompiConfigured()} payTest={isWompiTest()} />

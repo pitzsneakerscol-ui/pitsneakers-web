@@ -1,7 +1,11 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { randomUUID } from "node:crypto";
+import { cookies, headers } from "next/headers";
 import { unstable_rethrow } from "next/navigation";
+import { after } from "next/server";
+import { siteConfig } from "@/config/site";
+import { sendMetaEvent } from "@/lib/meta";
 import { clientIp, rateLimitHit } from "@/lib/auth";
 import { importContacts } from "@/lib/contacts";
 import { isDbConfigured } from "@/lib/db";
@@ -9,7 +13,8 @@ import { isEmail } from "@/lib/reseller-shared";
 import { isSendableEmail } from "@/lib/campaigns";
 import { BF_COOKIE } from "@/lib/sale-shared";
 
-export type LeadState = { ok?: boolean; error?: string } | undefined;
+/** `eid`: id del evento de Meta (solo cuando se registró un correo de verdad). */
+export type LeadState = { ok?: boolean; error?: string; eid?: string } | undefined;
 
 const HOUR = 60 * 60 * 1000;
 
@@ -33,8 +38,18 @@ export async function joinBlackFriday(_prev: LeadState, fd: FormData): Promise<L
       await importContacts([{ email, name: "", phone: "", city: "", notes: "", unsubscribed: false }], "black-friday");
     }
 
-    (await cookies()).set(BF_COOKIE, "1", { maxAge: 365 * 24 * 3600, path: "/", sameSite: "lax", secure: process.env.NODE_ENV === "production" });
-    return { ok: true };
+    const jar = await cookies();
+    jar.set(BF_COOKIE, "1", { maxAge: 365 * 24 * 3600, path: "/", sameSite: "lax", secure: process.env.NODE_ENV === "production" });
+
+    // Meta: el correo es un "Lead". El mismo `eid` lo usa el píxel en el navegador, así Meta lo cuenta una sola vez.
+    const eid = `lead-${randomUUID()}`;
+    const userAgent = (await headers()).get("user-agent") ?? undefined;
+    const fbp = jar.get("_fbp")?.value;
+    const fbc = jar.get("_fbc")?.value;
+    after(() =>
+      sendMetaEvent({ name: "Lead", id: eid, url: `${siteConfig.siteUrl}/black-friday`, user: { email, ip, userAgent, fbp, fbc }, custom: { content_name: "Lista Black Friday" } }),
+    );
+    return { ok: true, eid };
   } catch (e) {
     unstable_rethrow(e);
     console.error("[black-friday] error:", e);

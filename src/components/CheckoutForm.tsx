@@ -9,6 +9,7 @@ import { feeAfterPerk } from "@/lib/leagues";
 import { btnAccent, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 import DeliveryFields from "@/components/DeliveryFields";
 import { shipFeeFor, type Delivery } from "@/lib/delivery-shared";
+import { feedItemId, trackMeta } from "@/lib/meta-client";
 
 /** "Comprar ahora": pide los datos y manda a pagar en Wompi (PSE, Nequi, tarjeta). El envío a todo el país se suma al total; en Bogotá se puede recoger gratis. */
 export default function CheckoutForm({ productId, size, name, price, test }: { productId: string; size: string; name: string; price: number; test: boolean }) {
@@ -23,6 +24,11 @@ export default function CheckoutForm({ productId, size, name, price, test }: { p
     window.addEventListener("pit:open-checkout", abrir);
     return () => window.removeEventListener("pit:open-checkout", abrir);
   }, []);
+  // Píxel de Meta: abrió el formulario de pago.
+  useEffect(() => {
+    if (!open) return;
+    trackMeta("InitiateCheckout", { content_ids: [feedItemId(productId, size)], content_type: "product", content_name: name, num_items: 1, value: price, currency: "COP" });
+  }, [open, productId, size, name, price]);
   useEffect(() => {
     if (!open) return;
     let live = true;

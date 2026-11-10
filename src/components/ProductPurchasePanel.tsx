@@ -13,6 +13,7 @@ import OfferBox from "@/components/cuenta/OfferBox";
 import { shareLink } from "@/lib/native";
 import SizeHelp from "@/components/SizeHelp";
 import { btnAccent } from "@/components/reseller/ui";
+import { productParams, trackMeta } from "@/lib/meta-client";
 
 interface Option {
   key: string;
@@ -133,6 +134,15 @@ export default function ProductPurchasePanel({
       ? `Desde ${formatPrice(min)}`
       : formatPrice(options[0]?.price ?? min);
   const ready = !multiVariant || Boolean(selected);
+  // Píxel de Meta: elegir talla es lo más parecido a "agregar al carrito" (la tienda no tiene carrito).
+  const selectedSlot = selected?.key;
+  const selectedPrice = selected?.price ?? 0;
+  const hasChoice = options.length > 1;
+  useEffect(() => {
+    // Solo cuando la persona escoge entre varias opciones; si hay una sola, ya viene elegida y no cuenta.
+    if (!selectedSlot || !hasChoice) return;
+    trackMeta("AddToCart", productParams({ slug: group.groupSlug, name: `${group.brand} ${group.name}`, value: selectedPrice, category: group.category }));
+  }, [selectedSlot, selectedPrice, hasChoice, group.groupSlug, group.brand, group.name, group.category]);
   const showWhatsApp = (selected?.condition ?? options[0]?.condition) === "usado" || !payEnabled;
 
   return (

@@ -4,6 +4,9 @@ import { getOrderByRef, type OrderStatus } from "@/lib/catalog-orders";
 import { isDbConfigured } from "@/lib/db";
 import { formatPrice } from "@/lib/format";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
+import { isWompiTest } from "@/lib/wompi";
+import MetaTrack from "@/components/MetaTrack";
+import { feedItemId } from "@/lib/meta-client";
 
 export const metadata: Metadata = { title: "Estado de tu pago", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -36,6 +39,15 @@ export default async function ResultadoPage({ searchParams }: { searchParams: Pr
   return (
     <section className="mx-auto max-w-lg px-4 py-14 text-center sm:py-20">
       {order.status === "pendiente" && <meta httpEquiv="refresh" content="8" />}
+      {/* Píxel de Meta: compra pagada (mismo id que el aviso del servidor; una sola vez por pedido en este navegador). Los pagos de prueba no cuentan. */}
+      {order.status === "pagado" && !isWompiTest() && (
+        <MetaTrack
+          event="Purchase"
+          eventId={`purchase-${order.reference}`}
+          onceKey={`pit-purchase-${order.reference}`}
+          params={{ currency: "COP", value: order.amount, content_type: "product", content_ids: [feedItemId(order.productId, order.size)], num_items: 1 }}
+        />
+      )}
       <p className="text-5xl" aria-hidden="true">{c.emoji}</p>
       <h1 className="mt-3 font-display text-4xl tracking-wide sm:text-5xl">{c.title}</h1>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted">{c.text}</p>
