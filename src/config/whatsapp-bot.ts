@@ -35,6 +35,8 @@ export const botConfig = {
     language: "es",
     compradores: "reactivacion_compradores",
     vendedores: "reactivacion_vendedores",
+    /** Aviso al dueño de que su parte diario de Jarvis está listo (categoría Utilidad, sin variables). */
+    jarvis: "parte_diario",
   },
 
   /** Textos propuestos para crear las plantillas en Meta. {{1}} es el primer nombre. */
@@ -43,6 +45,7 @@ export const botConfig = {
       "Hola {{1}} 👋 Soy de Pitsneakers. Hace rato no te vemos por la comunidad y llegaron pares nuevos verificados. Entra a pitsneakers.com y mira lo que hay en tu talla. Si ya no quieres recibir mensajes, responde BAJA.",
     vendedores:
       "Hola {{1}} 👋 Soy de Pitsneakers. Tu comunidad sigue activa y hay compradores buscando pares. Publicar un par cuesta $10.000 y sale en la comunidad y en la página. Escríbenos aquí si quieres publicar. Si ya no quieres recibir mensajes, responde BAJA.",
+    jarvis: "Hola 👋 Tu parte de hoy de Pitsneakers ya está listo. Responde VER para recibirlo aquí.",
   },
 } as const;
 
