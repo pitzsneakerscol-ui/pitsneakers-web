@@ -31,3 +31,17 @@ Todo lo que dice el bot (precio de publicar, beneficios, requisitos, horario, no
 - Solo se le escribe primero a alguien con una **plantilla aprobada**; el texto libre solo sirve dentro de las 24 h del último mensaje del cliente.
 - Escribirle a gente que no tuvo trato con la marca o que no puede pedir la baja lleva a **bloqueo del número**. Por eso la reactivación solo usa compradores con pedido pagado y vendedores con cuenta, y cada plantilla trae la opción de responder BAJA.
 - Cada conversación de marketing la cobra Meta; empieza con tandas de ~25.
+
+## Parte diario de Jarvis por WhatsApp
+Jarvis (el asistente que arma el saludo, la noticia y el guion de cada día) entrega el parte en `https://pitsneakers.com/api/jarvis` y el bot te lo manda a tu WhatsApp personal.
+
+- **Para pedirlo cuando quieras:** escríbele al número del bot `ver`, `parte` o `resumen de hoy`. Solo funciona desde tu número.
+- **Para que llegue solo cada mañana:** WhatsApp solo deja mandar texto libre si le escribiste al bot en las últimas 24 horas. Si no, el bot te manda la plantilla `parte_diario` ("Tu parte de hoy ya está listo. Responde VER…") y al responder te llega completo.
+
+### Activarlo
+1. En Vercel → Settings → Environment Variables agrega (Production) y vuelve a desplegar:
+   - `JARVIS_TOKEN` — una clave larga que tú inventas (mínimo 24 caracteres)
+   - `JARVIS_WHATSAPP_TO` — tu WhatsApp personal con código de país y solo dígitos (ej. `573001234567`). **No puede ser el número del bot.**
+2. En Claude, guarda esa misma clave como credencial del sitio `pitsneakers.com` (Jarvis te muestra el formulario).
+3. En *WhatsApp Manager → Plantillas* crea la plantilla `parte_diario` (categoría **Utilidad**, español, sin variables) con el texto de `src/config/whatsapp-bot.ts` y espera la aprobación.
+4. Escríbele `ver` al bot desde tu número para probar.

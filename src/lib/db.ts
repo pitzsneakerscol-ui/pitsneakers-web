@@ -511,6 +511,12 @@ const SCHEMA = [
     sent_at INTEGER NOT NULL,
     PRIMARY KEY (campaign, phone)
   )`,
+  // Parte diario de Jarvis (uno por día). mensajes = lista JSON de los textos que se le mandan al dueño por WhatsApp.
+  `CREATE TABLE IF NOT EXISTS jarvis_partes (
+    fecha TEXT PRIMARY KEY,
+    mensajes TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
 ];
 
 // Columnas agregadas después de la primera versión de cada tabla.

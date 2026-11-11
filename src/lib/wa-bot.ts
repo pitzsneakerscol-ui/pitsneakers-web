@@ -9,6 +9,7 @@ import { getOrderByRef } from "@/lib/catalog-orders";
 import { rateLimitHit } from "@/lib/auth";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { markRead, sendText } from "@/lib/wa-cloud";
+import { handleOwnerCommand } from "@/lib/jarvis";
 import { decide, orderStatusText, type BotSite, type BotState, type CatalogEntry, type Decision } from "@/lib/wa-bot-logic";
 
 /* ---------- Catálogo en memoria (se refresca cada minuto) ---------- */
@@ -212,6 +213,9 @@ async function handleMessage(msg: WaMessage, profileName: string): Promise<void>
 
   // Tope contra abusos o bucles: 40 mensajes por hora por número.
   if (!(await rateLimitHit(`wa:${phone}`, 40, 3_600_000))) return;
+
+  // El dueño pide su parte diario ("ver", "resumen de hoy"): se le manda y no pasa por el bot de clientes.
+  if (kind === "text" && (await handleOwnerCommand(phone, text))) return;
 
   // Si una persona está atendiendo, el bot se queda callado (solo se marca que el cliente escribió).
   if (c.humanUntil > now) {
