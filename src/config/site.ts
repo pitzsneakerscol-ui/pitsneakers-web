@@ -66,6 +66,17 @@ export const siteConfig = {
   // Los precios con descuento los pones por par en Admin → Precios (precio anterior); la campaña solo pone el marco: título, cuenta regresiva y página.
   campaigns: [
     {
+      // Puente festivo: del jueves 12 al lunes 16 de noviembre (festivo), envío gratis a todo el país. Sin sobreprecio.
+      id: "pre-black-friday-festivo",
+      name: "Pre Black Friday",
+      kicker: "Puente festivo",
+      title: "Pre Black Friday",
+      subtitle: "Pares seleccionados con precio de oferta y envío gratis a todo el país, hasta el lunes festivo. Cuando se acaba el par, se acaba la oferta.",
+      startsAt: "2026-11-12T00:00:00-05:00",
+      endsAt: "2026-11-17T00:00:00-05:00",
+      freeShipping: true,
+    },
+    {
       id: "pre-black-friday",
       name: "Pre Black Friday",
       kicker: "Acceso anticipado",
