@@ -280,6 +280,20 @@ export async function listTrackable(staleMs: number, limit: number): Promise<Cat
 }
 
 /** Guarda el estado del recorrido que reportó la transportadora y marca la hora de la consulta. */
+/**
+ * Guarda el estado de la transportadora solo si cambió (y el envío no está ya entregado). Devuelve true si cambió:
+ * así dos avisos a la vez del mismo estado no mandan el correo dos veces.
+ */
+export async function markSkyStatus(id: number, skyStatus: string): Promise<boolean> {
+  if (!skyStatus) return false;
+  const db = await getDb();
+  const r = await db.execute({
+    sql: "UPDATE catalog_orders SET sky_status = ? WHERE id = ? AND sky_status <> ? AND sky_status <> 'delivered'",
+    args: [skyStatus, id, skyStatus],
+  });
+  return r.rowsAffected > 0;
+}
+
 export async function setSkyStatus(id: number, skyStatus: string, number?: string, labelUrl?: string): Promise<void> {
   const db = await getDb();
   await db.execute({

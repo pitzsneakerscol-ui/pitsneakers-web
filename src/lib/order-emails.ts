@@ -172,6 +172,24 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
   };
 }
 
+/** Aviso al comprador de que el paquete salió a reparto: hoy puede llegar, conviene que haya alguien. */
+export function buyerOutForDeliveryEmail(o: CatalogOrder): { subject: string; body: string } {
+  return stepEmail(o, `Tu ${o.productName} sale a reparto hoy 🚚`, "Tu pedido ==sale a reparto==", "tu paquete ya está en ruta de entrega y puede llegar hoy.", [
+    ...(o.carrier ? [`Transportadora: ${o.carrier}${o.tracking ? ` · guía ${o.tracking}` : ""}.`] : []),
+    "Procura que haya alguien para recibirlo: lleva un par verificado y la transportadora pide quién firme.",
+    "Si no vas a estar, escríbenos por WhatsApp y vemos cómo resolverlo.",
+  ]);
+}
+
+/** Aviso al comprador de que la transportadora no pudo entregar: pide coordinar para no perder el paquete. */
+export function buyerDeliveryAttemptEmail(o: CatalogOrder): { subject: string; body: string } {
+  return stepEmail(o, `No pudieron entregar tu ${o.productName}: coordinemos 📦`, "La transportadora ==no pudo entregar==", "la transportadora intentó entregar tu paquete y no pudo.", [
+    ...(o.carrier ? [`Transportadora: ${o.carrier}${o.tracking ? ` · guía ${o.tracking}` : ""}.`] : []),
+    "Suelen intentarlo de nuevo, pero si tienen que devolverlo se complica. Escríbenos por WhatsApp para coordinar cuanto antes.",
+    ...(o.shipAddress ? [`Dirección registrada: ${shipTo(o)}. Si algo está mal, avísanos para corregirlo con la transportadora.`] : []),
+  ]);
+}
+
 /** Aviso al equipo (info@) de que la transportadora reportó un problema con un envío. */
 export function teamShipmentIssueEmail(o: CatalogOrder, issue: string): { subject: string; body: string } {
   const wa = `https://wa.me/57${o.buyerPhone.replace(/\D/g, "").slice(-10)}`;

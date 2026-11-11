@@ -1,6 +1,6 @@
 import "server-only";
-import { advanceFulfillment, listTrackable, setSkyStatus, type CatalogOrder } from "@/lib/catalog-orders";
-import { buyerDeliveredEmail, buyerShippedEmail, teamShipmentIssueEmail } from "@/lib/order-emails";
+import { advanceFulfillment, getOrderById, listTrackable, markSkyStatus, setSkyStatus, type CatalogOrder } from "@/lib/catalog-orders";
+import { buyerDeliveredEmail, buyerDeliveryAttemptEmail, buyerOutForDeliveryEmail, buyerShippedEmail, teamShipmentIssueEmail } from "@/lib/order-emails";
 import { sendEmail, isEmailConfigured } from "@/lib/email";
 import { pushOrderStep } from "@/lib/push-events";
 import { getGuide, isSkydropxConfigured } from "@/lib/skydropx";
@@ -67,7 +67,13 @@ async function mail(to: string, m: { subject: string; body: string }): Promise<v
  */
 export async function applyTracking(order: CatalogOrder, skyStatus: string, tracking = "", labelUrl = ""): Promise<Target | null> {
   const status = skyStatus.trim().toLowerCase();
+  const changed = await markSkyStatus(order.id, status);
   await setSkyStatus(order.id, status, tracking, labelUrl);
+  // Alertas al comprador mientras el paquete viaja: salió a reparto o la transportadora no pudo entregar (una vez por cambio).
+  if (changed && (status === "last_mile" || status === "delivery_attempt") && order.fulfillment !== "entregado" && order.delivery !== "recogida") {
+    const fresh = (await getOrderById(order.id)) ?? order;
+    await mail(fresh.buyerEmail, status === "last_mile" ? buyerOutForDeliveryEmail(fresh) : buyerDeliveryAttemptEmail(fresh));
+  }
   const to = TARGET[status];
   if (!to || !allowed(order.fulfillment, to)) return null;
 
