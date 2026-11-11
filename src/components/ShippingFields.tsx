@@ -39,6 +39,10 @@ export default function ShippingFields({ idPrefix, defaults = EMPTY_SHIPPING }: 
         </div>
       </div>
       <div>
+        <label htmlFor={`${idPrefix}-postal`} className={labelCls}>Código postal (opcional)</label>
+        <input id={`${idPrefix}-postal`} name="postal" defaultValue={d.postal} inputMode="numeric" maxLength={6} autoComplete="postal-code" placeholder="6 números · adelanta tu envío" className={inputCls} />
+      </div>
+      <div>
         <label htmlFor={`${idPrefix}-notes`} className={labelCls}>Indicaciones de entrega (opcional)</label>
         <input id={`${idPrefix}-notes`} name="notes" defaultValue={d.notes} maxLength={200} placeholder="Ej. Portería, recibe mi mamá, horario de oficina" className={inputCls} />
       </div>

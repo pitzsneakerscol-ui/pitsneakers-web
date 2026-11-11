@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import type { CatalogOrder } from "@/lib/catalog-orders";
 import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks, parseVerifResult } from "@/lib/verification-shared";
 import { createNotification } from "@/lib/notifications";
@@ -21,6 +22,55 @@ const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 const back = (e: string): never => redirect("/admin/pedidos?e=" + encodeURIComponent(e));
 
 const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+/** Si a este pedido se le puede comprar la guía sin intervención: envío a domicilio, pagado, con código postal, no de WhatsApp y sin guía. */
+function canAutoGuide(o: CatalogOrder): boolean {
+  return (
+    isSkydropxConfigured() &&
+    o.status === "pagado" &&
+    o.delivery !== "recogida" &&
+    Boolean(o.shipAddress) &&
+    /^[0-9]{4,8}$/.test(o.shipPostal) &&
+    !o.skyShipmentId &&
+    o.fulfillment !== "entregado" &&
+    !o.paymentMethod.startsWith("WhatsApp")
+  );
+}
+
+/**
+ * Compra la guía en Skydropx para un pedido pagado con envío a domicilio y la guarda. Devuelve el motivo si no se pudo
+ * (sin lanzar error), para que quien la llame decida cómo avisar. Es seguro llamarla dos veces: solo una compra la guía.
+ */
+async function buyGuide(o: CatalogOrder, postalRaw: string): Promise<string | null> {
+  const postal = postalRaw.replace(/[^0-9]/g, "");
+  if (!isSkydropxConfigured()) return "Skydropx no está conectado: faltan SKYDROPX_CLIENT_ID y SKYDROPX_CLIENT_SECRET en Vercel.";
+  if (o.status !== "pagado") return "Solo se compra guía para pedidos pagados.";
+  if (!o.shipAddress || !o.shipDepartment) return "Este pedido no tiene dirección de entrega completa.";
+  if (postal.length < 4 || postal.length > 8) return "Escribe el código postal de entrega (solo números).";
+  if (!(await claimGuide(o.id))) return "Este pedido ya tiene una guía o se está generando. Recarga la página.";
+  try {
+    const g = await createGuide({
+      declaredValue: o.amount,
+      name: o.buyerName,
+      phone: o.buyerPhone,
+      email: o.buyerEmail,
+      document: o.shipDocument,
+      department: o.shipDepartment,
+      city: o.buyerCity,
+      postalCode: postal,
+      address: o.shipAddress,
+      complement: o.shipComplement,
+      notes: o.shipNotes,
+      reference: o.reference,
+    });
+    if (g.error) throw new Error(g.error);
+    await saveGuide(o.id, { shipmentId: g.shipmentId, carrier: CARRIER_LABEL, tracking: g.tracking, labelUrl: g.labelUrl, cost: g.cost, postal });
+    return null;
+  } catch (err) {
+    await releaseGuide(o.id);
+    return `No se pudo generar la guía: ${err instanceof Error ? err.message : "error desconocido."}`;
+  }
+}
 
 /**
  * Guarda la verificación del par al recibirlo: puntos marcados, nota y fotos de recepción (evidencia si hay un reclamo).
@@ -64,9 +114,17 @@ export async function verifyOrder(fd: FormData): Promise<void> {
     after(() => pushOrderStep(fresh, "verificado"));
   }
 
+  // Al dar el par por verificado (solo la primera vez) se compra sola la guía si el cliente dejó su código postal.
+  // Si falla (créditos, dirección…), la verificación ya quedó guardada y se avisa abajo; el botón manual sigue disponible.
+  let autoGuide = "";
+  if (isVerified(checks) && !isVerified(o.verifChecks) && canAutoGuide(o)) {
+    const why = await buyGuide((await getOrderById(o.id)) ?? o, o.shipPostal);
+    autoGuide = why ? `&ae=${encodeURIComponent(why)}` : "&ag=1";
+  }
+
   revalidatePath("/admin/pedidos");
   revalidatePath(`/pedido/${o.reference}`);
-  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=3${emailed ? `&m=${emailed}` : ""}#${o.reference}`);
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=3${emailed ? `&m=${emailed}` : ""}${autoGuide}#${o.reference}`);
 }
 
 /** Borra una foto de recepción de un pedido. */
@@ -85,39 +143,12 @@ export async function removePhoto(fd: FormData): Promise<void> {
 export async function generateGuide(fd: FormData): Promise<void> {
   await requireAdmin();
   const id = Number(fd.get("id"));
-  const postal = text(fd, "postal").replace(/\D/g, "");
-  if (!isSkydropxConfigured()) back("Skydropx no está conectado: faltan SKYDROPX_CLIENT_ID y SKYDROPX_CLIENT_SECRET en Vercel.");
   const order = Number.isInteger(id) && id > 0 ? await getOrderById(id) : null;
   if (!order) back("No encontré ese pedido.");
-  const o = order!;
-  if (o.status !== "pagado") back("Solo se compra guía para pedidos pagados.");
-  if (!o.shipAddress || !o.shipDepartment) back("Este pedido no tiene dirección de entrega completa.");
-  if (postal.length < 4 || postal.length > 8) back("Escribe el código postal de entrega (solo números).");
-  if (!(await claimGuide(o.id))) back("Este pedido ya tiene una guía o se está generando. Recarga la página.");
-
-  try {
-    const g = await createGuide({
-      declaredValue: o.amount,
-      name: o.buyerName,
-      phone: o.buyerPhone,
-      email: o.buyerEmail,
-      document: o.shipDocument,
-      department: o.shipDepartment,
-      city: o.buyerCity,
-      postalCode: postal,
-      address: o.shipAddress,
-      complement: o.shipComplement,
-      notes: o.shipNotes,
-      reference: o.reference,
-    });
-    if (g.error) throw new Error(g.error);
-    await saveGuide(o.id, { shipmentId: g.shipmentId, carrier: CARRIER_LABEL, tracking: g.tracking, labelUrl: g.labelUrl, cost: g.cost, postal });
-  } catch (err) {
-    await releaseGuide(o.id);
-    back(`No se pudo generar la guía: ${err instanceof Error ? err.message : "error desconocido."}`);
-  }
+  const why = await buyGuide(order!, text(fd, "postal"));
+  if (why) back(why);
   revalidatePath("/admin/pedidos");
-  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=1#${o.reference}`);
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(order!.reference)}&g=1#${order!.reference}`);
 }
 
 /** Vuelve a pedirle a Skydropx el número de guía y la etiqueta de un envío que tardó en generarse. */

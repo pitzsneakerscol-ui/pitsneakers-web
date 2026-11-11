@@ -90,6 +90,7 @@ export async function startCheckout(_prev: CheckoutState, fd: FormData): Promise
       shipComplement: dlv.ship.complement,
       shipDocument: dlv.ship.document,
       shipNotes: dlv.ship.notes,
+      shipPostal: dlv.ship.postal,
     });
     if (creditCode) await reserveCredit(creditCode, order.reference);
     url = buildCheckoutUrl({ reference: order.reference, amountCop: order.amount, email, name, phone });

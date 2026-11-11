@@ -44,7 +44,7 @@ const owesSeller = (o: { status: OrderStatus; sellerId: number | null; payoutSta
 /** Un pedido pagado y entregado se archiva solo (si era de un revendedor, cuando ya se le pagó): sale de la lista principal y queda en el filtro "Archivados". */
 const isArchived = (o: { status: OrderStatus; fulfillment: string; sellerId: number | null; payoutStatus: string }) => o.status === "pagado" && o.fulfillment === "entregado" && !owesSeller(o);
 
-type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string; s?: string };
+type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string; s?: string; ag?: string; ae?: string };
 
 /** Saldo de créditos de Skydropx (null si no está conectado o no respondió: el panel sigue funcionando). */
 async function skySaldo(): Promise<{ balance: number; currency: string } | null> {
@@ -53,7 +53,7 @@ async function skySaldo(): Promise<{ balance: number; currency: string } | null>
 }
 
 export default async function PedidosPage({ searchParams }: { searchParams: Promise<SP> }) {
-  const { f, e, ok, m, g, s } = await searchParams;
+  const { f, e, ok, m, g, s, ag, ae } = await searchParams;
   const sky = isSkydropxConfigured();
   // Pone al día el rastreo de los pedidos en camino sin hacer esperar la página (se ve al recargar).
   if (sky) after(() => syncTracking({ staleMs: 10 * 60_000, limit: 10 }).catch(() => undefined));
@@ -99,6 +99,8 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
         </p>
       </header>
 
+      {ag === "1" ? <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">La guía se compró sola al verificar el par: descarga la etiqueta en el pedido y pégala al paquete.</p> : null}
+      {ae ? <p role="alert" className="rounded-xl bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-900">La verificación quedó guardada, pero la guía no se pudo comprar sola. {ae} Puedes generarla a mano en el pedido.</p> : null}
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">

@@ -78,6 +78,7 @@ export async function registerSale(_prev: SaleState, fd: FormData): Promise<Sale
     shipComplement: ship?.data.complement ?? "",
     shipDocument: ship?.data.document ?? "",
     shipNotes: ship?.data.notes ?? "",
+    shipPostal: ship?.data.postal ?? "",
   });
 
   // Deja el pedido en el paso del mensaje, para que el seguimiento y el correo muestren lo mismo.

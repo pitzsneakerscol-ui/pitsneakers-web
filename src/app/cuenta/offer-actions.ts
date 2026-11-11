@@ -137,6 +137,7 @@ export async function payOffer(_prev: OfferState, fd: FormData): Promise<OfferSt
       shipComplement: dlv.ship.complement,
       shipDocument: dlv.ship.document,
       shipNotes: dlv.ship.notes,
+      shipPostal: dlv.ship.postal,
     });
     await attachOrder(offer.id, order.reference);
     // Si recoge en Bogotá, la ciudad del perfil no cambia (la ciudad del pedido es la del punto de verificación).

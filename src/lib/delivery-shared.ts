@@ -21,6 +21,7 @@ const PICKUP_SHIPPING: ShippingData = {
   complement: "",
   document: "",
   notes: "",
+  postal: "",
 };
 
 /** Dirección del punto de verificación sin el nombre ni el teléfono. Solo se muestra después de pagar. */

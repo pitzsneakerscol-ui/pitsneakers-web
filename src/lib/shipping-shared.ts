@@ -16,9 +16,11 @@ export interface ShippingData {
   /** cédula: la piden varias transportadoras para la guía (opcional) */
   document: string;
   notes: string;
+  /** código postal de entrega (6 números): con él la guía se compra sola al verificar el par (opcional) */
+  postal: string;
 }
 
-export const EMPTY_SHIPPING: ShippingData = { department: "", city: "", address: "", complement: "", document: "", notes: "" };
+export const EMPTY_SHIPPING: ShippingData = { department: "", city: "", address: "", complement: "", document: "", notes: "", postal: "" };
 
 const clean = (fd: FormData, key: string, max: number) => String(fd.get(key) ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 
@@ -30,12 +32,14 @@ export function parseShipping(fd: FormData): { error: string } | { data: Shippin
   const complement = clean(fd, "complement", 80);
   const document = clean(fd, "document", 14).replace(/[^\dA-Za-z]/g, "");
   const notes = clean(fd, "notes", 200);
+  const postal = clean(fd, "postal", 8).replace(/[^0-9]/g, "");
 
   if (!(DEPARTMENTS as readonly string[]).includes(department)) return { error: "Elige el departamento de entrega." };
   if (city.length < 2) return { error: "Escribe la ciudad o municipio de entrega." };
   if (address.length < 6) return { error: "Escribe la dirección completa de entrega (calle, número y nomenclatura)." };
   if (document && !/^\d{5,12}$/.test(document)) return { error: "La cédula debe tener entre 5 y 12 números, o déjala vacía." };
-  return { data: { department, city, address, complement, document, notes } };
+  if (postal && !/^[0-9]{6}$/.test(postal)) return { error: "El código postal tiene 6 números, o déjalo vacío." };
+  return { data: { department, city, address, complement, document, notes, postal } };
 }
 
 /** Una sola línea legible: "Calle 1 # 2-3, Barrio X · Medellín, Antioquia". */
