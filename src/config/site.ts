@@ -72,7 +72,7 @@ export const siteConfig = {
       kicker: "Puente festivo",
       title: "Pre Black Friday",
       subtitle: "Pares seleccionados con precio de oferta y envío gratis a todo el país, hasta el lunes festivo. Cuando se acaba el par, se acaba la oferta.",
-      startsAt: "2026-11-12T00:00:00-05:00",
+      startsAt: "2026-11-12T17:00:00-05:00",
       endsAt: "2026-11-17T00:00:00-05:00",
       freeShipping: true,
     },
