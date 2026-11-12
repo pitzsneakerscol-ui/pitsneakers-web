@@ -4931,5 +4931,19 @@
     "price": 650000,
     "condition": "nuevo",
     "image": "/products/MIND001-22.2324d567.webp"
+  },
+  {
+    "seller": "santiagoalbaa",
+    "slug": "jordan-jordan-4-a-ma-maniere-violet-ore",
+    "name": "Jordan 4 A Ma Maniere Violet Ore",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ4-31",
+    "sizes": [
+      "10"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/AJ4-31.d06969d6.webp"
   }
 ]

@@ -13339,5 +13339,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:44:00.000Z"
+  },
+  {
+    "id": "AJ4-31",
+    "slug": "jordan-jordan-4-a-ma-maniere-violet-ore",
+    "name": "Jordan 4 A Ma Maniere Violet Ore",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 1100000,
+    "priceBefore": 1400000,
+    "promo": true,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ4-31.d06969d6.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:45:00.000Z"
   }
 ]
