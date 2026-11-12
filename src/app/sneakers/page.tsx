@@ -41,7 +41,7 @@ export default async function SneakersPage({
       </div>
 
       <Suspense>
-        <CatalogFilters brands={brands} sizes={sizes} />
+        <CatalogFilters brands={brands} sizes={sizes} euSizes />
       </Suspense>
 
       <div className="mt-4">

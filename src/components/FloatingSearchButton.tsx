@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/format";
+import { euOf } from "@/lib/sizes";
 import ProductMedia from "@/components/ProductMedia";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
@@ -466,6 +467,7 @@ export default function FloatingSearchButton() {
                 {sizesAvailable.map((s) => (
                   <button key={s} type="button" onClick={() => { setSize(size === s ? "" : s); setActive(0); }} aria-pressed={size === s} className={`${chipBase} ${size === s ? "border-accent bg-accent text-white" : chipOff}`}>
                     {s}
+                    {cat !== "streetwear" && euOf(s, { category: "sneakers" }) ? ` · EU ${euOf(s, { category: "sneakers" })}` : ""}
                   </button>
                 ))}
               </div>
@@ -626,7 +628,12 @@ export default function FloatingSearchButton() {
                               {p.multiVariant ? `Desde ${formatPrice(p.price)}` : formatPrice(p.price)}
                             </span>
                             <span className="truncate text-[10px] text-muted">
-                              {p.sizes.length > 0 ? `Tallas ${p.sizes.slice(0, 3).join(", ")}${p.sizes.length > 3 ? "…" : ""}` : ""}
+                              {p.sizes.length > 0
+                                ? `Tallas ${p.sizes.slice(0, 3).join(", ")}${p.sizes.length > 3 ? "…" : ""}${(() => {
+                                    const eu = p.sizes.slice(0, 3).map((s) => euOf(s, p)).filter((e): e is string => e !== null);
+                                    return eu.length ? ` · EU ${eu.join(", ")}` : "";
+                                  })()}`
+                                : ""}
                             </span>
                           </span>
                         </button>

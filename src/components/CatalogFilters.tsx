@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useFavorites } from "@/lib/favorites";
+import { euOf } from "@/lib/sizes";
 
 const PRICE_RANGES = [
   { value: "", label: "Todos los precios" },
@@ -62,10 +63,13 @@ export default function CatalogFilters({
   brands,
   sizes,
   showCondition = true,
+  euSizes = false,
 }: {
   brands: string[];
   sizes: string[];
   showCondition?: boolean;
+  /** Calzado: muestra junto a cada talla US su equivalente EU (la numeración de Colombia). */
+  euSizes?: boolean;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -120,11 +124,15 @@ export default function CatalogFilters({
           ariaLabel="Filtrar por talla"
         >
           <option value="">Todas las tallas</option>
-          {sizes.map((s) => (
-            <option key={s} value={s}>
-              Talla {s}
-            </option>
-          ))}
+          {sizes.map((s) => {
+            const eu = euSizes ? euOf(s, { category: "sneakers" }) : null;
+            return (
+              <option key={s} value={s}>
+                Talla {s}
+                {eu ? ` · EU ${eu}` : ""}
+              </option>
+            );
+          })}
         </FilterField>
 
         <FilterField
