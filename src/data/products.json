@@ -3849,7 +3849,7 @@
     "name": "Nocta AF1 Citron",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 650000,
+    "price": 520000,
     "priceBefore": 780000,
     "promo": true,
     "sizes": [
@@ -6847,7 +6847,7 @@
     "name": "Jordan 1 Reimagined Black Toe",
     "brand": "Jordan",
     "category": "sneakers",
-    "price": 580000,
+    "price": 620000,
     "priceBefore": 720000,
     "promo": true,
     "sizes": [
@@ -6917,8 +6917,7 @@
     "priceBefore": 1530000,
     "promo": true,
     "sizes": [
-      "9",
-      "11"
+      "9"
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
@@ -6982,7 +6981,7 @@
     "name": "Dunk SB Futura",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 1220000,
+    "price": 1100000,
     "priceBefore": 1490000,
     "promo": true,
     "sizes": [
@@ -7024,9 +7023,7 @@
     "name": "Dunk SB Civilist",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 1800000,
-    "priceBefore": 2140000,
-    "promo": true,
+    "price": 2200000,
     "sizes": [
       "9"
     ],
@@ -7087,9 +7084,7 @@
     "name": "Gel Paris",
     "brand": "Asics",
     "category": "sneakers",
-    "price": 420000,
-    "priceBefore": 520000,
-    "promo": true,
+    "price": 550000,
     "sizes": [
       "8.5",
       "9"
@@ -7175,7 +7170,7 @@
     "name": "Dunk SB Grateful Dead",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 2700000,
+    "price": 2200000,
     "priceBefore": 3380000,
     "promo": true,
     "sizes": [
@@ -7218,7 +7213,7 @@
     "name": "Jordan 4 LA Lakers",
     "brand": "Jordan",
     "category": "sneakers",
-    "price": 889000,
+    "price": 860000,
     "priceBefore": 1100000,
     "promo": true,
     "sizes": [
@@ -7239,7 +7234,7 @@
     "name": "Mind 002 Grey",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 800000,
+    "price": 755000,
     "priceBefore": 980000,
     "promo": true,
     "sizes": [
@@ -7260,7 +7255,7 @@
     "name": "Dunk SB HUF San Francisco",
     "brand": "Nike",
     "category": "sneakers",
-    "price": 700000,
+    "price": 600000,
     "priceBefore": 860000,
     "promo": true,
     "sizes": [
@@ -7472,9 +7467,7 @@
     "name": "Jordan 1 Union x Fragment",
     "brand": "Jordan",
     "category": "sneakers",
-    "price": 1100000,
-    "priceBefore": 1340000,
-    "promo": true,
+    "price": 1320000,
     "sizes": [
       "11"
     ],
@@ -7536,9 +7529,7 @@
     "name": "Jordan 1 Low Travis Scott Reverse Mocha",
     "brand": "Jordan",
     "category": "sneakers",
-    "price": 4320000,
-    "priceBefore": 5270000,
-    "promo": true,
+    "price": 6100000,
     "sizes": [
       "9.5"
     ],
@@ -7558,7 +7549,7 @@
     "name": "Gel Kayano 14 Graphite Grey",
     "brand": "Asics",
     "category": "sneakers",
-    "price": 750000,
+    "price": 780000,
     "priceBefore": 900000,
     "promo": true,
     "sizes": [
@@ -13402,5 +13393,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:47:00.000Z"
+  },
+  {
+    "id": "SB-DUNK-53",
+    "slug": "nike-dunk-sb-yuto-horigome-og-3",
+    "name": "Dunk SB Yuto Horigome OG",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 1210000,
+    "priceBefore": 1530000,
+    "promo": true,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/SB-DUNK-31.8ea1809f.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:48:00.000Z"
   }
 ]
