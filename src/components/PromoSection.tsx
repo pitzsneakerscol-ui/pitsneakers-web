@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPromoGroups } from "@/lib/products";
+import { groupPromo } from "@/lib/grouping";
 import { currentPromo } from "@/lib/sale";
 import ProductGrid from "@/components/ProductGrid";
 import CountdownTimer from "@/components/CountdownTimer";
@@ -11,7 +12,10 @@ export default async function PromoSection() {
   const promo = currentPromo();
   if (!promo) return null;
 
-  const groups = await getPromoGroups();
+  // Mayor descuento primero (igual que /sale): en el inicio solo caben HOME_LIMIT y deben ser las mejores ofertas.
+  const groups = [...(await getPromoGroups())].sort(
+    (a, b) => (groupPromo(b)?.discountPercent ?? 0) - (groupPromo(a)?.discountPercent ?? 0),
+  );
   if (groups.length === 0) return null;
 
   const { endsAt } = promo;
