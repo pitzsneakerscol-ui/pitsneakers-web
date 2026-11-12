@@ -2,24 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { siteConfig } from "@/config/site";
+import { EU, fmtSize as fmt, toMen } from "@/lib/sizes";
 
-/** Tabla de equivalencias de calzado (referencia Nike/Jordan). Las demás marcas varían ±0,5. */
-const EU: Record<number, number> = {
-  5: 37.5, 5.5: 38, 6: 38.5, 6.5: 39, 7: 40, 7.5: 40.5, 8: 41, 8.5: 42, 9: 42.5, 9.5: 43,
-  10: 44, 10.5: 44.5, 11: 45, 11.5: 45.5, 12: 46, 12.5: 47, 13: 47.5, 14: 48.5,
-};
 const MEN = Object.keys(EU).map(Number).sort((a, b) => a - b);
 /** Largo interior de la horma en cm: 1 talla = 1 cm. */
 const cmOf = (m: number) => 18 + m;
-const fmt = (n: number) => String(n).replace(".", ",");
-
-/** Talla del par ("9", "8.5", "7.5W") a su equivalente US hombre. Las de mujer (W) son hombre + 1,5. */
-function toMen(size: string): number | null {
-  const m = size.trim().match(/^(\d+(?:[.,]\d+)?)\s*(w)?$/i);
-  if (!m) return null;
-  const n = parseFloat(m[1].replace(",", "."));
-  return m[2] ? n - 1.5 : n;
-}
 
 export default function SizeHelp({
   brand,
@@ -149,7 +136,7 @@ export default function SizeHelp({
                     <tr>
                       <th className="px-2 py-2">US hombre</th>
                       <th className="px-2 py-2">US mujer</th>
-                      <th className="px-2 py-2">EU</th>
+                      <th className="px-2 py-2">EU · Colombia</th>
                       <th className="px-2 py-2">CM</th>
                     </tr>
                   </thead>

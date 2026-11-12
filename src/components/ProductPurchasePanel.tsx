@@ -12,6 +12,7 @@ import CheckoutForm from "@/components/CheckoutForm";
 import OfferBox from "@/components/cuenta/OfferBox";
 import { shareLink } from "@/lib/native";
 import SizeHelp from "@/components/SizeHelp";
+import { euOf } from "@/lib/sizes";
 import { btnAccent } from "@/components/reseller/ui";
 import { productParams, trackMeta } from "@/lib/meta-client";
 
@@ -119,6 +120,10 @@ export default function ProductPurchasePanel({
     options.length === 1 ? options[0].key : undefined
   );
   const selected = options.find((o) => o.key === selectedKey);
+  /** Talla en numeración colombiana/europea (39, 40, 42,5…); null si no aplica (ropa, Crocs, talla única). */
+  const euFor = (size: string) => euOf(size, group);
+  const selectedEu = selected ? euFor(selected.size) : null;
+  const anyEu = options.some((o) => euFor(o.size) !== null);
   const prices = options.map((o) => o.price);
   const min = prices.length ? Math.min(...prices) : groupPriceRange(group).min;
   const max = prices.length ? Math.max(...prices) : groupPriceRange(group).max;
@@ -170,11 +175,16 @@ export default function ProductPurchasePanel({
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           {multiVariant ? "Elige talla y estado" : "Talla"}
           {selected
-            ? ` — seleccionada: Talla ${selected.size}${
+            ? ` — seleccionada: Talla ${selected.size}${selectedEu ? ` (EU ${selectedEu})` : ""}${
                 multiVariant ? ` · ${selected.condition}` : ""
               }`
             : " — selecciona una opción"}
         </p>
+        {anyEu && (
+          <p className="mt-1 text-xs text-muted">
+            Tallas en US, con su equivalente EU (la numeración que se usa en Colombia: 39, 40, 41…).
+          </p>
+        )}
         <SizeHelp brand={group.brand} name={group.name} sizes={options.map((o) => o.size)} />
         <div className="mt-3 flex flex-wrap gap-2">
           {options.map((o) => (
@@ -198,6 +208,9 @@ export default function ProductPurchasePanel({
                 <span className="flex flex-col items-start leading-tight">
                   <span className="flex items-center gap-1.5">
                     Talla {o.size}
+                    {euFor(o.size) && (
+                      <span className={`text-[11px] font-normal ${selectedKey === o.key ? "text-white/70" : "text-muted"}`}>· EU {euFor(o.size)}</span>
+                    )}
                     {o.sale && (
                       <span className="rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
                         Sale
@@ -215,6 +228,9 @@ export default function ProductPurchasePanel({
               ) : (
                 <span className="flex items-center gap-1.5">
                   {o.size}
+                  {euFor(o.size) && (
+                    <span className={`text-[11px] font-normal ${selectedKey === o.key ? "text-white/70" : "text-muted"}`}>· EU {euFor(o.size)}</span>
+                  )}
                   {o.sale && (
                     <span className="rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
                       Sale
@@ -343,7 +359,7 @@ export default function ProductPurchasePanel({
           <div className="mx-auto flex max-w-lg items-center gap-3">
             <div className="min-w-0 shrink-0 leading-tight">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">
-                {selected ? `Talla ${selected.size}` : "Precio"}
+                {selected ? `Talla ${selected.size}${selectedEu ? ` · EU ${selectedEu}` : ""}` : "Precio"}
               </p>
               <p className={`text-lg font-semibold ${activePromo ? "text-accent" : ""}`}>{priceLabel}</p>
             </div>
