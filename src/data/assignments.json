@@ -4945,5 +4945,19 @@
     "price": 1100000,
     "condition": "nuevo",
     "image": "/products/AJ4-31.5c82f718.webp"
+  },
+  {
+    "seller": "santiagoalbaa",
+    "slug": "jordan-jordan-1-low-og-obsidian",
+    "name": "Jordan 1 Low OG Obsidian",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-66",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 800000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-66.e61d4cf8.webp"
   }
 ]

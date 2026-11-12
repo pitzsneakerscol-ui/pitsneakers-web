@@ -13360,5 +13360,26 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:45:00.000Z"
+  },
+  {
+    "id": "AJ1-66",
+    "slug": "jordan-jordan-1-low-og-obsidian",
+    "name": "Jordan 1 Low OG Obsidian",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 800000,
+    "priceBefore": 1000000,
+    "promo": true,
+    "sizes": [
+      "8.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-66.e61d4cf8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:46:00.000Z"
   }
 ]
