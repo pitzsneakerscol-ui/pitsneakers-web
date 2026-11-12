@@ -7,7 +7,6 @@ import { currentPromo, freeShippingLive, nowMs, upcomingCampaign } from "@/lib/s
 import ProductGrid from "@/components/ProductGrid";
 import CampaignHero from "@/components/CampaignHero";
 import CommunityNotice from "@/components/CommunityNotice";
-import { BlackFridayGate } from "@/components/BlackFridayLead";
 
 // Para que la página cambie de fase (antes / durante / después de la campaña) sola, sin esperar un redeploy.
 export const revalidate = 300;
@@ -72,7 +71,7 @@ export default async function SalePage() {
       )}
 
       {sorted.length > 0 ? (
-        campaignLive ? <BlackFridayGate name={name}>{grid}</BlackFridayGate> : grid
+        grid
       ) : (
         <div className="mt-10 rounded-2xl border border-line bg-paper-raised p-8 text-center">
           <p className="font-medium">

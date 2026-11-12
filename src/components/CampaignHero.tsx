@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import type { Campaign } from "@/config/site";
-import { LeadForm, useBfUnlocked } from "@/components/BlackFridayLead";
 
 interface Fallback {
   kicker: string;
@@ -81,7 +80,6 @@ export default function CampaignHero({
   /** Cuántos pares están en oferta y el mayor descuento (solo se muestran si hay). */
   stats?: { pairs: number; maxPct: number };
 }) {
-  const unlocked = useBfUnlocked();
   const [now, setNow] = useState(initialNow);
   useEffect(() => {
     const first = setTimeout(() => setNow(Date.now()), 0);
@@ -119,18 +117,8 @@ export default function CampaignHero({
           {subtitle && <p className="mt-4 max-w-xl text-sm text-white/70 sm:text-base">{subtitle}</p>}
           {soon && (
             <div className="mt-6">
-              {unlocked ? (
-                <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm ring-1 ring-white/20">
-                  <span aria-hidden="true">✅</span> Ya estás adentro: te avisamos por correo apenas arranque.
-                </p>
-              ) : (
-                <>
-                  <p className="mb-3 text-sm font-semibold">Deja tu correo y entra primero:</p>
-                  <LeadForm id="bf-hero" compact cta="Quiero entrar primero" />
-                </>
-              )}
-              <a href={communityUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-xs text-white/60 underline underline-offset-4 hover:text-white">
-                O únete a la comunidad por WhatsApp
+              <a href={communityUrl} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full bg-white/10 px-5 py-3 text-sm font-semibold ring-1 ring-white/20 hover:bg-white/20">
+                Únete a la comunidad por WhatsApp
               </a>
             </div>
           )}
