@@ -4959,5 +4959,19 @@
     "price": 800000,
     "condition": "nuevo",
     "image": "/products/AJ1-66.e61d4cf8.webp"
+  },
+  {
+    "seller": "santiagoalbaa",
+    "slug": "jordan-jordan-3-a-ma-maniere-while-you-were-sleeping",
+    "name": "Jordan 3 A Ma Maniere While You Were Sleeping",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ3-11",
+    "sizes": [
+      "10.5"
+    ],
+    "price": 727000,
+    "condition": "nuevo",
+    "image": "/products/AJ3-06.da4edffe.webp"
   }
 ]
