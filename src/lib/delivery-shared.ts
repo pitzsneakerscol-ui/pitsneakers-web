@@ -28,9 +28,25 @@ const PICKUP_SHIPPING: ShippingData = {
 export const pickupAddress = (): string =>
   siteConfig.verificationPoint.lines.filter((l) => !/^(PITSNEAKERS|Tel\.)/i.test(l)).join(", ");
 
-/** Lee cómo quiere recibir el comprador su pedido. Para el envío valida la dirección; para la recogida no la pide. */
+const PICKUP_PREFIX = "Recoge: ";
+
+/** Quién recoge el pedido, guardado en las notas del envío como "Recoge: Nombre Apellido". Vacío si el pedido es anterior a este dato. */
+export const pickupNameOf = (notes: string | undefined): string => (notes?.startsWith(PICKUP_PREFIX) ? notes.slice(PICKUP_PREFIX.length).trim() : "");
+
+const cleanField = (fd: FormData, key: string, max: number) => String(fd.get(key) ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+
+/**
+ * Lee cómo quiere recibir el comprador su pedido. Para el envío valida la dirección; para la recogida pide
+ * nombre y cédula de quien va a recoger (se guardan en las notas y en la cédula del pedido, sin columnas nuevas).
+ */
 export function parseDelivery(fd: FormData): { error: string } | { delivery: Delivery; shipFee: number; ship: ShippingData } {
-  if (String(fd.get("delivery") ?? "") === "recogida") return { delivery: "recogida", shipFee: 0, ship: PICKUP_SHIPPING };
+  if (String(fd.get("delivery") ?? "") === "recogida") {
+    const name = cleanField(fd, "pickupName", 80);
+    const document = cleanField(fd, "pickupDocument", 14).replace(/[^\dA-Za-z]/g, "");
+    if (name.split(" ").filter(Boolean).length < 2) return { error: "Escribe el nombre completo de quien va a recoger el pedido." };
+    if (!/^\d{5,12}$/.test(document)) return { error: "Escribe la cédula de quien recoge (entre 5 y 12 números): se la pedimos al entregar el par." };
+    return { delivery: "recogida", shipFee: 0, ship: { ...PICKUP_SHIPPING, document, notes: `${PICKUP_PREFIX}${name}` } };
+  }
   const ship = parseShipping(fd);
   if ("error" in ship) return { error: ship.error };
   return { delivery: "envio", shipFee: shipFeeFor("envio"), ship: ship.data };

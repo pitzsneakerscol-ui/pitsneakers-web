@@ -5,6 +5,7 @@ import { DELIVERY_FEE, type Delivery } from "@/lib/delivery-shared";
 import { freeShippingLive } from "@/lib/sale";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/config/site";
+import { inputCls, labelCls } from "@/components/reseller/ui";
 import type { ShippingData } from "@/lib/shipping-shared";
 
 const opt = "flex cursor-pointer flex-col rounded-xl border border-line bg-paper px-3 py-2.5 text-left transition has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:checked]:ring-1 has-[:checked]:ring-accent has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent";
@@ -34,9 +35,25 @@ export default function DeliveryFields({ idPrefix, mode, onMode, defaults }: { i
           <ShippingFields idPrefix={idPrefix} defaults={defaults} />
         </fieldset>
       </div>
-      <p hidden={mode !== "recogida"} className="rounded-xl border border-line bg-paper px-3.5 py-3 text-sm">
-        Recoges tu par en nuestro punto de verificación en {siteConfig.verificationPoint.city}, sin costo de envío. Cuando pagues te mostramos la dirección y coordinamos contigo el día y la hora por WhatsApp.
-      </p>
+      <div hidden={mode !== "recogida"}>
+        <fieldset disabled={mode !== "recogida"} className="min-w-0 space-y-3 rounded-xl border border-line bg-paper p-3.5">
+          <legend className="px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted">Quién recoge</legend>
+          <p className="text-sm">
+            Recoges tu par en nuestro punto de verificación en {siteConfig.verificationPoint.city}, sin costo de envío. Cuando pagues te mostramos la dirección y coordinamos contigo el día y la hora por WhatsApp.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label htmlFor={`${idPrefix}-pname`} className={labelCls}>Nombre completo de quien recoge</label>
+              <input id={`${idPrefix}-pname`} name="pickupName" required autoComplete="off" maxLength={80} placeholder="Puedes ser tú u otra persona" className={inputCls} />
+            </div>
+            <div>
+              <label htmlFor={`${idPrefix}-pdoc`} className={labelCls}>Cédula de quien recoge</label>
+              <input id={`${idPrefix}-pdoc`} name="pickupDocument" required inputMode="numeric" autoComplete="off" maxLength={14} placeholder="Solo números" className={inputCls} />
+            </div>
+          </div>
+          <p className="text-xs text-muted">Quien llegue por el par debe mostrar esa cédula. Si cambia la persona, avísanos por WhatsApp antes.</p>
+        </fieldset>
+      </div>
     </div>
   );
 }

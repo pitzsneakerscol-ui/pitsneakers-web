@@ -7,6 +7,7 @@ import { getPayoutInfos, sellerNames } from "@/lib/seller-payout";
 import { verificationPointLines } from "@/lib/seller-confirm-shared";
 import { PAYOUT_CLS, PAYOUT_LABEL, PAYOUT_STATUSES, PAYOUT_WINDOW, payoutDestination } from "@/lib/payout-shared";
 import { shippingLine } from "@/lib/shipping-shared";
+import { pickupNameOf } from "@/lib/delivery-shared";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { isWompiConfigured, isWompiTest } from "@/lib/wompi";
@@ -209,6 +210,11 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                   <p className="mt-1.5 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
                     <span className="text-[11px] font-semibold uppercase tracking-wider">Entrega </span>
                     <strong>Recoge en el punto de verificación</strong> · no hay guía ni envío. Al pasar a <strong>Despachado</strong> se le avisa que está listo para recoger.
+                    {pickupNameOf(o.shipNotes) ? (
+                      <span className="mt-1 block">
+                        Recoge: <strong>{pickupNameOf(o.shipNotes)}</strong>{o.shipDocument ? <> · CC <strong>{o.shipDocument}</strong></> : null} · pedir la cédula al entregar
+                      </span>
+                    ) : <span className="mt-1 block text-xs">Pedido sin datos de quien recoge: pídeselos por WhatsApp.</span>}
                   </p>
                 ) : o.shipAddress ? (
                   <p className="mt-1.5 rounded-lg bg-paper px-3 py-2 text-sm">

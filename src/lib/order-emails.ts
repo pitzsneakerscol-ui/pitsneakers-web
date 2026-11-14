@@ -4,7 +4,7 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 import type { CatalogOrder } from "@/lib/catalog-orders";
 import { shippingLine } from "@/lib/shipping-shared";
 import { DIRECT_CARRIER } from "@/lib/fulfillment-shared";
-import { pickupAddress } from "@/lib/delivery-shared";
+import { pickupAddress, pickupNameOf } from "@/lib/delivery-shared";
 import { stepsFor } from "@/lib/order-steps";
 
 /** Página pública donde el comprador ve en qué va su pedido (solo con la referencia, sin cuenta). */
@@ -60,7 +60,12 @@ export function buyerPaidEmail(o: CatalogOrder): { subject: string; body: string
       ...(manual ? [] : [`> **Total pagado:** ${formatPrice(o.amount)}${included.length ? ` (incluye ${included.join(" y ")})` : ""}`]),
       ...(o.discount > 0 ? [`> **Crédito aplicado:** ${formatPrice(o.discount)} (${o.creditCode})`] : []),
       "",
-      ...(pickup ? [`- **Entrega:** la recoges en nuestro punto de verificación en ${siteConfig.verificationPoint.city}, sin costo de envío.`] : o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
+      ...(pickup
+        ? [
+            `- **Entrega:** la recoges en nuestro punto de verificación en ${siteConfig.verificationPoint.city}, sin costo de envío.`,
+            ...(pickupNameOf(o.shipNotes) ? [`- **Recoge:** ${pickupNameOf(o.shipNotes)}. Debe llevar su cédula. Si va a ir otra persona, avísanos por WhatsApp.`] : []),
+          ]
+        : o.shipAddress ? [`- **Enviamos a:** ${shipTo(o)}`] : []),
       pickup
         ? "- Cuando tu par esté verificado y listo te avisamos por correo con la dirección, y coordinamos contigo el día y la hora por WhatsApp."
         : "- Te avisamos por correo en cada paso: cuando llegue a verificación, cuando esté verificado y cuando lo despachemos con el número de guía.",
@@ -95,7 +100,10 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
       `> **Teléfono:** ${o.buyerPhone}`,
       `> **Ciudad:** ${o.buyerCity || "—"}`,
       ...(o.delivery === "recogida"
-        ? [`> **Entrega:** RECOGE en el punto de verificación (no hay que comprar guía ni enviar nada)`]
+        ? [
+            `> **Entrega:** RECOGE en el punto de verificación (no hay que comprar guía ni enviar nada)`,
+            ...(pickupNameOf(o.shipNotes) ? [`> **Recoge:** ${pickupNameOf(o.shipNotes)}${o.shipDocument ? ` · CC ${o.shipDocument}` : ""} (pedirle la cédula al entregar)`] : []),
+          ]
         : o.shipAddress
           ? [
               `> **Enviar a:** ${shipTo(o)}`,
@@ -132,9 +140,11 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
         ...statusTimeline(o),
         `> **Pedido:** ${o.reference}`,
         `> **Recoges en:** ${pickupAddress()} · ${siteConfig.verificationPoint.city}`,
+        ...(pickupNameOf(o.shipNotes) ? [`> **Recoge:** ${pickupNameOf(o.shipNotes)}`] : []),
         "",
         "- Escríbenos por WhatsApp para coordinar el día y la hora de la recogida.",
         "- Ten a la mano la referencia de tu pedido (la ves arriba).",
+        ...(pickupNameOf(o.shipNotes) ? ["- Quien recoja debe llevar su cédula: la validamos al entregar el par."] : []),
         "- Si algo no sale como esperabas, respóndenos a este correo o escríbenos por WhatsApp y lo resolvemos.",
         "",
         `[boton: Coordinar la recogida por WhatsApp | ${waPickup}]`,
