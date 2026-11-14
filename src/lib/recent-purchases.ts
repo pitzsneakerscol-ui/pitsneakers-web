@@ -28,15 +28,15 @@ function thumbOf(src: string): string {
 }
 
 /**
- * Últimas compras reales para mostrar como prueba social. Solo cuenta pedidos pagados que el equipo ya despachó o entregó
- * (así nunca aparece un pedido de prueba, rechazado o con incidencia) de los últimos 30 días.
+ * Últimas compras reales para mostrar como prueba social: pedidos con pago confirmado (por Wompi o registrados por el equipo)
+ * de los últimos 30 días, en cuanto se pagan, sin esperar a que se despachen. Se excluyen los que tienen incidencia.
  */
 export async function listRecentPurchases(limit = 6): Promise<RecentPurchase[]> {
   if (!isDbConfigured()) return [];
   const db = await getDb();
   const r = await db.execute({
     sql: `SELECT buyer_name, product_name, brand, size, image, paid_at FROM catalog_orders
-          WHERE status = 'pagado' AND fulfillment IN ('despachado','entregado') AND paid_at IS NOT NULL AND paid_at > ?
+          WHERE status = 'pagado' AND fulfillment <> 'incidencia' AND paid_at IS NOT NULL AND paid_at > ?
           ORDER BY paid_at DESC LIMIT ?`,
     args: [Date.now() - 30 * DAY, limit * 3],
   });
