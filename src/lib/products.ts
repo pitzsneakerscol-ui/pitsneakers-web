@@ -152,7 +152,13 @@ export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[
   const pool =
     news.length >= min
       ? news
-      : [...news, ...photosFirst(groups.filter((g) => !g.isNew)).slice(0, min - news.length)];
+      : [
+          ...news,
+          // Lo más reciente primero (por fecha de alta): así cada par nuevo que se publica entra solo al calendario.
+          ...photosFirst(
+            groups.filter((g) => !g.isNew).sort((a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime())
+          ).slice(0, min - news.length),
+        ];
   return typeof limit === "number" ? pool.slice(0, limit) : pool;
 }
 
