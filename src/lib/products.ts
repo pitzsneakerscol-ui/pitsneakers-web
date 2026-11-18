@@ -1,4 +1,5 @@
 import productsFallback from "@/data/products.json";
+import arrivalDates from "@/data/arrival-dates.json";
 import { Product, ProductCategory, ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { fetchProductsFromSheet } from "@/lib/sheet-source";
@@ -6,6 +7,17 @@ import { groupPriceRange, groupProducts, groupPromo } from "@/lib/grouping";
 import { loadLiveOverlay, type PriceOverride } from "@/lib/catalog-live";
 import { bfPricesLive, campaignMarkup } from "@/lib/sale";
 import { applyCampaignMarkup } from "@/lib/campaign-pricing";
+
+/**
+ * Fecha real de llegada de pares del CSV (SKU → fecha ISO). Los del CSV traen una fecha de relleno (1970) y por eso quedan
+ * siempre debajo de los que se suben desde el panel en el "Calendario de llegadas"; con una fecha aquí entran en su lugar.
+ */
+const ARRIVAL_DATES = arrivalDates as Record<string, string>;
+const withArrivalDates = (products: Product[]): Product[] =>
+  products.map((p) => {
+    const d = ARRIVAL_DATES[p.id] ? new Date(ARRIVAL_DATES[p.id]) : null;
+    return d && !Number.isNaN(d.getTime()) ? { ...p, dateAdded: d.toISOString() } : p;
+  });
 
 async function loadProducts(): Promise<Product[]> {
   if (!siteConfig.productsSheetUrl) {
@@ -57,7 +69,7 @@ export function applyBfPrices(products: Product[], bf: Map<string, number>): Pro
 }
 
 async function loadCatalog(): Promise<{ products: Product[]; bf: Map<string, number> }> {
-  const base = await loadProducts();
+  const base = withArrivalDates(await loadProducts());
   const { live, hidden, overrides, extras, bf } = await loadLiveOverlay();
   return { products: applyOverrides([...base.filter((p) => !hidden.has(p.id)), ...live, ...extras], overrides), bf };
 }
