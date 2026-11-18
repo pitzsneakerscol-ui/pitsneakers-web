@@ -156,15 +156,22 @@ export async function getFeaturedGroups(limit = 6): Promise<ProductGroup[]> {
 // Mínimo de tarjetas en la página de lanzamientos, aunque haya pocos marcados como nuevos.
 const MIN_ARRIVALS = 12;
 
+// Un par con fecha real de llegada (ver arrival-dates.json) cuenta como nuevo durante este tiempo, igual que los del panel.
+const NEW_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
+const isFreshArrival = (g: ProductGroup) => {
+  const t = new Date(g.dateAdded).getTime();
+  return g.isNew || (t >= Date.UTC(2024, 0, 1) && Date.now() - t < NEW_WINDOW_MS);
+};
+
 export async function getNewArrivalGroups(limit?: number): Promise<ProductGroup[]> {
   const groups = await getAllGroups();
-  const news = photosFirst(groups.filter((g) => g.isNew));
+  const news = photosFirst(groups.filter(isFreshArrival));
   // Los marcados como lanzamiento van primero; si son pocos, se completa con lo más reciente para que la sección no quede casi vacía.
   const min = limit ?? MIN_ARRIVALS;
   const pool =
     news.length >= min
       ? news
-      : [...news, ...photosFirst(groups.filter((g) => !g.isNew)).slice(0, min - news.length)];
+      : [...news, ...photosFirst(groups.filter((g) => !isFreshArrival(g))).slice(0, min - news.length)];
   return typeof limit === "number" ? pool.slice(0, limit) : pool;
 }
 
