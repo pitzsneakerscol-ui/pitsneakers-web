@@ -20,6 +20,9 @@ function sniff(buf: Buffer): string | null {
 
 const clean = (v: FormDataEntryValue | null, max: number) => String(v ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 
+/** Etiquetas HTML (<script>, <img ...>, </a>) o enlaces javascript: / data:text/html. Un "<3" o "<" suelto no cuenta. */
+const CODE_LIKE = /<\s*\/?\s*[a-z!][^>]*>|javascript\s*:|data\s*:\s*text\/html/i;
+
 /** Recibe la reseña de un cliente. Queda pendiente hasta que el dueño la apruebe. */
 export async function submitReview(_prev: ReviewState, fd: FormData): Promise<ReviewState> {
   try {
@@ -32,6 +35,12 @@ export async function submitReview(_prev: ReviewState, fd: FormData): Promise<Re
     const product = clean(fd.get("product"), 80);
     const text = String(fd.get("text") ?? "").replace(/[ \t]+/g, " ").trim().slice(0, 600);
     const rating = Number(fd.get("rating"));
+
+    // Intento de meter código (XSS): se descarta en silencio, sin llegar a "Por revisar" y sin avisar a quien lo probó.
+    if ([name, email, product, text].some((v) => CODE_LIKE.test(v))) {
+      console.warn("[reseñas] descartada por contener código:", await clientIp());
+      return { ok: true };
+    }
 
     if (name.length < 2) return { error: "Escribe tu nombre (puede ser solo el nombre y la inicial del apellido)." };
     if (email && !isEmail(email)) return { error: "Ese correo no parece válido. Puedes dejarlo vacío." };
