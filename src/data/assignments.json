@@ -4986,5 +4986,19 @@
     "price": 1210000,
     "condition": "nuevo",
     "image": "/products/SB-DUNK-31.8ea1809f.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "asics-gel-kayano-14-cream-silver-pink",
+    "name": "Gel Kayano 14 Cream Silver Pink",
+    "brand": "Asics",
+    "colorway": "",
+    "sku": "ASICS-20",
+    "sizes": [
+      "6.5"
+    ],
+    "price": 1100000,
+    "condition": "nuevo",
+    "image": "/products/ASICS-20.727c3553.webp"
   }
 ]
