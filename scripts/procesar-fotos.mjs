@@ -11,6 +11,9 @@
 //   npm run fotos -- --catalogo      regenera el catálogo y los pares con vendedor a partir del CSV (sin tocar fotos)
 //   npm run fotos -- --versionar     renombra las fotos del catálogo con una huella de su contenido (rompe cachés viejos)
 //
+// Al poner la PRIMERA foto a un par que no tenía, se anota su fecha de llegada (hoy) en src/data/arrival-dates.json:
+// con ella el par entra solo, en su lugar, al "Calendario de llegadas" de la portada. No pisa fechas ya registradas.
+//
 // Cada foto se guarda como SKU.<huella>.webp: si la foto cambia, su dirección cambia, y ningún navegador ni CDN
 // puede seguir mostrando la versión anterior (el sitio guarda las imágenes 30 días).
 //
@@ -46,6 +49,8 @@ const UMBRAL_BLANCO = 247;
 const PESO_VISUAL = 925;
 const AJUSTE_PESO = 0.15;
 const FOTOS_COL = 11;
+// Fecha real de llegada por SKU: el "Calendario de llegadas" la usa para ordenar los pares del CSV (que no traen fecha).
+const ARRIVAL_OUT = path.join(ROOT, "src", "data", "arrival-dates.json");
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(n);
@@ -469,6 +474,20 @@ async function regenerarCatalogo() {
   return productos;
 }
 
+/** Anota la fecha de hoy como llegada de los pares que reciben su primera foto (no pisa fechas ya registradas). */
+function registrarLlegadas(skus) {
+  if (!skus.size) return;
+  const actual = fs.existsSync(ARRIVAL_OUT) ? JSON.parse(fs.readFileSync(ARRIVAL_OUT, "utf8")) : {};
+  const ahora = new Date().toISOString();
+  const nuevos = [...skus].filter((s) => !actual[s]);
+  if (!nuevos.length) return;
+  for (const s of nuevos) actual[s] = ahora;
+  const previo = fs.existsSync(ARRIVAL_OUT) ? fs.readFileSync(ARRIVAL_OUT, "utf8") : "";
+  const eol = previo.includes("\r\n") ? "\r\n" : "\n";
+  fs.writeFileSync(ARRIVAL_OUT, JSON.stringify(actual, null, 2).replace(/\n/g, eol) + eol);
+  console.log(`Fecha de llegada registrada (calendario): ${nuevos.join(", ")}`);
+}
+
 /* ---------- flujo principal ---------- */
 
 const EXT = /\.(png|jpe?g|webp|avif)$/i;
@@ -555,6 +574,7 @@ async function modoProcesar() {
   const catalogo = leerCatalogo();
   const cambios = new Map(); // producto -> fotos finales
   const reporte = { ok: [], sinPareja: [], omitidas: 0 };
+  const llegadas = new Set(); // SKUs que reciben su primera foto en esta corrida = par recién llegado
 
   for (const f of archivos) {
     const ruta = path.join(INBOX, f);
@@ -597,6 +617,7 @@ async function modoProcesar() {
       fs.writeFileSync(path.join(PUBLIC, destino), webp);
       const mismaFoto = (u) => anterior.test(path.basename(u));
       for (const p of productos) {
+        if (numero === 1 && p.sku && p.fotos.length === 0) llegadas.add(p.sku);
         const actuales = cambios.get(p) ?? p.fotos;
         // Se reemplaza la foto que tuviera ese mismo número y se ordena la galería por número.
         const resto = actuales.filter((u) => !mismaFoto(u) && numeroDeFoto(u) !== numero);
@@ -612,6 +633,7 @@ async function modoProcesar() {
 
   if (!PROBAR && cambios.size) {
     escribirFotosCsv(catalogo, cambios);
+    registrarLlegadas(llegadas);
     const total = await regenerarCatalogo();
     fs.writeFileSync(LOG, JSON.stringify(hecho, null, 1));
     console.log(`Catálogo actualizado: ${total.length} productos, ${total.filter((p) => p.images.length).length} con foto.\n`);
