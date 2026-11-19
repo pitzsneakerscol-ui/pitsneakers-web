@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import type { CatalogOrder } from "@/lib/catalog-orders";
-import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, listOrderPhotos, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks, parseVerifResult } from "@/lib/verification-shared";
 import { createNotification } from "@/lib/notifications";
 import { verificationNotice } from "@/lib/verification-notice";
@@ -108,7 +108,8 @@ export async function verifyOrder(fd: FormData): Promise<void> {
   let emailed = "";
   if (fd.get("notify") === "on" && isVerified(checks) && !isVerified(o.verifChecks)) {
     const fresh = (await getOrderById(o.id)) ?? o;
-    const mail = buyerVerifiedEmail(fresh);
+    const hasPhotos = ((await listOrderPhotos([o.id]).catch(() => new Map<number, number[]>())).get(o.id) ?? []).length > 0;
+    const mail = buyerVerifiedEmail(fresh, hasPhotos);
     const sent = await sendEmail({ to: fresh.buyerEmail, subject: mail.subject, body: mail.body }).catch(() => ({ ok: false as const }));
     emailed = sent.ok ? "1" : "0";
     after(() => pushOrderStep(fresh, "verificado"));

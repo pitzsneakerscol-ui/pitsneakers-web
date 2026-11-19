@@ -264,8 +264,9 @@ export function buyerReceivedEmail(o: CatalogOrder): { subject: string; body: st
 }
 
 /** Aviso de que el par pasó la verificación. */
-export function buyerVerifiedEmail(o: CatalogOrder): { subject: string; body: string } {
+export function buyerVerifiedEmail(o: CatalogOrder, withPhotos = false): { subject: string; body: string } {
   return stepEmail(o, `Tu ${o.productName} fue verificado ✅`, "Tu par fue ==verificado==", "tu par pasó nuestra verificación: autenticidad, estado y talla revisados.", [
+    ...(withPhotos ? ["Tomamos fotos de tu par al recibirlo: las ves en la página de tu pedido, con el botón de abajo."] : []),
     o.delivery === "recogida" ? "Lo dejamos empacado con protección, listo para que lo recojas." : "Lo dejamos empacado con protección, listo para salir.",
     o.delivery === "recogida" ? "En cuanto esté listo te avisamos con la dirección para recogerlo." : "En cuanto lo despachemos te mandamos la guía por correo.",
   ]);

@@ -311,7 +311,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                             <input name="note" defaultValue={o.verifNote} maxLength={300} autoComplete="off" placeholder="Solo la ves tú. Ej: cordones cambiados" className={`${inputCls} mt-1 normal-case tracking-normal`} />
                           </label>
                           <div className="text-[11px] font-semibold uppercase tracking-wider text-muted">
-                            Fotos de recepción
+                            Fotos de recepción (las ve el cliente)
                             <div className="mt-1 normal-case tracking-normal"><PhotoPicker room={MAX_PHOTOS - (photos.get(o.id) ?? []).length} /></div>
                           </div>
                         </div>
@@ -342,7 +342,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                             <input type="checkbox" name="notify" defaultChecked className="h-4 w-4 accent-accent" />
                             Avisar al cliente por correo que su par fue verificado
                           </label>
-                          <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos y los puntos los ve el revendedor dueño del par; el cliente no los ve.</p>
+                          <p className="text-xs text-muted"><span className="text-accent">*</span> obligatorios para darlo por verificado. Las fotos y los puntos los ven el revendedor dueño del par y el cliente (en la página de su pedido, cuando el par queda verificado). La nota de la verificación es solo tuya.</p>
                         </div>
                       </form>
                     </div>

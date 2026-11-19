@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { after } from "next/server";
 import { refreshIfStale } from "@/lib/tracking-sync";
-import { getOrderByRef } from "@/lib/catalog-orders";
+import { getOrderByRef, listOrderPhotos } from "@/lib/catalog-orders";
 import { shortDay } from "@/lib/fulfillment-shared";
 import { stepsFor } from "@/lib/order-steps";
 import { VERIF_CHECKS, isVerified } from "@/lib/verification-shared";
@@ -58,6 +58,8 @@ export default async function PedidoPage({ params }: { params: Promise<{ ref: st
   // El primer paso sin completar es el "actual".
   const currentIdx = steps.findIndex((s) => !s.done);
   const verified = isVerified(order.verifChecks);
+  // Fotos que tomó el equipo al recibir el par: el cliente las ve una vez verificado.
+  const photoIds = verified ? ((await listOrderPhotos([order.id]).catch(() => new Map<number, number[]>())).get(order.id) ?? []) : [];
 
   return (
     <div className="mx-auto max-w-xl px-4 py-10 sm:px-6 sm:py-14">
@@ -149,6 +151,21 @@ export default async function PedidoPage({ params }: { params: Promise<{ ref: st
               </li>
             ))}
           </ul>
+          {photoIds.length > 0 ? (
+            <div className="mt-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Fotos de tu par al recibirlo</p>
+              <ul className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {photoIds.map((pid, i) => (
+                  <li key={pid}>
+                    <a href={`/pedido/${order.reference}/foto/${pid}`} target="_blank" rel="noreferrer">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`/pedido/${order.reference}/foto/${pid}`} alt={`Foto ${i + 1} de tu par al recibirlo`} loading="lazy" className="aspect-square w-full rounded-lg border border-line object-cover" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
