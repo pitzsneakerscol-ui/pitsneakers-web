@@ -1,5 +1,5 @@
 import "server-only";
-import { advanceFulfillment, getOrderById, listTrackable, markSkyStatus, setSkyStatus, type CatalogOrder } from "@/lib/catalog-orders";
+import { advanceFulfillment, getOrderById, listTrackable, orderPhotoIds, markSkyStatus, setSkyStatus, type CatalogOrder } from "@/lib/catalog-orders";
 import { buyerDeliveredEmail, buyerDeliveryAttemptEmail, buyerOutForDeliveryEmail, buyerShippedEmail, teamShipmentIssueEmail } from "@/lib/order-emails";
 import { sendEmail, isEmailConfigured } from "@/lib/email";
 import { pushOrderStep } from "@/lib/push-events";
@@ -81,7 +81,7 @@ export async function applyTracking(order: CatalogOrder, skyStatus: string, trac
   if (!res) return null; // otro aviso ya lo cambió: no se repiten los correos
 
   if (to === "despachado" && res.firstShip) {
-    await mail(res.order.buyerEmail, buyerShippedEmail(res.order));
+    await mail(res.order.buyerEmail, buyerShippedEmail(res.order, await orderPhotoIds(res.order.id)));
     await pushOrderStep(res.order, "despachado");
   } else if (to === "entregado") {
     await mail(res.order.buyerEmail, buyerDeliveredEmail(res.order));

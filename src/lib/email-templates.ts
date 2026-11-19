@@ -127,6 +127,20 @@ function productRow(p: ProductLine): string {
   }</td></tr></table>`;
 }
 
+/** Cuadrícula de fotos grandes, de a dos por fila (cada una abre en grande al tocarla). [fotos: https://a | https://b | …] */
+function photoGrid(urls: string[]): string {
+  const rows: string[] = [];
+  for (let i = 0; i < urls.length; i += 2) {
+    const tds = urls.slice(i, i + 2).map((u, j) => {
+      const n = i + j + 1;
+      return `<td width="50%" valign="top" style="padding:0 ${j === 0 ? "5px 10px 0" : "0 10px 5px"}"><a href="${esc(u)}"><img src="${esc(u)}" alt="Foto ${n} de tu par" width="270" style="display:block;width:100%;max-width:270px;height:auto;border:0;border-radius:10px;background:#f4f1ea"></a></td>`;
+    });
+    if (tds.length === 1) tds.push(`<td width="50%">&nbsp;</td>`);
+    rows.push(`<tr>${tds.join("")}</tr>`);
+  }
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 24px">${rows.join("")}</table>`;
+}
+
 const GREEN = "#16a34a";
 
 /** Línea de estados vertical: círculo con check si está hecho, aro si es el actual, vacío si falta. La línea une los círculos. */
@@ -206,6 +220,10 @@ function blocks(body: string): string {
       flush();
       const p = parseProduct(t);
       if (p) out.push(productRow(p));
+    } else if (/^\[fotos:/i.test(t)) {
+      flush();
+      const urls = cells(t).filter(isHttps).slice(0, 8);
+      if (urls.length) out.push(photoGrid(urls));
     } else if (/^\[paso:/i.test(t)) {
       if (para.length || quote.length || list.length) flush();
       const s = parseStep(t);
@@ -297,6 +315,7 @@ export function renderEmailText(body: string): string {
         const p = parseProduct(t);
         return p ? [p.name, p.detail].filter(Boolean).join(" · ") : "";
       }
+      if (/^\[fotos:/i.test(t)) return "Fotos de tu par (las ves en el correo con imágenes o en la página de tu pedido).";
       if (/^\[paso:/i.test(t)) {
         const s = parseStep(t);
         return s ? `${s.state === "ok" ? "✓" : "○"} ${s.title}${s.text ? ` — ${s.text}` : ""}${s.extra ? ` (${s.extra})` : ""}` : "";

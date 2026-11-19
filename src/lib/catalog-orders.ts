@@ -434,6 +434,11 @@ export async function listOrderPhotos(orderIds: number[]): Promise<Map<number, n
   return map;
 }
 
+/** Ids de las fotos de recepción de un pedido (vacío si no hay o si la base falla: un correo nunca se queda sin enviar por esto). */
+export async function orderPhotoIds(orderId: number): Promise<number[]> {
+  return (await listOrderPhotos([orderId]).catch(() => new Map<number, number[]>())).get(orderId) ?? [];
+}
+
 /** Cuántas fotos más se pueden subir a un pedido. */
 export async function photoRoom(orderId: number): Promise<number> {
   const db = await getDb();

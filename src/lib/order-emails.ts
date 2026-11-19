@@ -28,6 +28,16 @@ function productRow(o: CatalogOrder): string[] {
   return [`[producto: ${cell(img)} | ${cell(name)} | ${cell(detail)}]`, ""];
 }
 
+/**
+ * Fotos que tomó el equipo al recibir el par, dentro del correo (cuadrícula grande) y con un título. Solo si hay fotos.
+ * Cada foto se pide con la referencia del pedido (misma regla que la página del pedido): /pedido/REF/foto/ID.
+ */
+function photosBlock(o: CatalogOrder, photoIds: number[]): string[] {
+  if (photoIds.length === 0) return [];
+  const base = siteConfig.siteUrl.replace(/\/$/, "");
+  return ["## Fotos de tu par", "", `[fotos: ${photoIds.map((id) => `${base}/pedido/${o.reference}/foto/${id}`).join(" | ")}]`, ""];
+}
+
 /** "Estado del pedido": la misma línea de pasos con checks que ve el comprador en la página del pedido. */
 function statusTimeline(o: CatalogOrder): string[] {
   const steps = stepsFor(o);
@@ -124,7 +134,7 @@ export function teamPaidEmail(o: CatalogOrder, test: boolean): { subject: string
 }
 
 /** Aviso al comprador de que su pedido salió, con transportadora y número de guía. */
-export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: string } {
+export function buyerShippedEmail(o: CatalogOrder, photoIds: number[] = []): { subject: string; body: string } {
   const wa = buildGeneralWhatsAppLink(`Hola! Tengo una consulta sobre mi pedido ${o.reference} (${o.productName}).`);
   // Pedido que el comprador recoge: en vez de la guía, le decimos dónde recogerlo y coordinamos por WhatsApp.
   if (o.delivery === "recogida") {
@@ -137,6 +147,7 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
         `Hola ${o.buyerName.split(" ")[0]}, tu par ya pasó la verificación y te espera. Aquí tienes el detalle:`,
         "",
         ...productRow(o),
+        ...photosBlock(o, photoIds),
         ...statusTimeline(o),
         `> **Pedido:** ${o.reference}`,
         `> **Recoges en:** ${pickupAddress()} · ${siteConfig.verificationPoint.city}`,
@@ -163,6 +174,7 @@ export function buyerShippedEmail(o: CatalogOrder): { subject: string; body: str
       `Hola ${o.buyerName.split(" ")[0]}, tu pedido ya salió. Aquí tienes el detalle:`,
       "",
       ...productRow(o),
+      ...photosBlock(o, photoIds),
       ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
       ...(o.carrier ? [`> **Transportadora:** ${o.carrier}`] : []),
@@ -224,7 +236,7 @@ export function teamShipmentIssueEmail(o: CatalogOrder, issue: string): { subjec
 }
 
 /** Correo de avance de un paso intermedio: par, línea de estado actualizada y botón al seguimiento. */
-function stepEmail(o: CatalogOrder, subject: string, title: string, intro: string, bullets: string[]): { subject: string; body: string } {
+function stepEmail(o: CatalogOrder, subject: string, title: string, intro: string, bullets: string[], photoIds: number[] = []): { subject: string; body: string } {
   const wa = buildGeneralWhatsAppLink(`Hola! Tengo una consulta sobre mi pedido ${o.reference} (${o.productName}).`);
   return {
     subject,
@@ -234,6 +246,7 @@ function stepEmail(o: CatalogOrder, subject: string, title: string, intro: strin
       `Hola ${o.buyerName.split(" ")[0]}, ${intro}`,
       "",
       ...productRow(o),
+      ...photosBlock(o, photoIds),
       ...statusTimeline(o),
       `> **Pedido:** ${o.reference}`,
       "",
@@ -264,12 +277,12 @@ export function buyerReceivedEmail(o: CatalogOrder): { subject: string; body: st
 }
 
 /** Aviso de que el par pasó la verificación. */
-export function buyerVerifiedEmail(o: CatalogOrder, withPhotos = false): { subject: string; body: string } {
+export function buyerVerifiedEmail(o: CatalogOrder, photoIds: number[] = []): { subject: string; body: string } {
   return stepEmail(o, `Tu ${o.productName} fue verificado ✅`, "Tu par fue ==verificado==", "tu par pasó nuestra verificación: autenticidad, estado y talla revisados.", [
-    ...(withPhotos ? ["Tomamos fotos de tu par al recibirlo: las ves en la página de tu pedido, con el botón de abajo."] : []),
+    ...(photoIds.length > 0 ? ["Arriba van las fotos que tomamos de tu par al recibirlo; también las ves en la página de tu pedido."] : []),
     o.delivery === "recogida" ? "Lo dejamos empacado con protección, listo para que lo recojas." : "Lo dejamos empacado con protección, listo para salir.",
     o.delivery === "recogida" ? "En cuanto esté listo te avisamos con la dirección para recogerlo." : "En cuanto lo despachemos te mandamos la guía por correo.",
-  ]);
+  ], photoIds);
 }
 
 /** Aviso de entrega y petición de reseña, justo cuando el cliente ya tiene el par. */
