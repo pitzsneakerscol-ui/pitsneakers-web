@@ -56,6 +56,7 @@ export default function CampaignForm({ defaults, active, configured }: { default
         <textarea id="cm-body" name="body" value={body} onChange={(e) => setBody(e.target.value)} rows={14} maxLength={5000} required className={`${inputCls} font-mono text-xs leading-relaxed`} />
         <p className="mt-1.5 text-[11px] text-muted">
           Formato: <code># Titular</code>, <code>**negrita**</code>, <code>&gt; caja destacada</code>, <code>- viñetas</code>, <code>[boton: Texto | https://…]</code>. <code>{"{{nombre}}"}</code> se cambia por el primer nombre de cada contacto.
+          {" "}Diseño editorial (fondo negro): empieza con <code>[diseno: lanzamiento]</code> y usa <code>[imagen: foto | texto | enlace]</code>, <code>[etiqueta: TEXTO]</code> y <code>[tarjeta: foto | título | texto | botón | enlace]</code>.
         </p>
       </div>
     </>

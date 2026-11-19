@@ -3,10 +3,12 @@ import { listWaitlist } from "@/lib/waitlist";
 import { ago } from "@/lib/admin-shared";
 import { prelaunch } from "@/config/prelaunch";
 import { btnGhost, cardCls } from "@/components/reseller/ui";
+import { importWaitlistToContacts } from "./actions";
 
 export const metadata: Metadata = { title: "Lista de espera" };
 
-export default async function ListaEsperaPage() {
+export default async function ListaEsperaPage({ searchParams }: { searchParams: Promise<{ ok?: string }> }) {
+  const { ok } = await searchParams;
   const rows = await listWaitlist();
   const locked = process.env.SITE_LOCKED === "1";
   const today = new Date().toDateString();
@@ -22,9 +24,16 @@ export default async function ListaEsperaPage() {
           </p>
         </div>
         {rows.length > 0 && (
-          <a href="/admin/lista-espera/exportar" className={btnGhost}>Descargar CSV</a>
+          <div className="flex flex-wrap items-center gap-2">
+            <form action={importWaitlistToContacts}>
+              <button type="submit" className={btnGhost}>Pasar a Contactos (para campañas)</button>
+            </form>
+            <a href="/admin/lista-espera/exportar" className={btnGhost}>Descargar CSV</a>
+          </div>
         )}
       </header>
+
+      {ok ? <p role="status" className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-800">Listo: {ok} Ya puedes escribirles desde <a href="/admin/contactos/campana" className="font-semibold underline">Campaña de correo</a>.</p> : null}
 
       <div className="grid gap-3 sm:grid-cols-3">
         <div className={`${cardCls} p-4`}>

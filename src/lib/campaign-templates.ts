@@ -18,7 +18,58 @@ export interface CampaignTemplate {
 const utm = (campaign: string, path = "") => `{{web}}${path || "/"}?utm_source=correo&utm_medium=email&utm_campaign=${campaign}`;
 const SIGN = "— El equipo de Pitsneakers";
 
+// Foto de un par del catálogo, a buen tamaño para el correo (para usar una foto nueva, cambia la dirección https://… por la suya).
+const foto = (file: string, w = 1080) => `{{web}}/_next/image?url=${encodeURIComponent(`/products/${file}`)}&w=${w}&q=75`;
+
 export const CAMPAIGN_TEMPLATES: CampaignTemplate[] = [
+  {
+    key: "lanzamiento-destacado",
+    name: "🆕 Lanzamiento destacado (foto grande, estilo editorial)",
+    campaign: "lanzamiento-destacado",
+    when: "Cuando llega un par o una colaboración que quieres anunciar a toda la lista.",
+    subject: "Ya llegó a Pitsneakers: Asics x Vandy The Pink Gel Kayano 12.1",
+    body: `[diseno: lanzamiento]
+
+[imagen: ${foto("ASICS-21.4caff028.webp")} | Asics x Vandy The Pink Gel Kayano 12.1 Chocolate | ${utm("lanzamiento-destacado", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
+
+[etiqueta: Asics x Vandy The Pink]
+
+# Ya llegó ==Vandy The Pink==
+
+Hola {{nombre}}, el Gel Kayano 12.1 "Chocolate" ya está en {{web}}. Cada par se verifica antes de publicarse y casi todos son únicos: si ves el tuyo, sepáralo.
+
+[tarjeta: ${foto("ASICS-21.4caff028.webp", 828)} | Gel Kayano 12.1 Chocolate | Malla marrón, detalles plateados y amarillos. Talla 8.5 US, nuevo y verificado. | Ver en Pitsneakers | ${utm("lanzamiento-destacado", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
+
+[boton: Escríbenos por WhatsApp | {{whatsapp}}]
+
+${SIGN}`,
+  },
+  {
+    key: "pares-nuevos-editorial",
+    name: "🔥 Pares nuevos (3 pares con foto, estilo editorial)",
+    campaign: "pares-nuevos-editorial",
+    when: "Cuando cargas varios pares y quieres mostrar los mejores en un solo correo.",
+    subject: "🔥 Cayeron pares nuevos en Pitsneakers",
+    body: `[diseno: lanzamiento]
+
+[etiqueta: Pares nuevos]
+
+# Ya está ==en la web==
+
+Hola {{nombre}}, esto es lo que acaba de entrar. Todos verificados, par a par. Cuando se venden, se van.
+
+[tarjeta: ${foto("ASICS-21.4caff028.webp", 828)} | Gel Kayano 12.1 Chocolate | Asics x Vandy The Pink · Talla 8.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
+
+[tarjeta: ${foto("ASICS-20.d6a1aad2.webp", 828)} | Gel Kayano 14 Vainilla | Asics x Vandy The Pink · Talla 6.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-x-vandy-the-pink-gel-kayano-14-vainilla")}]
+
+[tarjeta: ${foto("ASICS-19.da670f66.webp", 828)} | GT-2160 Miami Dolphins | Asics · Talla 5.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-gt-2160-miami-dolphins")}]
+
+---
+
+[boton: Ver todo el catálogo | ${utm("pares-nuevos-editorial")}]
+
+${SIGN}`,
+  },
   {
     key: "bienvenida-web",
     name: "Pitsneakers ya tiene página web",

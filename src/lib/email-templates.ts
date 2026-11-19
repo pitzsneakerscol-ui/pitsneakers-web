@@ -72,13 +72,13 @@ const esc = (s: string) =>
 const isHttps = (u: string) => /^https:\/\/[^\s"'<>]+$/.test(u);
 
 /** `mark` es el color del resaltado ==así==; en el titular oscuro se usa amarillo neón. */
-function inline(raw: string, mark = ACCENT): string {
+function inline(raw: string, mark = ACCENT, link = ACCENT): string {
   let s = esc(raw);
   s = s.replace(/https:\/\/[^\s<]+/g, (url) => {
     const m = url.match(/[.,;:!?)]+$/);
     const tail = m ? m[0] : "";
     const clean = tail ? url.slice(0, -tail.length) : url;
-    return `<a href="${clean}" style="color:${ACCENT};font-weight:bold">${clean}</a>${tail}`;
+    return `<a href="${clean}" style="color:${link};font-weight:bold">${clean}</a>${tail}`;
   });
   s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   s = s.replace(/==(.+?)==/g, `<span style="color:${mark}">$1</span>`);
@@ -255,17 +255,120 @@ function blocks(body: string): string {
   return out.join("\n");
 }
 
+/* ---------- Diseño "lanzamiento" (editorial, fondo negro, texto centrado) ----------
+ *
+ * Se activa con una línea [diseno: lanzamiento] al principio del mensaje. Además del formato normal acepta:
+ *   [imagen: https://foto | texto alternativo | https://enlace]   foto de borde a borde (enlace opcional)
+ *   [etiqueta: ADIDAS ORIGINALS X HELLSTAR]                       línea chica en rojo, con letras separadas
+ *   # Titular grande (centrado)       ## Subtítulo       párrafos centrados
+ *   [tarjeta: https://foto | TÍTULO | descripción | texto del botón | https://enlace]   par destacado con foto, texto y botón
+ */
+
+const SOFT = "#e6e6e6";
+const MUTED_ON_DARK = "#bdbdbd";
+
+function editorialRows(body: string): string {
+  const rows: string[] = [];
+  let para: string[] = [];
+  let list: string[] = [];
+  let quote: string[] = [];
+
+  const row = (inner: string, top = 0, bottom = 18) =>
+    rows.push(`<tr><td align="center" style="background:${INK};padding:${top}px 30px ${bottom}px">${inner}</td></tr>`);
+  const pillWhite = (href: string, label: string) =>
+    `<a href="${esc(href)}" style="display:inline-block;padding:15px 34px;border-radius:999px;background:#ffffff;color:${INK};font-family:${FONT};font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;text-decoration:none">${esc(label)} &rarr;</a>`;
+  const flush = () => {
+    if (para.length) {
+      row(`<p style="margin:0;font-size:17px;line-height:1.7;color:${SOFT};text-align:center">${para.map((l) => inline(l, HOT, "#ffffff")).join("<br>")}</p>`);
+      para = [];
+    }
+    if (quote.length) {
+      row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="background:#161616;border-left:5px solid ${HOT};border-radius:8px;padding:16px 18px;font-size:16px;line-height:1.6;color:${SOFT};text-align:left">${quote.map((l) => inline(l, HOT, "#ffffff")).join("<br>")}</td></tr></table>`);
+      quote = [];
+    }
+    if (list.length) {
+      row(
+        `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto">${list
+          .map((li, i) => `<tr><td style="padding:5px 12px 5px 0;color:${BRAND[i % BRAND.length]};font-size:16px;vertical-align:top;line-height:1.4">&#9654;</td><td style="padding:5px 0;font-size:16px;line-height:1.55;color:${SOFT};text-align:left">${inline(li, HOT, "#ffffff")}</td></tr>`)
+          .join("")}</table>`,
+      );
+      list = [];
+    }
+  };
+
+  for (const line of body.split(/\r?\n/)) {
+    const t = line.trim();
+    if (t === "") flush();
+    else if (/^\[imagen:/i.test(t)) {
+      flush();
+      const [src = "", alt = "", href = ""] = cells(t);
+      if (isHttps(src)) {
+        const img = `<img src="${esc(src)}" alt="${esc(alt)}" width="620" style="display:block;width:100%;max-width:620px;height:auto;border:0">`;
+        rows.push(`<tr><td style="background:${INK};padding:0;font-size:0;line-height:0">${isHttps(href) ? `<a href="${esc(href)}">${img}</a>` : img}</td></tr>`);
+      }
+    } else if (/^\[etiqueta:/i.test(t)) {
+      flush();
+      const [txt = ""] = cells(t);
+      if (txt) row(`<div style="font-family:${FONT};font-size:13px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;color:${HOT};text-align:center">${esc(txt)}</div>`, 34, 14);
+    } else if (/^\[tarjeta:/i.test(t)) {
+      flush();
+      const [src = "", title = "", text = "", label = "", href = ""] = cells(t);
+      const photo = isHttps(src)
+        ? `<tr><td align="center" style="background:#141414;border:1px solid #262626;border-radius:12px;padding:16px"><img src="${esc(src)}" alt="${esc(title)}" width="520" style="display:block;width:100%;max-width:520px;height:auto;border:0"></td></tr>`
+        : "";
+      const btn = label && isHttps(href) ? `<div style="margin-top:20px">${pillWhite(href, label)}</div>` : "";
+      row(
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${photo}<tr><td align="center" style="padding:22px 4px 0"><div style="font-family:${DISPLAY};font-size:30px;line-height:1.1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff">${esc(title)}</div>${
+          text ? `<div style="margin-top:10px;font-size:16px;line-height:1.65;color:${MUTED_ON_DARK}">${inline(text, HOT, "#ffffff")}</div>` : ""
+        }${btn}</td></tr></table>`,
+        8,
+        30,
+      );
+    } else if (/^\[boton:/i.test(t)) {
+      flush();
+      const m = t.match(/^\[boton:\s*(.+?)\s*\|\s*(\S+?)\s*\]$/i);
+      if (m && isHttps(m[2])) row(pillWhite(m[2], m[1]), 4, 26);
+      else para.push(t);
+    } else if (t.startsWith("## ")) {
+      flush();
+      row(`<h2 style="margin:0;font-family:${DISPLAY};font-size:30px;line-height:1.1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal;text-align:center">${inline(t.slice(3), HOT, "#ffffff")}</h2>`, 8, 14);
+    } else if (t.startsWith("# ")) {
+      flush();
+      row(`<h1 style="margin:0;font-family:${DISPLAY};font-size:48px;line-height:1.02;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal;text-align:center">${inline(t.slice(2), "#ffd23f", "#ffffff")}</h1>`, 0, 20);
+    } else if (t === "---") {
+      flush();
+      row(`<hr style="border:none;border-top:1px solid #2a2a2a;margin:8px 0">`, 6, 14);
+    } else if (t.startsWith("> ")) {
+      if (para.length || list.length) flush();
+      quote.push(t.slice(2));
+    } else if (t.startsWith("- ") || t.startsWith("• ")) {
+      if (para.length || quote.length) flush();
+      list.push(t.slice(2));
+    } else {
+      if (quote.length || list.length) flush();
+      para.push(t);
+    }
+  }
+  flush();
+  rows.push(`<tr><td style="background:${INK};font-size:0;line-height:0;height:18px">&nbsp;</td></tr>`);
+  return rows.join("\n");
+}
+
 /** Mensaje con formato → HTML de correo con la marca de Pitsneakers. Todo el contenido va escapado. */
 export function renderEmailHtml(subject: string, body: string, opts?: { unsubscribeUrl?: string }): string {
   const wa = `https://wa.me/${siteConfig.whatsappNumber}`;
   const base = siteConfig.siteUrl.replace(/\/$/, "");
   const logo = base ? `${base}/email/logo.png` : "";
 
+  // Diseño "lanzamiento": una línea [diseno: lanzamiento] cambia todo el cuerpo a la versión editorial (fondo negro, foto grande).
+  const allLines = body.split(/\r?\n/);
+  const editorial = allLines.some((l) => /^\[diseno:\s*(lanzamiento|editorial)\s*\]$/i.test(l.trim()));
+  const lines = editorial ? allLines.filter((l) => !/^\[diseno:/i.test(l.trim())) : allLines;
+
   // El primer titular (# ...) sube a un bloque oscuro grande: lo primero que se ve al abrir el correo.
-  const lines = body.split(/\r?\n/);
   const first = lines.findIndex((l) => l.trim() !== "");
-  const heroLine = first >= 0 && lines[first].trim().startsWith("# ") ? lines[first].trim().slice(2) : "";
-  const rest = heroLine ? lines.slice(first + 1).join("\n") : body;
+  const heroLine = !editorial && first >= 0 && lines[first].trim().startsWith("# ") ? lines[first].trim().slice(2) : "";
+  const rest = heroLine ? lines.slice(first + 1).join("\n") : lines.join("\n");
 
   const pill = (href: string, label: string, bg: string, fg = "#ffffff") =>
     `<a href="${esc(href)}" style="display:inline-block;margin:0 6px 8px 0;padding:9px 16px;border-radius:999px;background:${bg};color:${fg};font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;text-decoration:none">${label}</a>`;
@@ -287,7 +390,7 @@ ${
     ? `<tr><td style="background:${INK};padding:34px 30px 30px"><h1 style="margin:0;font-family:${DISPLAY};font-size:48px;line-height:1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal">${inline(heroLine, "#ffd23f")}</h1><table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:20px"><tr><td style="width:70px;height:6px;background:${HOT};font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>`
     : ""
 }
-<tr><td style="padding:32px 30px 14px">${blocks(rest)}</td></tr>
+${editorial ? editorialRows(rest) : `<tr><td style="padding:32px 30px 14px">${blocks(rest)}</td></tr>`}
 <tr><td>${stripe(4)}</td></tr>
 <tr><td style="background:${INK};padding:26px 30px 24px;font-size:12px;line-height:1.7;color:#bdbdbd">
 <div style="font-family:${DISPLAY};font-size:22px;letter-spacing:1.5px;color:#ffffff;margin-bottom:4px">PIT<span style="color:${HOT}">SNEAKERS</span></div>
@@ -316,6 +419,12 @@ export function renderEmailText(body: string): string {
         return p ? [p.name, p.detail].filter(Boolean).join(" · ") : "";
       }
       if (/^\[fotos:/i.test(t)) return "Fotos de tu par (las ves en el correo con imágenes o en la página de tu pedido).";
+      if (/^\[(diseno|imagen):/i.test(t)) return "";
+      if (/^\[etiqueta:/i.test(t)) return cells(t)[0] ?? "";
+      if (/^\[tarjeta:/i.test(t)) {
+        const [, title = "", text = "", , href = ""] = cells(t);
+        return [title, text, isHttps(href) ? href : ""].filter(Boolean).join("\n");
+      }
       if (/^\[paso:/i.test(t)) {
         const s = parseStep(t);
         return s ? `${s.state === "ok" ? "✓" : "○"} ${s.title}${s.text ? ` — ${s.text}` : ""}${s.extra ? ` (${s.extra})` : ""}` : "";
