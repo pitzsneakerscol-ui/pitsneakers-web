@@ -255,42 +255,99 @@ function blocks(body: string): string {
   return out.join("\n");
 }
 
-/* ---------- Diseño "lanzamiento" (editorial, fondo negro, texto centrado) ----------
+/* ---------- Diseños limpios (estilo tienda premium) ----------
  *
- * Se activa con una línea [diseno: lanzamiento] al principio del mensaje. Además del formato normal acepta:
- *   [imagen: https://foto | texto alternativo | https://enlace]   foto de borde a borde (enlace opcional)
- *   [etiqueta: ADIDAS ORIGINALS X HELLSTAR]                       línea chica en rojo, con letras separadas
- *   # Titular grande (centrado)       ## Subtítulo       párrafos centrados
- *   [tarjeta: https://foto | TÍTULO | descripción | texto del botón | https://enlace]   par destacado con foto, texto y botón
+ * Se activan con una línea [diseno: minimal], [diseno: grilla] o [diseno: noir] al principio del mensaje:
+ *   minimal  fondo blanco, mucho aire, foto grande y botón negro (estilo GOAT)
+ *   grilla   tarjeta blanca sobre gris, pares en cuadrícula con precio y sello de verificado (estilo StockX)
+ *   noir     fondo negro, letra fina y botón blanco (versión oscura, de lujo)
+ * Además del formato normal (# titular, ## subtítulo, párrafos, - viñetas, > nota, --- línea, [boton: …]) aceptan:
+ *   [imagen: https://foto | texto alternativo | https://enlace]      foto de borde a borde (enlace opcional)
+ *   [etiqueta: NUEVO EN PITSNEAKERS]                                 línea chica sobre el titular
+ *   [tarjeta: https://foto | TÍTULO | descripción | botón | https://enlace]   un par destacado, grande
+ *   [par: https://foto | MARCA | Nombre | Talla 9 US | $1.100.000 | https://enlace]   par en cuadrícula (los seguidos van de a dos)
  */
 
-const SOFT = "#e6e6e6";
-const MUTED_ON_DARK = "#bdbdbd";
+type LuxTheme = "minimal" | "grilla" | "noir";
 
-function editorialRows(body: string): string {
+interface Look {
+  outer: string; // fondo alrededor del correo
+  bg: string; // fondo del correo
+  ink: string; // texto principal
+  soft: string; // texto de párrafo
+  muted: string; // texto secundario
+  line: string; // líneas finas
+  tile: string; // fondo de las fotos de los pares
+  btnBg: string;
+  btnFg: string;
+  align: "center" | "left";
+  card: boolean; // correo como tarjeta sobre el fondo
+}
+
+const LOOKS: Record<LuxTheme, Look> = {
+  minimal: { outer: "#ffffff", bg: "#ffffff", ink: "#111111", soft: "#4a4a4a", muted: "#8a8a8a", line: "#e7e7e7", tile: "#f5f5f5", btnBg: "#111111", btnFg: "#ffffff", align: "center", card: false },
+  grilla: { outer: "#f1f1f1", bg: "#ffffff", ink: "#111111", soft: "#4a4a4a", muted: "#8a8a8a", line: "#ebebeb", tile: "#f5f5f5", btnBg: "#111111", btnFg: "#ffffff", align: "left", card: true },
+  noir: { outer: "#000000", bg: "#0b0b0b", ink: "#ffffff", soft: "#cfcfcf", muted: "#8f8f8f", line: "#262626", tile: "#141414", btnBg: "#ffffff", btnFg: "#0a0a0a", align: "center", card: false },
+};
+
+const LUX_FONT = "'Helvetica Neue',Helvetica,Arial,sans-serif";
+const VERIFIED = "#0a8f55";
+
+/** Nombre del diseño pedido en el mensaje, o null si el mensaje usa el diseño de siempre. "lanzamiento" y "editorial" son nombres antiguos de noir. */
+function luxThemeOf(lines: string[]): LuxTheme | null {
+  for (const l of lines) {
+    const m = l.trim().match(/^\[diseno:\s*(\w+)\s*\]$/i);
+    if (!m) continue;
+    const k = m[1].toLowerCase();
+    if (k === "minimal" || k === "grilla" || k === "noir") return k;
+    if (k === "lanzamiento" || k === "editorial") return "noir";
+  }
+  return null;
+}
+
+function luxRows(body: string, L: Look): string {
   const rows: string[] = [];
   let para: string[] = [];
   let list: string[] = [];
   let quote: string[] = [];
+  let tiles: string[] = [];
+  const left = L.align === "left";
+  const ta = L.align;
 
-  const row = (inner: string, top = 0, bottom = 18) =>
-    rows.push(`<tr><td align="center" style="background:${INK};padding:${top}px 30px ${bottom}px">${inner}</td></tr>`);
-  const pillWhite = (href: string, label: string) =>
-    `<a href="${esc(href)}" style="display:inline-block;padding:15px 34px;border-radius:999px;background:#ffffff;color:${INK};font-family:${FONT};font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;text-decoration:none">${esc(label)} &rarr;</a>`;
+  const row = (inner: string, top = 0, bottom = 20, side = 40) =>
+    rows.push(`<tr><td align="${ta}" style="background:${L.bg};padding:${top}px ${side}px ${bottom}px;text-align:${ta}">${inner}</td></tr>`);
+  const button = (href: string, label: string) =>
+    `<table role="presentation" cellpadding="0" cellspacing="0" ${left ? "" : 'align="center"'} style="margin:0 ${left ? "0" : "auto"}"><tr><td style="background:${L.btnBg}"><a href="${esc(href)}" style="display:inline-block;padding:16px 38px;font-family:${LUX_FONT};font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:${L.btnFg};text-decoration:none">${esc(label)}</a></td></tr></table>`;
+  const wordInline = (s: string) => inline(s, L.ink, L.ink);
+
+  const flushTiles = () => {
+    if (!tiles.length) return;
+    const trs: string[] = [];
+    for (let i = 0; i < tiles.length; i += 2) {
+      const pair = tiles.slice(i, i + 2);
+      const tds = pair.map((t, j) => `<td width="50%" valign="top" style="padding:0 ${j === 0 ? "6px" : "0"} 22px ${j === 0 ? "0" : "6px"}">${t}</td>`);
+      if (tds.length === 1) tds.push(`<td width="50%">&nbsp;</td>`);
+      trs.push(`<tr>${tds.join("")}</tr>`);
+    }
+    rows.push(`<tr><td style="background:${L.bg};padding:6px 34px 6px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${trs.join("")}</table></td></tr>`);
+    tiles = [];
+  };
   const flush = () => {
     if (para.length) {
-      row(`<p style="margin:0;font-size:17px;line-height:1.7;color:${SOFT};text-align:center">${para.map((l) => inline(l, HOT, "#ffffff")).join("<br>")}</p>`);
+      row(`<p style="margin:0;font-family:${LUX_FONT};font-size:16px;line-height:1.75;color:${L.soft}">${para.map((l) => inline(l, L.ink, L.ink)).join("<br>")}</p>`, 0, 22);
       para = [];
     }
     if (quote.length) {
-      row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="background:#161616;border-left:5px solid ${HOT};border-radius:8px;padding:16px 18px;font-size:16px;line-height:1.6;color:${SOFT};text-align:left">${quote.map((l) => inline(l, HOT, "#ffffff")).join("<br>")}</td></tr></table>`);
+      row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="border-top:1px solid ${L.line};border-bottom:1px solid ${L.line};padding:18px 4px;font-family:${LUX_FONT};font-size:15px;line-height:1.7;color:${L.soft};text-align:${ta}">${quote.map((l) => wordInline(l)).join("<br>")}</td></tr></table>`, 4, 26);
       quote = [];
     }
     if (list.length) {
       row(
-        `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto">${list
-          .map((li, i) => `<tr><td style="padding:5px 12px 5px 0;color:${BRAND[i % BRAND.length]};font-size:16px;vertical-align:top;line-height:1.4">&#9654;</td><td style="padding:5px 0;font-size:16px;line-height:1.55;color:${SOFT};text-align:left">${inline(li, HOT, "#ffffff")}</td></tr>`)
-          .join("")}</table>`,
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${list
+          .map((li) => `<tr><td style="border-top:1px solid ${L.line};padding:13px 2px;font-family:${LUX_FONT};font-size:15px;line-height:1.55;color:${L.soft};text-align:left">${wordInline(li)}</td></tr>`)
+          .join("")}<tr><td style="border-top:1px solid ${L.line};font-size:0;line-height:0;height:1px">&nbsp;</td></tr></table>`,
+        2,
+        26,
       );
       list = [];
     }
@@ -298,46 +355,66 @@ function editorialRows(body: string): string {
 
   for (const line of body.split(/\r?\n/)) {
     const t = line.trim();
-    if (t === "") flush();
-    else if (/^\[imagen:/i.test(t)) {
+    if (t === "") {
+      flush();
+      continue;
+    }
+    if (/^\[par:/i.test(t)) {
+      flush();
+      const [src = "", brand = "", name = "", detail = "", price = "", href = ""] = cells(t);
+      if (!name) continue;
+      const img = isHttps(src) ? `<tr><td style="background:${L.tile};padding:10px"><img src="${esc(src)}" alt="${esc(name)}" width="240" style="display:block;width:100%;height:auto;border:0"></td></tr>` : "";
+      const tile = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${img}<tr><td style="padding:12px 2px 0;text-align:left;font-family:${LUX_FONT}">${
+        brand ? `<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${L.muted}">${esc(brand)}</div>` : ""
+      }<div style="margin-top:3px;font-size:14px;font-weight:700;line-height:1.35;color:${L.ink}">${esc(name)}</div>${
+        detail ? `<div style="margin-top:3px;font-size:12px;line-height:1.4;color:${L.muted}">${esc(detail)}</div>` : ""
+      }${price ? `<div style="margin-top:7px;font-size:15px;font-weight:700;color:${L.ink}">${esc(price)}</div>` : ""}${
+        L === LOOKS.grilla ? `<div style="margin-top:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${VERIFIED}">&#10003; Verificado</div>` : ""
+      }</td></tr></table>`;
+      tiles.push(isHttps(href) ? `<a href="${esc(href)}" style="text-decoration:none;color:inherit">${tile}</a>` : tile);
+      continue;
+    }
+    flushTiles();
+    if (/^\[imagen:/i.test(t)) {
       flush();
       const [src = "", alt = "", href = ""] = cells(t);
       if (isHttps(src)) {
-        const img = `<img src="${esc(src)}" alt="${esc(alt)}" width="620" style="display:block;width:100%;max-width:620px;height:auto;border:0">`;
-        rows.push(`<tr><td style="background:${INK};padding:0;font-size:0;line-height:0">${isHttps(href) ? `<a href="${esc(href)}">${img}</a>` : img}</td></tr>`);
+        const img = `<img src="${esc(src)}" alt="${esc(alt)}" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0">`;
+        rows.push(`<tr><td style="background:${L.tile};padding:0;font-size:0;line-height:0">${isHttps(href) ? `<a href="${esc(href)}">${img}</a>` : img}</td></tr>`);
       }
     } else if (/^\[etiqueta:/i.test(t)) {
       flush();
       const [txt = ""] = cells(t);
-      if (txt) row(`<div style="font-family:${FONT};font-size:13px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;color:${HOT};text-align:center">${esc(txt)}</div>`, 34, 14);
+      if (txt) row(`<div style="font-family:${LUX_FONT};font-size:11px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:${L.muted}">${esc(txt)}</div>`, 38, 14);
     } else if (/^\[tarjeta:/i.test(t)) {
       flush();
       const [src = "", title = "", text = "", label = "", href = ""] = cells(t);
-      const photo = isHttps(src)
-        ? `<tr><td align="center" style="background:#141414;border:1px solid #262626;border-radius:12px;padding:16px"><img src="${esc(src)}" alt="${esc(title)}" width="520" style="display:block;width:100%;max-width:520px;height:auto;border:0"></td></tr>`
-        : "";
-      const btn = label && isHttps(href) ? `<div style="margin-top:20px">${pillWhite(href, label)}</div>` : "";
+      const photo = isHttps(src) ? `<tr><td style="background:${L.tile};padding:14px"><img src="${esc(src)}" alt="${esc(title)}" width="500" style="display:block;width:100%;height:auto;border:0"></td></tr>` : "";
+      const btn = label && isHttps(href) ? `<div style="margin-top:20px">${button(href, label)}</div>` : "";
       row(
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${photo}<tr><td align="center" style="padding:22px 4px 0"><div style="font-family:${DISPLAY};font-size:30px;line-height:1.1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff">${esc(title)}</div>${
-          text ? `<div style="margin-top:10px;font-size:16px;line-height:1.65;color:${MUTED_ON_DARK}">${inline(text, HOT, "#ffffff")}</div>` : ""
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${photo}<tr><td align="${ta}" style="padding:20px 2px 0;text-align:${ta};font-family:${LUX_FONT}"><div style="font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.3px;color:${L.ink}">${esc(title)}</div>${
+          text ? `<div style="margin-top:8px;font-size:15px;line-height:1.65;color:${L.muted}">${wordInline(text)}</div>` : ""
         }${btn}</td></tr></table>`,
         8,
         30,
+        34,
       );
     } else if (/^\[boton:/i.test(t)) {
       flush();
       const m = t.match(/^\[boton:\s*(.+?)\s*\|\s*(\S+?)\s*\]$/i);
-      if (m && isHttps(m[2])) row(pillWhite(m[2], m[1]), 4, 26);
+      if (m && isHttps(m[2])) row(button(m[2], m[1]), 6, 28);
       else para.push(t);
     } else if (t.startsWith("## ")) {
       flush();
-      row(`<h2 style="margin:0;font-family:${DISPLAY};font-size:30px;line-height:1.1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal;text-align:center">${inline(t.slice(3), HOT, "#ffffff")}</h2>`, 8, 14);
+      row(`<h2 style="margin:0;font-family:${LUX_FONT};font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.3px;color:${L.ink}">${wordInline(t.slice(3))}</h2>`, 6, 14);
     } else if (t.startsWith("# ")) {
       flush();
-      row(`<h1 style="margin:0;font-family:${DISPLAY};font-size:48px;line-height:1.02;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal;text-align:center">${inline(t.slice(2), "#ffd23f", "#ffffff")}</h1>`, 0, 20);
+      row(`<h1 style="margin:0;font-family:${LUX_FONT};font-size:34px;font-weight:700;line-height:1.1;letter-spacing:-1px;color:${L.ink}">${wordInline(t.slice(2))}</h1>`, 0, 18);
+    } else if (/^\[diseno:/i.test(t)) {
+      continue;
     } else if (t === "---") {
       flush();
-      row(`<hr style="border:none;border-top:1px solid #2a2a2a;margin:8px 0">`, 6, 14);
+      row(`<div style="border-top:1px solid ${L.line};height:1px;font-size:0;line-height:0">&nbsp;</div>`, 8, 18);
     } else if (t.startsWith("> ")) {
       if (para.length || list.length) flush();
       quote.push(t.slice(2));
@@ -350,8 +427,32 @@ function editorialRows(body: string): string {
     }
   }
   flush();
-  rows.push(`<tr><td style="background:${INK};font-size:0;line-height:0;height:18px">&nbsp;</td></tr>`);
+  flushTiles();
+  rows.push(`<tr><td style="background:${L.bg};font-size:0;line-height:0;height:20px">&nbsp;</td></tr>`);
   return rows.join("\n");
+}
+
+/** Documento completo del diseño limpio: encabezado con el nombre de la tienda, el contenido y un pie discreto. */
+function renderLuxHtml(subject: string, body: string, theme: LuxTheme, opts?: { unsubscribeUrl?: string }): string {
+  const L = LOOKS[theme];
+  const wa = `https://wa.me/${siteConfig.whatsappNumber}`;
+  const link = (href: string, label: string) => `<a href="${esc(href)}" style="color:${L.ink};text-decoration:underline">${label}</a>`;
+  const inner = `<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:${L.bg}${L.card ? ";border-radius:6px;overflow:hidden" : ""}">
+<tr><td align="center" style="background:${L.bg};padding:30px 20px 24px;border-bottom:1px solid ${L.line}"><div style="font-family:${LUX_FONT};font-size:19px;font-weight:800;letter-spacing:7px;color:${L.ink}">PITSNEAKERS</div><div style="margin-top:7px;font-family:${LUX_FONT};font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${L.muted}">Verificados &middot; Colombia</div></td></tr>
+${luxRows(body, L)}
+<tr><td align="center" style="background:${L.bg};padding:26px 30px 30px;border-top:1px solid ${L.line};font-family:${LUX_FONT};font-size:12px;line-height:1.8;color:${L.muted}">
+<div style="font-size:13px;font-weight:800;letter-spacing:5px;color:${L.ink}">PITSNEAKERS</div>
+<div style="margin-top:4px">${esc(siteConfig.city)} &middot; Sneakers y streetwear verificados par a par</div>
+<div style="margin-top:10px">${link(wa, "WhatsApp")} &nbsp;&middot;&nbsp; ${link(siteConfig.instagramUrl, "Instagram")} &nbsp;&middot;&nbsp; ${link(siteConfig.whatsappCommunityUrl, "Comunidad")}</div>
+<div style="margin-top:12px;font-size:11px">Recibes este correo porque haces parte de la comunidad Pitsneakers. ${
+    opts?.unsubscribeUrl ? `Si ya no quieres recibir estos correos, ${link(opts.unsubscribeUrl, "date de baja aquí")}.` : "Si ya no quieres recibir mensajes, responde &ldquo;NO&rdquo; a este correo."
+  }</div>
+</td></tr>
+</table>`;
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head>
+<body style="margin:0;padding:0;background:${L.outer};font-family:${LUX_FONT}">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(subject)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${L.outer}"><tr><td align="center" style="padding:${L.card ? "24px 10px 30px" : "0 0 0"}">${inner}</td></tr></table></body></html>`;
 }
 
 /** Mensaje con formato → HTML de correo con la marca de Pitsneakers. Todo el contenido va escapado. */
@@ -360,14 +461,14 @@ export function renderEmailHtml(subject: string, body: string, opts?: { unsubscr
   const base = siteConfig.siteUrl.replace(/\/$/, "");
   const logo = base ? `${base}/email/logo.png` : "";
 
-  // Diseño "lanzamiento": una línea [diseno: lanzamiento] cambia todo el cuerpo a la versión editorial (fondo negro, foto grande).
-  const allLines = body.split(/\r?\n/);
-  const editorial = allLines.some((l) => /^\[diseno:\s*(lanzamiento|editorial)\s*\]$/i.test(l.trim()));
-  const lines = editorial ? allLines.filter((l) => !/^\[diseno:/i.test(l.trim())) : allLines;
+  // Diseños limpios (minimal, grilla, noir): una línea [diseno: …] cambia todo el correo a otra presentación.
+  const lines = body.split(/\r?\n/);
+  const theme = luxThemeOf(lines);
+  if (theme) return renderLuxHtml(subject, body, theme, opts);
 
   // El primer titular (# ...) sube a un bloque oscuro grande: lo primero que se ve al abrir el correo.
   const first = lines.findIndex((l) => l.trim() !== "");
-  const heroLine = !editorial && first >= 0 && lines[first].trim().startsWith("# ") ? lines[first].trim().slice(2) : "";
+  const heroLine = first >= 0 && lines[first].trim().startsWith("# ") ? lines[first].trim().slice(2) : "";
   const rest = heroLine ? lines.slice(first + 1).join("\n") : lines.join("\n");
 
   const pill = (href: string, label: string, bg: string, fg = "#ffffff") =>
@@ -390,7 +491,7 @@ ${
     ? `<tr><td style="background:${INK};padding:34px 30px 30px"><h1 style="margin:0;font-family:${DISPLAY};font-size:48px;line-height:1;letter-spacing:.5px;text-transform:uppercase;color:#ffffff;font-weight:normal">${inline(heroLine, "#ffd23f")}</h1><table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:20px"><tr><td style="width:70px;height:6px;background:${HOT};font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>`
     : ""
 }
-${editorial ? editorialRows(rest) : `<tr><td style="padding:32px 30px 14px">${blocks(rest)}</td></tr>`}
+<tr><td style="padding:32px 30px 14px">${blocks(rest)}</td></tr>
 <tr><td>${stripe(4)}</td></tr>
 <tr><td style="background:${INK};padding:26px 30px 24px;font-size:12px;line-height:1.7;color:#bdbdbd">
 <div style="font-family:${DISPLAY};font-size:22px;letter-spacing:1.5px;color:#ffffff;margin-bottom:4px">PIT<span style="color:${HOT}">SNEAKERS</span></div>
@@ -420,6 +521,10 @@ export function renderEmailText(body: string): string {
       }
       if (/^\[fotos:/i.test(t)) return "Fotos de tu par (las ves en el correo con imágenes o en la página de tu pedido).";
       if (/^\[(diseno|imagen):/i.test(t)) return "";
+      if (/^\[par:/i.test(t)) {
+        const [, brand = "", name = "", detail = "", price = "", href = ""] = cells(t);
+        return [[brand, name].filter(Boolean).join(" "), [detail, price].filter(Boolean).join(" · "), isHttps(href) ? href : ""].filter(Boolean).join("\n");
+      }
       if (/^\[etiqueta:/i.test(t)) return cells(t)[0] ?? "";
       if (/^\[tarjeta:/i.test(t)) {
         const [, title = "", text = "", , href = ""] = cells(t);

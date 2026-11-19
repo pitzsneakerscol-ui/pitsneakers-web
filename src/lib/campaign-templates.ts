@@ -18,57 +18,95 @@ export interface CampaignTemplate {
 const utm = (campaign: string, path = "") => `{{web}}${path || "/"}?utm_source=correo&utm_medium=email&utm_campaign=${campaign}`;
 const SIGN = "— El equipo de Pitsneakers";
 
-// Foto de un par del catálogo, a buen tamaño para el correo (para usar una foto nueva, cambia la dirección https://… por la suya).
-const foto = (file: string, w = 1080) => `{{web}}/_next/image?url=${encodeURIComponent(`/products/${file}`)}&w=${w}&q=75`;
+// Foto de un par del catálogo lista para el correo, sobre el color de fondo del diseño (las fotos no tienen fondo propio):
+// f5f5f5 para los diseños blancos (minimal y grilla) y 141414 para noir. Para usar una foto nueva, cambia la dirección https://… por la suya.
+const foto = (file: string, w = 900, bg = "f5f5f5") => `{{web}}/api/email-foto?f=${file}&w=${w}&bg=${bg}`;
+const link = (slug: string, campaign: string) => utm(campaign, `/producto/${slug}`);
 
 export const CAMPAIGN_TEMPLATES: CampaignTemplate[] = [
   {
-    key: "lanzamiento-destacado",
-    name: "🆕 Lanzamiento destacado (foto grande, estilo editorial)",
-    campaign: "lanzamiento-destacado",
-    when: "Cuando llega un par o una colaboración que quieres anunciar a toda la lista.",
-    subject: "Ya llegó a Pitsneakers: Asics x Vandy The Pink Gel Kayano 12.1",
-    body: `[diseno: lanzamiento]
+    key: "minimal-lanzamiento",
+    name: "⚪ Minimal · Lanzamiento (blanco, foto grande)",
+    campaign: "minimal-lanzamiento",
+    when: "Cuando llega un par o una colaboración que quieres anunciar a toda la lista. Limpio, mucho aire.",
+    subject: "Ya llegó a Pitsneakers: Gel Kayano 12.1 x Vandy The Pink",
+    body: `[diseno: minimal]
 
-[imagen: ${foto("ASICS-21.4caff028.webp")} | Asics x Vandy The Pink Gel Kayano 12.1 Chocolate | ${utm("lanzamiento-destacado", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
+[imagen: ${foto("ASICS-21.4caff028.webp", 1100)} | Asics x Vandy The Pink Gel Kayano 12.1 Chocolate | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "minimal-lanzamiento")}]
 
-[etiqueta: Asics x Vandy The Pink]
+[etiqueta: Nuevo en Pitsneakers]
 
-# Ya llegó ==Vandy The Pink==
+# Gel Kayano 12.1 "Chocolate"
 
-Hola {{nombre}}, el Gel Kayano 12.1 "Chocolate" ya está en {{web}}. Cada par se verifica antes de publicarse y casi todos son únicos: si ves el tuyo, sepáralo.
+Asics x Vandy The Pink. Talla 8.5 US, nuevo y verificado por nuestro equipo antes de publicarse.
 
-[tarjeta: ${foto("ASICS-21.4caff028.webp", 828)} | Gel Kayano 12.1 Chocolate | Malla marrón, detalles plateados y amarillos. Talla 8.5 US, nuevo y verificado. | Ver en Pitsneakers | ${utm("lanzamiento-destacado", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
-
-[boton: Escríbenos por WhatsApp | {{whatsapp}}]
-
-${SIGN}`,
-  },
-  {
-    key: "pares-nuevos-editorial",
-    name: "🔥 Pares nuevos (3 pares con foto, estilo editorial)",
-    campaign: "pares-nuevos-editorial",
-    when: "Cuando cargas varios pares y quieres mostrar los mejores en un solo correo.",
-    subject: "🔥 Cayeron pares nuevos en Pitsneakers",
-    body: `[diseno: lanzamiento]
-
-[etiqueta: Pares nuevos]
-
-# Ya está ==en la web==
-
-Hola {{nombre}}, esto es lo que acaba de entrar. Todos verificados, par a par. Cuando se venden, se van.
-
-[tarjeta: ${foto("ASICS-21.4caff028.webp", 828)} | Gel Kayano 12.1 Chocolate | Asics x Vandy The Pink · Talla 8.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-x-vandy-the-pink-gel-kayano-12-1-chocolate")}]
-
-[tarjeta: ${foto("ASICS-20.d6a1aad2.webp", 828)} | Gel Kayano 14 Vainilla | Asics x Vandy The Pink · Talla 6.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-x-vandy-the-pink-gel-kayano-14-vainilla")}]
-
-[tarjeta: ${foto("ASICS-19.da670f66.webp", 828)} | GT-2160 Miami Dolphins | Asics · Talla 5.5 US | Ver este par | ${utm("pares-nuevos-editorial", "/producto/asics-gt-2160-miami-dolphins")}]
+[boton: Ver el par | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "minimal-lanzamiento")}]
 
 ---
 
-[boton: Ver todo el catálogo | ${utm("pares-nuevos-editorial")}]
+Hola {{nombre}}, casi todos nuestros pares son únicos: cuando se vende, se va. Si te gustó, sepáralo por WhatsApp.
 
-${SIGN}`,
+[boton: Escribirnos por WhatsApp | {{whatsapp}}]`,
+  },
+  {
+    key: "grilla-pares",
+    name: "🟩 Grilla · Pares nuevos (estilo StockX, con precios)",
+    campaign: "grilla-pares",
+    when: "Cuando cargas varios pares y quieres mostrarlos en una sola cuadrícula, con talla y precio.",
+    subject: "Pares nuevos en Pitsneakers",
+    body: `[diseno: grilla]
+
+[etiqueta: Nuevo en Pitsneakers]
+
+# Lo que acaba de entrar
+
+Hola {{nombre}}, estos pares llegaron esta semana. Todos verificados, par a par.
+
+[par: ${foto("ASICS-21.4caff028.webp", 600)} | Asics x Vandy The Pink | Gel Kayano 12.1 Chocolate | Talla 8.5 US · Nuevo | $950.000 | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "grilla-pares")}]
+[par: ${foto("ASICS-20.d6a1aad2.webp", 600)} | Asics x Vandy The Pink | Gel Kayano 14 Vainilla | Talla 6.5 US · Nuevo | $1.100.000 | ${link("asics-x-vandy-the-pink-gel-kayano-14-vainilla", "grilla-pares")}]
+[par: ${foto("SB-DUNK-01.6de7aed5.webp", 600)} | Nike | SB Dunk Low Rayssa Leal | Tallas 9 y 10 US · Nuevo | $1.100.000 | ${link("nike-sb-dunk-low-rayssa-leal", "grilla-pares")}]
+[par: ${foto("AJ1-33.15595159.webp", 600)} | Jordan | Jordan 1 Hyper Royal | Talla 7 US · Nuevo | $1.100.000 | ${link("jordan-jordan-1-hyper-royal", "grilla-pares")}]
+
+[boton: Ver todo el catálogo | ${utm("grilla-pares")}]`,
+  },
+  {
+    key: "noir-lanzamiento",
+    name: "⚫ Noir · Lanzamiento (oscuro, de lujo)",
+    campaign: "noir-lanzamiento",
+    when: "Para un par o colaboración que quieres que se sienta exclusivo. Versión oscura del lanzamiento.",
+    subject: "Ya llegó a Pitsneakers: Gel Kayano 12.1 x Vandy The Pink",
+    body: `[diseno: noir]
+
+[imagen: ${foto("ASICS-21.4caff028.webp", 1100, "141414")} | Asics x Vandy The Pink Gel Kayano 12.1 Chocolate | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "noir-lanzamiento")}]
+
+[etiqueta: Asics x Vandy The Pink]
+
+# Gel Kayano 12.1 "Chocolate"
+
+Hola {{nombre}}. Talla 8.5 US, nuevo y verificado. Casi todos nuestros pares son únicos: si ves el tuyo, sepáralo.
+
+[boton: Ver el par | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "noir-lanzamiento")}]`,
+  },
+  {
+    key: "noir-pares",
+    name: "⚫ Noir · Pares nuevos (oscuro, en cuadrícula)",
+    campaign: "noir-pares",
+    when: "Varios pares en una cuadrícula, en versión oscura.",
+    subject: "Pares nuevos en Pitsneakers",
+    body: `[diseno: noir]
+
+[etiqueta: Nuevo en Pitsneakers]
+
+# Lo que acaba de entrar
+
+Hola {{nombre}}, esto llegó esta semana. Todo verificado, par a par.
+
+[par: ${foto("ASICS-21.4caff028.webp", 600, "141414")} | Asics x Vandy The Pink | Gel Kayano 12.1 Chocolate | Talla 8.5 US · Nuevo | $950.000 | ${link("asics-x-vandy-the-pink-gel-kayano-12-1-chocolate", "noir-pares")}]
+[par: ${foto("ASICS-20.d6a1aad2.webp", 600, "141414")} | Asics x Vandy The Pink | Gel Kayano 14 Vainilla | Talla 6.5 US · Nuevo | $1.100.000 | ${link("asics-x-vandy-the-pink-gel-kayano-14-vainilla", "noir-pares")}]
+[par: ${foto("SB-DUNK-01.6de7aed5.webp", 600, "141414")} | Nike | SB Dunk Low Rayssa Leal | Tallas 9 y 10 US · Nuevo | $1.100.000 | ${link("nike-sb-dunk-low-rayssa-leal", "noir-pares")}]
+[par: ${foto("AJ1-33.15595159.webp", 600, "141414")} | Jordan | Jordan 1 Hyper Royal | Talla 7 US · Nuevo | $1.100.000 | ${link("jordan-jordan-1-hyper-royal", "noir-pares")}]
+
+[boton: Ver todo el catálogo | ${utm("noir-pares")}]`,
   },
   {
     key: "bienvenida-web",
