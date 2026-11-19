@@ -67,6 +67,7 @@ async function buyGuide(o: CatalogOrder, postalRaw: string): Promise<string | nu
     await saveGuide(o.id, { shipmentId: g.shipmentId, carrier: CARRIER_LABEL, tracking: g.tracking, labelUrl: g.labelUrl, cost: g.cost, postal });
     return null;
   } catch (err) {
+    console.error(`[skydropx] guía fallida ${o.reference} (${o.shipDepartment}/${o.buyerCity}/${postal}):`, err instanceof Error ? err.message : err);
     await releaseGuide(o.id);
     return `No se pudo generar la guía: ${err instanceof Error ? err.message : "error desconocido."}`;
   }
