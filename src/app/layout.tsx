@@ -9,6 +9,7 @@ import { groupPromo } from "@/lib/grouping";
 import { currentPromo, upcomingCampaign } from "@/lib/sale";
 import FloatingSearchButton from "@/components/FloatingSearchButton";
 import MobileTabBar from "@/components/MobileTabBar";
+import InstallPrompt from "@/components/InstallPrompt";
 import ChromeGate from "@/components/ChromeGate";
 import ScrollProgress from "@/components/ScrollProgress";
 import NativeBridge from "@/components/NativeBridge";
@@ -108,6 +109,7 @@ export default async function RootLayout({
         <Footer />
         <FloatingSearchButton />
         <MobileTabBar sellEnabled={isDbConfigured()} />
+        <InstallPrompt />
         </ChromeGate>
       </body>
     </html>
