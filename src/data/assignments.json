@@ -5000,5 +5000,19 @@
     "price": 1100000,
     "condition": "nuevo",
     "image": "/products/ASICS-20.d6a1aad2.webp"
+  },
+  {
+    "seller": "santiagoflex",
+    "slug": "asics-x-vandy-the-pink-gel-kayano-12-1-chocolate",
+    "name": "Gel Kayano 12.1 Chocolate",
+    "brand": "Asics x Vandy The Pink",
+    "colorway": "",
+    "sku": "ASICS-21",
+    "sizes": [
+      "8.5"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/ASICS-21.4caff028.webp"
   }
 ]
