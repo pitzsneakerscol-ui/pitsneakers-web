@@ -269,7 +269,15 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
       },
       declared_value: declared,
       declared_amount: declared,
-      packages: [{ package_number: 1, package_protected: false, declared_value: declared, declared_amount: declared }],
+      packages: [{
+        package_number: 1,
+        package_protected: false,
+        declared_value: declared,
+        declared_amount: declared,
+        // Colombia exige tipo de empaque (código de GET /api/v1/shipments/packagings; 4G = caja) y descripción del contenido.
+        package_type: (process.env.SKYDROPX_PACKAGE_TYPE ?? "").trim() || "4G",
+        package_content: (process.env.SKYDROPX_PACKAGE_CONTENT ?? "").trim() || "Calzado deportivo",
+      }],
     },
   }, "comprando");
   let guide = readShipment(created.data);
