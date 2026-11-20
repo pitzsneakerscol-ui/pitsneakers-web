@@ -64,7 +64,7 @@ function apiMessage(data: Json, status: number): string {
   return [msg, ...parts].filter(Boolean).join(" · ").slice(0, 300) || `Skydropx respondió ${status}.`;
 }
 
-async function api(method: "GET" | "POST", path: string, body?: unknown): Promise<{ status: number; data: Json }> {
+async function api(method: "GET" | "POST", path: string, body?: unknown, step = ""): Promise<{ status: number; data: Json }> {
   const res = await fetch(`${BASE()}${path}`, {
     method,
     headers: { Authorization: `Bearer ${await token()}`, "Content-Type": "application/json" },
@@ -74,7 +74,10 @@ async function api(method: "GET" | "POST", path: string, body?: unknown): Promis
   });
   const data = obj(await res.json().catch(() => ({})));
   if (res.status === 401) cached = null;
-  if (!res.ok && res.status !== 202) throw new SkydropxError(apiMessage(data, res.status));
+  if (!res.ok && res.status !== 202) {
+    console.error(`[skydropx] ${method} ${path} → ${res.status}`, JSON.stringify(data).slice(0, 800));
+    throw new SkydropxError(`${step ? `(${step}) ` : ""}${apiMessage(data, res.status)}`);
+  }
   return { status: res.status, data };
 }
 
@@ -194,6 +197,9 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
   const from = await originTemplateId();
   const p = parcel();
   const area3 = cut(g.complement, 60) || g.city;
+  // Colombia: la transportadora exige el valor declarado y la API lo pide como declared_amount (no está en su documentación),
+  // así que se manda con los dos nombres: en la cotización, en el envío y en el paquete.
+  const declared = Math.round(g.declaredValue);
 
   const addressTo = {
     country_code: "CO",
@@ -207,10 +213,10 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
     quotation: {
       address_from: { address_template_id: from },
       address_to: addressTo,
-      parcels: [{ length: Math.ceil(p.length), width: Math.ceil(p.width), height: Math.ceil(p.height), weight: p.weight, declared_value: g.declaredValue }],
+      parcels: [{ length: Math.ceil(p.length), width: Math.ceil(p.width), height: Math.ceil(p.height), weight: p.weight, declared_value: declared, declared_amount: declared }],
       requested_carriers: [carrier],
     },
-  });
+  }, "cotizando");
   const quotationId = str(quote.data.id) || str(obj(quote.data.data).id);
   if (!quotationId) throw new SkydropxError("Skydropx no devolvió la cotización.");
 
@@ -253,9 +259,11 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
         further_information: cut(g.notes, 70),
         ...(g.document ? { tax_id_number: g.document } : {}),
       },
-      packages: [{ package_number: 1, package_protected: false, declared_value: g.declaredValue }],
+      declared_value: declared,
+      declared_amount: declared,
+      packages: [{ package_number: 1, package_protected: false, declared_value: declared, declared_amount: declared }],
     },
-  });
+  }, "comprando");
   let guide = readShipment(created.data);
   if (!guide.shipmentId) throw new SkydropxError("Skydropx no devolvió el envío creado.");
 
