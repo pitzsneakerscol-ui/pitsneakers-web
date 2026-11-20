@@ -237,6 +237,8 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
   }
   const rate = usable[0];
   const price = num(rate.total);
+  // Desglose de la tarifa elegida (para entender por qué cuesta lo que cuesta: peso, volumen, seguro por valor declarado…).
+  console.log(`[skydropx] tarifa elegida: parcel=${p.length}x${p.width}x${p.height}cm ${p.weight}kg declarado=${declared}`, JSON.stringify(rate).slice(0, 1500));
 
   const credits = await getCredits().catch(() => null);
   if (credits && credits.balance < price) {
