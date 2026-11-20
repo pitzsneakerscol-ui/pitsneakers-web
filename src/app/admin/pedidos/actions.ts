@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import type { CatalogOrder } from "@/lib/catalog-orders";
-import { addOrderPhoto, claimGuide, clearGuide, deleteOrderPhoto, getOrderById, orderPhotoIds, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, clearGuide, deleteOrderPhoto, deleteOrders, getOrderById, listOrders, orderPhotoIds, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks, parseVerifResult } from "@/lib/verification-shared";
 import { createNotification } from "@/lib/notifications";
 import { verificationNotice } from "@/lib/verification-notice";
@@ -150,6 +150,38 @@ export async function generateGuide(fd: FormData): Promise<void> {
   if (why) back(why);
   revalidatePath("/admin/pedidos");
   redirect(`/admin/pedidos?ok=${encodeURIComponent(order!.reference)}&g=1#${order!.reference}`);
+}
+
+/** Motivo por el que un pedido no se puede eliminar todavía (vacío si se puede). */
+function deleteBlock(o: CatalogOrder): string {
+  if (o.status === "pagado" && o.sellerId && o.payoutStatus !== "pagado") return "todavía le debes el pago al revendedor: márcalo como pagado primero";
+  if (o.skyShipmentId && o.fulfillment !== "entregado") return "tiene una guía de Skydropx activa: cancélala primero";
+  return "";
+}
+
+/** Elimina para siempre un pedido (y sus fotos de recepción). La confirmación se pide en el panel antes de llegar aquí. */
+export async function deleteOrder(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const order = await getOrderById(Number(fd.get("id")));
+  if (!order) back("No encontré ese pedido (quizá ya lo eliminaste).");
+  const o = order!;
+  const why = deleteBlock(o);
+  if (why) back(`No se eliminó ${o.reference}: ${why}.`);
+  await deleteOrders([o.id]);
+  console.log(`[pedidos] eliminado ${o.reference} (${o.status}, ${o.productName})`);
+  revalidatePath("/admin/pedidos");
+  redirect(`/admin/pedidos?del=1&ref=${encodeURIComponent(o.reference)}`);
+}
+
+/** Elimina de una vez todos los pedidos archivados (pagados, entregados y sin pagos pendientes a revendedores). */
+export async function deleteArchivedOrders(): Promise<void> {
+  await requireAdmin();
+  const all = await listOrders();
+  const ids = all.filter((o) => o.status === "pagado" && o.fulfillment === "entregado" && !deleteBlock(o)).map((o) => o.id);
+  const n = await deleteOrders(ids);
+  console.log(`[pedidos] eliminados ${n} pedidos archivados`);
+  revalidatePath("/admin/pedidos");
+  redirect(`/admin/pedidos?del=${n}`);
 }
 
 /**

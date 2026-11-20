@@ -412,6 +412,17 @@ export async function saveGuide(id: number, g: GuideSave): Promise<void> {
   });
 }
 
+/** Elimina pedidos para siempre, con sus fotos de recepción. Devuelve cuántos pedidos se borraron. */
+export async function deleteOrders(ids: number[]): Promise<number> {
+  const list = [...new Set(ids.filter((n) => Number.isInteger(n) && n > 0))];
+  if (list.length === 0) return 0;
+  const db = await getDb();
+  const marks = list.map(() => "?").join(",");
+  await db.execute({ sql: `DELETE FROM order_photos WHERE order_id IN (${marks})`, args: list });
+  const r = await db.execute({ sql: `DELETE FROM catalog_orders WHERE id IN (${marks})`, args: list });
+  return r.rowsAffected;
+}
+
 /** Borra la guía de un pedido (tras cancelarla en Skydropx) para poder generar otra. */
 export async function clearGuide(id: number): Promise<void> {
   const db = await getDb();

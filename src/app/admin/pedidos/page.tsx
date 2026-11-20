@@ -15,7 +15,7 @@ import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
-import { cancelOrderGuide, generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
+import { cancelOrderGuide, deleteArchivedOrders, deleteOrder, generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
 import PhotoPicker from "@/components/admin/PhotoPicker";
 import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, VERIF_RESULTS, isVerified } from "@/lib/verification-shared";
 
@@ -45,7 +45,7 @@ const owesSeller = (o: { status: OrderStatus; sellerId: number | null; payoutSta
 /** Un pedido pagado y entregado se archiva solo (si era de un revendedor, cuando ya se le pagó): sale de la lista principal y queda en el filtro "Archivados". */
 const isArchived = (o: { status: OrderStatus; fulfillment: string; sellerId: number | null; payoutStatus: string }) => o.status === "pagado" && o.fulfillment === "entregado" && !owesSeller(o);
 
-type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string; s?: string; ag?: string; ae?: string };
+type SP = { f?: string; e?: string; ok?: string; m?: string; g?: string; s?: string; ag?: string; ae?: string; del?: string; ref?: string };
 
 /** Saldo de créditos de Skydropx (null si no está conectado o no respondió: el panel sigue funcionando). */
 async function skySaldo(): Promise<{ balance: number; currency: string } | null> {
@@ -54,7 +54,7 @@ async function skySaldo(): Promise<{ balance: number; currency: string } | null>
 }
 
 export default async function PedidosPage({ searchParams }: { searchParams: Promise<SP> }) {
-  const { f, e, ok, m, g, s, ag, ae } = await searchParams;
+  const { f, e, ok, m, g, s, ag, ae, del, ref } = await searchParams;
   const sky = isSkydropxConfigured();
   // Pone al día el rastreo de los pedidos en camino sin hacer esperar la página (se ve al recargar).
   if (sky) after(() => syncTracking({ staleMs: 10 * 60_000, limit: 10 }).catch(() => undefined));
@@ -103,6 +103,11 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {ag === "1" ? <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">La guía se compró sola al verificar el par: descarga la etiqueta en el pedido y pégala al paquete.</p> : null}
       {ae ? <p role="alert" className="rounded-xl bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-900">La verificación quedó guardada, pero la guía no se pudo comprar sola. {ae} Puedes generarla a mano en el pedido.</p> : null}
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
+      {del ? (
+        <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
+          {ref ? <>Pedido <span className="font-mono">{ref}</span> eliminado para siempre.</> : `${del} pedido${del === "1" ? "" : "s"} eliminado${del === "1" ? "" : "s"} para siempre.`}
+        </p>
+      ) : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
           Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "8" ? "con la guía cancelada en Skydropx: ya puedes generarla de nuevo." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : g === "7" ? "confirmado al revendedor: le llegó el aviso al panel y al celular con la dirección del punto de verificación." : "actualizado."}
@@ -170,6 +175,18 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
           </Link>
         ))}
       </nav>
+
+      {filter === "archivados" && archivedCount > 0 ? (
+        <details className={`${cardCls} p-4 text-sm`}>
+          <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wider text-muted">Eliminar todos los archivados ({archivedCount})</summary>
+          <form action={deleteArchivedOrders} className="mt-3 space-y-2">
+            <p>
+              Se eliminan <strong>los {archivedCount} pedidos entregados</strong> de esta lista <strong>para siempre</strong>, con sus fotos de recepción. No se puede deshacer, y dejan de contar en las ventas y los totales. Si prefieres borrar solo algunos, ábrelos uno por uno.
+            </p>
+            <button type="submit" className="rounded-full bg-accent px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Sí, eliminar los {archivedCount} archivados</button>
+          </form>
+        </details>
+      ) : null}
 
       {rows.length === 0 ? (
         <div className={`${cardCls} px-6 py-14 text-center text-sm text-muted`}>{filter === "todos" ? (archivedCount > 0 ? "No hay pedidos activos. Los entregados están en “Archivados”." : "Sin pedidos todavía.") : filter === "archivados" ? "Aún no hay pedidos entregados." : "No hay pedidos en esta vista."}</div>
@@ -454,6 +471,18 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                     </p>
                   </form>
                 ) : null}
+
+                <details className="mt-3 rounded-lg border border-line">
+                  <summary className="cursor-pointer px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted">Eliminar este pedido</summary>
+                  <form action={deleteOrder} className="space-y-2 border-t border-line p-3 text-sm">
+                    <input type="hidden" name="id" value={o.id} />
+                    <p>
+                      Vas a eliminar <strong className="font-mono">{o.reference}</strong> ({o.brand} {o.productName}, {formatPrice(o.amount)}) <strong>para siempre</strong>, con sus fotos de recepción. No se puede deshacer.
+                      {isPaid ? " Como está pagado, también deja de contar en las ventas y los totales." : ""}
+                    </p>
+                    <button type="submit" className="rounded-full bg-accent px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Sí, eliminar para siempre</button>
+                  </form>
+                </details>
               </li>
             );
           })}
