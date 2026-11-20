@@ -15,7 +15,7 @@ import { siteConfig } from "@/config/site";
 import { btnPrimary, cardCls, inputCls, selectAutoCls } from "@/components/reseller/ui";
 import { CARRIERS, FULFILLMENT_CLS, FULFILLMENT_LABEL, FULFILLMENT_STEPS, LATE_HOURS, isLate, isToShip } from "@/lib/fulfillment-shared";
 import { CARRIER_LABEL, getCredits, isSkydropxConfigured } from "@/lib/skydropx";
-import { generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
+import { cancelOrderGuide, generateGuide, refreshGuide, removePhoto, saveFulfillment, savePayoutStatus, confirmSellerOrder, verifyOrder } from "./actions";
 import PhotoPicker from "@/components/admin/PhotoPicker";
 import { MAX_PHOTOS, REQUIRED_CHECKS, VERIF_CHECKS, VERIF_RESULTS, isVerified } from "@/lib/verification-shared";
 
@@ -105,7 +105,7 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
       {e ? <p role="alert" className="rounded-xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">{e}</p> : null}
       {ok ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
-          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : g === "7" ? "confirmado al revendedor: le llegó el aviso al panel y al celular con la dirección del punto de verificación." : "actualizado."}
+          Pedido <span className="font-mono">{ok}</span> {g === "1" ? "con guía generada: descarga la etiqueta, pégala al paquete y luego márcalo como despachado." : g === "2" ? "con la guía actualizada." : g === "3" ? "con la verificación guardada." : g === "4" ? "creado para el cliente de WhatsApp. Ya aparece abajo: los siguientes avisos los mandas desde ahí." : g === "8" ? "con la guía cancelada en Skydropx: ya puedes generarla de nuevo." : g === "5" ? "entregado: se archivó solo. Lo encuentras en “Archivados”." : g === "6" ? "con el pago al revendedor actualizado." : g === "7" ? "confirmado al revendedor: le llegó el aviso al panel y al celular con la dirección del punto de verificación." : "actualizado."}
           {s === "1" ? (m === "1" ? " También le mandamos el correo." : " No se pudo mandar el correo (sin correo registrado o sin configurar): el aviso del panel sí le llegó.") : m === "1" ? " Le avisamos al cliente por correo." : m === "0" ? " No se pudo enviar el correo al cliente: avísale por WhatsApp." : ""}
         </p>
       ) : null}
@@ -253,6 +253,12 @@ export default async function PedidosPage({ searchParams }: { searchParams: Prom
                           <form action={refreshGuide}>
                             <input type="hidden" name="id" value={o.id} />
                             <button type="submit" className="text-xs font-semibold underline">Actualizar guía</button>
+                          </form>
+                        ) : null}
+                        {o.fulfillment !== "entregado" && !["picked_up", "in_transit", "last_mile", "delivered"].includes(o.skyStatus) ? (
+                          <form action={cancelOrderGuide}>
+                            <input type="hidden" name="id" value={o.id} />
+                            <button type="submit" className="text-xs font-semibold text-accent underline">Cancelar guía</button>
                           </form>
                         ) : null}
                       </>

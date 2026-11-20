@@ -183,6 +183,14 @@ function readShipment(raw: Json): Guide {
   };
 }
 
+/** Cancela una guía en Skydropx (devuelve los créditos si la transportadora aún no la recogió). Lanza SkydropxError si no se puede. */
+export async function cancelGuide(shipmentId: string, reason = "Se vuelve a generar la guía"): Promise<{ status: string }> {
+  const { data } = await api("POST", `/api/v1/shipments/${encodeURIComponent(shipmentId)}/cancellations`, { reason, shipment_id: shipmentId }, "cancelando");
+  if (data.success === false) throw new SkydropxError(str(data.error) || str(data.message) || "Skydropx no aceptó la cancelación.");
+  console.log(`[skydropx] cancelación ${shipmentId}:`, JSON.stringify(data).slice(0, 400));
+  return { status: str(data.status) };
+}
+
 /** Consulta el estado actual de un envío ya creado (para completar la guía si tardó). */
 export async function getGuide(shipmentId: string): Promise<Guide> {
   const { data } = await api("GET", `/api/v1/shipments/${encodeURIComponent(shipmentId)}`);

@@ -412,6 +412,15 @@ export async function saveGuide(id: number, g: GuideSave): Promise<void> {
   });
 }
 
+/** Borra la guía de un pedido (tras cancelarla en Skydropx) para poder generar otra. */
+export async function clearGuide(id: number): Promise<void> {
+  const db = await getDb();
+  await db.execute({
+    sql: "UPDATE catalog_orders SET sky_shipment_id = '', tracking = '', label_url = '', ship_cost = 0, sky_status = '', tracked_at = NULL WHERE id = ? AND sky_shipment_id NOT IN ('', 'pending')",
+    args: [id],
+  });
+}
+
 /** Guarda la verificación del par: puntos marcados, quién la hizo, cuándo y la nota interna. La hora se conserva si ya existía. */
 export async function saveVerification(id: number, input: { checks: VerifKey[]; by: string; note: string; result?: VerifResult; sellerNote?: string }): Promise<void> {
   const db = await getDb();

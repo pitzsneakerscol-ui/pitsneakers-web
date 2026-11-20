@@ -4,11 +4,11 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import type { CatalogOrder } from "@/lib/catalog-orders";
-import { addOrderPhoto, claimGuide, deleteOrderPhoto, getOrderById, orderPhotoIds, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
+import { addOrderPhoto, claimGuide, clearGuide, deleteOrderPhoto, getOrderById, orderPhotoIds, photoRoom, releaseGuide, saveGuide, markSellerConfirmed, saveVerification, setPayoutStatus, updateFulfillment } from "@/lib/catalog-orders";
 import { MAX_PHOTO_BYTES, isVerified, parseChecks, parseVerifResult } from "@/lib/verification-shared";
 import { createNotification } from "@/lib/notifications";
 import { verificationNotice } from "@/lib/verification-notice";
-import { CARRIER_LABEL, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
+import { CARRIER_LABEL, cancelGuide, createGuide, getGuide, isSkydropxConfigured } from "@/lib/skydropx";
 import { isFulfillment, type Fulfillment } from "@/lib/fulfillment-shared";
 import { buyerDeliveredEmail, buyerOnTheWayEmail, buyerReceivedEmail, buyerShippedEmail, buyerVerifiedEmail } from "@/lib/order-emails";
 import { sendEmail } from "@/lib/email";
@@ -150,6 +150,27 @@ export async function generateGuide(fd: FormData): Promise<void> {
   if (why) back(why);
   revalidatePath("/admin/pedidos");
   redirect(`/admin/pedidos?ok=${encodeURIComponent(order!.reference)}&g=1#${order!.reference}`);
+}
+
+/**
+ * Cancela la guía de un pedido en Skydropx y, solo si la aceptan, la borra del pedido para poder generar otra.
+ * No se permite si la transportadora ya la recogió o el pedido ya se entregó.
+ */
+export async function cancelOrderGuide(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const order = await getOrderById(Number(fd.get("id")));
+  if (!order || !order.skyShipmentId || order.skyShipmentId === "pending") back("Ese pedido no tiene una guía por cancelar.");
+  const o = order!;
+  if (o.fulfillment === "entregado" || ["picked_up", "in_transit", "last_mile", "delivered"].includes(o.skyStatus)) back("Esa guía ya fue recogida por la transportadora: no se puede cancelar desde aquí.");
+  try {
+    await cancelGuide(o.skyShipmentId);
+    await clearGuide(o.id);
+  } catch (err) {
+    console.error(`[skydropx] cancelación fallida ${o.reference}:`, err instanceof Error ? err.message : err);
+    back(`No se pudo cancelar la guía: ${err instanceof Error ? err.message : "error desconocido."}`);
+  }
+  revalidatePath("/admin/pedidos");
+  redirect(`/admin/pedidos?ok=${encodeURIComponent(o.reference)}&g=8#${o.reference}`);
 }
 
 /** Vuelve a pedirle a Skydropx el número de guía y la etiqueta de un envío que tardó en generarse. */
