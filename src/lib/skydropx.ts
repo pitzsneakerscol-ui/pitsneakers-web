@@ -134,7 +134,7 @@ export function verifyWebhook(rawBody: string, headerValue: string | null): bool
 
 // ---------- guía ----------
 export interface GuideInput {
-  /** valor del par: se declara a la transportadora */
+  /** valor del par (informativo: a la transportadora se le declara un valor fijo, ver SKYDROPX_DECLARED_VALUE) */
   declaredValue: number;
   name: string;
   phone: string;
@@ -199,7 +199,8 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
   const area3 = cut(g.complement, 60) || g.city;
   // Colombia: la transportadora exige el valor declarado y la API lo pide como declared_amount (no está en su documentación),
   // así que se manda con los dos nombres: en la cotización, en el envío y en el paquete.
-  const declared = Math.round(g.declaredValue);
+  // Siempre se declara un valor fijo (por defecto 10.000, cambiable con SKYDROPX_DECLARED_VALUE): así el flete no sube por el seguro.
+  const declared = Math.round(num(process.env.SKYDROPX_DECLARED_VALUE) || 10_000);
 
   const addressTo = {
     country_code: "CO",
