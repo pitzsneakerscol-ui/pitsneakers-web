@@ -9,7 +9,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
  *  - SKYDROPX_CLIENT_ID / SKYDROPX_CLIENT_SECRET: Conexiones → API en Skydropx.
  *  - SKYDROPX_API_URL (opcional): por defecto https://api-pro.skydropx.com. Para pruebas, la URL de Sandbox que muestra su documentación.
  *  - SKYDROPX_ORIGIN_TEMPLATE_ID (opcional): id de la dirección de origen guardada en Skydropx. Si falta se usa la primera que tengas.
- *  - SKYDROPX_PARCEL (opcional): "largo x ancho x alto x kilos" en cm y kg. Por defecto 35x25x15x2 (caja de tenis).
+ *  - SKYDROPX_PARCEL (opcional): "largo x ancho x alto x kilos" en cm y kg. Por defecto 15x20x15x1 (la caja "CAJA PITS").
  *  - SKYDROPX_CARRIER (opcional): código de la transportadora. Por defecto interrapidisimo.
  */
 
@@ -105,7 +105,8 @@ async function originTemplateId(): Promise<string> {
 
 function parcel(): { length: number; width: number; height: number; weight: number } {
   const [l, w, h, kg] = (process.env.SKYDROPX_PARCEL ?? "").toLowerCase().split("x").map((x) => num(x.trim()));
-  return { length: l > 0 ? l : 35, width: w > 0 ? w : 25, height: h > 0 ? h : 15, weight: kg > 0 ? kg : 2 };
+  // Por defecto, la plantilla "CAJA PITS" de Skydropx: 15 x 20 x 15 cm, 1 kg.
+  return { length: l > 0 ? l : 15, width: w > 0 ? w : 20, height: h > 0 ? h : 15, weight: kg > 0 ? kg : 1 };
 }
 
 // ---------- webhooks ----------
