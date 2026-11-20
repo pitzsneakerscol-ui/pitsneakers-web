@@ -202,22 +202,27 @@ export async function createGuide(g: GuideInput): Promise<Guide> {
   // Siempre se declara un valor fijo (por defecto 10.000, cambiable con SKYDROPX_DECLARED_VALUE): así el flete no sube por el seguro.
   const declared = Math.round(num(process.env.SKYDROPX_DECLARED_VALUE) || 10_000);
 
-  const addressTo = {
-    country_code: "CO",
-    postal_code: digits(g.postalCode),
-    area_level1: g.department,
-    area_level2: g.city,
-    area_level3: area3,
-  };
+  const quoteTo = (postal: string) =>
+    api("POST", "/api/v1/quotations", {
+      quotation: {
+        address_from: { address_template_id: from },
+        address_to: { country_code: "CO", postal_code: postal, area_level1: g.department, area_level2: g.city, area_level3: area3 },
+        parcels: [{ length: Math.ceil(p.length), width: Math.ceil(p.width), height: Math.ceil(p.height), weight: p.weight, declared_value: declared, declared_amount: declared }],
+        requested_carriers: [carrier],
+      },
+    }, "cotizando");
 
-  const quote = await api("POST", "/api/v1/quotations", {
-    quotation: {
-      address_from: { address_template_id: from },
-      address_to: addressTo,
-      parcels: [{ length: Math.ceil(p.length), width: Math.ceil(p.width), height: Math.ceil(p.height), weight: p.weight, declared_value: declared, declared_amount: declared }],
-      requested_carriers: [carrier],
-    },
-  }, "cotizando");
+  // Skydropx no reconoce muchos códigos postales colombianos ("postal_code: no existe"), pero acepta 00000 y Interrapidísimo
+  // reparte por ciudad: si rechaza el del cliente, se cotiza igual con 00000.
+  const postal = digits(g.postalCode);
+  let quote;
+  try {
+    quote = await quoteTo(postal);
+  } catch (err) {
+    if (postal === "00000" || !(err instanceof SkydropxError) || !/postal_code/.test(err.message)) throw err;
+    console.warn(`[skydropx] código postal ${postal} no existe en Skydropx (${g.department}/${g.city}); se cotiza con 00000`);
+    quote = await quoteTo("00000");
+  }
   const quotationId = str(quote.data.id) || str(obj(quote.data.data).id);
   if (!quotationId) throw new SkydropxError("Skydropx no devolvió la cotización.");
 
