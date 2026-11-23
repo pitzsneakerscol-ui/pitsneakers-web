@@ -77,17 +77,6 @@ export const siteConfig = {
       freeShipping: true,
     },
     {
-      id: "pre-black-friday",
-      name: "Pre Black Friday",
-      kicker: "Acceso anticipado",
-      title: "Pre Black Friday",
-      subtitle: "Antes que nadie: pares seleccionados con precio de Black Friday y envío gratis, solo hasta que arranque el viernes.",
-      startsAt: "2026-11-23T00:00:00-05:00",
-      endsAt: "2026-11-27T00:00:00-05:00",
-      freeShipping: true,
-      markup: 20000,
-    },
-    {
       id: "black-friday",
       name: "Black Friday",
       kicker: "Oferta por tiempo limitado",
