@@ -546,7 +546,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 10;
+export const TEMPLATE_VERSION = 11;
 
 const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 
@@ -907,7 +907,7 @@ Entra a tu panel para poner lo que te costó cada par y ver tu utilidad real. ¿
 
 Hola {{nombre}},
 
-Si tienes pares guardados de este año, **este es el momento de moverlos**. Del **martes 24 al lunes 30 de noviembre** es el Black Friday de {{tienda}}: la semana con más compradores del año. Aprovéchala para **recuperar tu inversión** y liberar plata para tu próximo par.
+Si tienes pares guardados de este año, **este es el momento de moverlos**. Del **jueves 26 al lunes 30 de noviembre** es el Black Friday de {{tienda}}: los días con más compradores del año. Aprovéchala para **recuperar tu inversión** y liberar plata para tu próximo par.
 
 > **Vamos a empujarlo con pauta en redes y con toda la comunidad.** Y todo par que sale en Black Friday va con **envío incluido y verificación incluida** para el comprador: eso da confianza y hace que se venda más rápido.
 

@@ -1,37 +1,28 @@
-# Saludo de las 9 a. m. — lunes 23 de noviembre (grupos de la comunidad)
+# Saludos de los grupos de la comunidad — Black Friday jueves 26 al lunes 30 de noviembre
 
-Texto listo para pegar (WhatsApp usa *negrita* con asteriscos):
+Los textos salen de la plantilla dinámica `plantillas-whatsapp.mjs` (cambian solos según la fecha):
 
 ```
-☀️ ¡Buenos días, comunidad PITSNEAKERS!
+node docs/campana-blackfriday/plantillas-whatsapp.mjs 2026-11-23 200
+```
 
-🖤 *BLACK FRIDAY llega MAÑANA, martes 24 de noviembre* 🖤
+Ejemplo (WhatsApp usa *negrita* con asteriscos):
 
-Del martes 24 al lunes 30 de noviembre:
-✅ Pares con precio de oferta
-🚚 Envío GRATIS a todo el país
-✅ Todo nuevo y verificado par a par
+```
+🖤 *BLACK FRIDAY llega en 3 días* 🖤
+
+Arranca el jueves 26 de noviembre, hasta el lunes 30 de noviembre:
+🔥 Más de 200 referencias con precio de oferta
+🚚 Envío incluido a todo el país
+✅ Verificación incluida en cada par
 
 ⚠️ Casi todos los pares son únicos: cuando se acaba, se acaba.
 
-👉 Entra desde mañana desde las 12 a. m.: https://pitsneakers.com/sale
+💸 Ve ahorrando desde ya: que la quincena o el salario no se te vaya antes. Elige tu par con calma y llega listo el jueves.
 
-💬 ¿Quieres que te avisemos primero o tienes un par en mente? Escríbenos y te lo separamos.
-```
-
-## Variante corta (si el grupo es muy activo)
-
-```
-☀️ Buenos días 👋
-🖤 BLACK FRIDAY arranca MAÑANA martes 24 en Pitsneakers: ofertas + envío gratis a todo el país hasta el lunes 30.
 👉 https://pitsneakers.com/sale
 ```
 
-## Martes 24 a las 9 a. m. (ya arrancó)
+Día de arranque (jueves 26, 9 a. m.): "YA ES BLACK FRIDAY" — la plantilla lo cambia sola.
 
-```
-☀️ ¡Buenos días! 🖤 YA ES BLACK FRIDAY en Pitsneakers
-🔥 Pares con precio de oferta + envío GRATIS a todo el país
-⏳ Hasta el lunes 30 de noviembre, o hasta que se acabe el par
-👉 https://pitsneakers.com/sale
-```
+Lunes: sección "Lunes de nuevos ingresos" (función `lunesNuevosIngresos`).
