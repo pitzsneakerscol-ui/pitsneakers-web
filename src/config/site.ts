@@ -81,12 +81,12 @@ export const siteConfig = {
       name: "Black Friday",
       kicker: "Oferta por tiempo limitado",
       title: "Black Friday",
-      subtitle: "Del martes 24 al domingo 29 de noviembre: precios especiales en sneakers y streetwear verificados, con envío gratis a todo el país. Cuando se acaba el par, se acaba la oferta.",
+      subtitle: "Del martes 24 al domingo 29 de noviembre: precios especiales en sneakers y streetwear, con envío incluido a todo el país y verificación incluida en cada par. Cuando se acaba el par, se acaba la oferta.",
       startsAt: "2026-11-24T00:00:00-05:00",
       endsAt: "2026-11-30T00:00:00-05:00",
       prices: true,
       freeShipping: true,
-      markup: 20000,
+      markup: 24000,
     },
     {
       id: "cyber-monday",
@@ -98,7 +98,7 @@ export const siteConfig = {
       endsAt: "2026-12-01T00:00:00-05:00",
       prices: true,
       freeShipping: true,
-      markup: 20000,
+      markup: 24000,
     },
   ] as Campaign[],
 };

@@ -546,7 +546,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 9;
+export const TEMPLATE_VERSION = 10;
 
 const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 
@@ -901,17 +901,17 @@ Entra a tu panel para poner lo que te costó cada par y ver tu utilidad real. ¿
   },
   {
     key: "black_friday_revendedor",
-    name: "🖤 Black Friday viene: escoge tus pares (revendedor)",
-    subject: "🖤 Black Friday en {{tienda}}: escoge los pares que quieres ofrecer",
-    body: `# ==Black Friday== viene con todo
+    name: "🖤 Black Friday viene: vende tu stock (revendedor)",
+    subject: "🖤 {{nombre}}, llegó el momento de vender tu stock en el Black Friday de {{tienda}}",
+    body: `# Llegó el momento de ==vender== tu stock
 
 Hola {{nombre}},
 
-El **martes 24 de noviembre** arranca el Black Friday en {{tienda}} y va hasta el lunes 30 (Cyber Monday). Vamos a empujarlo con pauta en redes y toda la comunidad, y queremos que **tus pares estén dentro**.
+Si tienes pares guardados de este año, **este es el momento de moverlos**. Del **martes 24 al lunes 30 de noviembre** es el Black Friday de {{tienda}}: la semana con más compradores del año. Aprovéchala para **recuperar tu inversión** y liberar plata para tu próximo par.
 
-> **Tú escoges qué pares ofreces y a qué precio.** Nosotros revisamos cada propuesta y aprobamos las que entran. Los aprobados salen en la página con su etiqueta de descuento.
+> **Vamos a empujarlo con pauta en redes y con toda la comunidad.** Y todo par que sale en Black Friday va con **envío incluido y verificación incluida** para el comprador: eso da confianza y hace que se venda más rápido.
 
-Así de fácil, desde tu panel:
+**Tú escoges qué pares ofreces y a qué precio.** Nosotros revisamos cada propuesta y aprobamos las que entran. Desde tu panel:
 
 - Entra a **Inventario** y toca **Ofrecer pares en Black Friday**
 - Ponle a cada par el **precio con descuento** que quieras. Ves en vivo cuánto te llega
@@ -922,7 +922,7 @@ La comisión **no cambia**: recibes el precio que pongas menos la comisión y el
 
 [boton: Escoger mis pares | {{web}}/revendedores/black-friday]
 
-**Hazlo hoy o mañana**: entre más temprano quede aprobado, más días se muestra. ¿Dudas? Escríbenos: {{whatsapp}}
+**Hazlo hoy o mañana**: entre más temprano quede aprobado tu par, más días se muestra. ¿Todavía no tienes pares en tu inventario? Súbelos y escríbenos: {{whatsapp}}
 
 **Equipo {{tienda}}**`,
     builtin: true,
