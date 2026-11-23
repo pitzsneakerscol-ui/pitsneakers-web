@@ -20,7 +20,7 @@ export default async function BlackFridayPage() {
       <header>
         <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Black Friday</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          Tú decides el descuento de tus pares. Pon el precio especial de cada uno y la página lo muestra solo
+          Escoge qué pares quieres ofrecer en Black Friday y ponles su precio con descuento. Pitsneakers revisa cada propuesta y, si la aprueba, la página la muestra sola
           {bf ? ` desde el ${day(bf.startsAt)}` : ""}
           {cyber ? ` hasta el final del ${day(cyber.startsAt)} (Cyber Monday)` : ""}. Después vuelve a su precio normal sin que hagas nada.
         </p>
@@ -29,7 +29,7 @@ export default async function BlackFridayPage() {
       <ul className="grid gap-3 text-sm sm:grid-cols-3">
         <li className="rounded-xl border border-line bg-paper-raised p-4"><strong className="block">Más ventas</strong><span className="text-muted">Los pares con oferta salen en la página de Black Friday con su etiqueta de descuento.</span></li>
         <li className="rounded-xl border border-line bg-paper-raised p-4"><strong className="block">Misma comisión</strong><span className="text-muted">La comisión de Pitsneakers no cambia: recibes el precio que pongas menos esa comisión y el envío.</span></li>
-        <li className="rounded-xl border border-line bg-paper-raised p-4"><strong className="block">Puedes cambiarlo</strong><span className="text-muted">Edita o quita tu precio cuando quieras, incluso con la campaña en marcha.</span></li>
+        <li className="rounded-xl border border-line bg-paper-raised p-4"><strong className="block">Nosotros aprobamos</strong><span className="text-muted">Tu par queda “en revisión” hasta que lo aprobamos. Si cambias el precio, se revisa de nuevo. Te avisamos aquí en el panel.</span></li>
       </ul>
 
       {pairs.length === 0 ? (

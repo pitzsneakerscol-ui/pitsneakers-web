@@ -53,7 +53,7 @@ async function query(db: Client): Promise<LiveOverlay> {
     db.execute("SELECT sku, price, price_before, hidden, sizes FROM catalog_overrides"),
     db.execute("SELECT payload FROM catalog_extras ORDER BY created_at, id"),
     db.execute("SELECT slug, pinned FROM catalog_featured ORDER BY updated_at DESC"),
-    db.execute("SELECT sku, price FROM bf_prices"),
+    db.execute("SELECT sku, price FROM bf_prices WHERE status = 'aprobado'"),
   ]);
   return {
     live: live.rows.map((r) => JSON.parse(String(r.payload)) as Product),

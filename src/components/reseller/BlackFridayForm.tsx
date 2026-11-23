@@ -31,8 +31,13 @@ function Row({ pair, value, onChange }: { pair: BfPair; value: string; onChange:
         </div>
       </div>
       <div className="sm:w-64">
-        <label htmlFor={`bf-${pair.sku}`} className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">
+        <label htmlFor={`bf-${pair.sku}`} className="mb-1 flex items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted">
           Precio Black Friday
+          {pair.status && Number(digits(value)) === pair.bfPrice && (
+            <span className={`rounded-full px-2 py-0.5 text-[10px] tracking-wider ${pair.status === "aprobado" ? "bg-emerald-100 text-emerald-800" : pair.status === "rechazado" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-800"}`}>
+              {pair.status === "aprobado" ? "Aprobado" : pair.status === "rechazado" ? "No entra" : "En revisión"}
+            </span>
+          )}
         </label>
         <div className="relative">
           <span aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted">$</span>
@@ -50,7 +55,13 @@ function Row({ pair, value, onChange }: { pair: BfPair; value: string; onChange:
           {pct > 0 && <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-bold text-accent">−{pct}%</span>}
         </div>
         <p className={`mt-1 text-[11px] ${invalid ? "text-red-600" : "text-muted"}`}>
-          {invalid ? "Tiene que ser menor al precio normal." : price > 0 ? `Recibirías ≈ ${formatPrice(receives)} (ya con comisión y envío)` : "Déjalo vacío si este par no entra."}
+          {invalid
+            ? "Tiene que ser menor al precio normal."
+            : pair.status === "rechazado" && price === pair.bfPrice
+              ? pair.note ? `Pitsneakers no lo aprobó: ${pair.note}` : "Pitsneakers no lo aprobó. Prueba con un precio más bajo."
+              : price > 0
+                ? `Recibirías ≈ ${formatPrice(receives)} (ya con comisión y envío)`
+                : "Déjalo vacío si este par no entra."}
         </p>
       </div>
     </li>
@@ -74,7 +85,7 @@ export default function BlackFridayForm({ pairs }: { pairs: BfPair[] }) {
           {state?.error ? <span className="text-red-600">{state.error}</span> : state?.message ? <span className="text-green-700">{state.message}</span> : <span className="text-muted">{joined} de {pairs.length} {pairs.length === 1 ? "par" : "pares"} con oferta</span>}
         </p>
         <button type="submit" disabled={pending} className={btnAccent}>
-          {pending ? "Guardando…" : "Guardar precios"}
+          {pending ? "Guardando…" : "Enviar para aprobación"}
         </button>
       </div>
     </form>

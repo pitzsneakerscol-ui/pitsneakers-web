@@ -546,7 +546,7 @@ export function renderEmailText(body: string): string {
 /* ---------- Plantillas incluidas ---------- */
 
 /** Sube este número cuando cambies los textos de abajo: las plantillas que no editaste se actualizan solas. */
-export const TEMPLATE_VERSION = 8;
+export const TEMPLATE_VERSION = 9;
 
 const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 
@@ -895,6 +895,34 @@ Es lo que te queda al venderlo al precio publicado, ya descontada nuestra comisi
 [boton: Ver mi inventario | {{web}}/revendedores/inventario]
 
 Entra a tu panel para poner lo que te costó cada par y ver tu utilidad real. ¿Algo no cuadra? Escríbenos: {{whatsapp}}
+
+**Equipo {{tienda}}**`,
+    builtin: true,
+  },
+  {
+    key: "black_friday_revendedor",
+    name: "🖤 Black Friday viene: escoge tus pares (revendedor)",
+    subject: "🖤 Black Friday en {{tienda}}: escoge los pares que quieres ofrecer",
+    body: `# ==Black Friday== viene con todo
+
+Hola {{nombre}},
+
+El **martes 24 de noviembre** arranca el Black Friday en {{tienda}} y va hasta el lunes 30 (Cyber Monday). Vamos a empujarlo con pauta en redes y toda la comunidad, y queremos que **tus pares estén dentro**.
+
+> **Tú escoges qué pares ofreces y a qué precio.** Nosotros revisamos cada propuesta y aprobamos las que entran. Los aprobados salen en la página con su etiqueta de descuento.
+
+Así de fácil, desde tu panel:
+
+- Entra a **Inventario** y toca **Ofrecer pares en Black Friday**
+- Ponle a cada par el **precio con descuento** que quieras. Ves en vivo cuánto te llega
+- Toca **Enviar para aprobación**. Te avisamos en el panel cuando lo aprobemos
+- Mientras más descuento, más fácil que se venda: la gente busca las mejores ofertas
+
+La comisión **no cambia**: recibes el precio que pongas menos la comisión y el envío. Cuando termina la campaña, tus pares vuelven solos a su precio normal, sin que hagas nada.
+
+[boton: Escoger mis pares | {{web}}/revendedores/black-friday]
+
+**Hazlo hoy o mañana**: entre más temprano quede aprobado, más días se muestra. ¿Dudas? Escríbenos: {{whatsapp}}
 
 **Equipo {{tienda}}**`,
     builtin: true,

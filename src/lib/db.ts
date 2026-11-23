@@ -619,6 +619,11 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["verif_by", "TEXT NOT NULL DEFAULT ''"],
     ["verif_at", "INTEGER"],
   ],
+  // Black Friday: el precio que pone el revendedor queda "pendiente" hasta que el dueño lo aprueba (solo los aprobados salen en la página).
+  bf_prices: [
+    ["status", "TEXT NOT NULL DEFAULT 'pendiente'"],
+    ["note", "TEXT NOT NULL DEFAULT ''"],
+  ],
   buyer_offers: [
     ["pay_hours", "INTEGER NOT NULL DEFAULT 24"],
     ["priority", "INTEGER NOT NULL DEFAULT 0"],

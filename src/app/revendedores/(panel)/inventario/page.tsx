@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { ensureSynced } from "@/lib/seller-sync";
 import { listItems } from "@/lib/reseller";
@@ -21,11 +22,18 @@ export default async function InventarioPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Inventario</h1>
-        <p className="mt-2 text-sm text-muted">
-          Los pares que tienes ahora: lo que pagaste, la talla y cuánto esperas cobrar.
-        </p>
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Inventario</h1>
+          <p className="mt-2 text-sm text-muted">
+            Los pares que tienes ahora: lo que pagaste, la talla y cuánto esperas cobrar.
+          </p>
+        </div>
+        {!user.isAdmin && (
+          <Link href="/revendedores/black-friday" className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110">
+            Ofrecer pares en Black Friday
+          </Link>
+        )}
       </header>
       <AddItemsPanel catalog={catalog} today={today} startOpen={open.length === 0} />
       <InventoryTable
