@@ -13695,5 +13695,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:02:00.000Z"
+  },
+  {
+    "id": "AJ1-73",
+    "slug": "jordan-jordan-1-mid-wear-away-pale-orange",
+    "name": "Jordan 1 Mid Wear Away Pale Orange",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 790000,
+    "promo": false,
+    "sizes": [
+      "9"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-73.acd838c5.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:03:00.000Z"
   }
 ]
