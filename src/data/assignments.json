@@ -5071,5 +5071,19 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/REEBOK-01.9ab0a924.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-og-unc",
+    "name": "Jordan 1 Low OG UNC",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-67",
+    "sizes": [
+      "4"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-67.6d744ec6.webp"
   }
 ]
