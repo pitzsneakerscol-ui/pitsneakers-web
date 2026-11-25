@@ -13736,5 +13736,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:04:00.000Z"
+  },
+  {
+    "id": "DUNK-37",
+    "slug": "nike-dunk-low-splash-volt",
+    "name": "Dunk Low Splash Volt",
+    "brand": "Nike",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "10"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/DUNK-37.1af23bfc.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:05:00.000Z"
   }
 ]

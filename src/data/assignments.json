@@ -5211,5 +5211,19 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/AJ1-74.7d90eb5b.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-splash-volt",
+    "name": "Dunk Low Splash Volt",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-37",
+    "sizes": [
+      "10"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-37.1af23bfc.webp"
   }
 ]
