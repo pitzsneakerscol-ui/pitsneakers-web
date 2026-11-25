@@ -5267,5 +5267,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/DUNK-38.949ebb17.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-high-metallic-gold",
+    "name": "Jordan 1 High Metallic Gold",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-75",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 900000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-75.831057f0.webp"
   }
 ]

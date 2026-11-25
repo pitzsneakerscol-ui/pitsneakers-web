@@ -13818,5 +13818,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:08:00.000Z"
+  },
+  {
+    "id": "AJ1-75",
+    "slug": "jordan-jordan-1-high-metallic-gold",
+    "name": "Jordan 1 High Metallic Gold",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 900000,
+    "promo": false,
+    "sizes": [
+      "5.5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-75.831057f0.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:09:00.000Z"
   }
 ]
