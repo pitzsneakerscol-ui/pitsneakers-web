@@ -13778,5 +13778,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:06:00.000Z"
+  },
+  {
+    "id": "YZY-FOAM-22",
+    "slug": "adidas-yeezy-foam-rnr-myx",
+    "name": "Yeezy Foam RNR MYX",
+    "brand": "Adidas",
+    "category": "sneakers",
+    "price": 499000,
+    "promo": false,
+    "sizes": [
+      "11"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/YZY-FOAM-22.ba6406e9.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:07:00.000Z"
   }
 ]

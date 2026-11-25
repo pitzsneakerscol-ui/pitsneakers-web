@@ -5239,5 +5239,19 @@
     "price": 1000000,
     "condition": "nuevo",
     "image": "/products/AJ4-32.3b5b36a0.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "adidas-yeezy-foam-rnr-myx",
+    "name": "Yeezy Foam RNR MYX",
+    "brand": "Adidas",
+    "colorway": "",
+    "sku": "YZY-FOAM-22",
+    "sizes": [
+      "11"
+    ],
+    "price": 499000,
+    "condition": "nuevo",
+    "image": "/products/YZY-FOAM-22.ba6406e9.webp"
   }
 ]
