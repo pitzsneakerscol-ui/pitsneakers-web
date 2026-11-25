@@ -5099,5 +5099,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/AJ1-68.b0265c54.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-wear-away-electric-green",
+    "name": "Jordan 1 Low Wear Away Electric Green",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-69",
+    "sizes": [
+      "7"
+    ],
+    "price": 650000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-69.ebdbd2ff.webp"
   }
 ]
