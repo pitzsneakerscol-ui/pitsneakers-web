@@ -5113,5 +5113,19 @@
     "price": 650000,
     "condition": "nuevo",
     "image": "/products/AJ1-69.ebdbd2ff.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-og-olive",
+    "name": "Jordan 1 Low OG Olive",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-70",
+    "sizes": [
+      "7"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-70.e1cbe2e1.webp"
   }
 ]
