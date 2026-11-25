@@ -13635,5 +13635,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:59:00.000Z"
+  },
+  {
+    "id": "AJ1-71",
+    "slug": "jordan-jordan-1-low-new-emerald",
+    "name": "Jordan 1 Low New Emerald",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 720000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-71.893add0b.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:00:00.000Z"
   }
 ]

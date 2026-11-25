@@ -5141,5 +5141,19 @@
     "price": 690000,
     "condition": "nuevo",
     "image": "/products/DUNK-35.c5ffa6fc.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-new-emerald",
+    "name": "Jordan 1 Low New Emerald",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-71",
+    "sizes": [
+      "8"
+    ],
+    "price": 720000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-71.893add0b.webp"
   }
 ]
