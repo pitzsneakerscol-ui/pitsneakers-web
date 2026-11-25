@@ -8,7 +8,10 @@ import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { siteConfig } from "@/config/site";
 import { insertItems } from "@/lib/reseller";
 import { kindsPhrase, todayBogota, type ItemKind } from "@/lib/reseller-shared";
+import { catalogIndex } from "@/lib/catalog-index";
+import { fullTitle } from "@/lib/catalog-match";
 import type { SellerAssignment } from "@/lib/sheet-source";
+import type { Product } from "@/types/product";
 
 const assignments = assignmentsJson as SellerAssignment[];
 
@@ -29,16 +32,6 @@ export interface SyncRow {
   loaded: number;
   /** si la cuenta se encontró por parecido (otro usuario, sin puntos, etc.), el usuario real de la cuenta */
   matchedAs?: string;
-}
-
-/** Cuántas unidades de cada par/talla tiene ya cargadas el vendedor (cualquier estado, incluido "vendido", para no volver a cargar lo que ya vendió). */
-async function haveCounts(userId: number): Promise<Map<string, number>> {
-  const db = await getDb();
-  const items = await db.execute({
-    sql: "SELECT catalog_slug, size, COUNT(*) AS n FROM items WHERE user_id = ? AND catalog_slug != '' GROUP BY catalog_slug, size",
-    args: [userId],
-  });
-  return new Map(items.rows.map((r) => [`${String(r.catalog_slug)}|${String(r.size)}`, Number(r.n)]));
 }
 
 const normName = (s: string) =>
@@ -63,35 +56,88 @@ function sameName(a: string, b: string): boolean {
   return words.every((w) => set.has(w));
 }
 
+const catalog = catalogIndex(productsJson as unknown as Product[]);
+
 /**
- * Evita cargar dos veces lo que el vendedor ya metió a mano: si en su inventario hay un artículo SIN enlace al catálogo con el mismo
- * nombre y la misma talla, cuenta como ya cargado (y con apply=true se enlaza al catálogo, trayendo la foto si no tenía).
- * Devuelve los conteos por "slug|talla" incluyendo esos emparejados.
+ * Cuántas unidades de cada par asignado tiene ya el vendedor en su inventario, por "slug|talla" (cualquier estado, incluido
+ * "vendido", para no volver a cargar lo que ya vendió). Evita cargar dos veces lo que el vendedor ya metió a mano:
+ *  1. Los artículos enlazados a ese par exacto.
+ *  2. Los enlazados al mismo modelo por otro slug (el del modelo, que es lo que elige el vendedor al cargar).
+ *  3. Los que no tienen enlace pero son ese modelo por su código de estilo o por su nombre completo (modelo + colorway).
+ *  4. Los que no se reconocen del todo pero se llaman parecido: ocupan el cupo para no duplicar, y solo se enlazan si no hay duda.
+ * Con apply=true los de 2 y 3 quedan enlazados al par (y traen la foto si no tenían).
  */
 async function reconcile(userId: number, list: SellerAssignment[], apply: boolean): Promise<Map<string, number>> {
-  const have = await haveCounts(userId);
   const db = await getDb();
-  const free = (
-    await db.execute({ sql: "SELECT id, name, brand, size, image_url FROM items WHERE user_id = ? AND catalog_slug = ''", args: [userId] })
-  ).rows.map((r) => ({ id: Number(r.id), name: String(r.name), brand: String(r.brand), size: normSize(String(r.size)), image: String(r.image_url) }));
+  const rows = (
+    await db.execute({ sql: "SELECT id, name, brand, colorway, sku, size, image_url, catalog_slug FROM items WHERE user_id = ?", args: [userId] })
+  ).rows.map((r) => ({
+    id: Number(r.id),
+    name: String(r.name),
+    brand: String(r.brand),
+    colorway: String(r.colorway ?? ""),
+    sku: String(r.sku ?? ""),
+    size: normSize(String(r.size)),
+    slug: String(r.catalog_slug),
+  }));
+
+  const have = new Map<string, number>();
+  const slots = list.flatMap((a) =>
+    (a.sizes.length ? [...new Set(a.sizes)] : [""]).map((size) => ({
+      a,
+      key: `${a.slug}|${normSize(size)}`,
+      size: normSize(size),
+      wanted: a.counts?.[size] ?? 1,
+      group: catalog.groupOf(a.slug)?.groupSlug ?? "",
+    }))
+  );
+  const left = (slot: (typeof slots)[number]) => slot.wanted - (have.get(slot.key) ?? 0);
+  const link = async (slot: (typeof slots)[number], id: number) => {
+    have.set(slot.key, (have.get(slot.key) ?? 0) + 1);
+    if (!apply) return;
+    await db.execute({
+      sql: "UPDATE items SET catalog_slug = ?, image_url = CASE WHEN image_url = '' THEN ? ELSE image_url END WHERE id = ? AND user_id = ?",
+      args: [slot.a.slug, slot.a.image, id, userId],
+    });
+  };
+
+  // 1. Enlazados al par exacto.
+  const mine = new Set(list.map((a) => a.slug));
+  for (const r of rows) if (mine.has(r.slug)) have.set(`${r.slug}|${r.size}`, (have.get(`${r.slug}|${r.size}`) ?? 0) + 1);
+
+  // 2. Enlazados al mismo modelo por otro slug.
+  for (const r of rows) {
+    if (!r.slug || mine.has(r.slug)) continue;
+    const group = catalog.groupOf(r.slug)?.groupSlug;
+    const slot = group ? slots.find((x) => x.group === group && x.size === r.size && left(x) > 0) : undefined;
+    if (slot) await link(slot, r.id);
+  }
+
+  // 3. Sin enlace, pero el código o el nombre completo dicen qué modelo es.
+  const free = rows.filter((r) => !r.slug).map((r) => ({ ...r, group: catalog.matcher.resolve(r)?.model.slug ?? "" }));
   const used = new Set<number>();
-  for (const a of list) {
-    for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
-      const wanted = a.counts?.[size] ?? 1;
-      let already = have.get(`${a.slug}|${size}`) ?? 0;
-      while (already < wanted) {
-        const hit = free.find((f) => !used.has(f.id) && f.size === normSize(size) && (sameName(f.name, a.name) || sameName(`${f.brand} ${f.name}`, `${a.brand} ${a.name}`)));
-        if (!hit) break;
-        used.add(hit.id);
-        already++;
-        have.set(`${a.slug}|${size}`, already);
-        if (apply) {
-          await db.execute({
-            sql: "UPDATE items SET catalog_slug = ?, image_url = CASE WHEN image_url = '' THEN ? ELSE image_url END WHERE id = ? AND user_id = ?",
-            args: [a.slug, a.image, hit.id, userId],
-          });
-        }
-      }
+  for (const slot of slots) {
+    while (slot.group && left(slot) > 0) {
+      const hit = free.find((x) => !used.has(x.id) && x.size === slot.size && x.group === slot.group);
+      if (!hit) break;
+      used.add(hit.id);
+      await link(slot, hit.id);
+    }
+  }
+
+  // 4. No se reconoce el modelo, pero el nombre se parece al del par asignado.
+  for (const slot of slots) {
+    while (left(slot) > 0) {
+      const title = fullTitle(slot.a.name, slot.a.colorway);
+      const similar = free.filter((x) => {
+        if (used.has(x.id) || x.group || x.size !== slot.size) return false;
+        const typed = fullTitle(x.name, x.colorway);
+        return sameName(typed, title) || sameName(`${x.brand} ${typed}`, `${slot.a.brand} ${title}`);
+      });
+      if (similar.length === 0) break;
+      used.add(similar[0].id);
+      if (similar.length === 1) await link(slot, similar[0].id);
+      else have.set(slot.key, (have.get(slot.key) ?? 0) + 1); // varios candidatos: ocupa el cupo sin enlazar; el dueño confirma el modelo en "Por completar"
     }
   }
   return have;
@@ -102,7 +148,7 @@ function missingSizes(a: SellerAssignment, have: Map<string, number>): string[] 
   const out: string[] = [];
   for (const size of a.sizes.length ? [...new Set(a.sizes)] : [""]) {
     const wanted = a.counts?.[size] ?? 1;
-    const already = have.get(`${a.slug}|${size}`) ?? 0;
+    const already = have.get(`${a.slug}|${normSize(size)}`) ?? 0;
     for (let i = already; i < wanted; i++) out.push(size);
   }
   return out;

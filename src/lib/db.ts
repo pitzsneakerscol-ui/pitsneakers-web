@@ -629,6 +629,8 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["verif_at", "INTEGER"],
     // Pares usados que sube el revendedor: no salen en la web hasta que el dueño revisa las fotos. 'pendiente' | 'aprobado' | 'rechazado' (los demás pares quedan 'aprobado').
     ["review_status", "TEXT NOT NULL DEFAULT 'aprobado'"],
+    // 1 = el dueño confirmó a mano el modelo del catálogo de este par (en "Por completar"): su decisión manda sobre el nombre que escribió el revendedor.
+    ["link_confirmed", "INTEGER NOT NULL DEFAULT 0"],
     ["review_note", "TEXT NOT NULL DEFAULT ''"],
     ["reviewed_at", "INTEGER"],
   ],

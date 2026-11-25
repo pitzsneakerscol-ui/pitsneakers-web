@@ -1,19 +1,49 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { computeCatalogPlan, getCatalogState } from "@/lib/catalog-sync";
+import { catalogIndex } from "@/lib/catalog-index";
+import { fullTitle } from "@/lib/catalog-match";
+import { getStaticProducts } from "@/lib/products";
 import { serverNow } from "@/lib/auction";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
 import { btnPrimary, cardCls } from "@/components/reseller/ui";
-import { refreshCatalog } from "@/app/admin/catalogo/actions";
+import { fixInventories, refreshCatalog } from "@/app/admin/catalogo/actions";
+import ConfirmForm from "@/components/admin/ConfirmForm";
+import PendingList, { type PendingGroup, type PendingModel } from "@/components/admin/PendingList";
 
 export const metadata: Metadata = { title: "Actualizar catálogo" };
 export const dynamic = "force-dynamic";
 
-export default async function CatalogSyncPage({ searchParams }: { searchParams: Promise<{ listo?: string }> }) {
-  const { listo } = await searchParams;
+const sizeNum = (s: string) => {
+  const n = parseFloat(s.replace(",", "."));
+  return Number.isNaN(n) ? 999 : n;
+};
+
+export default async function CatalogSyncPage({ searchParams }: { searchParams: Promise<{ listo?: string; enlazados?: string; corregidos?: string; error?: string }> }) {
+  const { listo, enlazados, corregidos, error } = await searchParams;
   const now = serverNow();
-  const [plan, state] = await Promise.all([computeCatalogPlan(now), getCatalogState()]);
+  const [plan, state, statics] = await Promise.all([computeCatalogPlan(now), getCatalogState(), getStaticProducts()]);
+
+  // Por completar: los pares iguales de un revendedor (mismo nombre, código y precio) van en una sola fila con todas sus tallas.
+  const pendingGroups = new Map<string, PendingGroup>();
+  for (const x of plan.pending) {
+    const title = fullTitle(x.name, x.colorway);
+    const key = [x.sellerId, x.brand, title, x.sku, x.price, x.reason].join("|").toLowerCase();
+    const g = pendingGroups.get(key) ?? { key, itemIds: [], sellerId: x.sellerId, sellerName: x.sellerName, brand: x.brand, title, sku: x.sku, sizes: [], price: x.price, reason: x.reason, suggestions: x.suggestions };
+    g.itemIds.push(x.itemId);
+    if (x.size.trim()) g.sizes.push(x.size.trim());
+    pendingGroups.set(key, g);
+  }
+  const groups = [...pendingGroups.values()].map((g) => ({ ...g, sizes: g.sizes.sort((a, b) => sizeNum(a) - sizeNum(b)) }));
+  const withSuggestion = groups.filter((g) => g.suggestions.length > 0).length;
+  // Modelos con foto, para buscar a mano el de una fila.
+  const models: PendingModel[] = catalogIndex(statics)
+    .groups.map((g) => ({ slug: g.groupSlug, brand: g.brand, name: fullTitle(g.name, g.colorway), image: g.images.find((u) => u.startsWith("/products/")) ?? "" }))
+    .filter((m) => m.image);
+  const fixes = plan.duplicates.length + plan.relinks.length;
+  // Por qué sale de "en vivo" un par: lo vendieron, o el catálogo ya lo muestra a nombre de su revendedor y estaba dos veces.
+  const coveredLive = new Set([...plan.covered, ...plan.duplicates.map((d) => d.handId)].map((id) => `LIVE-${id}`));
+  const [merged, relinked] = (corregidos ?? "").split("-").map(Number);
 
   const toAdd = plan.live.filter((l) => !state.live.has(l.product.id));
   const toRemoveLive = [...state.live].filter(([id]) => !plan.live.some((l) => l.product.id === id));
@@ -35,6 +65,22 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
         <p role="status" className="rounded-lg bg-emerald-100 px-4 py-3 text-sm text-emerald-800">
           Catálogo actualizado: {a} par{a === 1 ? "" : "es"} en vivo, {h} oculto{h === 1 ? "" : "s"}, {p} por completar. La web ya muestra el cambio.
         </p>
+      )}
+
+      {enlazados !== undefined && (
+        <p role="status" className="rounded-lg bg-emerald-100 px-4 py-3 text-sm text-emerald-800">
+          {Number(enlazados) > 0
+            ? `Listo: ${enlazados} par${enlazados === "1" ? " quedó enlazado" : "es quedaron enlazados"} a su modelo. Pulsa Actualizar catálogo para que la web lo muestre.`
+            : "Ese par ya no estaba por completar: no se cambió nada."}
+        </p>
+      )}
+      {corregidos !== undefined && !Number.isNaN(merged) && (
+        <p role="status" className="rounded-lg bg-emerald-100 px-4 py-3 text-sm text-emerald-800">
+          Inventarios corregidos: {merged} duplicado{merged === 1 ? "" : "s"} unido{merged === 1 ? "" : "s"} y {relinked} par{relinked === 1 ? "" : "es"} enlazado{relinked === 1 ? "" : "s"} a su modelo correcto.
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="rounded-lg bg-red-100 px-4 py-3 text-sm text-red-800">No se pudo enlazar: ese modelo ya no está en el catálogo. Vuelve a intentarlo.</p>
       )}
 
       <section className={`${cardCls} p-5 sm:p-6`}>
@@ -71,7 +117,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
                     <li key={x.sku} className="truncate">{x.name} · {x.size} <span className="text-muted">({x.sellerName}, ya sin stock)</span></li>
                   ))}
                   {toRemoveLive.map(([id, x]) => (
-                    <li key={id} className="truncate">{x.name} · {x.size} <span className="text-muted">(ya no está en stock)</span></li>
+                    <li key={id} className="truncate">{x.name} · {x.size} <span className="text-muted">({coveredLive.has(id) ? "estaba dos veces: sigue publicado con su revendedor" : "ya no está en stock"})</span></li>
                   ))}
                 </ul>
               )}
@@ -81,29 +127,53 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
         )}
       </section>
 
+      {fixes > 0 && (
+        <section className={`${cardCls} p-5 sm:p-6`}>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="font-display text-2xl tracking-wide">Inventarios por corregir ({fixes})</h2>
+              <p className="mt-1 max-w-2xl text-sm text-muted">
+                En el inventario de algunos revendedores hay pares repetidos o enlazados a un modelo que no es el suyo. La web ya no los cuenta dos veces; al corregirlos, cada par queda con un solo registro (el que cargó el revendedor, con su costo) y con su modelo.
+              </p>
+            </div>
+            <ConfirmForm
+              action={fixInventories}
+              fields={{}}
+              label={`Corregir ${fixes} registro${fixes === 1 ? "" : "s"}`}
+              confirm={`Se borran ${plan.duplicates.length} registro${plan.duplicates.length === 1 ? "" : "s"} repetido${plan.duplicates.length === 1 ? "" : "s"} (los que cargó la plataforma, no los del revendedor) y se corrige el modelo de ${plan.relinks.length}. Los registros borrados no se pueden recuperar. ¿Continuar?`}
+              className={btnPrimary}
+            />
+          </div>
+          <details className="mt-4 border-t border-line pt-4 text-sm">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wider text-muted">Ver el detalle</summary>
+            <ul className="mt-3 space-y-1.5">
+              {plan.duplicates.map((d) => (
+                <li key={`d${d.autoId}`}>
+                  <span className="text-muted">{d.sellerName} · </span>
+                  {d.model} · talla {d.size || "—"}: está dos veces (a mano como “{d.typed}” y cargado por la plataforma). Se deja el del revendedor.
+                </li>
+              ))}
+              {plan.relinks.map((r) => (
+                <li key={`r${r.itemId}`}>
+                  <span className="text-muted">{r.sellerName} · </span>
+                  “{r.typed}” · talla {r.size || "—"}: está enlazado a {r.from} y es {r.to}.
+                </li>
+              ))}
+            </ul>
+          </details>
+        </section>
+      )}
+
       <section className={`${cardCls} p-5 sm:p-6`}>
         <h2 className="font-display text-2xl tracking-wide">Por completar ({plan.pending.length})</h2>
-        <p className="mb-4 mt-1 text-sm text-muted">Están en stock del revendedor pero no se pueden publicar solos. Mándame la foto (o el modelo) y los cargo; al actualizar, salen en la web.</p>
-        {plan.pending.length === 0 ? (
-          <p className="rounded-lg bg-paper px-4 py-3 text-sm text-muted">No hay nada pendiente.</p>
-        ) : (
-          <ul className="divide-y divide-line rounded-lg border border-line">
-            {plan.pending.map((x) => (
-              <li key={x.itemId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
-                <div className="min-w-0">
-                  <p className="font-medium">
-                    {x.brand ? <span className="text-muted">{x.brand} · </span> : null}
-                    {[x.name, x.colorway].filter(Boolean).join(" ")}
-                    {x.size ? ` · ${x.size}` : ""}{x.price ? ` · ${formatPrice(x.price)}` : ""}
-                  </p>
-                  <p className="text-xs text-muted">
-                    <Link href={`/admin/revendedores/${x.sellerId}`} className="underline">{x.sellerName}</Link> · {x.reason}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <p className="mb-4 mt-1 max-w-2xl text-sm text-muted">
+          Están en stock del revendedor pero no se pueden publicar solos.
+          {withSuggestion > 0
+            ? ` ${withSuggestion} referencia${withSuggestion === 1 ? " se parece" : "s se parecen"} a un modelo que ya está en el catálogo: confírmalo con un clic y sale${withSuggestion === 1 ? "" : "n"} al actualizar.`
+            : ""}{" "}
+          Si el modelo no está, hace falta subirlo con su foto.
+        </p>
+        {groups.length === 0 ? <p className="rounded-lg bg-paper px-4 py-3 text-sm text-muted">No hay nada pendiente.</p> : <PendingList groups={groups} catalog={models} />}
       </section>
     </div>
   );

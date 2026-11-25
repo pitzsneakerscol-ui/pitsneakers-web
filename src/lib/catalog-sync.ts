@@ -3,52 +3,27 @@ import assignmentsJson from "@/data/assignments.json";
 import aliasesJson from "@/data/catalog-aliases.json";
 import { getDb } from "@/lib/db";
 import { resetLiveOverlay } from "@/lib/catalog-live";
+import { catalogIndex } from "@/lib/catalog-index";
+import { fullTitle, looseKey } from "@/lib/catalog-match";
 import { getStaticProducts } from "@/lib/products";
-import { groupProducts } from "@/lib/grouping";
 import { usedPhotoIds } from "@/lib/used-pairs";
 import { usedNoteSummary } from "@/lib/used-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
-import type { Product } from "@/types/product";
+import type { Product, ProductGroup } from "@/types/product";
 
 const assignments = assignmentsJson as SellerAssignment[];
 
 /** Equivalencias que decide el dueño: pares cargados a mano con este nombre son este modelo del catálogo (src/data/catalog-aliases.json). */
-const aliasSlugByName = new Map((aliasesJson as { name: string; slug: string }[]).map((a) => [a.name.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9@]+/g, ""), a.slug]));
+const aliasSlugByName = new Map((aliasesJson as { name: string; slug: string }[]).map((a) => [looseKey(a.name), a.slug]));
+
+/** Así quedan marcados los pares que la plataforma carga sola en el inventario de un revendedor (ver seller-sync). */
+export const AUTO_SOURCE = "Cargado por Pitsneakers";
 
 const DAY = 86_400_000;
 const NEW_DAYS = 14;
 
 const loose = (v: string) => v.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9@]+/g, "");
 const normSize = (v: string) => v.trim().toLowerCase().replace(",", ".");
-
-/** Palabras de un nombre de par, sin tildes ni signos, en minúsculas. */
-function nameWords(v: string): Set<string> {
-  return new Set(
-    v
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{M}/gu, "")
-      .split(/[^a-z0-9.]+/)
-      .map((w) => w.replace(/^\.+|\.+$/g, "")) // "(OOO)." -> "ooo", pero "2.0" se conserva
-      .filter(Boolean)
-  );
-}
-
-/** Todas las palabras de `wanted` están en `model` (y son al menos 3, para no confundir nombres cortos como "Dunk Low" o "AF1"). */
-function containsWords(model: Set<string>, wanted: Set<string>): boolean {
-  if (wanted.size < 3) return false;
-  for (const w of wanted) if (!model.has(w)) return false;
-  return true;
-}
-
-/**
- * Mismo modelo: el nombre del par tiene las mismas palabras que el del catálogo, o al del catálogo solo le sobra una
- * ("Jellyfish Crystal Sand" = "Jellyfish Crystal Sand Virginia"). Si al catálogo le sobran 2 o más es otro colorway
- * ("Adistar XLG 2.0" ≠ "… Solar Orange"), y si el par trae palabras que el catálogo no tiene tampoco se empareja.
- */
-function sameModelWords(wanted: Set<string>, model: Set<string>): boolean {
-  return containsWords(model, wanted) && model.size - wanted.size <= 1;
-}
 
 export interface LiveRow {
   product: Product;
@@ -65,6 +40,15 @@ export interface HiddenRow {
   sellerName: string;
 }
 
+/** Un modelo del catálogo que se parece a lo que escribió el revendedor: lo confirma el dueño con un clic. */
+export interface PendingSuggestion {
+  /** Slug del grupo. */
+  slug: string;
+  brand: string;
+  name: string;
+  image: string;
+}
+
 export interface PendingRow {
   itemId: number;
   sellerId: number;
@@ -72,15 +56,53 @@ export interface PendingRow {
   name: string;
   brand: string;
   colorway: string;
+  /** Código que escribió el revendedor (suele ser el código de estilo). */
+  sku: string;
   size: string;
   price: number;
   reason: string;
+  suggestions: PendingSuggestion[];
+}
+
+/** Un par que quedó dos veces en el inventario de un revendedor: lo cargó a mano y la plataforma lo volvió a cargar por no reconocer el nombre. */
+export interface DuplicateRow {
+  /** El registro que cargó la plataforma: es el que sobra. */
+  autoId: number;
+  /** El registro que cargó el revendedor (con su costo y sus notas): es el que se conserva. */
+  handId: number;
+  sellerId: number;
+  sellerName: string;
+  /** Nombre del modelo en el catálogo. */
+  model: string;
+  /** Lo que escribió el revendedor. */
+  typed: string;
+  size: string;
+  /** Slug e imagen del registro automático: pasan al registro del revendedor si no tenía. */
+  slug: string;
+  image: string;
+}
+
+/** Un par enlazado a un modelo que no es el suyo (mismo modelo base y talla, otro colorway): el nombre o el código dicen otra cosa. */
+export interface RelinkRow {
+  itemId: number;
+  sellerId: number;
+  sellerName: string;
+  typed: string;
+  size: string;
+  from: string;
+  to: string;
+  toSlug: string;
+  toImage: string;
 }
 
 export interface CatalogPlan {
   live: LiveRow[];
   hidden: HiddenRow[];
   pending: PendingRow[];
+  duplicates: DuplicateRow[];
+  relinks: RelinkRow[];
+  /** Pares en stock que no se publican aparte porque el catálogo del archivo ya los muestra a nombre de su revendedor (ids del inventario). */
+  covered: number[];
 }
 
 interface UserRow {
@@ -95,31 +117,50 @@ interface ItemRow {
   name: string;
   brand: string;
   colorway: string;
+  sku: string;
   size: string;
   condition: "nuevo" | "usado";
   status: string;
   slug: string;
+  source: string;
   price: number;
   imageUrl: string;
   notes: string;
   /** Pares usados: solo los "aprobado" por el dueño se publican. */
   review: string;
+  /** El dueño confirmó a mano el modelo de este par. */
+  confirmed: boolean;
   createdAt: number;
 }
+
+/** El modelo del catálogo de un par del inventario y cómo se llegó a él. */
+interface Resolved {
+  group: ProductGroup;
+  /** El par del catálogo que da nombre y datos a la publicación. */
+  product: Product;
+  image: string;
+  via: "slug" | "alias" | "codigo" | "nombre" | "nombre+1";
+  /** Otros modelos que también contienen el nombre escrito (solo al emparejar por nombre). */
+  others: ProductGroup[];
+}
+
+const firstPhoto = (g: ProductGroup) => g.images.find((u) => u.startsWith("/products/")) ?? g.images[0] ?? "";
 
 /**
  * Qué debe mostrar la web según el stock de los revendedores:
  *  - live: pares en stock que todavía no están en el catálogo del archivo, con modelo y foto del catálogo y precio del revendedor.
  *  - hidden: pares del catálogo del archivo cuyo revendedor ya los vendió (o los reservó) todos.
  *  - pending: pares en stock que no se pueden publicar solos (sin modelo, sin foto, sin precio o sin talla): los completa el dueño.
+ *  - duplicates / relinks: registros repetidos o mal enlazados en los inventarios; no se publican dos veces y el dueño los corrige con un botón.
  * Los pares reservados no se muestran en la web.
  */
 export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const db = await getDb();
   const statics = await getStaticProducts();
+  const index = catalogIndex(statics);
   const [usersRes, itemsRes] = await Promise.all([
     db.execute("SELECT id, username, email, display_name FROM users WHERE role != 'admin' AND suspended = 0"),
-    db.execute("SELECT id, user_id, name, brand, colorway, size, condition, status, catalog_slug, expected_price, image_url, notes, review_status, created_at FROM items ORDER BY id"),
+    db.execute("SELECT id, user_id, name, brand, colorway, sku, size, condition, status, catalog_slug, source, expected_price, image_url, notes, review_status, link_confirmed, created_at FROM items ORDER BY id"),
   ]);
 
   const users = new Map<number, UserRow>();
@@ -133,6 +174,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   }
   const userByKey = new Map<string, number>();
   for (const u of users.values()) for (const k of u.keys) if (!userByKey.has(k)) userByKey.set(k, u.id);
+  const sellerName = (id: number) => users.get(id)?.name ?? "";
 
   const items: ItemRow[] = itemsRes.rows
     .filter((r) => users.has(Number(r.user_id)))
@@ -142,45 +184,46 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       name: String(r.name),
       brand: String(r.brand),
       colorway: String(r.colorway ?? ""),
+      sku: String(r.sku ?? ""),
       size: String(r.size),
       condition: r.condition === "usado" ? "usado" : "nuevo",
       status: String(r.status),
       slug: String(r.catalog_slug),
+      source: String(r.source ?? ""),
       price: Number(r.expected_price),
       imageUrl: String(r.image_url),
       notes: String(r.notes ?? ""),
       review: String(r.review_status ?? "aprobado"),
+      confirmed: Number(r.link_confirmed ?? 0) === 1,
       createdAt: Number(r.created_at),
     }));
 
-  // Modelos del catálogo: por el slug de un par (pares con vendedor) o por el slug de grupo (lo que elige el revendedor al cargar).
-  const modelBySlug = new Map<string, Product>();
-  for (const p of statics) if (!modelBySlug.has(p.slug)) modelBySlug.set(p.slug, p);
-  const groupModel = new Map<string, { product: Product; image: string }>();
-  for (const g of groupProducts(statics)) groupModel.set(g.groupSlug, { product: g.variants[0], image: g.images[0] ?? "" });
-  const resolveModel = (slug: string): { product: Product; image: string } | null => {
-    const p = modelBySlug.get(slug);
-    if (p) return { product: p, image: p.images[0] ?? "" };
-    return groupModel.get(slug) ?? null;
+  const productBySlug = new Map<string, Product>();
+  for (const p of statics) if (!productBySlug.has(p.slug)) productBySlug.set(p.slug, p);
+  const fromGroup = (group: ProductGroup, via: Resolved["via"], others: ProductGroup[] = []): Resolved => ({ group, product: group.variants[0], image: firstPhoto(group), via, others });
+
+  /** El modelo del catálogo por lo que el revendedor escribió: equivalencia del dueño, código de estilo o nombre (modelo + colorway). */
+  const resolveTyped = (i: ItemRow): Resolved | null => {
+    const aliasSlug = aliasSlugByName.get(looseKey(fullTitle(i.name, i.colorway))) ?? aliasSlugByName.get(looseKey(i.name));
+    const aliasGroup = aliasSlug ? index.groupOf(aliasSlug) : null;
+    if (aliasGroup) return fromGroup(aliasGroup, "alias");
+    const r = index.matcher.resolve(i);
+    const group = r ? index.group(r.model.slug) : null;
+    if (!r || !group) return null;
+    return fromGroup(group, r.how, r.others.map((o) => index.group(o.slug)).filter((g): g is ProductGroup => g !== null));
   };
 
-  // Pares cargados a mano sin elegir modelo (catalog_slug vacío): se buscan en el catálogo por nombre, de forma conservadora.
-  const nameModels = groupProducts(statics).map((g) => ({
-    model: { product: g.variants[0], image: g.images[0] ?? "", slugs: g.variants.map((v) => v.slug) },
-    words: nameWords(`${g.variants[0].brand} ${g.variants[0].name}`),
-    nameOnly: nameWords(g.variants[0].name),
-  }));
-  const matchByName = (name: string, brand: string): { product: Product; image: string; slugs: string[] } | null => {
-    const wanted = nameWords(`${brand} ${name}`);
-    const wantedNoBrand = nameWords(name);
-    // Todos los modelos que contienen las palabras del par: si hay más de uno es ambiguo ("Jordan 1 Low Travis Scott" tiene 4 colorways) y lo completa el dueño.
-    const hits = nameModels.filter((m) => containsWords(m.words, wanted) || containsWords(m.nameOnly, wantedNoBrand));
-    if (hits.length !== 1) return null;
-    const m = hits[0];
-    return sameModelWords(wanted, m.words) || sameModelWords(wantedNoBrand, m.nameOnly) ? m.model : null;
+  /** El modelo de un par: el que eligió al cargarlo (su slug) o, si no eligió o ese modelo ya no existe, el que dice su nombre. */
+  const resolve = (i: ItemRow): Resolved | null => {
+    if (i.slug) {
+      const p = productBySlug.get(i.slug);
+      const group = index.groupOf(i.slug);
+      if (group) return { group, product: p ?? group.variants[0], image: p?.images[0] || firstPhoto(group), via: "slug", others: [] };
+    }
+    return resolveTyped(i);
   };
 
-  // Unidades que el catálogo del archivo ya publica a nombre de cada revendedor: "usuario|modelo|talla" -> cantidad.
+  // Unidades que el catálogo del archivo ya publica a nombre de cada revendedor: "usuario|slug del par|talla" -> cantidad.
   const covered = new Map<string, number>();
   const byUserAssignments: { a: SellerAssignment; userId: number }[] = [];
   for (const a of assignments) {
@@ -192,6 +235,22 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       covered.set(key, (covered.get(key) ?? 0) + (a.counts?.[size] ?? 1));
     }
   }
+  /**
+   * Las llaves de cobertura de un modelo para un revendedor y una talla: sirve cualquier par del modelo en el mismo estado
+   * (un usado con sus fotos no es el par nuevo que el catálogo ya publica).
+   */
+  const coverKeys = (userId: number, group: ProductGroup, size: string, condition: Product["condition"]) =>
+    group.variants.filter((v) => v.condition === condition).map((v) => `${userId}|${v.slug}|${size}`);
+  const coverLeft = (userId: number, group: ProductGroup, size: string, condition: Product["condition"]) =>
+    coverKeys(userId, group, size, condition).reduce((n, k) => n + (covered.get(k) ?? 0), 0);
+  /** Gasta una unidad de cobertura; primero la del par exacto al que está enlazado (esa vale sin mirar el estado, como siempre). */
+  const takeCover = (i: ItemRow, r: Resolved, size: string): boolean => {
+    const exact = i.slug && r.group.variants.some((v) => v.slug === i.slug) ? [`${i.userId}|${i.slug}|${size}`] : [];
+    const key = [...exact, ...coverKeys(i.userId, r.group, size, i.condition)].find((k) => (covered.get(k) ?? 0) > 0);
+    if (!key) return false;
+    covered.set(key, (covered.get(key) ?? 0) - 1);
+    return true;
+  };
 
   // Ocultar: el revendedor cargó el par y ya no le queda ninguna unidad en stock.
   const hidden: HiddenRow[] = [];
@@ -204,42 +263,102 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     if (allGone) hidden.push({ sku: a.sku, name: a.name, size: sizes.join(", "), sellerName: users.get(userId)?.name ?? a.seller });
   }
 
+  // Pares que cuentan para la web: en stock y, si son usados, ya aprobados por el dueño (los demás los revisa en Pares usados).
+  const stock = items.filter((i) => i.status === "stock" && !(i.condition === "usado" && i.review !== "aprobado"));
+  const resolved = new Map<number, Resolved | null>();
+  for (const i of stock) resolved.set(i.id, resolve(i));
+
+  // Duplicados: el revendedor cargó el par a mano y la plataforma lo cargó otra vez (no reconoció el nombre). Sobran los registros
+  // automáticos que exceden lo que el catálogo le publica a ese revendedor en ese modelo y talla; no cuentan como stock.
+  const duplicates: DuplicateRow[] = [];
+  const skip = new Set<number>();
+  const buckets = new Map<string, { group: ProductGroup; userId: number; size: string; condition: Product["condition"]; autos: ItemRow[]; hands: ItemRow[] }>();
+  for (const i of stock) {
+    const r = resolved.get(i.id);
+    if (!r) continue;
+    const size = normSize(i.size);
+    const key = `${i.userId}|${r.group.groupSlug}|${size}|${i.condition}`;
+    const b = buckets.get(key) ?? { group: r.group, userId: i.userId, size, condition: i.condition, autos: [], hands: [] };
+    (i.source === AUTO_SOURCE && r.via === "slug" ? b.autos : b.hands).push(i);
+    buckets.set(key, b);
+  }
+  for (const b of buckets.values()) {
+    const extra = b.autos.length + b.hands.length - coverLeft(b.userId, b.group, b.size, b.condition);
+    const n = Math.min(b.autos.length, b.hands.length, Math.max(0, extra));
+    for (let k = 0; k < n; k++) {
+      const auto = b.autos[k];
+      const hand = b.hands[k];
+      skip.add(auto.id);
+      duplicates.push({
+        autoId: auto.id,
+        handId: hand.id,
+        sellerId: b.userId,
+        sellerName: sellerName(b.userId),
+        model: b.group.name,
+        typed: fullTitle(hand.name, hand.colorway),
+        size: hand.size.trim(),
+        slug: auto.slug,
+        image: auto.imageUrl,
+      });
+    }
+  }
+
+  // Mal enlazados: el par apunta a un modelo, pero su código o su nombre exacto son de otro (pasaba al enlazar por el modelo base, sin mirar el colorway).
+  const relinks: RelinkRow[] = [];
+  for (const i of stock) {
+    const r = resolved.get(i.id);
+    if (!r || r.via !== "slug" || i.source === AUTO_SOURCE || i.confirmed) continue;
+    const typed = resolveTyped(i);
+    if (!typed || typed.via === "nombre+1" || typed.group.groupSlug === r.group.groupSlug) continue;
+    const size = normSize(i.size);
+    // Si el catálogo le publica ese modelo y talla, se enlaza a ese par exacto; si no, al modelo.
+    const mine = byUserAssignments.find((x) => x.userId === i.userId && typed.group.variants.some((v) => v.slug === x.a.slug) && x.a.sizes.some((sz) => normSize(sz) === size));
+    relinks.push({
+      itemId: i.id,
+      sellerId: i.userId,
+      sellerName: sellerName(i.userId),
+      typed: fullTitle(i.name, i.colorway),
+      size: i.size.trim(),
+      from: r.group.name,
+      to: typed.group.name,
+      toSlug: mine?.a.slug ?? typed.group.groupSlug,
+      toImage: typed.image,
+    });
+  }
+
   // Publicar: pares en stock que el catálogo del archivo no cubre.
   const live = new Map<string, LiveRow>();
   const pending: PendingRow[] = [];
-  const toPending = (i: ItemRow, reason: string) =>
-    pending.push({ itemId: i.id, sellerId: i.userId, sellerName: users.get(i.userId)?.name ?? "", name: i.name, brand: i.brand, colorway: i.colorway, size: i.size, price: i.price, reason });
+  const coveredIds: number[] = [];
+  const suggestion = (g: ProductGroup): PendingSuggestion => ({ slug: g.groupSlug, brand: g.brand, name: fullTitle(g.name, g.colorway), image: firstPhoto(g) });
+  const toPending = (i: ItemRow, reason: string, suggestions: PendingSuggestion[] = []) =>
+    pending.push({ itemId: i.id, sellerId: i.userId, sellerName: sellerName(i.userId), name: i.name, brand: i.brand, colorway: i.colorway, sku: i.sku, size: i.size, price: i.price, reason, suggestions });
 
   // Fotos reales de los pares usados aprobados: cada uno se publica solo, con sus propias fotos.
-  const usedPhotos = await usedPhotoIds(items.filter((i) => i.status === "stock" && i.condition === "usado" && i.review === "aprobado").map((i) => i.id));
+  const usedPhotos = await usedPhotoIds(stock.filter((i) => i.condition === "usado").map((i) => i.id));
 
-  for (const i of items) {
-    if (i.status !== "stock") continue;
-    // Un par usado en revisión (o rechazado) no se publica ni cuenta como "por completar": lo revisa el dueño en Pares usados.
-    if (i.condition === "usado" && i.review !== "aprobado") continue;
+  for (const i of stock) {
+    if (skip.has(i.id)) continue;
     const size = normSize(i.size);
-    if (i.slug) {
-      const key = `${i.userId}|${i.slug}|${size}`;
-      const left = covered.get(key) ?? 0;
-      if (left > 0) {
-        covered.set(key, left - 1);
-        continue;
-      }
+    const model = resolved.get(i.id) ?? null;
+    // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
+    if (model && takeCover(i, model, size)) {
+      coveredIds.push(i.id);
+      continue;
     }
-    const aliasSlug = i.slug ? undefined : aliasSlugByName.get(loose(i.name));
-    const aliasModel = aliasSlug ? resolveModel(aliasSlug) : null;
-    const byName = i.slug ? null : aliasModel ? { ...aliasModel, slugs: [aliasSlug as string, aliasModel.product.slug] } : matchByName(i.name, i.brand);
-    if (byName) {
-      // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
-      const slugKey = byName.slugs.map((s) => `${i.userId}|${s}|${size}`).find((k) => (covered.get(k) ?? 0) > 0);
-      if (slugKey) {
-        covered.set(slugKey, (covered.get(slugKey) ?? 0) - 1);
-        continue;
-      }
-    }
-    const model = i.slug ? resolveModel(i.slug) : byName;
     if (!model) {
-      toPending(i, i.slug ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto");
+      const similar = index.matcher
+        .suggest(i, 3)
+        .map((x) => index.group(x.model.slug))
+        .filter((g): g is ProductGroup => g !== null && firstPhoto(g).startsWith("/products/"))
+        .map(suggestion);
+      toPending(i, i.slug ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto", similar);
+      continue;
+    }
+    // El nombre también cabe en otro modelo que este revendedor ya tiene publicado en esta talla ("UNC" dentro de "UNC Toe"): que el dueño diga cuál es.
+    const twin = model.via === "nombre" ? model.others.find((g) => coverLeft(i.userId, g, size, i.condition) > 0) : undefined;
+    if (twin) {
+      toPending(i, `Puede ser «${twin.name}», que ya tiene publicado en esta talla: confirma cuál es`, [suggestion(twin), suggestion(model.group)]);
       continue;
     }
     if (!model.image.startsWith("/products/")) {
@@ -286,10 +405,10 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       isNew: now - i.createdAt < NEW_DAYS * DAY,
       dateAdded: new Date(i.createdAt).toISOString(),
     };
-    live.set(key, { product, sellerId: i.userId, sellerName: users.get(i.userId)?.name ?? "", units: 1 });
+    live.set(key, { product, sellerId: i.userId, sellerName: sellerName(i.userId), units: 1 });
   }
 
-  return { live: [...live.values()], hidden, pending };
+  return { live: [...live.values()], hidden, pending, duplicates, relinks, covered: coveredIds };
 }
 
 export interface CatalogState {
