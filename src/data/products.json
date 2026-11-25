@@ -13751,7 +13751,8 @@
     "condition": "nuevo",
     "description": "Nuevo con caja. Comisión incluida en el precio.",
     "images": [
-      "/products/DUNK-37.1af23bfc.webp"
+      "/products/DUNK-37.1af23bfc.webp",
+      "/products/DUNK-37-2.7642e6e7.webp"
     ],
     "featured": false,
     "isNew": false,
