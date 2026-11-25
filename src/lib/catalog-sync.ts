@@ -143,11 +143,11 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
 
   // Pares cargados a mano sin elegir modelo (catalog_slug vacío): se buscan en el catálogo por nombre, de forma conservadora.
   const nameModels = groupProducts(statics).map((g) => ({
-    model: { product: g.variants[0], image: g.images[0] ?? "" },
+    model: { product: g.variants[0], image: g.images[0] ?? "", slugs: g.variants.map((v) => v.slug) },
     words: nameWords(`${g.variants[0].brand} ${g.variants[0].name}`),
     nameOnly: nameWords(g.variants[0].name),
   }));
-  const matchByName = (name: string, brand: string): { product: Product; image: string } | null => {
+  const matchByName = (name: string, brand: string): { product: Product; image: string; slugs: string[] } | null => {
     const wanted = nameWords(`${brand} ${name}`);
     const wantedNoBrand = nameWords(name);
     // Todos los modelos que contienen las palabras del par: si hay más de uno es ambiguo ("Jordan 1 Low Travis Scott" tiene 4 colorways) y lo completa el dueño.
@@ -198,7 +198,16 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
         continue;
       }
     }
-    const model = i.slug ? resolveModel(i.slug) : matchByName(i.name, i.brand);
+    const byName = i.slug ? null : matchByName(i.name, i.brand);
+    if (byName) {
+      // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
+      const slugKey = byName.slugs.map((s) => `${i.userId}|${s}|${size}`).find((k) => (covered.get(k) ?? 0) > 0);
+      if (slugKey) {
+        covered.set(slugKey, (covered.get(slugKey) ?? 0) - 1);
+        continue;
+      }
+    }
+    const model = i.slug ? resolveModel(i.slug) : byName;
     if (!model) {
       toPending(i, i.slug ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto");
       continue;
