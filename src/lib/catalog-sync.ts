@@ -15,6 +15,27 @@ const NEW_DAYS = 14;
 const loose = (v: string) => v.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9@]+/g, "");
 const normSize = (v: string) => v.trim().toLowerCase().replace(",", ".");
 
+/** Palabras de un nombre de par, sin tildes ni signos, en minúsculas. */
+function nameWords(v: string): Set<string> {
+  return new Set(v.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").split(/[^a-z0-9.]+/).filter(Boolean));
+}
+
+/** Todas las palabras de `wanted` están en `model` (y son al menos 3, para no confundir nombres cortos como "Dunk Low" o "AF1"). */
+function containsWords(model: Set<string>, wanted: Set<string>): boolean {
+  if (wanted.size < 3) return false;
+  for (const w of wanted) if (!model.has(w)) return false;
+  return true;
+}
+
+/**
+ * Mismo modelo: el nombre del par tiene las mismas palabras que el del catálogo, o al del catálogo solo le sobra una
+ * ("Jellyfish Crystal Sand" = "Jellyfish Crystal Sand Virginia"). Si al catálogo le sobran 2 o más es otro colorway
+ * ("Adistar XLG 2.0" ≠ "… Solar Orange"), y si el par trae palabras que el catálogo no tiene tampoco se empareja.
+ */
+function sameModelWords(wanted: Set<string>, model: Set<string>): boolean {
+  return containsWords(model, wanted) && model.size - wanted.size <= 1;
+}
+
 export interface LiveRow {
   product: Product;
   sellerId: number;
@@ -120,6 +141,22 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     return groupModel.get(slug) ?? null;
   };
 
+  // Pares cargados a mano sin elegir modelo (catalog_slug vacío): se buscan en el catálogo por nombre, de forma conservadora.
+  const nameModels = groupProducts(statics).map((g) => ({
+    model: { product: g.variants[0], image: g.images[0] ?? "" },
+    words: nameWords(`${g.variants[0].brand} ${g.variants[0].name}`),
+    nameOnly: nameWords(g.variants[0].name),
+  }));
+  const matchByName = (name: string, brand: string): { product: Product; image: string } | null => {
+    const wanted = nameWords(`${brand} ${name}`);
+    const wantedNoBrand = nameWords(name);
+    // Todos los modelos que contienen las palabras del par: si hay más de uno es ambiguo ("Jordan 1 Low Travis Scott" tiene 4 colorways) y lo completa el dueño.
+    const hits = nameModels.filter((m) => containsWords(m.words, wanted) || containsWords(m.nameOnly, wantedNoBrand));
+    if (hits.length !== 1) return null;
+    const m = hits[0];
+    return sameModelWords(wanted, m.words) || sameModelWords(wantedNoBrand, m.nameOnly) ? m.model : null;
+  };
+
   // Unidades que el catálogo del archivo ya publica a nombre de cada revendedor: "usuario|modelo|talla" -> cantidad.
   const covered = new Map<string, number>();
   const byUserAssignments: { a: SellerAssignment; userId: number }[] = [];
@@ -161,7 +198,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
         continue;
       }
     }
-    const model = i.slug ? resolveModel(i.slug) : null;
+    const model = i.slug ? resolveModel(i.slug) : matchByName(i.name, i.brand);
     if (!model) {
       toPending(i, i.slug ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto");
       continue;
