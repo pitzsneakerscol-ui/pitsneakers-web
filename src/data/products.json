@@ -13555,5 +13555,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:55:00.000Z"
+  },
+  {
+    "id": "AJ1-68",
+    "slug": "jordan-jordan-1-low-glitter-swoosh",
+    "name": "Jordan 1 Low Glitter Swoosh",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-68.b0265c54.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:56:00.000Z"
   }
 ]

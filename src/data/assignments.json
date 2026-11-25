@@ -5085,5 +5085,19 @@
     "price": 550000,
     "condition": "nuevo",
     "image": "/products/AJ1-67.6d744ec6.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-glitter-swoosh",
+    "name": "Jordan 1 Low Glitter Swoosh",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-68",
+    "sizes": [
+      "7"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-68.b0265c54.webp"
   }
 ]
