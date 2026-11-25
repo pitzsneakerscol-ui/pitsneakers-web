@@ -68,6 +68,8 @@ export interface PendingRow {
   sellerId: number;
   sellerName: string;
   name: string;
+  brand: string;
+  colorway: string;
   size: string;
   price: number;
   reason: string;
@@ -90,6 +92,7 @@ interface ItemRow {
   userId: number;
   name: string;
   brand: string;
+  colorway: string;
   size: string;
   condition: "nuevo" | "usado";
   status: string;
@@ -111,7 +114,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const statics = await getStaticProducts();
   const [usersRes, itemsRes] = await Promise.all([
     db.execute("SELECT id, username, email, display_name FROM users WHERE role != 'admin' AND suspended = 0"),
-    db.execute("SELECT id, user_id, name, brand, size, condition, status, catalog_slug, expected_price, image_url, created_at FROM items ORDER BY id"),
+    db.execute("SELECT id, user_id, name, brand, colorway, size, condition, status, catalog_slug, expected_price, image_url, created_at FROM items ORDER BY id"),
   ]);
 
   const users = new Map<number, UserRow>();
@@ -133,6 +136,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       userId: Number(r.user_id),
       name: String(r.name),
       brand: String(r.brand),
+      colorway: String(r.colorway ?? ""),
       size: String(r.size),
       condition: r.condition === "usado" ? "usado" : "nuevo",
       status: String(r.status),
@@ -197,7 +201,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const live = new Map<string, LiveRow>();
   const pending: PendingRow[] = [];
   const toPending = (i: ItemRow, reason: string) =>
-    pending.push({ itemId: i.id, sellerId: i.userId, sellerName: users.get(i.userId)?.name ?? "", name: i.name, size: i.size, price: i.price, reason });
+    pending.push({ itemId: i.id, sellerId: i.userId, sellerName: users.get(i.userId)?.name ?? "", name: i.name, brand: i.brand, colorway: i.colorway, size: i.size, price: i.price, reason });
 
   for (const i of items) {
     if (i.status !== "stock") continue;

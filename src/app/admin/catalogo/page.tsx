@@ -91,7 +91,11 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
             {plan.pending.map((x) => (
               <li key={x.itemId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
                 <div className="min-w-0">
-                  <p className="font-medium">{x.name}{x.size ? ` · ${x.size}` : ""}{x.price ? ` · ${formatPrice(x.price)}` : ""}</p>
+                  <p className="font-medium">
+                    {x.brand ? <span className="text-muted">{x.brand} · </span> : null}
+                    {[x.name, x.colorway].filter(Boolean).join(" ")}
+                    {x.size ? ` · ${x.size}` : ""}{x.price ? ` · ${formatPrice(x.price)}` : ""}
+                  </p>
                   <p className="text-xs text-muted">
                     <Link href={`/admin/revendedores/${x.sellerId}`} className="underline">{x.sellerName}</Link> · {x.reason}
                   </p>
