@@ -5169,5 +5169,19 @@
     "price": 790000,
     "condition": "nuevo",
     "image": "/products/AJ1-72.6059c773.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-white-picante-red",
+    "name": "Dunk Low White Picante Red",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-36",
+    "sizes": [
+      "9"
+    ],
+    "price": 680000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-36.b219d22e.webp"
   }
 ]
