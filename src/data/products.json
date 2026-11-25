@@ -13838,5 +13838,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:09:00.000Z"
+  },
+  {
+    "id": "AJ1-76",
+    "slug": "jordan-jordan-1-high-unc",
+    "name": "Jordan 1 High UNC",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "4"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-76.5e2cd5db.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:10:00.000Z"
   }
 ]

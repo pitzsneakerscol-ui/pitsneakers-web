@@ -5281,5 +5281,19 @@
     "price": 900000,
     "condition": "nuevo",
     "image": "/products/AJ1-75.831057f0.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-high-unc",
+    "name": "Jordan 1 High UNC",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-76",
+    "sizes": [
+      "4"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-76.5e2cd5db.webp"
   }
 ]
