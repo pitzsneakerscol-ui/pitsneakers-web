@@ -36,8 +36,26 @@ export function fullTitle(name: string, colorway?: string): string {
   return c && !looseKey(n).includes(looseKey(c)) ? `${n} ${c}` : n;
 }
 
-/** Marcas que no distinguen un modelo de otro: sobran en el nombre. "Jordan" y "Yeezy" sí son parte del nombre del modelo. */
-const NOISE = new Set(["x", "nike", "adidas", "wmns", "gs"]);
+/** Marcas y conectores que no distinguen un modelo de otro: sobran en el nombre. "Jordan" y "Yeezy" sí son parte del nombre del modelo. */
+const NOISE = new Set(["x", "nike", "adidas", "wmns", "gs", "y", "and", "con", "de"]);
+
+/** Colores en español → como los trae el catálogo ("Supreme Blanca" = "Supreme White"). */
+const COLORS: Record<string, string> = {
+  blanco: "white", blanca: "white", blancos: "white", blancas: "white",
+  negro: "black", negra: "black", negros: "black", negras: "black",
+  rojo: "red", roja: "red", rojos: "red", rojas: "red",
+  azul: "blue", azules: "blue",
+  verde: "green", verdes: "green",
+  gris: "grey", grises: "grey", gray: "grey",
+  amarillo: "yellow", amarilla: "yellow", amarillos: "yellow", amarillas: "yellow",
+  naranja: "orange", naranjas: "orange",
+  rosa: "pink", rosado: "pink", rosada: "pink", rosados: "pink", rosadas: "pink",
+  morado: "purple", morada: "purple", morados: "purple", moradas: "purple",
+  cafe: "brown", marron: "brown",
+  dorado: "gold", dorada: "gold", dorados: "gold", doradas: "gold",
+  plateado: "silver", plateada: "silver", plata: "silver",
+  crema: "cream",
+};
 
 /** Palabras de un nombre, ya con las equivalencias que usan los revendedores (AF1 = Air Force 1, AJ1 = Jordan 1, Mind M001 = Mind 001…). */
 export function titleTokens(text: string): Set<string> {
@@ -54,6 +72,12 @@ export function titleTokens(text: string): Set<string> {
       .filter(Boolean)
   );
   for (const w of NOISE) out.delete(w);
+  for (const w of [...out]) {
+    if (COLORS[w]) {
+      out.delete(w);
+      out.add(COLORS[w]);
+    }
+  }
   if (out.has("mind")) {
     for (const w of [...out]) {
       const m = /^m(\d{3})$/.exec(w);

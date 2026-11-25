@@ -42,7 +42,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
     .filter((m) => m.image);
   const fixes = plan.duplicates.length + plan.relinks.length;
   // Por qué sale de "en vivo" un par: lo vendieron, o el catálogo ya lo muestra a nombre de su revendedor y estaba dos veces.
-  const coveredLive = new Set([...plan.covered, ...plan.duplicates.map((d) => d.handId)].map((id) => `LIVE-${id}`));
+  const coveredLive = new Set([...plan.covered, ...plan.duplicates.flatMap((d) => [d.handId, d.autoId])].map((id) => `LIVE-${id}`));
   const [merged, relinked] = (corregidos ?? "").split("-").map(Number);
 
   const toAdd = plan.live.filter((l) => !state.live.has(l.product.id));

@@ -236,18 +236,12 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       covered.set(key, (covered.get(key) ?? 0) + (a.counts?.[size] ?? 1));
     }
   }
-  /**
-   * Las llaves de cobertura de un modelo para un revendedor y una talla: sirve cualquier par del modelo en el mismo estado
-   * (un usado con sus fotos no es el par nuevo que el catálogo ya publica).
-   */
-  const coverKeys = (userId: number, group: ProductGroup, size: string, condition: Product["condition"]) =>
-    group.variants.filter((v) => v.condition === condition).map((v) => `${userId}|${v.slug}|${size}`);
-  const coverLeft = (userId: number, group: ProductGroup, size: string, condition: Product["condition"]) =>
-    coverKeys(userId, group, size, condition).reduce((n, k) => n + (covered.get(k) ?? 0), 0);
-  /** Gasta una unidad de cobertura; primero la del par exacto al que está enlazado (esa vale sin mirar el estado, como siempre). */
+  /** Las llaves de cobertura de un modelo para un revendedor y una talla: sirve cualquiera de los pares del modelo. */
+  const coverKeys = (userId: number, group: ProductGroup, size: string) => group.variants.map((v) => `${userId}|${v.slug}|${size}`);
+  const coverLeft = (userId: number, group: ProductGroup, size: string) => coverKeys(userId, group, size).reduce((n, k) => n + (covered.get(k) ?? 0), 0);
+  /** Gasta una unidad de cobertura de cualquiera de los pares del modelo. */
   const takeCover = (i: ItemRow, r: Resolved, size: string): boolean => {
-    const exact = i.slug && r.group.variants.some((v) => v.slug === i.slug) ? [`${i.userId}|${i.slug}|${size}`] : [];
-    const key = [...exact, ...coverKeys(i.userId, r.group, size, i.condition)].find((k) => (covered.get(k) ?? 0) > 0);
+    const key = coverKeys(i.userId, r.group, size).find((k) => (covered.get(k) ?? 0) > 0);
     if (!key) return false;
     covered.set(key, (covered.get(key) ?? 0) - 1);
     return true;
@@ -269,46 +263,62 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const resolved = new Map<number, Resolved | null>();
   for (const i of stock) resolved.set(i.id, resolve(i));
 
+  // Fotos reales de los pares usados aprobados: cada uno es único y se publica solo, con sus propias fotos. Nunca se da por
+  // publicado por el par (nuevo) del mismo modelo que el catálogo ya muestra.
+  const usedPhotos = await usedPhotoIds(stock.filter((i) => i.condition === "usado").map((i) => i.id));
+  const unique = (i: ItemRow) => (usedPhotos.get(i.id)?.length ?? 0) > 0;
+
   // Mal enlazados: el par apunta a un modelo, pero su código o su nombre son de otro (antes se enlazaba por el modelo base, sin
   // mirar el colorway, y dos pares de la misma talla quedaban cruzados). Aquí ya cuentan como lo que son; el dueño los corrige con un botón.
   const relinks: RelinkRow[] = [];
   const unlinked = new Set<number>();
   const assignedSlugs = new Map<number, Set<string>>();
   for (const { a, userId } of byUserAssignments) assignedSlugs.set(userId, (assignedSlugs.get(userId) ?? new Set<string>()).add(a.slug));
+  const relinkRow = (i: ItemRow, from: ProductGroup) => ({ itemId: i.id, sellerId: i.userId, sellerName: sellerName(i.userId), typed: fullTitle(i.name, i.colorway), size: i.size.trim(), from: from.name });
+  // Quién dice ser cada modelo por lo que escribió (sin enlace, o enlazado a otro): "usuario|modelo|talla".
+  const claims = new Set<string>();
+  const doubtful: { i: ItemRow; from: ProductGroup }[] = [];
   for (const i of stock) {
     const r = resolved.get(i.id);
+    const size = normSize(i.size);
+    if (r && r.via !== "slug") claims.add(`${i.userId}|${r.group.groupSlug}|${size}`);
     if (!r || r.via !== "slug" || i.source === AUTO_SOURCE || i.confirmed) continue;
     const typed = resolveTyped(i);
-    const size = normSize(i.size);
-    const row = { itemId: i.id, sellerId: i.userId, sellerName: sellerName(i.userId), typed: fullTitle(i.name, i.colorway), size: i.size.trim(), from: r.group.name };
     if (typed && typed.via !== "nombre+1" && typed.group.groupSlug !== r.group.groupSlug) {
       // Si el catálogo le publica ese modelo y talla, se enlaza a ese par exacto; si no, al modelo.
       const mine = byUserAssignments.find((x) => x.userId === i.userId && typed.group.variants.some((v) => v.slug === x.a.slug) && x.a.sizes.some((sz) => normSize(sz) === size));
-      relinks.push({ ...row, to: typed.group.name, toSlug: mine?.a.slug ?? typed.group.groupSlug, toImage: typed.image });
+      relinks.push({ ...relinkRow(i, r.group), to: typed.group.name, toSlug: mine?.a.slug ?? typed.group.groupSlug, toImage: typed.image });
       resolved.set(i.id, typed);
+      claims.add(`${i.userId}|${typed.group.groupSlug}|${size}`);
     } else if (!typed && assignedSlugs.get(i.userId)?.has(i.slug) && linkedByBaseNameOnly(i, { slug: r.group.groupSlug, brand: r.group.brand, name: r.group.name, colorway: r.group.colorway })) {
-      relinks.push({ ...row, to: "", toSlug: "", toImage: "" });
-      resolved.set(i.id, null);
-      unlinked.add(i.id);
+      doubtful.push({ i, from: r.group });
     }
+  }
+  // Un par enlazado solo por el modelo base y con otro colorway se suelta únicamente si el lugar que ocupa tiene dueño: otro par
+  // del mismo revendedor y talla que sí es ese modelo. Sin eso puede ser el mismo par escrito de otra forma, y se deja como está.
+  for (const { i, from } of doubtful) {
+    if (!claims.has(`${i.userId}|${from.groupSlug}|${normSize(i.size)}`)) continue;
+    relinks.push({ ...relinkRow(i, from), to: "", toSlug: "", toImage: "" });
+    resolved.set(i.id, null);
+    unlinked.add(i.id);
   }
 
   // Duplicados: el revendedor cargó el par a mano y la plataforma lo cargó otra vez (no reconoció el nombre). Sobran los registros
   // automáticos que exceden lo que el catálogo le publica a ese revendedor en ese modelo y talla; no cuentan como stock.
   const duplicates: DuplicateRow[] = [];
   const skip = new Set<number>();
-  const buckets = new Map<string, { group: ProductGroup; userId: number; size: string; condition: Product["condition"]; autos: ItemRow[]; hands: ItemRow[] }>();
+  const buckets = new Map<string, { group: ProductGroup; userId: number; size: string; autos: ItemRow[]; hands: ItemRow[] }>();
   for (const i of stock) {
     const r = resolved.get(i.id);
-    if (!r) continue;
+    if (!r || unique(i)) continue;
     const size = normSize(i.size);
-    const key = `${i.userId}|${r.group.groupSlug}|${size}|${i.condition}`;
-    const b = buckets.get(key) ?? { group: r.group, userId: i.userId, size, condition: i.condition, autos: [], hands: [] };
+    const key = `${i.userId}|${r.group.groupSlug}|${size}`;
+    const b = buckets.get(key) ?? { group: r.group, userId: i.userId, size, autos: [], hands: [] };
     (i.source === AUTO_SOURCE && r.via === "slug" ? b.autos : b.hands).push(i);
     buckets.set(key, b);
   }
   for (const b of buckets.values()) {
-    const extra = b.autos.length + b.hands.length - coverLeft(b.userId, b.group, b.size, b.condition);
+    const extra = b.autos.length + b.hands.length - coverLeft(b.userId, b.group, b.size);
     const n = Math.min(b.autos.length, b.hands.length, Math.max(0, extra));
     for (let k = 0; k < n; k++) {
       const auto = b.autos[k];
@@ -336,15 +346,12 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const toPending = (i: ItemRow, reason: string, suggestions: PendingSuggestion[] = []) =>
     pending.push({ itemId: i.id, sellerId: i.userId, sellerName: sellerName(i.userId), name: i.name, brand: i.brand, colorway: i.colorway, sku: i.sku, size: i.size, price: i.price, reason, suggestions });
 
-  // Fotos reales de los pares usados aprobados: cada uno se publica solo, con sus propias fotos.
-  const usedPhotos = await usedPhotoIds(stock.filter((i) => i.condition === "usado").map((i) => i.id));
-
   // Primero cada par gasta la cobertura de la publicación exacta a la que está enlazado; lo que sobre lo usan después los demás
   // pares del mismo modelo. Así un par que ya estaba cubierto no le cede su lugar a otro del mismo modelo y talla.
   const isCovered = new Set<number>();
   for (const i of stock) {
     const r = resolved.get(i.id);
-    if (skip.has(i.id) || !r || r.via !== "slug") continue;
+    if (skip.has(i.id) || unique(i) || !r || r.via !== "slug") continue;
     const key = `${i.userId}|${i.slug}|${normSize(i.size)}`;
     if ((covered.get(key) ?? 0) > 0 && r.group.variants.some((v) => v.slug === i.slug)) {
       covered.set(key, (covered.get(key) ?? 0) - 1);
@@ -357,7 +364,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     const size = normSize(i.size);
     const model = resolved.get(i.id) ?? null;
     // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
-    if (isCovered.has(i.id) || (model && takeCover(i, model, size))) {
+    if (isCovered.has(i.id) || (model && !unique(i) && takeCover(i, model, size))) {
       coveredIds.push(i.id);
       continue;
     }
@@ -371,7 +378,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       continue;
     }
     // El nombre también cabe en otro modelo que este revendedor ya tiene publicado en esta talla ("UNC" dentro de "UNC Toe"): que el dueño diga cuál es.
-    const twin = model.via === "nombre" ? model.others.find((g) => coverLeft(i.userId, g, size, i.condition) > 0) : undefined;
+    const twin = model.via === "nombre" && !unique(i) ? model.others.find((g) => coverLeft(i.userId, g, size) > 0) : undefined;
     if (twin) {
       toPending(i, `Puede ser «${twin.name}», que ya tiene publicado en esta talla: confirma cuál es`, [suggestion(twin), suggestion(model.group)]);
       continue;
