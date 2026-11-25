@@ -101,6 +101,7 @@ export async function fixInventories(): Promise<void> {
   }
   let relinked = 0;
   for (const r of plan.relinks) {
+    // Sin modelo correcto en el catálogo (toSlug vacío) el par queda sin enlace: vuelve a "Por completar" hasta que tenga su modelo.
     const res = await db.execute({
       sql: "UPDATE items SET catalog_slug = ?, image_url = CASE WHEN image_url = '' OR image_url LIKE '/products/%' THEN ? ELSE image_url END WHERE id = ? AND user_id = ? AND status = 'stock'",
       args: [r.toSlug, r.toImage, r.itemId, r.sellerId],

@@ -4,7 +4,7 @@ import aliasesJson from "@/data/catalog-aliases.json";
 import { getDb } from "@/lib/db";
 import { resetLiveOverlay } from "@/lib/catalog-live";
 import { catalogIndex } from "@/lib/catalog-index";
-import { fullTitle, looseKey } from "@/lib/catalog-match";
+import { fullTitle, linkedByBaseNameOnly, looseKey } from "@/lib/catalog-match";
 import { getStaticProducts } from "@/lib/products";
 import { usedPhotoIds } from "@/lib/used-pairs";
 import { usedNoteSummary } from "@/lib/used-shared";
@@ -90,6 +90,7 @@ export interface RelinkRow {
   typed: string;
   size: string;
   from: string;
+  /** Modelo correcto; "" si ese par todavía no tiene modelo en el catálogo (queda por completar). */
   to: string;
   toSlug: string;
   toImage: string;
@@ -268,6 +269,30 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const resolved = new Map<number, Resolved | null>();
   for (const i of stock) resolved.set(i.id, resolve(i));
 
+  // Mal enlazados: el par apunta a un modelo, pero su código o su nombre son de otro (antes se enlazaba por el modelo base, sin
+  // mirar el colorway, y dos pares de la misma talla quedaban cruzados). Aquí ya cuentan como lo que son; el dueño los corrige con un botón.
+  const relinks: RelinkRow[] = [];
+  const unlinked = new Set<number>();
+  const assignedSlugs = new Map<number, Set<string>>();
+  for (const { a, userId } of byUserAssignments) assignedSlugs.set(userId, (assignedSlugs.get(userId) ?? new Set<string>()).add(a.slug));
+  for (const i of stock) {
+    const r = resolved.get(i.id);
+    if (!r || r.via !== "slug" || i.source === AUTO_SOURCE || i.confirmed) continue;
+    const typed = resolveTyped(i);
+    const size = normSize(i.size);
+    const row = { itemId: i.id, sellerId: i.userId, sellerName: sellerName(i.userId), typed: fullTitle(i.name, i.colorway), size: i.size.trim(), from: r.group.name };
+    if (typed && typed.via !== "nombre+1" && typed.group.groupSlug !== r.group.groupSlug) {
+      // Si el catálogo le publica ese modelo y talla, se enlaza a ese par exacto; si no, al modelo.
+      const mine = byUserAssignments.find((x) => x.userId === i.userId && typed.group.variants.some((v) => v.slug === x.a.slug) && x.a.sizes.some((sz) => normSize(sz) === size));
+      relinks.push({ ...row, to: typed.group.name, toSlug: mine?.a.slug ?? typed.group.groupSlug, toImage: typed.image });
+      resolved.set(i.id, typed);
+    } else if (!typed && assignedSlugs.get(i.userId)?.has(i.slug) && linkedByBaseNameOnly(i, { slug: r.group.groupSlug, brand: r.group.brand, name: r.group.name, colorway: r.group.colorway })) {
+      relinks.push({ ...row, to: "", toSlug: "", toImage: "" });
+      resolved.set(i.id, null);
+      unlinked.add(i.id);
+    }
+  }
+
   // Duplicados: el revendedor cargó el par a mano y la plataforma lo cargó otra vez (no reconoció el nombre). Sobran los registros
   // automáticos que exceden lo que el catálogo le publica a ese revendedor en ese modelo y talla; no cuentan como stock.
   const duplicates: DuplicateRow[] = [];
@@ -303,29 +328,6 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     }
   }
 
-  // Mal enlazados: el par apunta a un modelo, pero su código o su nombre exacto son de otro (pasaba al enlazar por el modelo base, sin mirar el colorway).
-  const relinks: RelinkRow[] = [];
-  for (const i of stock) {
-    const r = resolved.get(i.id);
-    if (!r || r.via !== "slug" || i.source === AUTO_SOURCE || i.confirmed) continue;
-    const typed = resolveTyped(i);
-    if (!typed || typed.via === "nombre+1" || typed.group.groupSlug === r.group.groupSlug) continue;
-    const size = normSize(i.size);
-    // Si el catálogo le publica ese modelo y talla, se enlaza a ese par exacto; si no, al modelo.
-    const mine = byUserAssignments.find((x) => x.userId === i.userId && typed.group.variants.some((v) => v.slug === x.a.slug) && x.a.sizes.some((sz) => normSize(sz) === size));
-    relinks.push({
-      itemId: i.id,
-      sellerId: i.userId,
-      sellerName: sellerName(i.userId),
-      typed: fullTitle(i.name, i.colorway),
-      size: i.size.trim(),
-      from: r.group.name,
-      to: typed.group.name,
-      toSlug: mine?.a.slug ?? typed.group.groupSlug,
-      toImage: typed.image,
-    });
-  }
-
   // Publicar: pares en stock que el catálogo del archivo no cubre.
   const live = new Map<string, LiveRow>();
   const pending: PendingRow[] = [];
@@ -337,12 +339,25 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   // Fotos reales de los pares usados aprobados: cada uno se publica solo, con sus propias fotos.
   const usedPhotos = await usedPhotoIds(stock.filter((i) => i.condition === "usado").map((i) => i.id));
 
+  // Primero cada par gasta la cobertura de la publicación exacta a la que está enlazado; lo que sobre lo usan después los demás
+  // pares del mismo modelo. Así un par que ya estaba cubierto no le cede su lugar a otro del mismo modelo y talla.
+  const isCovered = new Set<number>();
+  for (const i of stock) {
+    const r = resolved.get(i.id);
+    if (skip.has(i.id) || !r || r.via !== "slug") continue;
+    const key = `${i.userId}|${i.slug}|${normSize(i.size)}`;
+    if ((covered.get(key) ?? 0) > 0 && r.group.variants.some((v) => v.slug === i.slug)) {
+      covered.set(key, (covered.get(key) ?? 0) - 1);
+      isCovered.add(i.id);
+    }
+  }
+
   for (const i of stock) {
     if (skip.has(i.id)) continue;
     const size = normSize(i.size);
     const model = resolved.get(i.id) ?? null;
     // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
-    if (model && takeCover(i, model, size)) {
+    if (isCovered.has(i.id) || (model && takeCover(i, model, size))) {
       coveredIds.push(i.id);
       continue;
     }
@@ -352,7 +367,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
         .map((x) => index.group(x.model.slug))
         .filter((g): g is ProductGroup => g !== null && firstPhoto(g).startsWith("/products/"))
         .map(suggestion);
-      toPending(i, i.slug ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto", similar);
+      toPending(i, i.slug && !unlinked.has(i.id) ? "El modelo ya no está en el catálogo: falta foto" : "Sin modelo del catálogo: falta foto", similar);
       continue;
     }
     // El nombre también cabe en otro modelo que este revendedor ya tiene publicado en esta talla ("UNC" dentro de "UNC Toe"): que el dueño diga cuál es.

@@ -76,7 +76,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
       )}
       {corregidos !== undefined && !Number.isNaN(merged) && (
         <p role="status" className="rounded-lg bg-emerald-100 px-4 py-3 text-sm text-emerald-800">
-          Inventarios corregidos: {merged} duplicado{merged === 1 ? "" : "s"} unido{merged === 1 ? "" : "s"} y {relinked} par{relinked === 1 ? "" : "es"} enlazado{relinked === 1 ? "" : "s"} a su modelo correcto.
+          Inventarios corregidos: {merged} duplicado{merged === 1 ? "" : "s"} unido{merged === 1 ? "" : "s"} y {relinked} par{relinked === 1 ? "" : "es"} con el modelo corregido.
         </p>
       )}
       {error && (
@@ -156,7 +156,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
               {plan.relinks.map((r) => (
                 <li key={`r${r.itemId}`}>
                   <span className="text-muted">{r.sellerName} · </span>
-                  “{r.typed}” · talla {r.size || "—"}: está enlazado a {r.from} y es {r.to}.
+                  “{r.typed}” · talla {r.size || "—"}: está enlazado a {r.from} {r.to ? `y es ${r.to}.` : "y no es ese modelo: queda por completar hasta que tenga el suyo."}
                 </li>
               ))}
             </ul>

@@ -162,6 +162,24 @@ function likeness(item: Set<string>, model: Set<string>, weight: (w: string) => 
   return precision + recall === 0 ? 0 : (2 * precision * recall) / (precision + recall);
 }
 
+/**
+ * Un par enlazado a un modelo solo por su modelo base, sin mirar el colorway: "Dunk Low" + "Black Team Gold" enlazado a
+ * "Dunk Low Cyberdunk". El campo "nombre" cabe en el modelo, pero el colorway que escribió el revendedor es de otro par.
+ * (Así enlazaba antes la carga de pares asignados.) Si el colorway sí está en el modelo, aunque falten palabras, no cuenta.
+ */
+export function linkedByBaseNameOnly(item: MatchItem, model: MatchModel): boolean {
+  const colorway = (item.colorway ?? "").trim();
+  if (!colorway) return false;
+  const base = titleTokens(item.name);
+  const full = titleTokens(fullTitle(item.name, colorway));
+  const target = titleTokens(`${model.brand} ${fullTitle(model.name, model.colorway)}`);
+  if (base.size === 0 || ![...base].every((w) => target.has(w))) return false;
+  const similarIn = (w: string, set: Set<string>) => [...set].some((x) => wordLikeness(w, x) > 0);
+  const typedOnly = [...full].filter((w) => !base.has(w) && !similarIn(w, target));
+  const modelOnly = [...target].filter((w) => !similarIn(w, full) && !titleTokens(model.brand).has(w));
+  return typedOnly.length > 0 && modelOnly.length > 0;
+}
+
 export interface Matcher {
   resolve(item: MatchItem): Resolution | null;
   suggest(item: MatchItem, limit?: number): Suggestion[];
