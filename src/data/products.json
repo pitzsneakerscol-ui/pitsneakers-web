@@ -13475,5 +13475,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T10:51:00.000Z"
+  },
+  {
+    "id": "OFFWHITE-02",
+    "slug": "off-white-out-of-office-ooo-white-black",
+    "name": "Out Of Office (OOO) White Black",
+    "brand": "Off-White",
+    "category": "sneakers",
+    "price": 1980326,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/OFFWHITE-02.0dce64b8.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T10:52:00.000Z"
   }
 ]

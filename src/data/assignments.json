@@ -5029,5 +5029,19 @@
     "condition": "nuevo",
     "image": "/products/ADI-BB-45.ef280db9.webp",
     "kind": "ropa"
+  },
+  {
+    "seller": "scartagenm",
+    "slug": "off-white-out-of-office-ooo-white-black",
+    "name": "Out Of Office (OOO) White Black",
+    "brand": "Off-White",
+    "colorway": "",
+    "sku": "OFFWHITE-02",
+    "sizes": [
+      "7"
+    ],
+    "price": 1980326,
+    "condition": "nuevo",
+    "image": "/products/OFFWHITE-02.0dce64b8.webp"
   }
 ]
