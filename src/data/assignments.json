@@ -5057,5 +5057,19 @@
     "price": 500000,
     "condition": "nuevo",
     "image": "/products/AJ11-05.48b0df00.webp"
+  },
+  {
+    "seller": "juanda7090",
+    "slug": "reebok-reebok-x-maison-margiela",
+    "name": "Reebok x Maison Margiela",
+    "brand": "Reebok",
+    "colorway": "",
+    "sku": "REEBOK-01",
+    "sizes": [
+      "11"
+    ],
+    "price": 550000,
+    "condition": "nuevo",
+    "image": "/products/REEBOK-01.9ab0a924.webp"
   }
 ]
