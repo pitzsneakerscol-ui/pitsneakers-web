@@ -17,7 +17,15 @@ const normSize = (v: string) => v.trim().toLowerCase().replace(",", ".");
 
 /** Palabras de un nombre de par, sin tildes ni signos, en minúsculas. */
 function nameWords(v: string): Set<string> {
-  return new Set(v.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").split(/[^a-z0-9.]+/).filter(Boolean));
+  return new Set(
+    v
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{M}/gu, "")
+      .split(/[^a-z0-9.]+/)
+      .map((w) => w.replace(/^\.+|\.+$/g, "")) // "(OOO)." -> "ooo", pero "2.0" se conserva
+      .filter(Boolean)
+  );
 }
 
 /** Todas las palabras de `wanted` están en `model` (y son al menos 3, para no confundir nombres cortos como "Dunk Low" o "AF1"). */
