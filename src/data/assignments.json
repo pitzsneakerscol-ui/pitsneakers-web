@@ -5014,5 +5014,20 @@
     "price": 950000,
     "condition": "nuevo",
     "image": "/products/ASICS-21.4caff028.webp"
+  },
+  {
+    "seller": "bzsimon",
+    "slug": "adidas-x-bad-bunny-hoodie-balaclava-gris",
+    "name": "Hoodie Balaclava Gris",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-45",
+    "sizes": [
+      "M"
+    ],
+    "price": 1800000,
+    "condition": "nuevo",
+    "image": "/products/ADI-BB-45.ef280db9.webp",
+    "kind": "ropa"
   }
 ]
