@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { computeCatalogPlan, getCatalogState } from "@/lib/catalog-sync";
 import { catalogIndex } from "@/lib/catalog-index";
 import { fullTitle } from "@/lib/catalog-match";
-import { getStaticProducts } from "@/lib/products";
+import { getSyncProducts } from "@/lib/catalog-models";
 import { serverNow } from "@/lib/auction";
 import { ago } from "@/lib/admin-shared";
 import { formatPrice } from "@/lib/format";
@@ -19,10 +19,10 @@ const sizeNum = (s: string) => {
   return Number.isNaN(n) ? 999 : n;
 };
 
-export default async function CatalogSyncPage({ searchParams }: { searchParams: Promise<{ listo?: string; enlazados?: string; corregidos?: string; error?: string }> }) {
-  const { listo, enlazados, corregidos, error } = await searchParams;
+export default async function CatalogSyncPage({ searchParams }: { searchParams: Promise<{ listo?: string; enlazados?: string; nuevo?: string; corregidos?: string; error?: string }> }) {
+  const { listo, enlazados, nuevo, corregidos, error } = await searchParams;
   const now = serverNow();
-  const [plan, state, statics] = await Promise.all([computeCatalogPlan(now), getCatalogState(), getStaticProducts()]);
+  const [plan, state, statics] = await Promise.all([computeCatalogPlan(now), getCatalogState(), getSyncProducts()]);
 
   // Por completar: los pares iguales de un revendedor (mismo nombre, código y precio) van en una sola fila con todas sus tallas.
   const pendingGroups = new Map<string, PendingGroup>();
@@ -70,7 +70,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
       {enlazados !== undefined && (
         <p role="status" className="rounded-lg bg-emerald-100 px-4 py-3 text-sm text-emerald-800">
           {Number(enlazados) > 0
-            ? `Listo: ${enlazados} par${enlazados === "1" ? " quedó enlazado" : "es quedaron enlazados"} a su modelo. Pulsa Actualizar catálogo para que la web lo muestre.`
+            ? `Listo: ${nuevo === "1" ? "el modelo quedó creado con su foto y " : ""}${enlazados} par${enlazados === "1" ? " quedó enlazado" : "es quedaron enlazados"} a su modelo. Pulsa Actualizar catálogo para que la web lo muestre.`
             : "Ese par ya no estaba por completar: no se cambió nada."}
         </p>
       )}
@@ -80,7 +80,9 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
         </p>
       )}
       {error && (
-        <p role="alert" className="rounded-lg bg-red-100 px-4 py-3 text-sm text-red-800">No se pudo enlazar: ese modelo ya no está en el catálogo. Vuelve a intentarlo.</p>
+        <p role="alert" className="rounded-lg bg-red-100 px-4 py-3 text-sm text-red-800">
+          {error === "datos" ? "Faltó la marca, el nombre o la foto del modelo. Vuelve a intentarlo." : error === "foto" ? "Esa foto ya no está: súbela de nuevo." : "No se pudo enlazar: ese modelo ya no está en el catálogo. Vuelve a intentarlo."}
+        </p>
       )}
 
       <section className={`${cardCls} p-5 sm:p-6`}>
@@ -171,7 +173,7 @@ export default async function CatalogSyncPage({ searchParams }: { searchParams: 
           {withSuggestion > 0
             ? ` ${withSuggestion} referencia${withSuggestion === 1 ? " se parece" : "s se parecen"} a un modelo que ya está en el catálogo: confírmalo con un clic y sale${withSuggestion === 1 ? "" : "n"} al actualizar.`
             : ""}{" "}
-          Si el modelo no está, hace falta subirlo con su foto.
+          Si el modelo no está, súbele la foto aquí mismo: la preparo y creo el modelo.
         </p>
         {groups.length === 0 ? <p className="rounded-lg bg-paper px-4 py-3 text-sm text-muted">No hay nada pendiente.</p> : <PendingList groups={groups} catalog={models} />}
       </section>

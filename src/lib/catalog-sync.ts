@@ -5,7 +5,7 @@ import { getDb } from "@/lib/db";
 import { resetLiveOverlay } from "@/lib/catalog-live";
 import { catalogIndex } from "@/lib/catalog-index";
 import { fullTitle, linkedByBaseNameOnly, looseKey } from "@/lib/catalog-match";
-import { getStaticProducts } from "@/lib/products";
+import { getSyncProducts } from "@/lib/catalog-models";
 import { usedPhotoIds } from "@/lib/used-pairs";
 import { usedNoteSummary } from "@/lib/used-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
@@ -157,7 +157,8 @@ const firstPhoto = (g: ProductGroup) => g.images.find((u) => u.startsWith("/prod
  */
 export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const db = await getDb();
-  const statics = await getStaticProducts();
+  // Modelos del archivo y los que el dueño creó en el panel con una foto.
+  const statics = await getSyncProducts();
   const index = catalogIndex(statics);
   const [usersRes, itemsRes] = await Promise.all([
     db.execute("SELECT id, username, email, display_name FROM users WHERE role != 'admin' AND suspended = 0"),

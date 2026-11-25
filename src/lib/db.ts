@@ -69,6 +69,27 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_used_photos ON used_photos(item_id)`,
+  // Modelos que el dueño crea desde el panel con una foto (los demás vienen del archivo del catálogo). Ver src/lib/catalog-models.ts.
+  `CREATE TABLE IF NOT EXISTS catalog_models (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug TEXT NOT NULL UNIQUE,
+    brand TEXT NOT NULL,
+    name TEXT NOT NULL,
+    colorway TEXT NOT NULL DEFAULT '',
+    category TEXT NOT NULL DEFAULT 'sneakers',
+    subcategory TEXT NOT NULL DEFAULT '',
+    code TEXT NOT NULL DEFAULT '',
+    image TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  // Fotos de esos modelos, ya preparadas (sin fondo, tamaño común) y su miniatura. draft = 1: subida pero todavía sin modelo (se borra a los días).
+  `CREATE TABLE IF NOT EXISTS catalog_photos (
+    name TEXT PRIMARY KEY,
+    data BLOB NOT NULL,
+    thumb BLOB NOT NULL,
+    draft INTEGER NOT NULL DEFAULT 1,
+    created_at INTEGER NOT NULL
+  )`,
   // Foto que sube el revendedor como prueba de que dejó (o envió) un par con compra confirmada. Una por par; ya reducida en el navegador.
   `CREATE TABLE IF NOT EXISTS item_proofs (
     item_id INTEGER PRIMARY KEY,
