@@ -5155,5 +5155,19 @@
     "price": 720000,
     "condition": "nuevo",
     "image": "/products/AJ1-71.893add0b.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-mid-wear-away-chicago",
+    "name": "Jordan 1 Mid Wear Away Chicago",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-72",
+    "sizes": [
+      "8"
+    ],
+    "price": 790000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-72.6059c773.webp"
   }
 ]

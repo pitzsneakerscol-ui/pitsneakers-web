@@ -13655,5 +13655,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:00:00.000Z"
+  },
+  {
+    "id": "AJ1-72",
+    "slug": "jordan-jordan-1-mid-wear-away-chicago",
+    "name": "Jordan 1 Mid Wear Away Chicago",
+    "brand": "Jordan",
+    "category": "sneakers",
+    "price": 790000,
+    "promo": false,
+    "sizes": [
+      "8"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Comisión incluida en el precio.",
+    "images": [
+      "/products/AJ1-72.6059c773.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:01:00.000Z"
   }
 ]
