@@ -5127,5 +5127,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/AJ1-70.e1cbe2e1.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-phantom-gold",
+    "name": "Dunk Low Phantom Gold",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-35",
+    "sizes": [
+      "8"
+    ],
+    "price": 690000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-35.c5ffa6fc.webp"
   }
 ]
