@@ -5253,5 +5253,19 @@
     "price": 499000,
     "condition": "nuevo",
     "image": "/products/YZY-FOAM-22.ba6406e9.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "nike-dunk-low-paisley-pack-pink",
+    "name": "Dunk Low Paisley Pack Pink",
+    "brand": "Nike",
+    "colorway": "",
+    "sku": "DUNK-38",
+    "sizes": [
+      "5.5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": "/products/DUNK-38.949ebb17.webp"
   }
 ]
