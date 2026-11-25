@@ -35,7 +35,7 @@ export default async function InventarioPage() {
           </Link>
         )}
       </header>
-      <AddItemsPanel catalog={catalog} today={today} startOpen={open.length === 0} />
+      <AddItemsPanel catalog={catalog} today={today} startOpen={open.length === 0} usedReview={!user.isAdmin} />
       <InventoryTable
         items={open}
         catalog={catalog}

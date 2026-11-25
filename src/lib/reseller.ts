@@ -52,6 +52,8 @@ function rowToItem(r: Row): Item {
     purchaseTracking: String(r.purchase_tracking ?? ""),
     purchaseReceivedAt: r.purchase_received_at == null ? null : Number(r.purchase_received_at),
     purchasePaidAt: r.purchase_paid_at == null ? null : Number(r.purchase_paid_at),
+    reviewStatus: r.review_status === "pendiente" || r.review_status === "rechazado" ? r.review_status : "aprobado",
+    reviewNote: String(r.review_note ?? ""),
   };
 }
 

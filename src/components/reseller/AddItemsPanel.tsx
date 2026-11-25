@@ -13,6 +13,7 @@ export default function AddItemsPanel({
   startOpen = false,
   submit = addItems,
   hidden,
+  usedReview = false,
   title = "Agregar artículos",
   subtitle = "Tenis, ropa o accesorios: te guiamos en 4 pasos (qué es, talla, cuánto y detalles).",
 }: {
@@ -22,6 +23,8 @@ export default function AddItemsPanel({
   /** Acción que guarda los pares (por defecto, la del revendedor; el administrador pasa la suya). */
   submit?: (prev: ActionState, fd: FormData) => Promise<ActionState>;
   hidden?: Record<string, string | number>;
+  /** Los pares usados se suben con fotos reales y el dueño los revisa antes de publicarlos. */
+  usedReview?: boolean;
   title?: string;
   subtitle?: string;
 }) {
@@ -51,6 +54,7 @@ export default function AddItemsPanel({
             key={formKey}
             catalog={catalog}
             hidden={hidden}
+            usedReview={usedReview}
             today={today}
             action={action}
             pending={pending}

@@ -60,6 +60,15 @@ const SCHEMA = [
     created_at INTEGER NOT NULL
   )`,
   `CREATE INDEX IF NOT EXISTS idx_item_photos ON item_photos(item_id)`,
+  // Fotos reales de un par usado, subidas por su vendedor (ya reducidas en el navegador). Se muestran en la web solo cuando el dueño aprueba el par.
+  `CREATE TABLE IF NOT EXISTS used_photos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,
+    mime TEXT NOT NULL,
+    data BLOB NOT NULL,
+    created_at INTEGER NOT NULL
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_used_photos ON used_photos(item_id)`,
   // Foto que sube el revendedor como prueba de que dejó (o envió) un par con compra confirmada. Una por par; ya reducida en el navegador.
   `CREATE TABLE IF NOT EXISTS item_proofs (
     item_id INTEGER PRIMARY KEY,
@@ -618,6 +627,10 @@ const ADDED_COLUMNS: Record<string, [string, string][]> = {
     ["verif_seller_note", "TEXT NOT NULL DEFAULT ''"],
     ["verif_by", "TEXT NOT NULL DEFAULT ''"],
     ["verif_at", "INTEGER"],
+    // Pares usados que sube el revendedor: no salen en la web hasta que el dueño revisa las fotos. 'pendiente' | 'aprobado' | 'rechazado' (los demás pares quedan 'aprobado').
+    ["review_status", "TEXT NOT NULL DEFAULT 'aprobado'"],
+    ["review_note", "TEXT NOT NULL DEFAULT ''"],
+    ["reviewed_at", "INTEGER"],
   ],
   // Black Friday: el precio que pone el revendedor queda "pendiente" hasta que el dueño lo aprueba (solo los aprobados salen en la página).
   bf_prices: [

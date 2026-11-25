@@ -18,6 +18,8 @@ export interface Product {
   condition: ProductCondition;
   description: string;
   images: string[];
+  /** Pares usados: fotos reales del par (las del modelo van en `images`). Solo salen en la sección de usados. */
+  photos?: string[];
   featured?: boolean;
   isNew?: boolean;
   dateAdded: string;

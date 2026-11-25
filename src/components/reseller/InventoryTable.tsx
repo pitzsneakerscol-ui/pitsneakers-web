@@ -192,6 +192,14 @@ export default function InventoryTable({
                           {cat && (
                             <p className="text-[11px] text-muted">Tienda: {formatPrice(cat.price)}</p>
                           )}
+                          {i.reviewStatus === "pendiente" && (
+                            <p className="mt-0.5 inline-block rounded-full bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-700">⏳ En revisión: aún no se publica</p>
+                          )}
+                          {i.reviewStatus === "rechazado" && (
+                            <p className="mt-0.5 rounded-lg bg-accent/10 px-2 py-1 text-[11px] text-accent">
+                              <strong>No aprobado.</strong> {i.reviewNote || "Revisa las fotos."} Elimínalo y vuelve a subirlo con fotos nuevas.
+                            </p>
+                          )}
                           {/* En el celular las columnas de precio quedan fuera de pantalla: aquí van los números clave. */}
                           <p className="text-[11px] font-medium sm:hidden">
                             Costo {formatPrice(itemTotalCost(i))}

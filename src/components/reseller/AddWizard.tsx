@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { formatPrice } from "@/lib/format";
 import { burstConfetti } from "@/lib/confetti";
 import type { CatalogEntry } from "@/components/reseller/ItemFields";
 import type { ItemKind } from "@/lib/reseller-shared";
 import { commissionRule, priceForReceives, sellerBreakdown } from "@/lib/payout";
 import PairPreview from "@/components/reseller/PairPreview";
+import { shrinkImage } from "@/lib/shrink-image";
+import { USED_MAX_PHOTOS, USED_MIN_PHOTOS, USED_PHOTO_GUIDE, USED_WEAR } from "@/lib/used-shared";
 import { btnAccent, btnGhost, inputCls, labelCls, submitWith } from "@/components/reseller/ui";
 
 const DIACRITICS = new RegExp("[\\u0300-\\u036f]", "g");
@@ -99,6 +101,7 @@ export default function AddWizard({
   onReset,
   onClose,
   hidden,
+  usedReview = false,
 }: {
   catalog: CatalogEntry[];
   today: string;
@@ -111,6 +114,8 @@ export default function AddWizard({
   onClose: () => void;
   /** Campos ocultos extra (p. ej. el revendedor al que el administrador le carga el par). */
   hidden?: Record<string, string | number>;
+  /** Los pares usados pasan por revisión del dueño: piden silueta del catálogo, estado y fotos reales (solo en el panel del vendedor). */
+  usedReview?: boolean;
 }) {
   const [step, setStep] = useState(0);
   const [warn, setWarn] = useState<string | null>(null);
@@ -123,6 +128,10 @@ export default function AddWizard({
   const [slug, setSlug] = useState("");
   const [kind, setKind] = useState<ItemKind>("tenis");
   const [condition, setCondition] = useState<"nuevo" | "usado">("nuevo");
+  const [wear, setWear] = useState("8");
+  const [box, setBox] = useState(true);
+  const [photos, setPhotos] = useState<{ blob: Blob; url: string }[]>([]);
+  const [photoBusy, setPhotoBusy] = useState(false);
   const [qtyBySize, setQtyBySize] = useState<Record<string, number>>({});
   const [customSize, setCustomSize] = useState("");
   const [cost, setCost] = useState("");
@@ -130,6 +139,9 @@ export default function AddWizard({
   const [expected, setExpected] = useState("");
 
   const successHost = useRef<HTMLDivElement>(null);
+
+  /** Un par usado es único: una talla, una unidad, con silueta elegida y fotos reales que el dueño revisa antes de publicarlo. */
+  const needsReview = usedReview && condition === "usado";
 
   const linked = useMemo(() => catalog.find((c) => c.slug === slug), [catalog, slug]);
   const K = KINDS.find((k) => k.key === kind) ?? KINDS[0];
@@ -180,6 +192,10 @@ export default function AddWizard({
   }
 
   function toggleSize(s: string) {
+    if (needsReview) {
+      setQtyBySize((prev) => (prev[s] ? {} : { [s]: 1 }));
+      return;
+    }
     setQtyBySize((prev) => {
       const next = { ...prev };
       if (next[s]) delete next[s];
@@ -191,13 +207,36 @@ export default function AddWizard({
   function addCustomSize() {
     const s = customSize.trim().slice(0, 12);
     if (!s) return;
-    setQtyBySize((prev) => ({ ...prev, [s]: prev[s] ?? 1 }));
+    setQtyBySize((prev) => (needsReview ? { [s]: 1 } : { ...prev, [s]: prev[s] ?? 1 }));
     setCustomSize("");
+  }
+
+  async function addPhotos(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setPhotoBusy(true);
+    const room = USED_MAX_PHOTOS - photos.length;
+    const added: { blob: Blob; url: string }[] = [];
+    for (const file of Array.from(files).slice(0, Math.max(0, room))) {
+      const blob = await shrinkImage(file);
+      if (blob) added.push({ blob, url: URL.createObjectURL(blob) });
+    }
+    setPhotos((prev) => [...prev, ...added]);
+    setPhotoBusy(false);
+    if (added.length < Math.min(files.length, room)) setWarn("Alguna foto no se pudo leer. Prueba con otra en JPG o PNG.");
+  }
+
+  function removePhoto(i: number) {
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[i].url);
+      return prev.filter((_, n) => n !== i);
+    });
   }
 
   function validate(target: number): string | null {
     if (target > 0 && !name.trim()) return `Primero dinos qué ${K.unit} es.`;
+    if (target > 0 && needsReview && kind === "tenis" && !slug) return "Para un par usado elige la silueta de la lista del catálogo (toca el modelo que aparece al escribir).";
     if (target > 1 && totalPairs === 0) return "Elige al menos una talla.";
+    if (target > 2 && needsReview && photos.length < USED_MIN_PHOTOS) return `Sube al menos ${USED_MIN_PHOTOS} fotos reales del par (de lado, la suela y el talón).`;
     if (target > 2 && cost === "") return `Escribe cuánto pagaste por el ${K.unit} (puede ser 0).`;
     return null;
   }
@@ -255,6 +294,13 @@ export default function AddWizard({
           setShake((n) => n + 1);
           return;
         }
+        if (needsReview) {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          photos.forEach((p, i) => fd.append("photos", p.blob, `foto${i + 1}.jpg`));
+          startTransition(() => action(fd));
+          return;
+        }
         submitWith(action)(e);
       }}
       onKeyDown={(e) => {
@@ -269,6 +315,8 @@ export default function AddWizard({
       <input type="hidden" name="kind" value={kind} />
       <input type="hidden" name="sizes" value={sizesValue} />
       <input type="hidden" name="condition" value={condition} />
+      <input type="hidden" name="wear" value={wear} />
+      <input type="hidden" name="box" value={box ? "1" : "0"} />
       {Object.entries(hidden ?? {}).map(([k, v]) => (
         <input key={k} type="hidden" name={k} value={v} />
       ))}
@@ -328,6 +376,38 @@ export default function AddWizard({
                 ))}
               </div>
               <p className="rounded-lg bg-paper px-3 py-2 text-xs text-muted">💰 {commissionRule(kind)}</p>
+              <div>
+                <p className={labelCls}>Estado</p>
+                <div className="relative grid grid-cols-2 rounded-xl bg-paper p-1" role="radiogroup" aria-label={`Estado del ${K.unit}`}>
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-1 top-1 w-[calc(50%-0.25rem)] rounded-lg bg-ink shadow-md transition-transform duration-300 ease-out"
+                    style={{ transform: condition === "nuevo" ? "translateX(0)" : "translateX(100%)" }}
+                  />
+                  {(
+                    [
+                      ["nuevo", "✨ Nuevo"],
+                      ["usado", "👟 Usado"],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      role="radio"
+                      aria-checked={condition === key}
+                      onClick={() => setCondition(key)}
+                      className={`relative z-10 rounded-lg py-3 text-sm font-semibold transition-colors ${condition === key ? "text-white" : "text-muted"}`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {needsReview && (
+                <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-ink">
+                  <strong>Pares usados:</strong> elige la silueta exacta del catálogo y sube fotos reales. Revisamos las fotos antes de publicarlo; no sale en la web hasta que lo aprobemos.
+                </p>
+              )}
               <div className="relative">
                 <label htmlFor="aw-name" className="sr-only">Artículo / modelo</label>
                 <input
@@ -443,7 +523,7 @@ export default function AddWizard({
                 </div>
               </div>
 
-              {sizeList.length > 0 && (
+              {sizeList.length > 0 && !needsReview && (
                 <ul className="space-y-2" aria-label="Cantidad por talla">
                   {sizeList.map(([s, q]) => (
                     <li key={s} className="aw-pop flex items-center justify-between rounded-xl border border-line bg-paper-raised px-4 py-2.5">
@@ -457,35 +537,76 @@ export default function AddWizard({
                   ))}
                 </ul>
               )}
+            </div>
 
-              <div>
-                <p className={labelCls}>Estado</p>
-                <div className="relative grid grid-cols-2 rounded-xl bg-paper p-1" role="radiogroup" aria-label={`Estado del ${K.unit}`}>
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-1 top-1 w-[calc(50%-0.25rem)] rounded-lg bg-ink shadow-md transition-transform duration-300 ease-out"
-                    style={{ transform: condition === "nuevo" ? "translateX(0)" : "translateX(100%)" }}
-                  />
-                  {(
-                    [
-                      ["nuevo", "✨ Nuevo"],
-                      ["usado", "👟 Usado"],
-                    ] as const
-                  ).map(([key, label]) => (
-                    <button
-                      key={key}
-                      type="button"
-                      role="radio"
-                      aria-checked={condition === key}
-                      onClick={() => setCondition(key)}
-                      className={`relative z-10 rounded-lg py-3 text-sm font-semibold transition-colors ${condition === key ? "text-white" : "text-muted"}`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+            {/* Paso 2 (solo usados): estado y fotos reales */}
+            {needsReview && (
+              <div className="aw-panel space-y-5 border-t border-line pt-5" hidden={step !== 1}>
+                <div>
+                  <p className={labelCls}>¿Cómo está el par?</p>
+                  <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Estado del par usado">
+                    {USED_WEAR.map((w) => (
+                      <button
+                        key={w.key}
+                        type="button"
+                        role="radio"
+                        aria-checked={wear === w.key}
+                        onClick={() => setWear(w.key)}
+                        className={`rounded-xl border-2 px-3 py-2.5 text-left transition ${wear === w.key ? "border-accent bg-accent/10" : "border-line bg-paper-raised hover:border-ink"}`}
+                      >
+                        <span className="block text-sm font-semibold">{w.label}</span>
+                        <span className="block text-[11px] text-muted">{w.hint}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm">
+                    <input type="checkbox" checked={box} onChange={(e) => setBox(e.target.checked)} className="h-4 w-4 accent-[var(--color-accent)]" />
+                    Incluye la caja original
+                  </label>
+                </div>
+
+                <div>
+                  <p className={labelCls}>Fotos reales del par (mínimo {USED_MIN_PHOTOS}, máximo {USED_MAX_PHOTOS})</p>
+                  <p className="mb-2 text-xs text-muted">Tómalas con buena luz y fondo liso. Pedimos: {USED_PHOTO_GUIDE.join(" · ")}. Sin fotos del catálogo ni de internet.</p>
+                  {photos.length > 0 && (
+                    <ul className="mb-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                      {photos.map((p, i) => (
+                        <li key={p.url} className="relative overflow-hidden rounded-lg border border-line bg-paper">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={p.url} alt={`Foto ${i + 1} del par usado`} className="aspect-square w-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => removePhoto(i)}
+                            aria-label={`Quitar la foto ${i + 1}`}
+                            className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-ink/80 text-sm text-white hover:bg-ink"
+                          >
+                            ×
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {photos.length < USED_MAX_PHOTOS && (
+                    <label className="flex cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-line px-4 py-5 text-sm font-semibold text-muted transition hover:border-ink hover:text-ink">
+                      {photoBusy ? "Preparando fotos…" : photos.length === 0 ? "📷 Agregar fotos" : "📷 Agregar más fotos"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="sr-only"
+                        onChange={(e) => {
+                          void addPhotos(e.target.files);
+                          e.target.value = "";
+                        }}
+                      />
+                    </label>
+                  )}
+                  <p className="mt-2 text-xs text-muted">
+                    {photos.length} de {USED_MIN_PHOTOS} fotos mínimas{photos.length >= USED_MIN_PHOTOS ? " ✓" : ""}
+                  </p>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Paso 3: cuánto */}
             <div className="aw-panel space-y-3" hidden={step !== 2}>

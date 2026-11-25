@@ -114,8 +114,14 @@ export default function ProductPurchasePanel({
   }, []);
   const payEnabled = pay.enabled;
   const payTest = pay.test;
-  const options = useMemo(() => buildOptions(group), [group]);
-  const multiVariant = group.variants.length > 1;
+  const allOptions = useMemo(() => buildOptions(group), [group]);
+  // Nuevos y usados van en secciones separadas: un par usado es único y trae sus propias fotos, y no debe confundirse con el nuevo.
+  const newCount = allOptions.filter((o) => o.condition === "nuevo").length;
+  const usedCount = allOptions.length - newCount;
+  const hasBoth = newCount > 0 && usedCount > 0;
+  const [tab, setTab] = useState<Product["condition"]>(newCount > 0 ? "nuevo" : "usado");
+  const options = useMemo(() => (hasBoth ? allOptions.filter((o) => o.condition === tab) : allOptions), [allOptions, hasBoth, tab]);
+  const multiVariant = (hasBoth ? group.variants.filter((v) => v.condition === tab) : group.variants).length > 1;
   const [selectedKey, setSelectedKey] = useState<string | undefined>(
     options.length === 1 ? options[0].key : undefined
   );
@@ -171,9 +177,42 @@ export default function ProductPurchasePanel({
         Compartir
       </button>
 
+      {hasBoth && (
+        <div className="mt-6">
+          <div role="tablist" aria-label="Estado del par" className="grid grid-cols-2 rounded-xl bg-paper p-1">
+            {(
+              [
+                ["nuevo", "Nuevos", newCount, "talla"],
+                ["usado", "Usados", usedCount, "par"],
+              ] as const
+            ).map(([key, label, n, unit]) => (
+              <button
+                key={key}
+                type="button"
+                role="tab"
+                aria-selected={tab === key}
+                onClick={() => {
+                  setTab(key);
+                  // Si esa sección tiene una sola opción, queda elegida (igual que al abrir la página).
+                  const inTab = allOptions.filter((o) => o.condition === key);
+                  setSelectedKey(inTab.length === 1 ? inTab[0].key : undefined);
+                }}
+                className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition ${tab === key ? "bg-ink text-white shadow" : "text-muted hover:text-ink"}`}
+              >
+                {label}
+                <span className={`ml-1.5 text-[11px] font-normal ${tab === key ? "text-white/70" : "text-muted"}`}>
+                  {n} {unit}
+                  {n === 1 ? "" : unit === "par" ? "es" : "s"}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-6">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-          {multiVariant ? "Elige talla y estado" : "Talla"}
+          {hasBoth ? (tab === "usado" ? "Elige el par usado" : "Elige la talla nueva") : multiVariant ? "Elige talla y estado" : "Talla"}
           {selected
             ? ` — seleccionada: Talla ${selected.size}${selectedEu ? ` (EU ${selectedEu})` : ""}${
                 multiVariant ? ` · ${selected.condition}` : ""
@@ -207,6 +246,10 @@ export default function ProductPurchasePanel({
               {multiVariant ? (
                 <span className="flex flex-col items-start leading-tight">
                   <span className="flex items-center gap-1.5">
+                    {o.variant.photos?.[0] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={o.variant.photos[0]} alt="" loading="lazy" className="-ml-1 mr-0.5 h-7 w-7 rounded object-cover" />
+                    )}
                     Talla {o.size}
                     {euFor(o.size) && (
                       <span className={`text-[11px] font-normal ${selectedKey === o.key ? "text-white/70" : "text-muted"}`}>· EU {euFor(o.size)}</span>
@@ -242,6 +285,36 @@ export default function ProductPurchasePanel({
           ))}
         </div>
       </div>
+
+      {tab === "usado" && options.some((o) => o.condition === "usado") && (
+        <div className="mt-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide">Par usado</p>
+          <p className="mt-1 text-sm text-muted">
+            Cada par usado es único. Las fotos de la izquierda son del modelo; las de abajo son del par real que recibirás, revisado por Pitsneakers antes de publicarse.
+          </p>
+          {selected?.condition === "usado" ? (
+            <>
+              <p className="mt-2 text-sm font-medium">{selected.variant.description.replace(/ ?(Fotos reales del par\. )?Comisión incluida en el precio\./, "").trim() || "Usado."}</p>
+              {selected.variant.photos && selected.variant.photos.length > 0 ? (
+                <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                  {selected.variant.photos.map((src, n) => (
+                    <li key={src}>
+                      <a href={src} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-lg border border-line bg-paper">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={src} alt={`Foto ${n + 1} del par usado, talla ${selected.size}`} loading="lazy" className="aspect-square w-full object-cover" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs text-muted">Escríbenos por WhatsApp y te enviamos fotos de este par.</p>
+              )}
+            </>
+          ) : (
+            <p className="mt-2 text-xs text-muted">Elige un par para ver sus fotos reales.</p>
+          )}
+        </div>
+      )}
 
       {/* Tarjeta de compra (como StockX): precio, "Hacer oferta" y "Comprar ahora" lado a lado, y WhatsApp debajo. */}
       <div className={`mt-6 rounded-2xl border border-line bg-paper-raised p-4 sm:p-5 ${sticky && !payEnabled ? "hidden lg:block" : ""}`}>

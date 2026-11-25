@@ -188,6 +188,8 @@ export async function listAllItems(filters: {
     purchaseTracking: String(r.purchase_tracking ?? ""),
     purchaseReceivedAt: r.purchase_received_at == null ? null : n(r.purchase_received_at),
     purchasePaidAt: r.purchase_paid_at == null ? null : n(r.purchase_paid_at),
+    reviewStatus: r.review_status === "pendiente" || r.review_status === "rechazado" ? r.review_status : "aprobado",
+    reviewNote: String(r.review_note ?? ""),
     ownerId: n(r.user_id),
     ownerName: String(r.owner_display || r.owner_username),
     ownerWhatsapp: String(r.owner_whatsapp ?? ""),

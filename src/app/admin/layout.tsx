@@ -6,6 +6,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import { pendingQuestionCount } from "@/lib/market";
 import { pendingReviewCount } from "@/lib/reviews";
 import { todayBadgeCount } from "@/lib/today";
+import { usedPendingCount } from "@/lib/used-pairs";
 
 // Todo el panel depende de la sesión y de la base de datos: nunca se prerenderiza.
 export const dynamic = "force-dynamic";
@@ -18,6 +19,6 @@ export const metadata: Metadata = {
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!isDbConfigured()) redirect("/revendedores");
   await requireAdmin();
-  const [pending, reviewsPending, todayCount] = await Promise.all([pendingQuestionCount(), pendingReviewCount().catch(() => 0), todayBadgeCount()]);
-  return <AdminShell pending={pending} reviewsPending={reviewsPending} todayCount={todayCount}>{children}</AdminShell>;
+  const [pending, reviewsPending, usedPending, todayCount] = await Promise.all([pendingQuestionCount(), pendingReviewCount().catch(() => 0), usedPendingCount().catch(() => 0), todayBadgeCount()]);
+  return <AdminShell pending={pending} reviewsPending={reviewsPending} usedPending={usedPending} todayCount={todayCount}>{children}</AdminShell>;
 }

@@ -67,6 +67,10 @@ export interface Item {
   purchaseReceivedAt: number | null;
   /** Cuándo se le consignó lo del par al revendedor (null = todavía no). */
   purchasePaidAt: number | null;
+  /** Solo los pares usados pasan por revisión del dueño: "pendiente" hasta que aprueba o rechaza las fotos (los demás son "aprobado"). */
+  reviewStatus: "pendiente" | "aprobado" | "rechazado";
+  /** Motivo del rechazo, para que el vendedor sepa qué corregir. */
+  reviewNote: string;
 }
 
 export const SALE_CHANNELS = [

@@ -5,6 +5,8 @@ import { getDb } from "@/lib/db";
 import { resetLiveOverlay } from "@/lib/catalog-live";
 import { getStaticProducts } from "@/lib/products";
 import { groupProducts } from "@/lib/grouping";
+import { usedPhotoIds } from "@/lib/used-pairs";
+import { usedNoteSummary } from "@/lib/used-shared";
 import type { SellerAssignment } from "@/lib/sheet-source";
 import type { Product } from "@/types/product";
 
@@ -99,6 +101,9 @@ interface ItemRow {
   slug: string;
   price: number;
   imageUrl: string;
+  notes: string;
+  /** Pares usados: solo los "aprobado" por el dueño se publican. */
+  review: string;
   createdAt: number;
 }
 
@@ -114,7 +119,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const statics = await getStaticProducts();
   const [usersRes, itemsRes] = await Promise.all([
     db.execute("SELECT id, username, email, display_name FROM users WHERE role != 'admin' AND suspended = 0"),
-    db.execute("SELECT id, user_id, name, brand, colorway, size, condition, status, catalog_slug, expected_price, image_url, created_at FROM items ORDER BY id"),
+    db.execute("SELECT id, user_id, name, brand, colorway, size, condition, status, catalog_slug, expected_price, image_url, notes, review_status, created_at FROM items ORDER BY id"),
   ]);
 
   const users = new Map<number, UserRow>();
@@ -143,6 +148,8 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       slug: String(r.catalog_slug),
       price: Number(r.expected_price),
       imageUrl: String(r.image_url),
+      notes: String(r.notes ?? ""),
+      review: String(r.review_status ?? "aprobado"),
       createdAt: Number(r.created_at),
     }));
 
@@ -203,8 +210,13 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
   const toPending = (i: ItemRow, reason: string) =>
     pending.push({ itemId: i.id, sellerId: i.userId, sellerName: users.get(i.userId)?.name ?? "", name: i.name, brand: i.brand, colorway: i.colorway, size: i.size, price: i.price, reason });
 
+  // Fotos reales de los pares usados aprobados: cada uno se publica solo, con sus propias fotos.
+  const usedPhotos = await usedPhotoIds(items.filter((i) => i.status === "stock" && i.condition === "usado" && i.review === "aprobado").map((i) => i.id));
+
   for (const i of items) {
     if (i.status !== "stock") continue;
+    // Un par usado en revisión (o rechazado) no se publica ni cuenta como "por completar": lo revisa el dueño en Pares usados.
+    if (i.condition === "usado" && i.review !== "aprobado") continue;
     const size = normSize(i.size);
     if (i.slug) {
       const key = `${i.userId}|${i.slug}|${size}`;
@@ -244,7 +256,9 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     }
 
     const m = model.product;
-    const key = `${i.userId}|${m.slug}|${size}|${i.price}|${i.condition}`;
+    const photoIds = usedPhotos.get(i.id) ?? [];
+    // Un par usado con fotos propias es único: no se junta con otros iguales.
+    const key = photoIds.length > 0 ? `usado|${i.id}` : `${i.userId}|${m.slug}|${size}|${i.price}|${i.condition}`;
     const existing = live.get(key);
     if (existing) {
       existing.units++;
@@ -262,8 +276,12 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
       promo: false,
       sizes: [i.size.trim()],
       condition: i.condition,
-      description: i.condition === "usado" ? "Usado. Comisión incluida en el precio." : "Nuevo con caja. Comisión incluida en el precio.",
+      description:
+        i.condition === "usado"
+          ? `${usedNoteSummary(i.notes) ?? "Usado."} ${photoIds.length > 0 ? "Fotos reales del par. " : ""}Comisión incluida en el precio.`
+          : "Nuevo con caja. Comisión incluida en el precio.",
       images: [model.image],
+      ...(photoIds.length > 0 ? { photos: photoIds.map((id) => `/api/usados/foto/${id}`) } : {}),
       featured: false,
       isNew: now - i.createdAt < NEW_DAYS * DAY,
       dateAdded: new Date(i.createdAt).toISOString(),

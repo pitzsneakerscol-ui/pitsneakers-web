@@ -3,6 +3,8 @@
 import { redirect, unstable_rethrow } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb, isDbConfigured } from "@/lib/db";
+import { insertUsedItem, readUsedPhotos } from "@/lib/used-pairs";
+import { usedNoteLead } from "@/lib/used-shared";
 import {
   adminUsername,
   checkAdminPassword,
@@ -279,6 +281,21 @@ export async function addItems(
   const sizes = parseSizes(text(fd, "sizes", 300));
   if (sizes.length === 0) return { error: "Indica al menos una talla (ej: 9, 9.5, 10x2; o Única si no tiene)." };
   if (sizes.length > 60) return { error: "Máximo 60 unidades por registro." };
+
+  // Un par usado es único y no sale en la web hasta que el dueño revise sus fotos: una unidad por registro, con la silueta elegida y fotos reales.
+  if (parsed.data.condition === "usado" && !user.isAdmin) {
+    if (sizes.length !== 1) return { error: "Cada par usado se sube por separado, con sus propias fotos (una talla, una unidad)." };
+    if (parsed.data.kind === "tenis" && !parsed.data.catalogSlug) return { error: "Elige la silueta de la lista del catálogo: así el par queda en el modelo correcto." };
+    const read = await readUsedPhotos(fd);
+    if ("error" in read) return { error: read.error };
+    const wear = text(fd, "wear", 2);
+    const lead = usedNoteLead(wear, fd.get("box") === "1");
+    const data = { ...parsed.data, notes: [lead, parsed.data.notes].filter(Boolean).join(" ").slice(0, 500) };
+    await insertUsedItem(user.id, data, sizes[0], read.photos);
+    refresh();
+    return { ok: true, message: "Recibimos tu par usado. Revisamos las fotos y te avisamos si lo aprobamos o qué hay que corregir; hasta entonces no se publica." };
+  }
+
   const n = await insertItems(user.id, parsed.data, sizes);
   refresh();
   return { ok: true, message: n === 1 ? "Agregamos 1 artículo al inventario." : `Agregamos ${n} artículos al inventario.` };
