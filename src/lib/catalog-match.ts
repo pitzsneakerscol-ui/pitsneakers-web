@@ -106,7 +106,11 @@ interface Indexed {
 
 export interface Resolution {
   model: MatchModel;
-  how: "codigo" | "nombre" | "nombre+1";
+  /**
+   * "codigo" y "nombre" son seguros (mismo código de estilo, mismas palabras). "nombre+1" (al modelo le sobra una palabra) y
+   * "base" (coincide el campo nombre a solas, sin el colorway) alcanzan para publicar, pero no para corregir un enlace que ya existe.
+   */
+  how: "codigo" | "nombre" | "nombre+1" | "base";
   /** Otros modelos que también contienen el nombre ("Jordan 1 High UNC" está dentro de "Jordan 1 High UNC Toe"). */
   others: MatchModel[];
 }
@@ -243,10 +247,23 @@ export function createMatcher(models: MatchModel[]): Matcher {
     if (exact.length === 1) return { model: exact[0].model, how: "nombre", others: containing.filter((m) => m !== exact[0]).map((m) => m.model) };
     if (exact.length > 1) return null;
     // Sin nombre idéntico: un único modelo que contiene el nombre y al que solo le sobra una palabra ("Jellyfish Crystal Sand" = "… Virginia").
-    if (containing.length !== 1) return null;
-    const m = containing[0];
-    const oneExtra = m.sets.some((ms) => wanted.some((w) => containsAll(ms, w) && ms.size - w.size <= 1));
-    return oneExtra ? { model: m.model, how: "nombre+1", others: [] } : null;
+    const loose = uniqueContaining(wanted);
+    if (loose) return { model: loose, how: "nombre+1", others: [] };
+    // El colorway a veces es solo una descripción ("Air Force 1 Low 'Flax'" + "Gym Light Brown", "Jordan 11 Gratitude" + "Blanco negro crema"):
+    // si el campo nombre a solas ya es un modelo, y solo uno, es ese.
+    if ((item.colorway ?? "").trim() && containing.length === 0) {
+      const base = uniqueContaining(itemSets({ ...item, colorway: "" }));
+      if (base) return { model: base, how: "base", others: [] };
+    }
+    return null;
+  }
+
+  /** El único modelo que contiene esas palabras, si son las mismas o le sobra una sola. Con más de un candidato no hay respuesta segura. */
+  function uniqueContaining(wanted: Set<string>[]): MatchModel | null {
+    const hits = index.filter((m) => m.sets.some((ms) => wanted.some((w) => equalSets(w, ms) || containsAll(ms, w))));
+    if (hits.length !== 1) return null;
+    const ok = hits[0].sets.some((ms) => wanted.some((w) => equalSets(w, ms) || (containsAll(ms, w) && ms.size - w.size <= 1)));
+    return ok ? hits[0].model : null;
   }
 
   function suggest(item: MatchItem, limit = 3): Suggestion[] {

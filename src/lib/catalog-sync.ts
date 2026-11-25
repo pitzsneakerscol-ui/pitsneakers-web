@@ -140,7 +140,7 @@ interface Resolved {
   /** El par del catálogo que da nombre y datos a la publicación. */
   product: Product;
   image: string;
-  via: "slug" | "alias" | "codigo" | "nombre" | "nombre+1";
+  via: "slug" | "alias" | "codigo" | "nombre" | "nombre+1" | "base";
   /** Otros modelos que también contienen el nombre escrito (solo al emparejar por nombre). */
   others: ProductGroup[];
 }
@@ -284,7 +284,7 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
     if (r && r.via !== "slug") claims.add(`${i.userId}|${r.group.groupSlug}|${size}`);
     if (!r || r.via !== "slug" || i.source === AUTO_SOURCE || i.confirmed) continue;
     const typed = resolveTyped(i);
-    if (typed && typed.via !== "nombre+1" && typed.group.groupSlug !== r.group.groupSlug) {
+    if (typed && typed.via !== "nombre+1" && typed.via !== "base" && typed.group.groupSlug !== r.group.groupSlug) {
       // Si el catálogo le publica ese modelo y talla, se enlaza a ese par exacto; si no, al modelo.
       const mine = byUserAssignments.find((x) => x.userId === i.userId && typed.group.variants.some((v) => v.slug === x.a.slug) && x.a.sizes.some((sz) => normSize(sz) === size));
       relinks.push({ ...relinkRow(i, r.group), to: typed.group.name, toSlug: mine?.a.slug ?? typed.group.groupSlug, toImage: typed.image });
