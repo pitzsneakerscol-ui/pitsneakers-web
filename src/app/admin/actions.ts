@@ -66,6 +66,17 @@ export async function setSuspended(fd: FormData): Promise<void> {
   refresh();
 }
 
+/** El dueño borra un registro del inventario de un revendedor (por ejemplo un duplicado). No borra pares con compra confirmada. */
+export async function adminDeleteItem(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = int(fd, "id");
+  const userId = int(fd, "userId");
+  if (!id || !userId) return;
+  const db = await getDb();
+  await db.execute({ sql: "DELETE FROM items WHERE id = ? AND user_id = ? AND purchase_confirmed_at IS NULL", args: [id, userId] });
+  refresh();
+}
+
 export async function resetPassword(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
   const id = int(fd, "id");

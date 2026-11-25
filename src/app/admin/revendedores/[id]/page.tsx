@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getReseller, listAllItems, listPayments } from "@/lib/admin";
-import { adminAddItems, setSuspended } from "@/app/admin/actions";
+import { adminAddItems, adminDeleteItem, setSuspended } from "@/app/admin/actions";
 import { getCatalogEntries } from "@/lib/reseller-catalog";
 import AddItemsPanel from "@/components/reseller/AddItemsPanel";
 import { ago, fmtDay, waLink } from "@/lib/admin-shared";
@@ -164,6 +164,15 @@ export default async function ResellerDetail({ params }: { params: Promise<{ id:
                       <div className="flex flex-wrap items-start gap-2">
                         <OfferForm itemId={i.id} />
                         <PurchaseForm itemId={i.id} kind={i.kind} />
+                        {!i.purchaseConfirmedAt && (
+                          <ConfirmForm
+                            action={adminDeleteItem}
+                            fields={{ id: i.id, userId: r.id }}
+                            label="Eliminar registro"
+                            confirm={`¿Eliminar "${itemLabel(i)}" talla ${i.size || "—"} del inventario de ${name}? No se puede deshacer.`}
+                            className={`${btnGhost} text-accent hover:border-accent`}
+                          />
+                        )}
                       </div>
                     </td>
                   </tr>

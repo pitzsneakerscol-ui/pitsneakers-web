@@ -1,5 +1,6 @@
 import "server-only";
 import assignmentsJson from "@/data/assignments.json";
+import aliasesJson from "@/data/catalog-aliases.json";
 import { getDb } from "@/lib/db";
 import { resetLiveOverlay } from "@/lib/catalog-live";
 import { getStaticProducts } from "@/lib/products";
@@ -8,6 +9,9 @@ import type { SellerAssignment } from "@/lib/sheet-source";
 import type { Product } from "@/types/product";
 
 const assignments = assignmentsJson as SellerAssignment[];
+
+/** Equivalencias que decide el dueño: pares cargados a mano con este nombre son este modelo del catálogo (src/data/catalog-aliases.json). */
+const aliasSlugByName = new Map((aliasesJson as { name: string; slug: string }[]).map((a) => [a.name.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9@]+/g, ""), a.slug]));
 
 const DAY = 86_400_000;
 const NEW_DAYS = 14;
@@ -206,7 +210,9 @@ export async function computeCatalogPlan(now: number): Promise<CatalogPlan> {
         continue;
       }
     }
-    const byName = i.slug ? null : matchByName(i.name, i.brand);
+    const aliasSlug = i.slug ? undefined : aliasSlugByName.get(loose(i.name));
+    const aliasModel = aliasSlug ? resolveModel(aliasSlug) : null;
+    const byName = i.slug ? null : aliasModel ? { ...aliasModel, slugs: [aliasSlug as string, aliasModel.product.slug] } : matchByName(i.name, i.brand);
     if (byName) {
       // Si el catálogo del archivo ya publica ese modelo y talla a nombre de este revendedor, el par ya está en la web.
       const slugKey = byName.slugs.map((s) => `${i.userId}|${s}|${size}`).find((k) => (covered.get(k) ?? 0) > 0);
