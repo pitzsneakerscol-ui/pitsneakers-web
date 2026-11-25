@@ -5197,5 +5197,19 @@
     "price": 790000,
     "condition": "nuevo",
     "image": "/products/AJ1-73.acd838c5.webp"
+  },
+  {
+    "seller": "streetmerch",
+    "slug": "jordan-jordan-1-low-banned",
+    "name": "Jordan 1 Low Banned",
+    "brand": "Jordan",
+    "colorway": "",
+    "sku": "AJ1-74",
+    "sizes": [
+      "9"
+    ],
+    "price": 950000,
+    "condition": "nuevo",
+    "image": "/products/AJ1-74.7d90eb5b.webp"
   }
 ]
