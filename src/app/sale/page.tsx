@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPromoGroups } from "@/lib/products";
-import { groupPromo } from "@/lib/grouping";
+import { getCampaignTeaserGroups, getPromoGroups } from "@/lib/products";
+import { groupPriceRange, groupPromo } from "@/lib/grouping";
+import { formatPrice } from "@/lib/format";
+import type { ProductGroup } from "@/types/product";
 import { siteConfig } from "@/config/site";
 import { currentPromo, freeShippingLive, nowMs, upcomingCampaign } from "@/lib/sale";
 import ProductGrid from "@/components/ProductGrid";
 import CampaignHero from "@/components/CampaignHero";
 import CommunityNotice from "@/components/CommunityNotice";
+import ProductMedia from "@/components/ProductMedia";
 
 // Para que la página cambie de fase (antes / durante / después de la campaña) sola, sin esperar un redeploy.
 export const revalidate = 300;
@@ -39,6 +42,40 @@ function Marquee({ items }: { items: string[] }) {
   );
 }
 
+/** "viernes 27 de noviembre a las 12:00 a. m." (hora de Colombia). */
+function startLabel(iso: string): string {
+  const d = new Date(iso);
+  const day = new Intl.DateTimeFormat("es-CO", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Bogota" }).format(d);
+  const time = new Intl.DateTimeFormat("es-CO", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "America/Bogota" }).format(d);
+  return `${day.replace(",", "")} a las ${time}`;
+}
+
+/** Un par del adelanto: se ve cuál es y cuánto vale hoy, pero el precio de la oferta queda oculto hasta que arranque la campaña. */
+function TeaserCard({ group, campaign }: { group: ProductGroup; campaign: string }) {
+  const { min } = groupPriceRange(group);
+  return (
+    <Link href={`/producto/${group.groupSlug}`} prefetch={false} className="card-lift group flex h-full flex-col">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#ebe8e2]">
+        <ProductMedia product={group} thumb className="transition duration-500 group-hover:scale-[1.04]" />
+        <span className="absolute left-3 top-3 rounded-full bg-[#0d0d0e] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">Baja en {campaign}</span>
+      </div>
+      <p className="mt-3 truncate text-[11px] uppercase tracking-wider text-muted">{group.brand}</p>
+      <h3 className="truncate text-sm font-medium text-ink">{group.name}</h3>
+      <p className="mt-auto pt-2 text-xs text-muted">
+        Hoy: {group.variants.length > 1 ? "desde " : ""}
+        {formatPrice(min)}
+      </p>
+      <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-accent">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="11" width="16" height="10" rx="2" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+        <span>{campaign}: $ ???.???</span>
+      </p>
+    </Link>
+  );
+}
+
 export default async function SalePage() {
   const promo = currentPromo();
   const soon = upcomingCampaign();
@@ -49,6 +86,9 @@ export default async function SalePage() {
   const maxPct = sorted.length ? (groupPromo(sorted[0])?.discountPercent ?? 0) : 0;
   const p = siteConfig.promo;
   const name = promo?.name ?? soon?.name ?? "Black Friday";
+  // Adelanto: mientras la campaña no arranca, los pares que van a bajar de precio (sin decir a cuánto).
+  const next = soon ? siteConfig.campaigns.find((c) => c.id === soon.id) : undefined;
+  const teaser = next?.prices ? await getCampaignTeaserGroups(next.markup ?? 0) : [];
 
   const grid = (
     <div className="mt-8">
@@ -70,9 +110,29 @@ export default async function SalePage() {
         <Marquee items={[name, maxPct > 0 && campaignLive ? `Hasta −${maxPct}%` : "Precios que no se repiten", "Pares verificados", freeShippingLive() ? "Envío gratis a todo el país" : "Envío a todo el país", "Recoge gratis en Bogotá"]} />
       )}
 
+      {soon && teaser.length > 0 && (
+        <section aria-labelledby="adelanto" className="mt-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Adelanto</p>
+          <h2 id="adelanto" className="mt-2 font-display text-3xl uppercase tracking-wide sm:text-4xl">
+            {teaser.length === 1 ? "Este par baja" : `Estos ${teaser.length} pares bajan`} de precio
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted">
+            Desde el {startLabel(soon.startsAt)} tienen precio de {soon.name}, con envío incluido. El precio se revela cuando arranque: ¿cuánto crees que bajan? Cuando se acaba el par, se acaba la oferta.
+          </p>
+          <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+            {teaser.map((g) => (
+              <li key={g.groupSlug}>
+                <TeaserCard group={g} campaign={soon.name} />
+              </li>
+            ))}
+          </ul>
+          {sorted.length > 0 && <h2 className="mt-12 font-display text-3xl uppercase tracking-wide sm:text-4xl">En oferta hoy</h2>}
+        </section>
+      )}
+
       {sorted.length > 0 ? (
         grid
-      ) : (
+      ) : soon && teaser.length > 0 ? null : (
         <div className="mt-10 rounded-2xl border border-line bg-paper-raised p-8 text-center">
           <p className="font-medium">
             {soon ? `${soon.name} todavía no arranca.` : promo ? "Estamos preparando las ofertas." : "La campaña ya terminó."}

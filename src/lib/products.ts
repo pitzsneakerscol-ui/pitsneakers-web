@@ -87,6 +87,21 @@ export async function getAllProducts(): Promise<Product[]> {
   return [...applyCampaignMarkup(applyBfPrices(products, bfPricesLive() ? bf : new Map()), campaignMarkup())].sort(byNewest);
 }
 
+/**
+ * Adelanto de una campaña que todavía no arranca: las siluetas con al menos un par que va a bajar de precio cuando empiece
+ * (los precios de Black Friday que pusieron los revendedores y ya están aprobados). Llevan su precio de hoy: el de la oferta
+ * no se revela hasta que arranque. `markup` es lo que la campaña le suma a cada par en oferta (si con eso no baja, no cuenta).
+ */
+export async function getCampaignTeaserGroups(markup: number): Promise<ProductGroup[]> {
+  const { products, bf } = await loadCatalog();
+  if (bf.size === 0) return [];
+  const drops = new Set(products.filter((p) => (bf.get(p.id) ?? Infinity) + markup < p.price).map((p) => p.id));
+  if (drops.size === 0) return [];
+  return photosFirst(groupProducts(products).filter((g) => g.variants.some((v) => drops.has(v.id)))).sort(
+    (a, b) => groupPriceRange(b).max - groupPriceRange(a).max
+  );
+}
+
 export async function getAllGroups(): Promise<ProductGroup[]> {
   const products = await getAllProducts();
   return groupProducts(products).sort(
