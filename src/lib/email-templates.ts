@@ -907,7 +907,7 @@ Entra a tu panel para poner lo que te costó cada par y ver tu utilidad real. ¿
 
 Hola {{nombre}},
 
-Si tienes pares guardados de este año, **este es el momento de moverlos**. Del **jueves 26 al lunes 30 de noviembre** es el Black Friday de {{tienda}}: los días con más compradores del año. Aprovéchala para **recuperar tu inversión** y liberar plata para tu próximo par.
+Si tienes pares guardados de este año, **este es el momento de moverlos**. Del **viernes 27 al lunes 30 de noviembre** es el Black Friday de {{tienda}}: los días con más compradores del año. Aprovéchala para **recuperar tu inversión** y liberar plata para tu próximo par.
 
 > **Vamos a empujarlo con pauta en redes y con toda la comunidad.** Y todo par que sale en Black Friday va con **envío incluido y verificación incluida** para el comprador: eso da confianza y hace que se venda más rápido.
 
