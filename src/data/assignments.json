@@ -1398,12 +1398,10 @@
     "colorway": "",
     "sku": "YZY350-35",
     "sizes": [
-      "8.5",
-      "11.5"
+      "8.5"
     ],
     "counts": {
-      "8.5": 4,
-      "11.5": 1
+      "8.5": 4
     },
     "price": 1000000,
     "condition": "nuevo",
@@ -1543,7 +1541,7 @@
       "7": 2,
       "10": 3,
       "11": 2,
-      "9.5": 2
+      "9.5": 1
     },
     "price": 900000,
     "condition": "nuevo",
@@ -1957,7 +1955,7 @@
       "7"
     ],
     "counts": {
-      "7": 3
+      "7": 2
     },
     "price": 1100000,
     "condition": "nuevo",
@@ -2859,20 +2857,6 @@
     "price": 400000,
     "condition": "nuevo",
     "image": "/products/YZY-FOAM-20.59715906.webp"
-  },
-  {
-    "seller": "andreskicks",
-    "slug": "nike-dunk-sb-powerpuff-girls-blue",
-    "name": "Dunk SB Powerpuff Girls Blue",
-    "brand": "Nike",
-    "colorway": "",
-    "sku": "SB-DUNK-48",
-    "sizes": [
-      "8"
-    ],
-    "price": 1300000,
-    "condition": "nuevo",
-    "image": "/products/SB-DUNK-48.21d080f1.webp"
   },
   {
     "seller": "andreskicks",
@@ -5295,5 +5279,19 @@
     "price": 750000,
     "condition": "nuevo",
     "image": "/products/AJ1-76.5e2cd5db.webp"
+  },
+  {
+    "seller": "andreskicks",
+    "slug": "adidas-x-bad-bunny-ballerina-bad-bunny-white",
+    "name": "Ballerina Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "colorway": "",
+    "sku": "ADI-BB-46",
+    "sizes": [
+      "5"
+    ],
+    "price": 750000,
+    "condition": "nuevo",
+    "image": ""
   }
 ]

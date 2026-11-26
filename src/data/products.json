@@ -8244,8 +8244,7 @@
     "price": 1000000,
     "promo": false,
     "sizes": [
-      "8.5",
-      "11.5"
+      "8.5"
     ],
     "condition": "nuevo",
     "description": "Nuevo con caja. Código de estilo FW3042. Comisión incluida en el precio.",
@@ -10299,27 +10298,6 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T08:13:00.000Z"
-  },
-  {
-    "id": "SB-DUNK-48",
-    "slug": "nike-dunk-sb-powerpuff-girls-blue",
-    "name": "Dunk SB Powerpuff Girls Blue",
-    "brand": "Nike",
-    "category": "sneakers",
-    "price": 1300000,
-    "promo": false,
-    "sizes": [
-      "8"
-    ],
-    "condition": "nuevo",
-    "description": "Nuevo con caja. Código de estilo FZ8320-400. Comisión incluida en el precio.",
-    "images": [
-      "/products/SB-DUNK-48.21d080f1.webp",
-      "/products/SB-DUNK-48-2.23a73594.webp"
-    ],
-    "featured": false,
-    "isNew": false,
-    "dateAdded": "1970-01-01T08:14:00.000Z"
   },
   {
     "id": "AJ1-44",
@@ -13858,5 +13836,23 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:10:00.000Z"
+  },
+  {
+    "id": "ADI-BB-46",
+    "slug": "adidas-x-bad-bunny-ballerina-bad-bunny-white",
+    "name": "Ballerina Bad Bunny White",
+    "brand": "Adidas x Bad Bunny",
+    "category": "sneakers",
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      "5"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja. Código de estilo JQ9229. Comisión incluida en el precio.",
+    "images": [],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:11:00.000Z"
   }
 ]
