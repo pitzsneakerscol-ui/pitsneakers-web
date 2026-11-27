@@ -13854,5 +13854,25 @@
     "featured": false,
     "isNew": false,
     "dateAdded": "1970-01-01T11:11:00.000Z"
+  },
+  {
+    "id": "SLMN-10",
+    "slug": "salomon-acs-nexxt-x-feid-the-green-star-black-firmados-por-feid",
+    "name": "ACS Nexxt x Feid The Green Star Black Firmados por Feid",
+    "brand": "Salomon",
+    "category": "sneakers",
+    "price": 1100000,
+    "promo": false,
+    "sizes": [
+      "7"
+    ],
+    "condition": "nuevo",
+    "description": "Nuevo con caja y todos sus accesorios. Firmados por Feid. Comisión incluida en el precio.",
+    "images": [
+      "/products/SLMN-10.c7898933.webp"
+    ],
+    "featured": false,
+    "isNew": false,
+    "dateAdded": "1970-01-01T11:12:00.000Z"
   }
 ]
