@@ -29,11 +29,19 @@ export interface BfPair {
 const kindOf = (category: string, subcategory?: string): ItemKind => (category === "sneakers" ? "tenis" : subcategory === "accesorio" ? "accesorio" : "ropa");
 const asStatus = (v: unknown): BfStatus => (v === "aprobado" || v === "rechazado" ? v : "pendiente");
 
-/** Los pares del catálogo que son de este vendedor, con el precio que propuso para Black Friday (si propuso alguno) y su estado. */
+/**
+ * Los pares del catálogo que son de este vendedor, con el precio que propuso para Black Friday (si propuso alguno) y su estado.
+ * Son suyos los que llevan su usuario en el archivo del catálogo y los que cargó él mismo en su panel y ya salen en la página
+ * (los que publica "Actualizar catálogo").
+ */
 export async function listBfPairs(userId: number, username: string): Promise<BfPair[]> {
-  const mine = new Set(await sellerSkus(userId, username));
-  if (mine.size === 0) return [];
   const db = await getDb();
+  const [assigned, live] = await Promise.all([
+    sellerSkus(userId, username),
+    db.execute({ sql: "SELECT id FROM live_listings WHERE seller_id = ?", args: [userId] }),
+  ]);
+  const mine = new Set([...assigned, ...live.rows.map((r) => String(r.id))]);
+  if (mine.size === 0) return [];
   const [products, rows] = await Promise.all([
     getRegularProducts(),
     db.execute({ sql: "SELECT sku, price, status, note FROM bf_prices WHERE user_id = ?", args: [userId] }),
