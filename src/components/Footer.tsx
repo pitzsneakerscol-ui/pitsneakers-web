@@ -77,6 +77,17 @@ export default function Footer() {
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {siteConfig.legalName} · NIT {siteConfig.nit}. Todos los derechos reservados.</p>
           <p>{siteConfig.stats.whatsappMembers} en WhatsApp · {siteConfig.stats.instagramFollowers} en Instagram</p>
+          <p>
+            Diseño y desarrollo web por{" "}
+            <a
+              href="https://wa.me/573154168914?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Pitsneakers%20y%20quiero%20una%20para%20mi%20negocio."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-white/70 underline underline-offset-2 transition hover:text-white"
+            >
+              Santiago Studio
+            </a>
+          </p>
         </div>
       </div>
     </footer>
