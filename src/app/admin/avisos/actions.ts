@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { requireAdmin, rateLimitHit } from "@/lib/auth";
 import { countDevices, sendPush, type Audience } from "@/lib/push";
+import { getDb } from "@/lib/db";
+import { createNotification } from "@/lib/notifications";
 
 const clean = (fd: FormData, key: string, max: number) => String(fd.get(key) ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 const back = (q: string): never => redirect(`/admin/avisos?${q}`);
@@ -29,6 +31,16 @@ export async function broadcast(fd: FormData): Promise<void> {
   }
   if (fd.get("confirm") !== "on") back("e=" + encodeURIComponent("Marca la casilla para confirmar el envío."));
   if (!(await rateLimitHit("avisos-masivos", 6, 60 * 60 * 1000))) back("e=" + encodeURIComponent("Ya mandaste varios avisos esta hora. Espera un poco: demasiados avisos molestan a la gente."));
+
+  // Solo revendedores: el aviso queda en la campana de su panel y además les llega al celular o al navegador si los tienen activos.
+  if (who === "resellers") {
+    const db = await getDb();
+    const ids = (await db.execute("SELECT id FROM users WHERE role != 'admin' AND suspended = 0")).rows.map((r) => Number(r.id));
+    if (ids.length === 0) back("e=" + encodeURIComponent("No hay revendedores activos."));
+    const href = url || "/revendedores/avisos";
+    for (let i = 0; i < ids.length; i += 10) await Promise.all(ids.slice(i, i + 10).map((id) => createNotification(id, { kind: "info", title, body, href })));
+    back(`rv=${ids.length}`);
+  }
 
   const n = await countDevices(audience);
   if (n === 0) back("e=" + encodeURIComponent("No hay celulares registrados todavía para enviar."));

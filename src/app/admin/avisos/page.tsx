@@ -5,8 +5,8 @@ import { broadcast } from "./actions";
 
 export const metadata: Metadata = { title: "Avisos en la app" };
 
-export default async function AvisosPage({ searchParams }: { searchParams: Promise<{ ok?: string; f?: string; r?: string; e?: string }> }) {
-  const { ok, f, r, e } = await searchParams;
+export default async function AvisosPage({ searchParams }: { searchParams: Promise<{ ok?: string; f?: string; r?: string; e?: string; rv?: string }> }) {
+  const { ok, f, r, e, rv } = await searchParams;
   const status = pushStatus();
   const [all, ios, android] = await Promise.all([countDevices({ all: true }), countDevices({ all: true, platform: "ios" }), countDevices({ all: true, platform: "android" })]);
 
@@ -23,6 +23,11 @@ export default async function AvisosPage({ searchParams }: { searchParams: Promi
       {ok !== undefined ? (
         <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
           Aviso enviado a {ok} celular{ok === "1" ? "" : "es"}.{Number(f) > 0 ? ` No llegó a ${f}.` : ""}{Number(r) > 0 ? ` Quitamos ${r} que ya no tienen la app.` : ""}
+        </p>
+      ) : null}
+      {rv !== undefined ? (
+        <p role="status" className="rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-800">
+          Aviso enviado a {rv} revendedor{rv === "1" ? "" : "es"}: les queda en la campana del panel y les llega al celular si tienen la app.
         </p>
       ) : null}
 
@@ -57,6 +62,7 @@ export default async function AvisosPage({ searchParams }: { searchParams: Promi
               <option value="all">Todos</option>
               <option value="ios">Solo iPhone</option>
               <option value="android">Solo Android</option>
+              <option value="resellers">Solo revendedores (campana del panel y su celular)</option>
             </select>
           </div>
         </div>
